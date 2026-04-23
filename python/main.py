@@ -60,9 +60,6 @@ def show_recent_matches_statistics(db):
                     print(f"   xG: {match[16]} - {match[17]}")
     except Exception as e:
         print(f"  [DEBUG] Could not show statistics: {e}")
-                print(f"   Cards: {match[12]} - {match[13]}")
-                print(f"   Possession: {match[14]}% - {match[15]}%")
-                print(f"   xG: {match[16]} - {match[17]}")
             else:
                 print("   Statistics: Not available")
 
