@@ -1,0 +1,38 @@
+name: LogicBet Auto-Sync
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Кожні 6 годин
+  workflow_dispatch: # Дозволити запуск вручну
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests scipy numpy
+
+      - name: Run Analytics Sync
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          FOOTBALL_DATA_KEY: ${{ secrets.FOOTBALL_DATA_KEY }}
+        run: |
+          cd python
+          python main.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --global user.name "LogicBet Bot"
+          git config --global user.email "bot@logicbet.ai"
+          git add python/logicbet_export.json
+          git commit -m "Update analytics data [skip ci]" || echo "No changes to commit"
+          git push
