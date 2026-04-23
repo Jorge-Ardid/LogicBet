@@ -21,7 +21,7 @@ def show_recent_matches_statistics(db):
         with db.get_connection() as conn:
             cursor = conn.cursor()
             
-            # Check if columns exist first to prevent crashes on new DBs
+            # Check if columns exist
             cursor.execute("PRAGMA table_info(matches)")
             cols = [c[1] for c in cursor.fetchall()]
             if "shots_on_h" not in cols:
@@ -45,7 +45,6 @@ def show_recent_matches_statistics(db):
             """)
             
             matches = cursor.fetchall()
-            
             if not matches:
                 print("No matches with statistics found")
                 return
@@ -54,14 +53,14 @@ def show_recent_matches_statistics(db):
                 print(f"\n{i+1}. {match[1]} vs {match[2]}")
                 print(f"   Score: {match[3]}-{match[4]} ({match[6]})")
                 
-                if match[8] is not None:  # If shots exist
+                if match[8] is not None:
                     print(f"   Shots: {match[8]} - {match[9]} | Corners: {match[10]} - {match[11]}")
                     print(f"   Cards (Y): {match[12]} - {match[13]} | Poss: {match[14]}% - {match[15]}%")
                     print(f"   xG: {match[16]} - {match[17]}")
+                else:
+                    print("   Statistics: Not available yet")
     except Exception as e:
         print(f"  [DEBUG] Could not show statistics: {e}")
-            else:
-                print("   Statistics: Not available")
 
 def recalculate_elo_from_history(db, analytics):
     """Processes finished matches and updates team Elo ratings locally."""
