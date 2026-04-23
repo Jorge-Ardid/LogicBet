@@ -9,34 +9,7 @@ import json
 import os
 import sys
 
-def get_match_statistics(match_id):
-    """Get detailed match statistics for display"""
-    db_path = "../godot_app/logicbet.db"
-    
-    try:
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            SELECT shots_home, shots_away, corners_home, corners_away,
-                   cards_home_yellow, cards_home_red, cards_away_yellow, cards_away_red,
-                   possession_home, possession_away, xg_home, xg_away
-            FROM match_statistics WHERE match_id = ?
-        """, (match_id,))
-        
-        stats = cursor.fetchone()
-        conn.close()
-        
-        return {
-            "shots": {"home": stats[0] if stats else 15, "away": stats[1] if stats else 12},
-            "corners": {"home": stats[2] if stats else 7, "away": stats[3] if stats else 5},
-            "cards": {"home_yellow": stats[4] if stats else 2, "away_yellow": stats[6] if stats else 3},
-            "possession": {"home": stats[8] if stats else 58, "away": stats[9] if stats else 42},
-            "xg": {"home": stats[10] if stats else 2.3, "away": stats[11] if stats else 1.8}
-        }
-    except Exception as e:
-        print(f"Error getting statistics: {e}")
-        return None
+# Statistics are now part of the matches table. No separate fetch needed.
 
 
 
@@ -44,38 +17,49 @@ def show_recent_matches_statistics(db):
     """Show statistics for recent matches"""
     print("\n=== RECENT MATCHES STATISTICS ===")
     
-    with db.get_connection() as conn:
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            SELECT m.id, 
-                   (SELECT name FROM teams WHERE id = m.home_team_id) as home_team,
-                   (SELECT name FROM teams WHERE id = m.away_team_id) as away_team, 
-                   m.home_score, m.away_score, m.date, m.status, m.league,
-                   s.shots_home, s.shots_away, s.corners_home, s.corners_away,
-                   s.cards_yellow_home, s.cards_yellow_away, s.possession_home, s.possession_away,
-                   s.xg_home, s.xg_away
-            FROM matches m
-            LEFT JOIN match_statistics s ON m.id = s.match_id
-            ORDER BY m.date DESC
-            LIMIT 5
-        """)
-        
-        matches = cursor.fetchall()
-        
-        if not matches:
-            print("No matches with statistics found")
-            return
-        
-        for i, match in enumerate(matches):
-            print(f"\n{i+1}. {match[1]} vs {match[2]}")
-            print(f"   Score: {match[3]}-{match[4]}")
-            print(f"   Date: {match[5]}")
-            print(f"   Status: {match[6]}")
+    try:
+        with db.get_connection() as conn:
+            cursor = conn.cursor()
             
-            if match[8]:  # If statistics exist
-                print(f"   Shots: {match[8]} - {match[9]}")
-                print(f"   Corners: {match[10]} - {match[11]}")
+            # Check if columns exist first to prevent crashes on new DBs
+            cursor.execute("PRAGMA table_info(matches)")
+            cols = [c[1] for c in cursor.fetchall()]
+            if "shots_on_h" not in cols:
+                print("  [INFO] Statistics columns not yet present in database.")
+                return
+
+            cursor.execute("""
+                SELECT m.id, 
+                       t1.name as home_team,
+                       t2.name as away_team, 
+                       m.home_score, m.away_score, m.date, m.status, m.league,
+                       m.shots_on_h, m.shots_on_a, m.corners_h, m.corners_a,
+                       m.yellow_cards_h, m.yellow_cards_a, m.possession_h, m.possession_a,
+                       m.xg_h, m.xg_a
+                FROM matches m
+                JOIN teams t1 ON m.home_team_id = t1.id
+                JOIN teams t2 ON m.away_team_id = t2.id
+                WHERE m.status IN ('FT', 'AET', 'PEN', 'FINISHED')
+                ORDER BY m.date DESC
+                LIMIT 5
+            """)
+            
+            matches = cursor.fetchall()
+            
+            if not matches:
+                print("No matches with statistics found")
+                return
+            
+            for i, match in enumerate(matches):
+                print(f"\n{i+1}. {match[1]} vs {match[2]}")
+                print(f"   Score: {match[3]}-{match[4]} ({match[6]})")
+                
+                if match[8] is not None:  # If shots exist
+                    print(f"   Shots: {match[8]} - {match[9]} | Corners: {match[10]} - {match[11]}")
+                    print(f"   Cards (Y): {match[12]} - {match[13]} | Poss: {match[14]}% - {match[15]}%")
+                    print(f"   xG: {match[16]} - {match[17]}")
+    except Exception as e:
+        print(f"  [DEBUG] Could not show statistics: {e}")
                 print(f"   Cards: {match[12]} - {match[13]}")
                 print(f"   Possession: {match[14]}% - {match[15]}%")
                 print(f"   xG: {match[16]} - {match[17]}")
@@ -705,9 +689,8 @@ if __name__ == "__main__":
             
             # Fallback to legacy mode if multi-source fails
             print("\n!!! FALLING BACK TO LEGACY MODE !!!")
-            # Re-run with legacy flag
-            sys.argv.append("--legacy")
-            exec(open(__file__, encoding='utf-8').read())
+            # Note: We don't use exec() anymore to avoid infinite loops
+            print("Please check the error log above.")
 
 
 def export_to_json(db):
