@@ -4,7 +4,15 @@ import os
 class LogicBetDB:
     def __init__(self, db_path='../godot_app/logicbet.db'):
         # We now place the DB directly inside the Godot project folder
+        # We now place the DB directly inside the Godot project folder
         self.db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), db_path))
+        
+        # Ensure the directory exists (important for GitHub Actions)
+        db_dir = os.path.dirname(self.db_path)
+        if not os.path.exists(db_dir):
+            os.makedirs(db_dir, exist_ok=True)
+            print(f"  [DB] Created missing directory: {db_dir}")
+            
         print(f"--- LOGICBET DATABASE INITIALIZED ---")
         
         # Team Name Mapping Dictionary
