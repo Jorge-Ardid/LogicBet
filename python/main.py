@@ -9,6 +9,64 @@ import json
 import os
 import sys
 
+def export_to_json(db):
+    """Exports current predictions and bankroll to a JSON file for mobile sync."""
+    print("\n[EXPORT] Generating logicbet_export.json for mobile...")
+    
+    try:
+        with db.get_connection() as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            
+            # 1. Fetch matches with their primary predictions
+            query = """
+                SELECT m.id, m.date, m.league, m.home_score, m.away_score, m.status,
+                       t1.name as home_name, t2.name as away_name,
+                       p.selection, p.calculated_prob as probabilities, p.bookmaker_odd, p.value_percentage, p.algorithm
+                FROM matches m
+                JOIN teams t1 ON m.home_team_id = t1.id
+                JOIN teams t2 ON m.away_team_id = t2.id
+                LEFT JOIN predictions p ON m.id = p.match_id AND p.market = '1X2/DC'
+                WHERE DATE(m.date) >= DATE('now', '-2 days')
+                ORDER BY m.date ASC
+            """
+            rows = cursor.execute(query).fetchall()
+            matches = [dict(row) for row in rows]
+            
+            # 2. Fetch Bankroll and Status
+            cursor.execute("SELECT key, value FROM config")
+            config_rows = cursor.fetchall()
+            config = {row['key']: row['value'] for row in config_rows}
+            
+            # AI Stats
+            cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit IS NOT NULL")
+            total = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit = 1")
+            hits = cursor.fetchone()[0]
+            
+            data = {
+                "last_updated": datetime.now().isoformat(),
+                "config": config,
+                "ai_stats": {
+                    "total": total,
+                    "hits": hits,
+                    "acc": (hits / total * 100) if total > 0 else 0
+                },
+                "matches": matches
+            }
+            
+            # Save to current directory (in python/ folder)
+            export_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "logicbet_export.json"))
+            with open(export_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+                
+        print(f"  [EXPORT] Success! File created at: {export_path}")
+    except Exception as e:
+        print(f"  [EXPORT] ❌ Failed to export JSON: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 # Statistics are now part of the matches table. No separate fetch needed.
 
 
@@ -689,59 +747,4 @@ if __name__ == "__main__":
             print("Please check the error log above.")
 
 
-def export_to_json(db):
-    """Exports current predictions and bankroll to a JSON file for mobile sync."""
-    print("\n[EXPORT] Generating logicbet_export.json for mobile...")
-    
-    try:
-        with db.get_connection() as conn:
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            
-            # 1. Fetch matches with their primary predictions
-            query = """
-                SELECT m.id, m.date, m.league, m.home_score, m.away_score, m.status,
-                       t1.name as home_name, t2.name as away_name,
-                       p.selection, p.calculated_prob as probabilities, p.bookmaker_odd, p.value_percentage, p.algorithm
-                FROM matches m
-                JOIN teams t1 ON m.home_team_id = t1.id
-                JOIN teams t2 ON m.away_team_id = t2.id
-                LEFT JOIN predictions p ON m.id = p.match_id AND p.market = '1X2/DC'
-                WHERE DATE(m.date) >= DATE('now', '-2 days')
-                ORDER BY m.date ASC
-            """
-            rows = cursor.execute(query).fetchall()
-            matches = [dict(row) for row in rows]
-            
-            # 2. Fetch Bankroll and Status
-            cursor.execute("SELECT key, value FROM config")
-            config_rows = cursor.fetchall()
-            config = {row['key']: row['value'] for row in config_rows}
-            
-            # AI Stats
-            cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit IS NOT NULL")
-            total = cursor.fetchone()[0]
-            cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit = 1")
-            hits = cursor.fetchone()[0]
-            
-            data = {
-                "last_updated": datetime.now().isoformat(),
-                "config": config,
-                "ai_stats": {
-                    "total": total,
-                    "hits": hits,
-                    "acc": (hits / total * 100) if total > 0 else 0
-                },
-                "matches": matches
-            }
-            
-            # Save to current directory
-            export_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "logicbet_export.json"))
-            with open(export_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-                
-        print(f"  [EXPORT] Success! File created at: {export_path}")
-    except Exception as e:
-        print(f"  [EXPORT] ❌ Failed to export JSON: {e}")
-        import traceback
-        traceback.print_exc()
+# Function moved to top
