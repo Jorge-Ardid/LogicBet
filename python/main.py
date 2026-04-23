@@ -18,9 +18,9 @@ def export_to_json(db):
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
-            # 1. Fetch matches with their primary predictions
             query = """
                 SELECT m.id, m.date, m.league, m.home_score, m.away_score, m.status,
+                       m.home_team_id, m.away_team_id,
                        t1.name as home_name, t2.name as away_name,
                        p.selection, p.calculated_prob as probabilities, p.bookmaker_odd, p.value_percentage, p.algorithm
                 FROM matches m
