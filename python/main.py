@@ -736,10 +736,12 @@ def export_to_json(db):
             }
             
             # Save to current directory
-            export_path = os.path.join(os.path.dirname(__file__), "logicbet_export.json")
+            export_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "logicbet_export.json"))
             with open(export_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
                 
-        print(f"  [EXPORT] Success! File created: {os.path.basename(export_path)}")
+        print(f"  [EXPORT] Success! File created at: {export_path}")
     except Exception as e:
         print(f"  [EXPORT] ❌ Failed to export JSON: {e}")
+        import traceback
+        traceback.print_exc()
