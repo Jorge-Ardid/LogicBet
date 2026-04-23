@@ -1,0 +1,64 @@
+{
+  "api_keys": {
+    "football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
+    "api_football": "72afa426ab5fb0a7c964261b8b25f977",
+    "network_as_code": "3725c32b04mshb942c2df0e3ab79p18f60djsn14472b9a742",
+    "rapidapi_generic": "PLACEHOLDER_KEY"
+  },
+  "data_sources": {
+    "primary": "football_data_org",
+    "fallback": "api_football",
+    "historical": "open_goal_db"
+  },
+  "rate_limits": {
+    "football_data_org": {
+      "requests_per_minute": 10,
+      "daily_limit": null
+    },
+    "api_football": {
+      "requests_per_minute": null,
+      "daily_limit": 100
+    }
+  },
+  "sync_settings": {
+    "cooldown_seconds": 43200,
+    "auto_retry": true,
+    "max_retries": 3,
+    "use_historical_data": true
+  },
+  "leagues": {
+    "enabled": [
+      39,
+      140,
+      78,
+      61,
+      135,
+      2,
+      3,
+      848,
+      88,
+      94,
+      40
+    ],
+    "priority": {
+      "football_data_org": [
+        "PL",
+        "PD",
+        "BL1",
+        "SA",
+        "FL1",
+        "CL",
+        "EL"
+      ],
+      "api_football": [
+        39,
+        140,
+        78,
+        61,
+        135,
+        2,
+        3
+      ]
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "matches": [
+    {
+      "id": 100001,
+      "utcDate": "2024-01-15T15:00:00Z",
+      "status": "FINISHED",
+      "matchday": 20,
+      "stage": "REGULAR_SEASON",
+      "group": null,
+      "lastUpdated": "2024-01-15T17:00:00Z",
+      "homeTeam": {
+        "id": 57,
+        "name": "Arsenal"
+      },
+      "awayTeam": {
+        "id": 58,
+        "name": "Chelsea"
+      },
+      "score": {
+        "fullTime": {
+          "home": 2,
+          "away": 1
+        },
+        "halfTime": {
+          "home": 1,
+          "away": 0
+        },
+        "extraTime": {
+          "home": null,
+          "away": null
+        },
+        "penalties": {
+          "home": null,
+          "away": null
+        }
+      },
+      "competition": {
+        "id": 39,
+        "name": "Premier League"
+      }
+    },
+    {
+      "id": 100002,
+      "utcDate": "2024-01-16T20:00:00Z",
+      "status": "FINISHED",
+      "matchday": 20,
+      "stage": "REGULAR_SEASON",
+      "group": null,
+      "lastUpdated": "2024-01-16T22:00:00Z",
+      "homeTeam": {
+        "id": 61,
+        "name": "Liverpool"
+      },
+      "awayTeam": {
+        "id": 62,
+        "name": "Manchester City"
+      },
+      "score": {
+        "fullTime": {
+          "home": 1,
+          "away": 1
+        },
+        "halfTime": {
+          "home": 0,
+          "away": 1
+        },
+        "extraTime": {
+          "home": null,
+          "away": null
+        },
+        "penalties": {
+          "home": null,
+          "away": null
+        }
+      },
+      "competition": {
+        "id": 39,
+        "name": "Premier League"
+      }
+    },
+    {
+      "id": 100003,
+      "utcDate": "2024-01-17T19:45:00Z",
+      "status": "FINISHED",
+      "matchday": 20,
+      "stage": "REGULAR_SEASON",
+      "group": null,
+      "lastUpdated": "2024-01-17T21:45:00Z",
+      "homeTeam": {
+        "id": 63,
+        "name": "Barcelona"
+      },
+      "awayTeam": {
+        "id": 64,
+        "name": "Real Madrid"
+      },
+      "score": {
+        "fullTime": {
+          "home": 3,
+          "away": 2
+        },
+        "halfTime": {
+          "home": 2,
+          "away": 1
+        },
+        "extraTime": {
+          "home": null,
+          "away": null
+        },
+        "penalties": {
+          "home": null,
+          "away": null
+        }
+      },
+      "competition": {
+        "id": 140,
+        "name": "La Liga"
+      }
+    }
+  ]
+}

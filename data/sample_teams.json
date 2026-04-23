@@ -1,0 +1,40 @@
+{
+  "teams": [
+    {
+      "id": 57,
+      "name": "Arsenal",
+      "shortName": "Arsenal",
+      "tla": "ARS"
+    },
+    {
+      "id": 58,
+      "name": "Chelsea",
+      "shortName": "Chelsea",
+      "tla": "CHE"
+    },
+    {
+      "id": 61,
+      "name": "Liverpool",
+      "shortName": "Liverpool",
+      "tla": "LIV"
+    },
+    {
+      "id": 62,
+      "name": "Manchester City",
+      "shortName": "Man City",
+      "tla": "MCI"
+    },
+    {
+      "id": 63,
+      "name": "Barcelona",
+      "shortName": "Barcelona",
+      "tla": "BAR"
+    },
+    {
+      "id": 64,
+      "name": "Real Madrid",
+      "shortName": "Real Madrid",
+      "tla": "RMA"
+    }
+  ]
+}
