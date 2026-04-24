@@ -54,7 +54,8 @@ func fetch_predictions() -> Array:
 		LEFT JOIN predictions p ON p.match_id = m.id
 		JOIN teams t1 ON m.home_team_id = t1.id
 		JOIN teams t2 ON m.away_team_id = t2.id
-		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED') AND m.date > datetime('now', '-4 hours')
+		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P') 
+		AND m.date > datetime('now', '-4 hours')
 		GROUP BY m.id
 		ORDER BY m.date ASC
 		LIMIT 100
