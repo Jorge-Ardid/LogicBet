@@ -22,14 +22,13 @@ class FootballDataClient:
             2: "CL",       # Champions League
             3: "EL",       # Europa League
             88: "DED",     # Eredivisie
-            94: "PPL",     # Primeira Liga
-            40: "FLC",     # Championship
+            94: "PPL"      # Primeira Liga
         }
         
         # Reverse mapping for normalization (FD Code/ID -> API-Football ID)
         self.reverse_mappings = {
             "PL": 39, "PD": 140, "BL1": 78, "SA": 135, "FL1": 61,
-            "CL": 2, "EL": 3, "DED": 88, "PPL": 94, "FLC": 40
+            "CL": 2, "EL": 3, "DED": 88, "PPL": 94
         }
         
         # Mapping by FD Competition ID (as returned in match object)
@@ -42,8 +41,7 @@ class FootballDataClient:
             2001: 2,    # CL (Champions League)
             2146: 3,    # EL (Europa League)
             2003: 88,   # DED (Netherlands) - FIXED (was 78)
-            2017: 94,   # PPL (Portugal)
-            2016: 40    # FLC (Championship)
+            2017: 94    # PPL (Portugal)
         }
 
         

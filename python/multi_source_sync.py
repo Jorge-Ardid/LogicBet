@@ -303,13 +303,24 @@ class MultiSourceSyncEngine:
         
         print(f"[SYNC] Used {requests_used} request(s) this sync")
         
-        # Process fixtures
+        # Process fixtures with safeguards
         processed = 0
         for fixture in all_fixtures:
             try:
                 # Normalize fixture data based on source
                 normalized = self._normalize_fixture_data(fixture)
                 if not normalized:
+                    continue
+                
+                # --- SAFEGUARD 1: Strict League ID Check ---
+                if normalized.get('league_id') not in target_leagues:
+                    print(f"  [SAFEGUARD] Skipping match {normalized['remote_id']} - League ID {normalized['league_id']} not in whitelist.")
+                    continue
+
+                # --- SAFEGUARD 2: Name Sanity Check ---
+                # Ensure the localized name isn't weird or missing
+                if "UNKNOWN" in normalized['league'] or not normalized['home_team'] or not normalized['away_team']:
+                    print(f"  [SAFEGUARD] Skipping match {normalized['remote_id']} - Invalid metadata.")
                     continue
                 
                 # Add teams
@@ -460,8 +471,7 @@ class MultiSourceSyncEngine:
             3: "Ліга Європи",
             848: "Ліга Конференцій",
             88: "Ередивізі (Нідерланди)",
-            94: "Прімейра-ліга (Португалія)",
-            40: "Чемпіоншип (Англія)"
+            94: "Прімейра-ліга (Португалія)"
         }
         return mapping.get(league_id)
 

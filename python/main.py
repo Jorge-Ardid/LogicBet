@@ -650,7 +650,7 @@ if __name__ == "__main__":
         else:
             print(f"  Останній синк:   НІКОЛИ (перший запуск)")
         
-        target_leagues = [39, 2, 3, 848, 140, 78, 135, 61]
+        target_leagues = [39, 140, 78, 61, 135, 2, 3, 848, 88, 94]
         
         # Determine if API sync is allowed
         api_sync_allowed = force_sync or (cooldown_remaining <= 0)
