@@ -47,13 +47,14 @@ func fetch_predictions() -> Array:
 			t1.current_form as form_home,
 			t2.current_form as form_away,
 			t1.elo_rating as h_elo_live,
-			t2.elo_rating as a_elo_live,
-			t1.current_form as h_form_live,
-			t2.current_form as a_form_live
+			t2.elo_rating as a_elo_live
 		FROM matches m
-		LEFT JOIN predictions p ON p.match_id = m.id
 		JOIN teams t1 ON m.home_team_id = t1.id
 		JOIN teams t2 ON m.away_team_id = t2.id
+		LEFT JOIN (
+			SELECT * FROM predictions 
+			ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+		) p ON p.match_id = m.id
 		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P') 
 		AND m.date > datetime('now', '-4 hours')
 		GROUP BY m.id
@@ -254,7 +255,7 @@ func fetch_prediction_stats(market_filter: String = "ALL") -> Dictionary:
 		FROM predictions p
 		JOIN matches m ON p.match_id = m.id
 		%s
-		AND p.created_at < m.date # Anti-cheat: only count real-time predictions
+		AND p.created_at < m.date -- Anti-cheat: only count real-time predictions
 		GROUP BY substr(m.date, 1, 10)
 		ORDER BY substr(m.date, 1, 10) DESC
 		LIMIT 30
@@ -353,7 +354,8 @@ func fetch_team_stats_report(team_id: int) -> Dictionary:
 
 func fetch_match_predictions(match_id: int) -> Array:
 	if not db: return []
-	db.query("SELECT * FROM predictions WHERE match_id = %d" % match_id)
+	var sql = "SELECT * FROM predictions WHERE match_id = %d ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC" % match_id
+	db.query(sql)
 	return db.query_result
 
 func sync_from_json(data: Dictionary) -> void:
