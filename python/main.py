@@ -26,7 +26,10 @@ def export_to_json(db):
                 FROM matches m
                 JOIN teams t1 ON m.home_team_id = t1.id
                 JOIN teams t2 ON m.away_team_id = t2.id
-                LEFT JOIN predictions p ON m.id = p.match_id
+                LEFT JOIN (
+                    SELECT * FROM predictions 
+                    ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+                ) p ON m.id = p.match_id
                 WHERE DATE(m.date) >= DATE('now', '-7 days')
                 GROUP BY m.id
                 ORDER BY m.date DESC
