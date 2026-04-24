@@ -254,6 +254,7 @@ func fetch_prediction_stats(market_filter: String = "ALL") -> Dictionary:
 		FROM predictions p
 		JOIN matches m ON p.match_id = m.id
 		%s
+		AND p.created_at < m.date # Anti-cheat: only count real-time predictions
 		GROUP BY substr(m.date, 1, 10)
 		ORDER BY substr(m.date, 1, 10) DESC
 		LIMIT 30
