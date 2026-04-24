@@ -10,35 +10,60 @@ import os
 import sys
 
 def export_to_json(db):
-    """Exports current predictions and bankroll to a JSON file for mobile sync."""
-    print("\n[EXPORT] Generating logicbet_export.json for mobile...")
+    """Exports current predictions, history, bankroll and user bets to a JSON file for mobile sync."""
+    print("\n[EXPORT] Generating full logicbet_export.json for cloud sync...")
     
     try:
         with db.get_connection() as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             
+            # 1. Fetch Recent & Upcoming Matches (with stats)
             query = """
-                SELECT m.id, m.date, m.league, m.home_score, m.away_score, m.status,
-                       m.home_team_id, m.away_team_id,
-                       t1.name as home_name, t2.name as away_name,
-                       p.selection, p.calculated_prob as probabilities, p.bookmaker_odd, p.value_percentage, p.algorithm
+                SELECT m.*, t1.name as home_name, t2.name as away_name,
+                       GROUP_CONCAT(p.selection, ' / ') as ai_prediction,
+                       GROUP_CONCAT(p.is_hit, '|') as ai_hit
                 FROM matches m
                 JOIN teams t1 ON m.home_team_id = t1.id
                 JOIN teams t2 ON m.away_team_id = t2.id
-                LEFT JOIN predictions p ON m.id = p.match_id AND p.market = '1X2/DC'
-                WHERE DATE(m.date) >= DATE('now', '-2 days')
-                ORDER BY m.date ASC
+                LEFT JOIN predictions p ON m.id = p.match_id
+                WHERE DATE(m.date) >= DATE('now', '-7 days')
+                GROUP BY m.id
+                ORDER BY m.date DESC
             """
             rows = cursor.execute(query).fetchall()
             matches = [dict(row) for row in rows]
             
-            # 2. Fetch Bankroll and Status
-            cursor.execute("SELECT key, value FROM config")
-            config_rows = cursor.fetchall()
-            config = {row['key']: row['value'] for row in config_rows}
+            # 2. Fetch User Bets (History)
+            cursor.execute("""
+                SELECT ub.*, t1.name as home_name, t2.name as away_name, m.date, m.home_score, m.away_score
+                FROM user_bets ub
+                JOIN matches m ON ub.match_id = m.id
+                JOIN teams t1 ON m.home_team_id = t1.id
+                JOIN teams t2 ON m.away_team_id = t2.id
+                ORDER BY ub.id DESC
+            """)
+            user_bets = [dict(row) for row in cursor.fetchall()]
             
-            # AI Stats
+            # 3. Fetch Prediction History (for Stats tab)
+            cursor.execute("""
+                SELECT p.*, m.date 
+                FROM predictions p
+                JOIN matches m ON p.match_id = m.id
+                WHERE p.is_hit IS NOT NULL
+                ORDER BY m.date DESC LIMIT 500
+            """)
+            predictions_history = [dict(row) for row in cursor.fetchall()]
+
+            # 4. Fetch Teams (for Search tab)
+            cursor.execute("SELECT id, name, elo_rating, current_form, rank, points FROM teams")
+            teams = [dict(row) for row in cursor.fetchall()]
+            
+            # 5. Fetch Full Config
+            cursor.execute("SELECT key, value FROM config")
+            config = {row['key']: row['value'] for row in cursor.fetchall()}
+            
+            # 6. Summary Stats
             cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit IS NOT NULL")
             total = cursor.fetchone()[0]
             cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit = 1")
@@ -52,7 +77,10 @@ def export_to_json(db):
                     "hits": hits,
                     "acc": (hits / total * 100) if total > 0 else 0
                 },
-                "matches": matches
+                "matches": matches,
+                "user_bets": user_bets,
+                "predictions_history": predictions_history,
+                "teams": teams
             }
             
             # Save to current directory (in python/ folder)
@@ -60,7 +88,7 @@ def export_to_json(db):
             with open(export_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
                 
-        print(f"  [EXPORT] Success! File created at: {export_path}")
+        print(f"  [EXPORT] Success! Full state exported to: {export_path}")
     except Exception as e:
         print(f"  [EXPORT] ❌ Failed to export JSON: {e}")
         import traceback
