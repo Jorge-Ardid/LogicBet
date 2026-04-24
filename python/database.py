@@ -3,8 +3,7 @@ import os
 
 class LogicBetDB:
     def __init__(self, db_path='../godot_app/logicbet.db'):
-        # We now place the DB directly inside the Godot project folder
-        # We now place the DB directly inside the Godot project folder
+        # Database is back in the godot_app folder as per user preference
         self.db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), db_path))
         
         # Ensure the directory exists (important for GitHub Actions)
@@ -345,6 +344,7 @@ class LogicBetDB:
                     value_percentage REAL,
                     confidence_level TEXT, -- 'HIGH', 'MEDIUM', 'LOW'
                     is_hit INTEGER, -- 1 if won, 0 if lost, NULL if pending
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY(match_id) REFERENCES matches(id)
                 )
             ''')
