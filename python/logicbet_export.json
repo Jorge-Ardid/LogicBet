@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-25T12:43:51.372073",
+  "last_updated": "2026-04-25T18:38:33.140613",
   "config": {
     "api_requests_left": "100",
     "last_sync_time": "1777118046.5352163",
@@ -2018,7 +2018,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 10.0,
       "a_elo_change": -10.0,
@@ -2056,7 +2056,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -0.9289715380723464,
       "a_elo_change": 0.9289715380723464,
@@ -2094,7 +2094,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 0.0,
       "a_elo_change": 0.0,
