@@ -35,9 +35,19 @@ func fetch_predictions() -> Array:
 			t1.name as home_name, 
 			t2.name as away_name, 
 			'MULTI-MARKET' as algorithm,
-			GROUP_CONCAT(p.selection, ' / ') as selection, 
-			GROUP_CONCAT(p.calculated_prob, '|') as probabilities, 
-			AVG(p.calculated_prob) as avg_prob, 
+			(SELECT GROUP_CONCAT(selection, ' / ') FROM (
+				SELECT selection FROM predictions p2 
+				WHERE p2.match_id = m.id 
+				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+				LIMIT -1
+			)) as selection, 
+			(SELECT GROUP_CONCAT(calculated_prob, '|') FROM (
+				SELECT calculated_prob FROM predictions p2 
+				WHERE p2.match_id = m.id 
+				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+				LIMIT -1
+			)) as probabilities, 
+			0.5 as avg_prob, 
 			MAX(p.bookmaker_odd) as bookmaker_odd, 
 			m.league,
 			m.date,
@@ -51,13 +61,9 @@ func fetch_predictions() -> Array:
 		FROM matches m
 		JOIN teams t1 ON m.home_team_id = t1.id
 		JOIN teams t2 ON m.away_team_id = t2.id
-		LEFT JOIN (
-			SELECT * FROM predictions 
-			ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
-			LIMIT -1
-		) p ON p.match_id = m.id
-		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P') 
-		AND m.date > datetime('now', '-4 hours')
+		LEFT JOIN predictions p ON p.match_id = m.id
+		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'FINISHED', 'FT') 
+		AND m.date > datetime('now', '-24 hours')
 		GROUP BY m.id
 		ORDER BY m.date ASC
 		LIMIT 100
@@ -213,13 +219,23 @@ func fetch_global_history() -> Array:
 			m.shots_on_h, m.shots_on_a,
 			m.xg_h, m.xg_a,
 			m.possession_h, m.possession_a,
-			GROUP_CONCAT(p.selection, ' / ') as ai_prediction,
-			GROUP_CONCAT(p.is_hit, '|') as ai_hit
+			(SELECT GROUP_CONCAT(selection, ' / ') FROM (
+				SELECT selection FROM predictions p2 
+				WHERE p2.match_id = m.id 
+				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+				LIMIT -1
+			)) as ai_prediction,
+			(SELECT GROUP_CONCAT(is_hit, '|') FROM (
+				SELECT is_hit FROM predictions p2 
+				WHERE p2.match_id = m.id 
+				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+				LIMIT -1
+			)) as ai_hit
 		FROM matches m
 		JOIN teams t1 ON m.home_team_id = t1.id
 		JOIN teams t2 ON m.away_team_id = t2.id
 		LEFT JOIN predictions p ON p.match_id = m.id
-		WHERE m.status IN ('FT', 'AET', 'PEN', 'FINISHED') AND m.league_id IN (39, 2, 3, 848, 140, 78, 135, 61, 88, 94, 40)
+		WHERE m.status IN ('FT', 'AET', 'PEN', 'FINISHED') AND m.league_id IN (39, 2, 3, 848, 140, 78, 135, 61)
 		GROUP BY m.id
 		ORDER BY m.date DESC 
 		LIMIT 150
@@ -230,7 +246,7 @@ func fetch_global_history() -> Array:
 
 func search_teams(query: String) -> Array:
 	if not db: return []
-	var sql = "SELECT id, name, elo_rating, current_form, avg_scored, avg_conceded FROM teams WHERE name LIKE '%%%s%%' AND id IN (SELECT home_team_id FROM matches WHERE league_id IN (39, 2, 3, 848, 140, 78, 135, 61, 88, 94, 40)) ORDER BY elo_rating DESC LIMIT 30" % query
+	var sql = "SELECT id, name, elo_rating, current_form, avg_scored, avg_conceded FROM teams WHERE name LIKE '%%%s%%' AND id IN (SELECT home_team_id FROM matches WHERE league_id IN (39, 2, 3, 848, 140, 78, 135, 61)) ORDER BY elo_rating DESC LIMIT 30" % query
 	if db.query(sql):
 		return db.query_result
 	return []
