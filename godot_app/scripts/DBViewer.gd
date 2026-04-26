@@ -54,6 +54,7 @@ func fetch_predictions() -> Array:
 		LEFT JOIN (
 			SELECT * FROM predictions 
 			ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+			LIMIT -1
 		) p ON p.match_id = m.id
 		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P') 
 		AND m.date > datetime('now', '-4 hours')
@@ -229,7 +230,7 @@ func fetch_global_history() -> Array:
 
 func search_teams(query: String) -> Array:
 	if not db: return []
-	var sql = "SELECT id, name, elo_rating, current_form, avg_scored, avg_conceded FROM teams WHERE name LIKE '%%%s%%' AND id IN (SELECT home_team_id FROM matches WHERE league_id IN (39, 2, 3, 848, 140, 78, 135, 61)) ORDER BY elo_rating DESC LIMIT 30" % query
+	var sql = "SELECT id, name, elo_rating, current_form, avg_scored, avg_conceded FROM teams WHERE name LIKE '%%%s%%' AND id IN (SELECT home_team_id FROM matches WHERE league_id IN (39, 2, 3, 848, 140, 78, 135, 61, 88, 94, 40)) ORDER BY elo_rating DESC LIMIT 30" % query
 	if db.query(sql):
 		return db.query_result
 	return []
