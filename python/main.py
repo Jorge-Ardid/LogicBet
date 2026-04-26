@@ -36,7 +36,7 @@ def export_to_json(db):
                 FROM matches m
                 JOIN teams t1 ON m.home_team_id = t1.id
                 JOIN teams t2 ON m.away_team_id = t2.id
-                WHERE DATE(m.date) >= DATE('now', '-7 days')
+                WHERE DATE(m.date) >= DATE('now', '-365 days')
                 GROUP BY m.id
                 ORDER BY m.date DESC
             """
@@ -423,7 +423,6 @@ def heal_database(db, conn):
     for t_id, t_name in all_teams:
         norm_name = db._normalize_name(t_name)
         if norm_name in canonical_teams:
-
             old_id = t_id
             new_id = canonical_teams[norm_name]
             # Merge: update all matches to use the new_id
@@ -432,9 +431,9 @@ def heal_database(db, conn):
             # Also merge synonyms to point to the new_id
             cursor.execute("UPDATE team_synonyms SET team_id = ? WHERE team_id = ?", (new_id, old_id))
             cursor.execute("DELETE FROM teams WHERE id = ?", (old_id,))
-            print(f"  [HEAL] Merged team ID {old_id} into {new_id} ({t_name})")
+            print(f"  [HEAL] Merged team ID {old_id} into {new_id} ('{t_name}' -> '{norm_name}')")
         else:
-            canonical_teams[t_name] = t_id
+            canonical_teams[norm_name] = t_id
 
     # --- NEW: Delete Duplicate Matches ---
     # Find matches with same teams and same date
@@ -692,7 +691,7 @@ if __name__ == "__main__":
         else:
             print(f"  Останній синк:   НІКОЛИ (перший запуск)")
         
-        target_leagues = [39, 140, 78, 61, 135, 2, 3, 848, 88, 94]
+        target_leagues = [39, 140, 78, 61, 135, 2, 3, 848]
         
         # Determine if API sync is allowed
         api_sync_allowed = force_sync or (cooldown_remaining <= 0)

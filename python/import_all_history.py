@@ -1,6 +1,11 @@
 import sqlite3
 import os
 import re
+import sys
+
+# Add current folder to sys.path for imports
+sys.path.append(os.path.dirname(__file__))
+
 from database import LogicBetDB
 
 RAW_DATA = """
@@ -1834,7 +1839,7 @@ def clean_team_name(name):
 def parse_and_insert():
     db = LogicBetDB()
     date_regex = re.compile(r"(\d+)\s+([а-яяіїє]+)\s+(\d{4})")
-    match_regex = re.compile(r"(\d{1,2}:\d{2})\s+(.*?)\s*(\d+):(\d+)\s+(.*)")
+    match_regex = re.compile(r"(\d{1,2}:\d{2})\s+(.*?)\s+(\d+):(\d+)\s+(.*)")
 
     current_date_str = ""
     inserted = 0
