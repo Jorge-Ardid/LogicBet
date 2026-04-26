@@ -236,11 +236,23 @@ class BettingAnalytics:
             a_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (away_id,)).fetchone()
 
         if not h_data or not a_data:
+            default_trend = {
+                "atk_power": 1.2, 
+                "def_power": 1.2, 
+                "momentum": 1.0, 
+                "label": "Unknown",
+                "avg_goals": 1.2, 
+                "avg_goals_ht": 0.5, 
+                "avg_corners": 4.8, 
+                "avg_cards": 1.8, 
+                "avg_shots": 11.0,
+                "team_name": "Unknown"
+            }
             return {
-                "home": 0.4, "draw": 0.3, "away": 0.3,
+                "home": 0.4, "draw": 0.2, "away": 0.4,
                 "home_elo": 1500, "away_elo": 1500,
-                "h_trend": {"avg_goals": 1.2, "label": "Unknown"},
-                "a_trend": {"avg_goals": 1.2, "label": "Unknown"},
+                "h_trend": default_trend,
+                "a_trend": default_trend,
                 "h2h_count": 0
             }
 

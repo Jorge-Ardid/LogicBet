@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-26T15:13:02.359108",
+  "last_updated": "2026-04-26T18:20:37.867245",
   "config": {
     "api_requests_left": "100",
     "last_sync_time": "1777214373.142369",
@@ -48,7 +48,7 @@
       "a_elo_change": 0.0,
       "home_name": "AVS",
       "away_name": "Sporting CP",
-      "ai_prediction": "AVS ТБ 0.5 / AVS ТБ 1.5 / Sporting CP ТБ 0.5 / Sporting CP ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / AVS ТБ 0.5 / AVS ТБ 1.5 / Sporting CP ТБ 0.5 / Sporting CP ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -86,7 +86,7 @@
       "a_elo_change": 0.0,
       "home_name": "Villarreal",
       "away_name": "Celta",
-      "ai_prediction": "Celta ТБ 0.5 / Celta ТБ 1.5 / Villarreal ТБ 0.5 / Villarreal ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Villarreal ТБ 0.5 / Villarreal ТБ 1.5 / Celta ТБ 0.5 / Celta ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -124,7 +124,7 @@
       "a_elo_change": 0.0,
       "home_name": "AC Milan",
       "away_name": "Juventus",
-      "ai_prediction": "1X (Подвійний шанс) / AC Milan ТБ 0.5 / AC Milan ТБ 1.5 / Juventus ТБ 0.5 / Juventus ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / AC Milan ТБ 0.5 / AC Milan ТБ 1.5 / Juventus ТБ 0.5 / Juventus ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -162,7 +162,7 @@
       "a_elo_change": 0.0,
       "home_name": "Marseille",
       "away_name": "Nice",
-      "ai_prediction": "1X (Подвійний шанс) / Marseille ТБ 0.5 / Marseille ТБ 1.5 / Nice ТБ 0.5 / Nice ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Marseille ТБ 0.5 / Marseille ТБ 1.5 / Nice ТБ 0.5 / Nice ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -200,7 +200,7 @@
       "a_elo_change": 0.0,
       "home_name": "CF Estrela da Amadora",
       "away_name": "Porto",
-      "ai_prediction": "1X (Подвійний шанс) / CF Estrela da Amadora ТБ 0.5 / CF Estrela da Amadora ТБ 1.5 / Porto ТБ 0.5 / Porto ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / CF Estrela da Amadora ТБ 0.5 / CF Estrela da Amadora ТБ 1.5 / Porto ТБ 0.5 / Porto ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -238,7 +238,7 @@
       "a_elo_change": 0.0,
       "home_name": "CD Santa Clara",
       "away_name": "Sporting Clube de Braga",
-      "ai_prediction": "1X (Подвійний шанс) / CD Santa Clara ТБ 0.5 / CD Santa Clara ТБ 1.5 / Sporting Clube de Braga ТБ 0.5 / Sporting Clube de Braga ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / CD Santa Clara ТБ 0.5 / CD Santa Clara ТБ 1.5 / Sporting Clube de Braga ТБ 0.5 / Sporting Clube de Braga ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -276,7 +276,7 @@
       "a_elo_change": 0.0,
       "home_name": "Osasuna",
       "away_name": "Sevilla",
-      "ai_prediction": "Osasuna ТБ 0.5 / Osasuna ТБ 1.5 / Sevilla ТБ 0.5 / Sevilla ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Osasuna ТБ 0.5 / Osasuna ТБ 1.5 / Sevilla ТБ 0.5 / Sevilla ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -314,7 +314,7 @@
       "a_elo_change": 0.0,
       "home_name": "Torino",
       "away_name": "Inter",
-      "ai_prediction": "1X (Подвійний шанс) / Inter ТБ 0.5 / Inter ТБ 1.5 / Torino ТБ 0.5 / Torino ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Torino ТБ 0.5 / Torino ТБ 1.5 / Inter ТБ 0.5 / Inter ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -352,7 +352,7 @@
       "a_elo_change": 0.0,
       "home_name": "Dortmund",
       "away_name": "Freiburg",
-      "ai_prediction": "1X (Подвійний шанс) / Dortmund ТБ 0.5 / Dortmund ТБ 1.5 / Freiburg ТБ 0.5 / Freiburg ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Dortmund ТБ 0.5 / Dortmund ТБ 1.5 / Freiburg ТБ 0.5 / Freiburg ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -390,7 +390,7 @@
       "a_elo_change": 0.0,
       "home_name": "Le Havre",
       "away_name": "Metz",
-      "ai_prediction": "1X (Подвійний шанс) / Le Havre ТБ 0.5 / Le Havre ТБ 1.5 / Metz ТБ 0.5 / Metz ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Le Havre ТБ 0.5 / Le Havre ТБ 1.5 / Metz ТБ 0.5 / Metz ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -428,7 +428,7 @@
       "a_elo_change": 0.0,
       "home_name": "Paris FC",
       "away_name": "Lille OSC",
-      "ai_prediction": "Lille OSC ТБ 0.5 / Lille OSC ТБ 1.5 / Paris FC ТБ 0.5 / Paris FC ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Paris FC ТБ 0.5 / Paris FC ТБ 1.5 / Lille OSC ТБ 0.5 / Lille OSC ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -466,7 +466,7 @@
       "a_elo_change": 0.0,
       "home_name": "Rennes",
       "away_name": "Nantes",
-      "ai_prediction": "Nantes ТБ 0.5 / Nantes ТБ 1.5 / Rennes ТБ 0.5 / Rennes ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Rennes ТБ 0.5 / Rennes ТБ 1.5 / Nantes ТБ 0.5 / Nantes ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -504,7 +504,7 @@
       "a_elo_change": 0.0,
       "home_name": "GD Estoril Praia",
       "away_name": "Famalicão",
-      "ai_prediction": "1X (Подвійний шанс) / Famalicão ТБ 0.5 / Famalicão ТБ 1.5 / GD Estoril Praia ТБ 0.5 / GD Estoril Praia ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / GD Estoril Praia ТБ 0.5 / GD Estoril Praia ТБ 1.5 / Famalicão ТБ 0.5 / Famalicão ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -542,7 +542,7 @@
       "a_elo_change": 0.0,
       "home_name": "Oviedo",
       "away_name": "Elche",
-      "ai_prediction": "1X (Подвійний шанс) / Elche ТБ 0.5 / Elche ТБ 1.5 / Oviedo ТБ 0.5 / Oviedo ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Oviedo ТБ 0.5 / Oviedo ТБ 1.5 / Elche ТБ 0.5 / Elche ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -580,7 +580,7 @@
       "a_elo_change": 0.0,
       "home_name": "Stuttgart",
       "away_name": "Bremen",
-      "ai_prediction": "1X (Подвійний шанс) / Bremen ТБ 0.5 / Bremen ТБ 1.5 / Stuttgart ТБ 0.5 / Stuttgart ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Stuttgart ТБ 0.5 / Stuttgart ТБ 1.5 / Bremen ТБ 0.5 / Bremen ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -618,7 +618,7 @@
       "a_elo_change": 0.0,
       "home_name": "Genoa",
       "away_name": "Como",
-      "ai_prediction": "Como ТБ 0.5 / Como ТБ 1.5 / Genoa ТБ 0.5 / Genoa ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Genoa ТБ 0.5 / Genoa ТБ 1.5 / Como ТБ 0.5 / Como ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -656,7 +656,7 @@
       "a_elo_change": 0.0,
       "home_name": "Lorient",
       "away_name": "Strasbourg",
-      "ai_prediction": "Lorient ТБ 0.5 / Lorient ТБ 1.5 / Strasbourg ТБ 0.5 / Strasbourg ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Lorient ТБ 0.5 / Lorient ТБ 1.5 / Strasbourg ТБ 0.5 / Strasbourg ТБ 1.5 / Картки ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -732,8 +732,8 @@
       "a_elo_change": -0.24004467561076126,
       "home_name": "Rayo Vallecano",
       "away_name": "Real Sociedad",
-      "ai_prediction": "Rayo Vallecano ТБ 0.5 / Rayo Vallecano ТБ 1.5 / Real Sociedad ТБ 0.5 / Real Sociedad ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|0|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Rayo Vallecano ТБ 0.5 / Rayo Vallecano ТБ 1.5 / Real Sociedad ТБ 0.5 / Real Sociedad ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "0|1|1|1|1|1|1|0"
     },
     {
       "id": 421,
@@ -770,8 +770,8 @@
       "a_elo_change": -0.5735862142678343,
       "home_name": "Fiorentina",
       "away_name": "Sassuolo",
-      "ai_prediction": "1X (Подвійний шанс) / Fiorentina ТБ 0.5 / Fiorentina ТБ 1.5 / Sassuolo ТБ 0.5 / Sassuolo ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|0|1|0|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Fiorentina ТБ 0.5 / Fiorentina ТБ 1.5 / Sassuolo ТБ 0.5 / Sassuolo ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|0|1"
     },
     {
       "id": 420,
@@ -808,8 +808,8 @@
       "a_elo_change": -10.0,
       "home_name": "SBV Excelsior",
       "away_name": "Utrecht",
-      "ai_prediction": "SBV Excelsior ТБ 0.5 / SBV Excelsior ТБ 1.5 / Utrecht ТБ 0.5 / Utrecht ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / SBV Excelsior ТБ 0.5 / SBV Excelsior ТБ 1.5 / Utrecht ТБ 0.5 / Utrecht ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|0|0|1|0"
     },
     {
       "id": 102,
@@ -846,8 +846,8 @@
       "a_elo_change": -9.712256316679941,
       "home_name": "Vitória",
       "away_name": "Rio Ave",
-      "ai_prediction": "Rio Ave ТБ 0.5 / Rio Ave ТБ 1.5 / Vitória ТБ 0.5 / Vitória ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|1|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Vitória ТБ 0.5 / Vitória ТБ 1.5 / Rio Ave ТБ 0.5 / Rio Ave ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|1|0|0|1"
     },
     {
       "id": 101,
@@ -884,8 +884,8 @@
       "a_elo_change": -0.28774368332005906,
       "home_name": "Toulouse",
       "away_name": "Monaco",
-      "ai_prediction": "1X (Подвійний шанс) / Monaco ТБ 0.5 / Monaco ТБ 1.5 / Toulouse ТБ 0.5 / Toulouse ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|1|0|1|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Toulouse ТБ 0.5 / Toulouse ТБ 1.5 / Monaco ТБ 0.5 / Monaco ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 99,
@@ -922,8 +922,8 @@
       "a_elo_change": -8.306270041520065,
       "home_name": "Atletico Madrid",
       "away_name": "Athletic Club",
-      "ai_prediction": "Athletic Club ТБ 0.5 / Athletic Club ТБ 1.5 / Atletico Madrid ТБ 0.5 / Atletico Madrid ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Atletico Madrid ТБ 0.5 / Atletico Madrid ТБ 1.5 / Athletic Club ТБ 0.5 / Athletic Club ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 100,
@@ -960,8 +960,8 @@
       "a_elo_change": 0.0,
       "home_name": "Twente '65",
       "away_name": "NEC",
-      "ai_prediction": "1X (Подвійний шанс) / NEC ТБ 0.5 / NEC ТБ 1.5 / Twente '65 ТБ 0.5 / Twente '65 ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Twente '65 ТБ 0.5 / Twente '65 ТБ 1.5 / NEC ТБ 0.5 / NEC ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1|1"
     },
     {
       "id": 98,
@@ -998,8 +998,8 @@
       "a_elo_change": -1.6252772436200758,
       "home_name": "Verona",
       "away_name": "Lecce",
-      "ai_prediction": "1X (Подвійний шанс) / Lecce ТБ 0.5 / Lecce ТБ 1.5 / Verona ТБ 0.5 / Verona ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "1|0|0|0|0|1|0|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Verona ТБ 0.5 / Verona ТБ 1.5 / Lecce ТБ 0.5 / Lecce ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|1|1"
     },
     {
       "id": 97,
@@ -1036,8 +1036,8 @@
       "a_elo_change": 10.0,
       "home_name": "NAC Breda",
       "away_name": "Ajax",
-      "ai_prediction": "Ajax ТБ 0.5 / Ajax ТБ 1.5 / NAC Breda ТБ 0.5 / NAC Breda ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|1|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / NAC Breda ТБ 0.5 / NAC Breda ТБ 1.5 / Ajax ТБ 0.5 / Ajax ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|1|1|1"
     },
     {
       "id": 95,
@@ -1074,8 +1074,8 @@
       "a_elo_change": 9.991718072945787,
       "home_name": "Angers",
       "away_name": "PSG",
-      "ai_prediction": "Angers ТБ 0.5 / Angers ТБ 1.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|1|0|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Angers ТБ 0.5 / Angers ТБ 1.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "0|1|0|0|0|1|1|1|0"
     },
     {
       "id": 96,
@@ -1112,8 +1112,8 @@
       "a_elo_change": -10.0,
       "home_name": "Sport Lisboa e Benfica",
       "away_name": "Moreirense",
-      "ai_prediction": "Moreirense ТБ 0.5 / Moreirense ТБ 1.5 / Sport Lisboa e Benfica ТБ 0.5 / Sport Lisboa e Benfica ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Sport Lisboa e Benfica ТБ 0.5 / Sport Lisboa e Benfica ТБ 1.5 / Moreirense ТБ 0.5 / Moreirense ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|1|0"
     },
     {
       "id": 94,
@@ -1150,8 +1150,8 @@
       "a_elo_change": -10.0,
       "home_name": "Heerenveen",
       "away_name": "Fortuna Sittard",
-      "ai_prediction": "Fortuna Sittard ТБ 0.5 / Fortuna Sittard ТБ 1.5 / Heerenveen ТБ 0.5 / Heerenveen ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Heerenveen ТБ 0.5 / Heerenveen ТБ 1.5 / Fortuna Sittard ТБ 0.5 / Fortuna Sittard ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|1|0"
     },
     {
       "id": 91,
@@ -1188,8 +1188,8 @@
       "a_elo_change": -10.378507265683538,
       "home_name": "Valencia",
       "away_name": "Girona",
-      "ai_prediction": "Girona ТБ 0.5 / Girona ТБ 1.5 / Valencia ТБ 0.5 / Valencia ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Valencia ТБ 0.5 / Valencia ТБ 1.5 / Girona ТБ 0.5 / Girona ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|0"
     },
     {
       "id": 92,
@@ -1226,8 +1226,8 @@
       "a_elo_change": 8.369482394360148,
       "home_name": "Hamburg",
       "away_name": "Hoffenheim",
-      "ai_prediction": "Hamburg ТБ 0.5 / Hamburg ТБ 1.5 / Hoffenheim ТБ 0.5 / Hoffenheim ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|1|0|1|1|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Hamburg ТБ 0.5 / Hamburg ТБ 1.5 / Hoffenheim ТБ 0.5 / Hoffenheim ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|0|1|1|1|0"
     },
     {
       "id": 93,
@@ -1264,8 +1264,8 @@
       "a_elo_change": -6.4344449969062225,
       "home_name": "Arsenal",
       "away_name": "Newcastle",
-      "ai_prediction": "Arsenal ТБ 0.5 / Arsenal ТБ 1.5 / Newcastle ТБ 0.5 / Newcastle ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Arsenal ТБ 0.5 / Arsenal ТБ 1.5 / Newcastle ТБ 0.5 / Newcastle ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1"
     },
     {
       "id": 90,
@@ -1302,8 +1302,8 @@
       "a_elo_change": 8.398878990843968,
       "home_name": "Bologna",
       "away_name": "Roma",
-      "ai_prediction": "Bologna ТБ 0.5 / Bologna ТБ 1.5 / Roma ТБ 0.5 / Roma ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|1|1|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Bologna ТБ 0.5 / Bologna ТБ 1.5 / Roma ТБ 0.5 / Roma ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|1|1|1"
     },
     {
       "id": 88,
@@ -1340,8 +1340,8 @@
       "a_elo_change": -10.0,
       "home_name": "Feyenoord Rotterdam",
       "away_name": "Groningen",
-      "ai_prediction": "Feyenoord Rotterdam ТБ 0.5 / Feyenoord Rotterdam ТБ 1.5 / Groningen ТБ 0.5 / Groningen ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Feyenoord Rotterdam ТБ 0.5 / Feyenoord Rotterdam ТБ 1.5 / Groningen ТБ 0.5 / Groningen ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|1|0"
     },
     {
       "id": 89,
@@ -1378,8 +1378,8 @@
       "a_elo_change": 9.424988722154694,
       "home_name": "CD Tondela",
       "away_name": "CD Nacional",
-      "ai_prediction": "CD Nacional ТБ 0.5 / CD Nacional ТБ 1.5 / CD Tondela ТБ 0.5 / CD Tondela ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / CD Tondela ТБ 0.5 / CD Tondela ТБ 1.5 / CD Nacional ТБ 0.5 / CD Nacional ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|1|1"
     },
     {
       "id": 87,
@@ -1410,14 +1410,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -5.551012669274087,
       "a_elo_change": 5.551012669274087,
       "home_name": "Getafe",
       "away_name": "Barcelona",
-      "ai_prediction": "Barcelona ТБ 0.5 / Barcelona ТБ 1.5 / Getafe ТБ 0.5 / Getafe ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|1|0|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Getafe ТБ 0.5 / Getafe ТБ 1.5 / Barcelona ТБ 0.5 / Barcelona ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|1|1|1|1"
     },
     {
       "id": 84,
@@ -1448,14 +1448,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 8.798392068166777,
       "a_elo_change": -8.798392068166777,
       "home_name": "Liverpool",
       "away_name": "Crystal Palace",
-      "ai_prediction": "Crystal Palace ТБ 0.5 / Crystal Palace ТБ 1.5 / Liverpool ТБ 0.5 / Liverpool ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Liverpool ТБ 0.5 / Liverpool ТБ 1.5 / Crystal Palace ТБ 0.5 / Crystal Palace ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|1|0"
     },
     {
       "id": 85,
@@ -1486,14 +1486,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -9.201451038032928,
       "a_elo_change": 9.201451038032928,
       "home_name": "Wolves",
       "away_name": "Tottenham",
-      "ai_prediction": "Tottenham ТБ 0.5 / Tottenham ТБ 1.5 / Wolves ТБ 0.5 / Wolves ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Wolves ТБ 0.5 / Wolves ТБ 1.5 / Tottenham ТБ 0.5 / Tottenham ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|0|1"
     },
     {
       "id": 86,
@@ -1524,14 +1524,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 11.35914718905633,
       "a_elo_change": -11.35914718905633,
       "home_name": "West Ham",
       "away_name": "Everton",
-      "ai_prediction": "1X (Подвійний шанс) / Everton ТБ 0.5 / Everton ТБ 1.5 / West Ham ТБ 0.5 / West Ham ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "0|1|0|1|1|0|1|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / West Ham ТБ 0.5 / West Ham ТБ 1.5 / Everton ТБ 0.5 / Everton ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "0|1|0|1|1|1|0|1|0"
     },
     {
       "id": 79,
@@ -1562,14 +1562,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 9.975392444159752,
       "a_elo_change": -9.975392444159752,
       "home_name": "Heidenheim",
       "away_name": "Pauli",
-      "ai_prediction": "Heidenheim ТБ 0.5 / Heidenheim ТБ 1.5 / Pauli ТБ 0.5 / Pauli ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Heidenheim ТБ 0.5 / Heidenheim ТБ 1.5 / Pauli ТБ 0.5 / Pauli ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|1|0|0|1"
     },
     {
       "id": 80,
@@ -1600,14 +1600,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -9.975868442622641,
       "a_elo_change": 9.975868442622641,
       "home_name": "Koln",
       "away_name": "Leverkusen",
-      "ai_prediction": "Koln ТБ 0.5 / Koln ТБ 1.5 / Leverkusen ТБ 0.5 / Leverkusen ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|1|0|1|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Koln ТБ 0.5 / Koln ТБ 1.5 / Leverkusen ТБ 0.5 / Leverkusen ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|0|1|1|0"
     },
     {
       "id": 81,
@@ -1644,8 +1644,8 @@
       "a_elo_change": 0.5427489705332391,
       "home_name": "Wolfsburg",
       "away_name": "Gladbach",
-      "ai_prediction": "1X (Подвійний шанс) / Gladbach ТБ 0.5 / Gladbach ТБ 1.5 / Wolfsburg ТБ 0.5 / Wolfsburg ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|0|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Wolfsburg ТБ 0.5 / Wolfsburg ТБ 1.5 / Gladbach ТБ 0.5 / Gladbach ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|1"
     },
     {
       "id": 82,
@@ -1682,8 +1682,8 @@
       "a_elo_change": 8.902545734753176,
       "home_name": "Mainz",
       "away_name": "Bayern Munich",
-      "ai_prediction": "Bayern Munich ТБ 0.5 / Bayern Munich ТБ 1.5 / Mainz ТБ 0.5 / Mainz ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|1|0|1|1|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Mainz ТБ 0.5 / Mainz ТБ 1.5 / Bayern Munich ТБ 0.5 / Bayern Munich ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 83,
@@ -1720,8 +1720,8 @@
       "a_elo_change": 1.0825208323999505,
       "home_name": "Augsburg",
       "away_name": "Frankfurt",
-      "ai_prediction": "1X (Подвійний шанс) / Augsburg ТБ 0.5 / Augsburg ТБ 1.5 / Frankfurt ТБ 0.5 / Frankfurt ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Augsburg ТБ 0.5 / Augsburg ТБ 1.5 / Frankfurt ТБ 0.5 / Frankfurt ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1|1"
     },
     {
       "id": 77,
@@ -1758,8 +1758,8 @@
       "a_elo_change": -9.712256316679941,
       "home_name": "Lyon",
       "away_name": "Auxerre",
-      "ai_prediction": "Auxerre ТБ 0.5 / Auxerre ТБ 1.5 / Lyon ТБ 0.5 / Lyon ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Lyon ТБ 0.5 / Lyon ТБ 1.5 / Auxerre ТБ 0.5 / Auxerre ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 78,
@@ -1796,8 +1796,8 @@
       "a_elo_change": -6.675174515334675,
       "home_name": "Parma",
       "away_name": "Pisa",
-      "ai_prediction": "Parma ТБ 0.5 / Parma ТБ 1.5 / Pisa ТБ 0.5 / Pisa ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Parma ТБ 0.5 / Parma ТБ 1.5 / Pisa ТБ 0.5 / Pisa ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1"
     },
     {
       "id": 76,
@@ -1834,8 +1834,8 @@
       "a_elo_change": -10.317917689083288,
       "home_name": "Alaves",
       "away_name": "Mallorca",
-      "ai_prediction": "Alaves ТБ 0.5 / Alaves ТБ 1.5 / Mallorca ТБ 0.5 / Mallorca ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Alaves ТБ 0.5 / Alaves ТБ 1.5 / Mallorca ТБ 0.5 / Mallorca ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|0"
     },
     {
       "id": 75,
@@ -1872,8 +1872,8 @@
       "a_elo_change": -11.569331158719933,
       "home_name": "Fulham",
       "away_name": "Aston Villa",
-      "ai_prediction": "Aston Villa ТБ 0.5 / Aston Villa ТБ 1.5 / Fulham ТБ 0.5 / Fulham ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|0|0|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Fulham ТБ 0.5 / Fulham ТБ 1.5 / Aston Villa ТБ 0.5 / Aston Villa ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "0|0|0|1|0|0|0|1|1"
     },
     {
       "id": 74,
@@ -1910,8 +1910,8 @@
       "a_elo_change": -10.575011277845306,
       "home_name": "Alverca",
       "away_name": "Arouca",
-      "ai_prediction": "Alverca ТБ 0.5 / Alverca ТБ 1.5 / Arouca ТБ 0.5 / Arouca ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Alverca ТБ 0.5 / Alverca ТБ 1.5 / Arouca ТБ 0.5 / Arouca ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|0"
     },
     {
       "id": 72,
@@ -1948,8 +1948,8 @@
       "a_elo_change": 10.898377396071737,
       "home_name": "Sunderland",
       "away_name": "Forest",
-      "ai_prediction": "Forest ТБ 0.5 / Forest ТБ 1.5 / Sunderland ТБ 0.5 / Sunderland ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|1|0|1|1|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Sunderland ТБ 0.5 / Sunderland ТБ 1.5 / Forest ТБ 0.5 / Forest ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|0|0|1|1|1|0"
     },
     {
       "id": 73,
@@ -1986,8 +1986,8 @@
       "a_elo_change": -2.2243173822191693,
       "home_name": "Betis",
       "away_name": "Real Madrid",
-      "ai_prediction": "1X (Подвійний шанс) / Betis ТБ 0.5 / Betis ТБ 1.5 / Real Madrid ТБ 0.5 / Real Madrid ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Betis ТБ 0.5 / Betis ТБ 1.5 / Real Madrid ТБ 0.5 / Real Madrid ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1|1"
     },
     {
       "id": 70,
@@ -2024,8 +2024,8 @@
       "a_elo_change": -0.28774368332005906,
       "home_name": "Brest",
       "away_name": "Racing Club de Lens",
-      "ai_prediction": "1X (Подвійний шанс) / Brest ТБ 0.5 / Brest ТБ 1.5 / Racing Club de Lens ТБ 0.5 / Racing Club de Lens ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|1|0|1|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Brest ТБ 0.5 / Brest ТБ 1.5 / Racing Club de Lens ТБ 0.5 / Racing Club de Lens ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 71,
@@ -2062,8 +2062,8 @@
       "a_elo_change": -5.311424853277913,
       "home_name": "Napoli",
       "away_name": "Cremonese",
-      "ai_prediction": "Cremonese ТБ 0.5 / Cremonese ТБ 1.5 / Napoli ТБ 0.5 / Napoli ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Napoli ТБ 0.5 / Napoli ТБ 1.5 / Cremonese ТБ 0.5 / Cremonese ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|0|0|1|0"
     },
     {
       "id": 69,
@@ -2100,8 +2100,8 @@
       "a_elo_change": -8.36879156554437,
       "home_name": "Leipzig",
       "away_name": "Union",
-      "ai_prediction": "Leipzig ТБ 0.5 / Leipzig ТБ 1.5 / Union ТБ 0.5 / Union ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Leipzig ТБ 0.5 / Leipzig ТБ 1.5 / Union ТБ 0.5 / Union ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|1|0"
     },
     {
       "id": 68,
@@ -2138,8 +2138,8 @@
       "a_elo_change": -3.454270176217051,
       "home_name": "Oviedo",
       "away_name": "Villarreal",
-      "ai_prediction": "1X (Подвійний шанс) / Oviedo ТБ 0.5 / Oviedo ТБ 1.5 / Villarreal ТБ 0.5 / Villarreal ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Oviedo ТБ 0.5 / Oviedo ТБ 1.5 / Villarreal ТБ 0.5 / Villarreal ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1"
     },
     {
       "id": 67,
@@ -2176,8 +2176,8 @@
       "a_elo_change": -10.0,
       "home_name": "PSV",
       "away_name": "PEC Zwolle",
-      "ai_prediction": "PEC Zwolle ТБ 0.5 / PEC Zwolle ТБ 1.5 / PSV ТБ 0.5 / PSV ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / PSV ТБ 0.5 / PSV ТБ 1.5 / PEC Zwolle ТБ 0.5 / PEC Zwolle ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|0"
     },
     {
       "id": 65,
@@ -2214,8 +2214,8 @@
       "a_elo_change": -9.387004540433509,
       "home_name": "Rayo Vallecano",
       "away_name": "Espanyol",
-      "ai_prediction": "Espanyol ТБ 0.5 / Espanyol ТБ 1.5 / Rayo Vallecano ТБ 0.5 / Rayo Vallecano ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "0|0|1|0|1|1|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Rayo Vallecano ТБ 0.5 / Rayo Vallecano ТБ 1.5 / Espanyol ТБ 0.5 / Espanyol ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1|1"
     },
     {
       "id": 66,
@@ -2252,8 +2252,8 @@
       "a_elo_change": 10.0,
       "home_name": "Casa Pia",
       "away_name": "Sporting Clube de Braga",
-      "ai_prediction": "Casa Pia ТБ 0.5 / Casa Pia ТБ 1.5 / Sporting Clube de Braga ТБ 0.5 / Sporting Clube de Braga ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|0|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Casa Pia ТБ 0.5 / Casa Pia ТБ 1.5 / Sporting Clube de Braga ТБ 0.5 / Sporting Clube de Braga ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|0|1"
     },
     {
       "id": 64,
@@ -2290,8 +2290,8 @@
       "a_elo_change": -10.003586785843709,
       "home_name": "Levante",
       "away_name": "Sevilla",
-      "ai_prediction": "Levante ТБ 0.5 / Levante ТБ 1.5 / Sevilla ТБ 0.5 / Sevilla ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Levante ТБ 0.5 / Levante ТБ 1.5 / Sevilla ТБ 0.5 / Sevilla ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|1|0|0|1"
     },
     {
       "id": 63,
@@ -2328,8 +2328,8 @@
       "a_elo_change": 0.0,
       "home_name": "Go Ahead Eagles",
       "away_name": "AZ",
-      "ai_prediction": "1X (Подвійний шанс) / AZ ТБ 0.5 / AZ ТБ 1.5 / Go Ahead Eagles ТБ 0.5 / Go Ahead Eagles ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "1|0|0|0|0|1|0|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Go Ahead Eagles ТБ 0.5 / Go Ahead Eagles ТБ 1.5 / AZ ТБ 0.5 / AZ ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|1|1"
     },
     {
       "id": 62,
@@ -2366,8 +2366,8 @@
       "a_elo_change": -5.6772538121967955,
       "home_name": "Barcelona",
       "away_name": "Celta",
-      "ai_prediction": "Barcelona ТБ 0.5 / Barcelona ТБ 1.5 / Celta ТБ 0.5 / Celta ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Barcelona ТБ 0.5 / Barcelona ТБ 1.5 / Celta ТБ 0.5 / Celta ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1"
     },
     {
       "id": 60,
@@ -2404,8 +2404,8 @@
       "a_elo_change": 4.35813088660052,
       "home_name": "Burnley",
       "away_name": "Man City",
-      "ai_prediction": "Burnley ТБ 0.5 / Burnley ТБ 1.5 / Man City ТБ 0.5 / Man City ТБ 1.5 / Картки ТМ 4.5 / П2 (Гості) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|0|1|1|1|0|0"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / ТБ 3.5 / Burnley ТБ 0.5 / Burnley ТБ 1.5 / Man City ТБ 0.5 / Man City ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|0|1|1"
     },
     {
       "id": 61,
@@ -2442,8 +2442,8 @@
       "a_elo_change": 1.179867470985755,
       "home_name": "Bournemouth",
       "away_name": "Leeds",
-      "ai_prediction": "Bournemouth ТБ 0.5 / Bournemouth ТБ 1.5 / Leeds ТБ 0.5 / Leeds ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|0|0|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Bournemouth ТБ 0.5 / Bournemouth ТБ 1.5 / Leeds ТБ 0.5 / Leeds ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "0|1|1|1|1|1|1|0|0"
     },
     {
       "id": 58,
@@ -2480,8 +2480,8 @@
       "a_elo_change": -10.0,
       "home_name": "Telstar 1963",
       "away_name": "Sparta Rotterdam",
-      "ai_prediction": "Sparta Rotterdam ТБ 0.5 / Sparta Rotterdam ТБ 1.5 / Telstar 1963 ТБ 0.5 / Telstar 1963 ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Telstar 1963 ТБ 0.5 / Telstar 1963 ТБ 1.5 / Sparta Rotterdam ТБ 0.5 / Sparta Rotterdam ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|1|0"
     },
     {
       "id": 59,
@@ -2518,8 +2518,8 @@
       "a_elo_change": 10.361811145789488,
       "home_name": "Real Sociedad",
       "away_name": "Getafe",
-      "ai_prediction": "Getafe ТБ 0.5 / Getafe ТБ 1.5 / Real Sociedad ТБ 0.5 / Real Sociedad ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Real Sociedad ТБ 0.5 / Real Sociedad ТБ 1.5 / Getafe ТБ 0.5 / Getafe ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|0|1"
     },
     {
       "id": 56,
@@ -2556,8 +2556,8 @@
       "a_elo_change": -10.287743683320059,
       "home_name": "PSG",
       "away_name": "Nantes",
-      "ai_prediction": "Nantes ТБ 0.5 / Nantes ТБ 1.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|1|0|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / Nantes ТБ 0.5 / Nantes ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|0|0|1|0"
     },
     {
       "id": 57,
@@ -2594,8 +2594,8 @@
       "a_elo_change": -12.635327747674637,
       "home_name": "Elche",
       "away_name": "Atletico Madrid",
-      "ai_prediction": "Atletico Madrid ТБ 0.5 / Atletico Madrid ТБ 1.5 / Elche ТБ 0.5 / Elche ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Elche ТБ 0.5 / Elche ТБ 1.5 / Atletico Madrid ТБ 0.5 / Atletico Madrid ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 54,
@@ -2632,8 +2632,8 @@
       "a_elo_change": -6.125290489201461,
       "home_name": "Real Madrid",
       "away_name": "Alaves",
-      "ai_prediction": "Alaves ТБ 0.5 / Alaves ТБ 1.5 / Real Madrid ТБ 0.5 / Real Madrid ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Real Madrid ТБ 0.5 / Real Madrid ТБ 1.5 / Alaves ТБ 0.5 / Alaves ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|0"
     },
     {
       "id": 55,
@@ -2670,8 +2670,8 @@
       "a_elo_change": 9.188913981409769,
       "home_name": "Girona",
       "away_name": "Betis",
-      "ai_prediction": "Betis ТБ 0.5 / Betis ТБ 1.5 / Girona ТБ 0.5 / Girona ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|1|0|1|1|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Girona ТБ 0.5 / Girona ТБ 1.5 / Betis ТБ 0.5 / Betis ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 53,
@@ -2708,8 +2708,8 @@
       "a_elo_change": -9.471008793820829,
       "home_name": "Brighton",
       "away_name": "Chelsea",
-      "ai_prediction": "Brighton ТБ 0.5 / Brighton ТБ 1.5 / Chelsea ТБ 0.5 / Chelsea ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Brighton ТБ 0.5 / Brighton ТБ 1.5 / Chelsea ТБ 0.5 / Chelsea ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|0|0|0"
     },
     {
       "id": 51,
@@ -2746,8 +2746,8 @@
       "a_elo_change": -10.61723075901341,
       "home_name": "Athletic Club",
       "away_name": "Osasuna",
-      "ai_prediction": "Athletic Club ТБ 0.5 / Athletic Club ТБ 1.5 / Osasuna ТБ 0.5 / Osasuna ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Athletic Club ТБ 0.5 / Athletic Club ТБ 1.5 / Osasuna ТБ 0.5 / Osasuna ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1"
     },
     {
       "id": 52,
@@ -2784,8 +2784,8 @@
       "a_elo_change": -0.14868495025643824,
       "home_name": "Mallorca",
       "away_name": "Valencia",
-      "ai_prediction": "1X (Подвійний шанс) / Mallorca ТБ 0.5 / Mallorca ТБ 1.5 / Valencia ТБ 0.5 / Valencia ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "1|1|0|1|0|1|0|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Mallorca ТБ 0.5 / Mallorca ТБ 1.5 / Valencia ТБ 0.5 / Valencia ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1|1"
     },
     {
       "id": 50,
@@ -2822,8 +2822,8 @@
       "a_elo_change": -10.0,
       "home_name": "Moreirense",
       "away_name": "GD Estoril Praia",
-      "ai_prediction": "GD Estoril Praia ТБ 0.5 / GD Estoril Praia ТБ 1.5 / Moreirense ТБ 0.5 / Moreirense ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|0|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Moreirense ТБ 0.5 / Moreirense ТБ 1.5 / GD Estoril Praia ТБ 0.5 / GD Estoril Praia ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1"
     },
     {
       "id": 49,
@@ -2860,8 +2860,8 @@
       "a_elo_change": 0.9289715380723464,
       "home_name": "Crystal Palace",
       "away_name": "West Ham",
-      "ai_prediction": "Crystal Palace ТБ 0.5 / Crystal Palace ТБ 1.5 / West Ham ТБ 0.5 / West Ham ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "0|0|0|0|1|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Crystal Palace ТБ 0.5 / Crystal Palace ТБ 1.5 / West Ham ТБ 0.5 / West Ham ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|1|1"
     },
     {
       "id": 48,
@@ -2898,8 +2898,8 @@
       "a_elo_change": -1.7916623734881796,
       "home_name": "Lecce",
       "away_name": "Fiorentina",
-      "ai_prediction": "1X (Подвійний шанс) / Fiorentina ТБ 0.5 / Fiorentina ТБ 1.5 / Lecce ТБ 0.5 / Lecce ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Lecce ТБ 0.5 / Lecce ТБ 1.5 / Fiorentina ТБ 0.5 / Fiorentina ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1"
     },
     {
       "id": 46,
@@ -2936,8 +2936,8 @@
       "a_elo_change": -10.0,
       "home_name": "Porto",
       "away_name": "CD Tondela",
-      "ai_prediction": "CD Tondela ТБ 0.5 / CD Tondela ТБ 1.5 / Porto ТБ 0.5 / Porto ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "0|0|1|1|1|1|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Porto ТБ 0.5 / Porto ТБ 1.5 / CD Tondela ТБ 0.5 / CD Tondela ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|1|0|0|1|1"
     },
     {
       "id": 47,
@@ -2974,8 +2974,8 @@
       "a_elo_change": 0.0,
       "home_name": "Sporting Clube de Braga",
       "away_name": "Famalicão",
-      "ai_prediction": "1X (Подвійний шанс) / Famalicão ТБ 0.5 / Famalicão ТБ 1.5 / Sporting Clube de Braga ТБ 0.5 / Sporting Clube de Braga ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|1|0|1|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Sporting Clube de Braga ТБ 0.5 / Sporting Clube de Braga ТБ 1.5 / Famalicão ТБ 0.5 / Famalicão ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 44,
@@ -3012,8 +3012,8 @@
       "a_elo_change": 10.0,
       "home_name": "PSG",
       "away_name": "Lyon",
-      "ai_prediction": "Lyon ТБ 0.5 / Lyon ТБ 1.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|1|0|1|1|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / Lyon ТБ 0.5 / Lyon ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|0|1|1|1|0"
     },
     {
       "id": 45,
@@ -3050,8 +3050,8 @@
       "a_elo_change": -7.5607447849859,
       "home_name": "Juventus",
       "away_name": "Bologna",
-      "ai_prediction": "Bologna ТБ 0.5 / Bologna ТБ 1.5 / Juventus ТБ 0.5 / Juventus ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "0|0|1|1|1|1|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Juventus ТБ 0.5 / Juventus ТБ 1.5 / Bologna ТБ 0.5 / Bologna ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|1|0|0|1"
     },
     {
       "id": 43,
@@ -3088,8 +3088,8 @@
       "a_elo_change": 0.28774368332005906,
       "home_name": "Gladbach",
       "away_name": "Mainz",
-      "ai_prediction": "1X (Подвійний шанс) / Gladbach ТБ 0.5 / Gladbach ТБ 1.5 / Mainz ТБ 0.5 / Mainz ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Gladbach ТБ 0.5 / Gladbach ТБ 1.5 / Mainz ТБ 0.5 / Mainz ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1"
     },
     {
       "id": 42,
@@ -3126,8 +3126,8 @@
       "a_elo_change": 10.0,
       "home_name": "Sporting CP",
       "away_name": "Sport Lisboa e Benfica",
-      "ai_prediction": "Sport Lisboa e Benfica ТБ 0.5 / Sport Lisboa e Benfica ТБ 1.5 / Sporting CP ТБ 0.5 / Sporting CP ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|1|0|1|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Sporting CP ТБ 0.5 / Sporting CP ТБ 1.5 / Sport Lisboa e Benfica ТБ 0.5 / Sport Lisboa e Benfica ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|0|1|1|0"
     },
     {
       "id": 41,
@@ -3164,8 +3164,8 @@
       "a_elo_change": 7.186566683724777,
       "home_name": "Pisa",
       "away_name": "Genoa",
-      "ai_prediction": "Genoa ТБ 0.5 / Genoa ТБ 1.5 / Pisa ТБ 0.5 / Pisa ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|1|0|1|1|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Pisa ТБ 0.5 / Pisa ТБ 1.5 / Genoa ТБ 0.5 / Genoa ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|0|1|1|1|0"
     },
     {
       "id": 39,
@@ -3202,8 +3202,8 @@
       "a_elo_change": -10.533756739994033,
       "home_name": "Man City",
       "away_name": "Arsenal",
-      "ai_prediction": "Arsenal ТБ 0.5 / Arsenal ТБ 1.5 / Man City ТБ 0.5 / Man City ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Man City ТБ 0.5 / Man City ТБ 1.5 / Arsenal ТБ 0.5 / Arsenal ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|1|0"
     },
     {
       "id": 40,
@@ -3240,8 +3240,8 @@
       "a_elo_change": -9.146891230343954,
       "home_name": "Bayern Munich",
       "away_name": "Stuttgart",
-      "ai_prediction": "Bayern Munich ТБ 0.5 / Bayern Munich ТБ 1.5 / Stuttgart ТБ 0.5 / Stuttgart ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Bayern Munich ТБ 0.5 / Bayern Munich ТБ 1.5 / Stuttgart ТБ 0.5 / Stuttgart ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 36,
@@ -3278,8 +3278,8 @@
       "a_elo_change": 0.0,
       "home_name": "Nantes",
       "away_name": "Brest",
-      "ai_prediction": "1X (Подвійний шанс) / Brest ТБ 0.5 / Brest ТБ 1.5 / Nantes ТБ 0.5 / Nantes ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|1|0|1|1|0|0"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Nantes ТБ 0.5 / Nantes ТБ 1.5 / Brest ТБ 0.5 / Brest ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|1|0|1|1"
     },
     {
       "id": 37,
@@ -3316,8 +3316,8 @@
       "a_elo_change": 10.0,
       "home_name": "Metz",
       "away_name": "Paris FC",
-      "ai_prediction": "Metz ТБ 0.5 / Metz ТБ 1.5 / Paris FC ТБ 0.5 / Paris FC ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|1|0|1|1|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Metz ТБ 0.5 / Metz ТБ 1.5 / Paris FC ТБ 0.5 / Paris FC ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|0|1|1|1|0"
     },
     {
       "id": 38,
@@ -3354,8 +3354,8 @@
       "a_elo_change": 10.0,
       "home_name": "Strasbourg",
       "away_name": "Rennes",
-      "ai_prediction": "Rennes ТБ 0.5 / Rennes ТБ 1.5 / Strasbourg ТБ 0.5 / Strasbourg ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|0|0|0|0|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Strasbourg ТБ 0.5 / Strasbourg ТБ 1.5 / Rennes ТБ 0.5 / Rennes ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "0|1|0|0|0|1|1|0"
     },
     {
       "id": 35,
@@ -3392,8 +3392,8 @@
       "a_elo_change": -10.0,
       "home_name": "Arouca",
       "away_name": "CF Estrela da Amadora",
-      "ai_prediction": "Arouca ТБ 0.5 / Arouca ТБ 1.5 / CF Estrela da Amadora ТБ 0.5 / CF Estrela da Amadora ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "1|0|0|0|1|1|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Arouca ТБ 0.5 / Arouca ТБ 1.5 / CF Estrela da Amadora ТБ 0.5 / CF Estrela da Amadora ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|1|1"
     },
     {
       "id": 34,
@@ -3430,8 +3430,8 @@
       "a_elo_change": -9.720531583800039,
       "home_name": "Freiburg",
       "away_name": "Heidenheim",
-      "ai_prediction": "Freiburg ТБ 0.5 / Freiburg ТБ 1.5 / Heidenheim ТБ 0.5 / Heidenheim ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|0|0|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Freiburg ТБ 0.5 / Freiburg ТБ 1.5 / Heidenheim ТБ 0.5 / Heidenheim ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|0|0"
     },
     {
       "id": 29,
@@ -3468,8 +3468,8 @@
       "a_elo_change": 4.661371872968175,
       "home_name": "Verona",
       "away_name": "AC Milan",
-      "ai_prediction": "AC Milan ТБ 0.5 / AC Milan ТБ 1.5 / Verona ТБ 0.5 / Verona ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|0|0|1|1|0|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Verona ТБ 0.5 / Verona ТБ 1.5 / AC Milan ТБ 0.5 / AC Milan ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|1|0|1"
     },
     {
       "id": 30,
@@ -3506,8 +3506,8 @@
       "a_elo_change": -8.076365627095129,
       "home_name": "Forest",
       "away_name": "Burnley",
-      "ai_prediction": "Burnley ТБ 0.5 / Burnley ТБ 1.5 / Forest ТБ 0.5 / Forest ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Forest ТБ 0.5 / Forest ТБ 1.5 / Burnley ТБ 0.5 / Burnley ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|0|1|0"
     },
     {
       "id": 31,
@@ -3544,8 +3544,8 @@
       "a_elo_change": 9.848949258517223,
       "home_name": "Everton",
       "away_name": "Liverpool",
-      "ai_prediction": "Everton ТБ 0.5 / Everton ТБ 1.5 / Liverpool ТБ 0.5 / Liverpool ТБ 1.5 / X2 (Подвійний шанс) / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|0|1|1|1|0|1|0"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Everton ТБ 0.5 / Everton ТБ 1.5 / Liverpool ТБ 0.5 / Liverpool ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "1|1|0|1|0|1|1|0"
     },
     {
       "id": 32,
@@ -3582,8 +3582,8 @@
       "a_elo_change": -9.183805478029399,
       "home_name": "Aston Villa",
       "away_name": "Sunderland",
-      "ai_prediction": "Aston Villa ТБ 0.5 / Aston Villa ТБ 1.5 / Sunderland ТБ 0.5 / Sunderland ТБ 1.5 / Картки ТМ 4.5 / П1 (Господарі) / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|0|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Aston Villa ТБ 0.5 / Aston Villa ТБ 1.5 / Sunderland ТБ 0.5 / Sunderland ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 33,
@@ -3620,8 +3620,8 @@
       "a_elo_change": 0.0,
       "home_name": "Monaco",
       "away_name": "Auxerre",
-      "ai_prediction": "1X (Подвійний шанс) / Auxerre ТБ 0.5 / Auxerre ТБ 1.5 / Monaco ТБ 0.5 / Monaco ТБ 1.5 / Картки ТМ 4.5 / ТБ 0.5 (1-й тайм) / ТБ 2.5 / ТБ 3.5",
-      "ai_hit": "1|1|1|1|1|0|1|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Monaco ТБ 0.5 / Monaco ТБ 1.5 / Auxerre ТБ 0.5 / Auxerre ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 28,
@@ -3658,8 +3658,8 @@
       "a_elo_change": -1.986454142284856,
       "home_name": "Cremonese",
       "away_name": "Torino",
-      "ai_prediction": "1X (Подвійний шанс) / Cremonese ТБ 0.5 / Cremonese ТБ 1.5 / Torino ТБ 0.5 / Torino ТБ 1.5 / Картки ТМ 4.5 / ТБ 2.5 / ТБ 3.5 / ТМ 0.5 (1-й тайм)",
-      "ai_hit": "1|0|0|0|0|1|0|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / Cremonese ТБ 0.5 / Cremonese ТБ 1.5 / Torino ТБ 0.5 / Torino ТБ 1.5 / ТМ 0.5 (1-й тайм) / Картки ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|1|1"
     }
   ],
   "user_bets": [],

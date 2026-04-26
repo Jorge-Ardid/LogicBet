@@ -21,16 +21,21 @@ def export_to_json(db):
             # 1. Fetch Recent & Upcoming Matches (with stats)
             query = """
                 SELECT m.*, t1.name as home_name, t2.name as away_name,
-                       GROUP_CONCAT(p.selection, ' / ') as ai_prediction,
-                       GROUP_CONCAT(p.is_hit, '|') as ai_hit
+                       (SELECT GROUP_CONCAT(selection, ' / ') FROM (
+                           SELECT selection FROM predictions p2 
+                           WHERE p2.match_id = m.id 
+                           ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+                           LIMIT -1
+                       )) as ai_prediction,
+                       (SELECT GROUP_CONCAT(is_hit, '|') FROM (
+                           SELECT is_hit FROM predictions p2 
+                           WHERE p2.match_id = m.id 
+                           ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+                           LIMIT -1
+                       )) as ai_hit
                 FROM matches m
                 JOIN teams t1 ON m.home_team_id = t1.id
                 JOIN teams t2 ON m.away_team_id = t2.id
-                LEFT JOIN (
-                    SELECT * FROM predictions 
-                    ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
-                    LIMIT -1
-                ) p ON m.id = p.match_id
                 WHERE DATE(m.date) >= DATE('now', '-7 days')
                 GROUP BY m.id
                 ORDER BY m.date DESC
@@ -210,6 +215,39 @@ def recalculate_elo_from_history(db, analytics):
             print(f"  [ELO/FORM] Updated {m_id}: New ratings and form string applied.")
         
         conn.commit()
+
+def predict_missing_matches(db, analytics):
+    """Finds matches from the last 48h that have NO predictions and generates them."""
+    print("--- CHECKING FOR MATCHES WITHOUT PREDICTIONS ---")
+    with db.get_connection() as conn:
+        query = """
+            SELECT m.id, m.home_team_id, m.away_team_id, m.league, t1.name, t2.name
+            FROM matches m
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            LEFT JOIN predictions p ON m.id = p.match_id
+            WHERE p.id IS NULL
+            AND m.date > datetime('now', '-2 days')
+            AND m.league_id IN (39, 140, 78, 61, 135, 2, 3, 848)
+        """
+        missing = conn.execute(query).fetchall()
+        
+        if not missing:
+            print("  [PREDICT] No matches missing predictions.")
+            return
+            
+        for m in missing:
+            m_id, h_id, a_id, l_name, h_name, a_name = m
+            print(f"  > Generating predictions for: {h_name} vs {a_name} ({l_name})")
+            preds = analytics.determine_predictions(m_id, h_id, a_id, None, "", "")
+            for p in preds:
+                db.insert_prediction(
+                    p['match_id'], p['algorithm'], p['market'], 
+                    p['selection'], p['calculated_prob'], p['bookmaker_odd'], 
+                    p['value_percentage'], p['confidence_level']
+                )
+        conn.commit()
+        print(f"  [PREDICT] Generated predictions for {len(missing)} matches.")
 
 def sync_match_stats(db, api):
     """Fetches statistics for finished matches that don't have them yet."""
@@ -755,6 +793,7 @@ if __name__ == "__main__":
             
             # --- LOCAL OPERATIONS (ALWAYS run, even if API sync was skipped) ---
             recalculate_elo_from_history(db, analytics)
+            predict_missing_matches(db, analytics)
             evaluate_virtual_bets(db)
             evaluate_user_bets(db)
             sync_match_stats(db, multi_engine.api_football)
