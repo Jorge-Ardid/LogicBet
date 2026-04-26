@@ -235,6 +235,15 @@ class BettingAnalytics:
             h_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (home_id,)).fetchone()
             a_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (away_id,)).fetchone()
 
+        if not h_data or not a_data:
+            return {
+                "home": 0.4, "draw": 0.3, "away": 0.3,
+                "home_elo": 1500, "away_elo": 1500,
+                "h_trend": {"avg_goals": 1.2, "label": "Unknown"},
+                "a_trend": {"avg_goals": 1.2, "label": "Unknown"},
+                "h2h_count": 0
+            }
+
         home_elo = h_data[0]
         away_elo = a_data[0]
 

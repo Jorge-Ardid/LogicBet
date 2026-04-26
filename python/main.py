@@ -29,6 +29,7 @@ def export_to_json(db):
                 LEFT JOIN (
                     SELECT * FROM predictions 
                     ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+                    LIMIT -1
                 ) p ON m.id = p.match_id
                 WHERE DATE(m.date) >= DATE('now', '-7 days')
                 GROUP BY m.id
