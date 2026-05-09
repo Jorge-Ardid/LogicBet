@@ -369,16 +369,19 @@ def evaluate_virtual_bets(db):
                 is_hit = 1 if hs >= as_t else 0
             elif "X2" in s or "X 2" in s:
                 is_hit = 1 if as_t >= hs else 0
-            elif "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s:
+            elif "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s or "ТОТАЛ Б" in s:
                 # Extract number if possible, or default to 2.5
                 threshold = 2.5
                 if "1.5" in s: threshold = 1.5
+                elif "0.5" in s: threshold = 0.5
                 elif "3.5" in s: threshold = 3.5
+                elif "4.5" in s: threshold = 4.5
                 elif "8.5" in s: threshold = 8.5
                 is_hit = 1 if (hs + as_t) > threshold else 0
-            elif "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s:
+            elif "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s or "ТОТАЛ М" in s:
                 threshold = 2.5
                 if "1.5" in s: threshold = 1.5
+                elif "0.5" in s: threshold = 0.5
                 is_hit = 1 if (hs + as_t) < threshold else 0
                 
             cursor.execute("UPDATE predictions SET is_hit = ? WHERE id = ?", (is_hit, p_id))
