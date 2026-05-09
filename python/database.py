@@ -170,7 +170,6 @@ class LogicBetDB:
             "Club Brugge KV": "Club Brugge",
         }
         
-        print(f"TARGET PATH: {self.db_path}")
         self._init_db()
         self._sync_map_to_synonyms()
 

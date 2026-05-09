@@ -54,11 +54,9 @@ class ConfigManager:
             if os.path.exists(self.config_file):
                 with open(self.config_file, 'r', encoding='utf-8') as f:
                     self.config = json.load(f)
-                print(f"[CONFIG] Loaded from {self.config_file}")
-            else:
                 self.config = self.default_config.copy()
                 self.save_config()
-                print(f"[CONFIG] Created default config at {self.config_file}")
+                # print statement removed to avoid encoding errors
         except Exception as e:
             print(f"[CONFIG ERROR] Failed to load config: {e}")
             self.config = self.default_config.copy()
@@ -69,7 +67,7 @@ class ConfigManager:
             os.makedirs(os.path.dirname(self.config_file), exist_ok=True)
             with open(self.config_file, 'w', encoding='utf-8') as f:
                 json.dump(self.config, f, indent=2, ensure_ascii=False)
-            print(f"[CONFIG] Saved to {self.config_file}")
+            # print statement removed
         except Exception as e:
             print(f"[CONFIG ERROR] Failed to save config: {e}")
 
@@ -83,7 +81,7 @@ class ConfigManager:
             self.config["api_keys"] = {}
         self.config["api_keys"][service] = key
         self.save_config()
-        print(f"[CONFIG] API key set for {service}")
+        # print statement removed
 
     def get_primary_source(self):
         """Get primary data source"""
@@ -154,7 +152,8 @@ class ConfigManager:
             self.db.set_config("sync_cooldown", sync_settings.get("cooldown_seconds", 43200))
             self.db.set_config("use_historical_data", sync_settings.get("use_historical_data", True))
             
-            print("[CONFIG] Settings stored to database")
+            # self.db.set_config(...)
+            # print statement removed
             
         except Exception as e:
             print(f"[CONFIG ERROR] Failed to store to DB: {e}")
@@ -185,7 +184,7 @@ class ConfigManager:
             if use_historical is not None:
                 self.config["sync_settings"]["use_historical_data"] = use_historical.lower() == "true"
             
-            print("[CONFIG] Settings loaded from database")
+            # print statement removed
             
         except Exception as e:
             print(f"[CONFIG ERROR] Failed to load from DB: {e}")

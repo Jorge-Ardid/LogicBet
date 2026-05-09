@@ -1,3 +1,9 @@
+import sys
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 from database import LogicBetDB
 from api_client import APIFootballClient
 from analytics import BettingAnalytics
@@ -54,13 +60,13 @@ def export_to_json(db):
             """)
             user_bets = [dict(row) for row in cursor.fetchall()]
             
-            # 3. Fetch Prediction History (for Stats tab)
+            # 3. Fetch Recent & Upcoming Predictions (for Stats tab & Analytics)
             cursor.execute("""
                 SELECT p.*, m.date 
                 FROM predictions p
                 JOIN matches m ON p.match_id = m.id
-                WHERE p.is_hit IS NOT NULL
-                ORDER BY m.date DESC LIMIT 500
+                WHERE m.date >= DATE('now', '-3 days') AND m.date <= DATE('now', '+7 days')
+                ORDER BY m.date DESC LIMIT 1000
             """)
             predictions_history = [dict(row) for row in cursor.fetchall()]
 
