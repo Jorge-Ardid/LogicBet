@@ -201,18 +201,22 @@ func _create_match_item(m):
 	right_vb.add_child(pred_lbl)
 	
 	if m.calculated_prob > 0:
-		var prob_lbl = _lbl(str(round(m.calculated_prob * 100)) + "%", COLOR_GREEN, 14)
+		var prob_lbl = _lbl(str(round(m.calculated_prob * 100)) + "%", Color.GREEN, 14)
 		prob_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		right_vb.add_child(prob_lbl)
 		
 	return btn
 
 func _on_match_clicked(m):
-	# Fetch all predictions for this match
 	var all_preds = db_viewer.fetch_all_predictions_for_match(m.id)
 	
 	var popup = _create_popup("Деталі матчу: " + m.home_team + " - " + m.away_team)
-	var scroll = _create_mobile_scroll(); popup.get_child(0).add_child(scroll)
+	# Find the vbox inside the popup (child 0 is Panel, child 0 of Panel is VBox)
+	var vb_container = popup.get_child(0).get_child(0) 
+	
+	var scroll = _create_mobile_scroll()
+	vb_container.add_child(scroll)
+	
 	var vb = VBoxContainer.new(); vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL; vb.add_theme_constant_override("separation", 15); scroll.add_child(vb)
 	
 	vb.add_child(_lbl("ВСІ ДОСТУПНІ ПРОГНОЗИ:", COLOR_TEXT_DIM, 14))
@@ -228,11 +232,35 @@ func _on_match_clicked(m):
 		p_left.add_child(_lbl(p.selection, COLOR_TEXT, 20))
 		
 		var p_right = VBoxContainer.new(); p_right.alignment = BoxContainer.ALIGNMENT_CENTER; p_hb.add_child(p_right)
-		p_right.add_child(_lbl(str(round(p.calculated_prob * 100)) + "%", COLOR_GREEN, 18))
-		if p.bookmaker_odd > 1:
+		p_right.add_child(_lbl(str(round(p.calculated_prob * 100)) + "%", Color.GREEN, 18))
+		if p.get("bookmaker_odd", 0) > 1:
 			p_right.add_child(_lbl("@" + str(p.bookmaker_odd), COLOR_GOLD, 14))
 			
 	popup.popup_centered(Vector2(600, 800))
+
+func _create_popup(title: String) -> Window:
+	var win = Window.new()
+	win.title = title
+	win.exclusive = true
+	win.transient = true
+	win.size = Vector2(650, 900)
+	
+	var panel = PanelContainer.new(); panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); win.add_child(panel)
+	var style = StyleBoxFlat.new(); style.bg_color = COLOR_BG; panel.add_theme_stylebox_override("panel", style)
+	
+	var v_box = VBoxContainer.new(); panel.add_child(v_box)
+	
+	var header = PanelContainer.new()
+	var h_style = StyleBoxFlat.new(); h_style.bg_color = COLOR_GRAPHITE; h_style.content_margin_all = 15; header.add_theme_stylebox_override("panel", h_style)
+	v_box.add_child(header)
+	
+	var h_hb = HBoxContainer.new(); header.add_child(h_hb)
+	h_hb.add_child(_lbl(title.to_upper(), COLOR_GOLD, 18))
+	h_hb.add_spacer(false)
+	var close_btn = Button.new(); close_btn.text = " X "; close_btn.pressed.connect(win.hide); h_hb.add_child(close_btn)
+	
+	add_child(win)
+	return win
 
 func _build_settings() -> MarginContainer:
 	var m = MarginContainer.new(); m.add_theme_constant_override("margin_top", 50)
@@ -929,8 +957,10 @@ func _format_match_date(utc_date_str: String) -> String:
 	
 	return "%04d-%02d-%02d %02d:%02d" % [local_dict["year"], local_dict["month"], local_dict["day"], local_dict["hour"], local_dict["minute"]]
 
-func _lbl(txt, color = COLOR_TEXT) -> Label:
-	var l = Label.new(); l.text = str(txt); l.add_theme_color_override("font_color", color); return l
+func _lbl(txt, color = COLOR_TEXT, size = 16) -> Label:
+	var l = Label.new(); l.text = str(txt); l.add_theme_color_override("font_color", color)
+	l.add_theme_font_size_override("font_size", size)
+	return l
 
 func _on_show_team_stats(team_id):
 	var data = db_viewer.fetch_team_stats_report(int(team_id))
