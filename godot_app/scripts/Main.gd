@@ -960,9 +960,9 @@ func _format_match_date(utc_date_str: String) -> String:
 	
 	return "%04d-%02d-%02d %02d:%02d" % [local_dict["year"], local_dict["month"], local_dict["day"], local_dict["hour"], local_dict["minute"]]
 
-func _lbl(txt, color = COLOR_TEXT, size = 16) -> Label:
+func _lbl(txt, color = COLOR_TEXT, f_size = 16) -> Label:
 	var l = Label.new(); l.text = str(txt); l.add_theme_color_override("font_color", color)
-	l.add_theme_font_size_override("font_size", size)
+	l.add_theme_font_size_override("font_size", f_size)
 	return l
 
 func _on_show_team_stats(team_id):
