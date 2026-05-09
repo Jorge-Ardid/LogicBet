@@ -41,6 +41,7 @@ var current_match_id: int = -1
 var current_selection: String = ""
 var ai_odd: float = 0.0
 var is_syncing: bool = false
+var sync_pid: int = -1
 
 # Match statistics data
 # @onready var db_viewer = $DBViewer (Keep below)
@@ -605,17 +606,39 @@ func _on_sync_pressed():
 		_sync_from_cloud()
 		return
 
-	is_syncing = true; refresh_btn.disabled = true; sync_status_lbl.text = "СИНХРОНІЗАЦІЯ... "
-	var root_path = ProjectSettings.globalize_path("res://..")
-	var err = OS.create_process("cmd.exe", ["/c", "start /wait \"\" \"" + root_path + "/START_SYNC.bat" + "\""])
+	is_syncing = true; refresh_btn.disabled = true; sync_status_lbl.text = "ОБРОБКА ДАНИХ... ⏳"
 	
-	if err == -1: # Failed to start process (likely on non-Windows)
+	var root_path = ProjectSettings.globalize_path("res://..")
+	var python_path = root_path + "/python/main.py"
+	
+	# Detect if we should use pythonw (Windows only, no console)
+	var cmd = "python"
+	if OS.get_name() == "Windows":
+		# Check if pythonw exists, otherwise fallback to python
+		cmd = "pythonw"
+	
+	# Start as background process
+	sync_pid = OS.create_process(cmd, [python_path], false)
+	
+	if sync_pid == -1:
+		# Fallback to standard python if pythonw failed
+		sync_pid = OS.create_process("python", [python_path], false)
+		
+	if sync_pid == -1:
+		# Final fallback to cloud
 		_sync_from_cloud()
 	else:
-		await get_tree().create_timer(5.0).timeout
-		_refresh_data()
-		is_syncing = false; refresh_btn.disabled = false; sync_status_lbl.text = "ОНОВЛЕНО ✅"
-		await get_tree().create_timer(3.0).timeout; sync_status_lbl.text = ""
+		# Start a loop to check when it's done
+		_poll_sync_status()
+
+func _poll_sync_status():
+	while OS.is_process_running(sync_pid):
+		await get_tree().create_timer(1.0).timeout
+	
+	# Done!
+	_refresh_data()
+	is_syncing = false; refresh_btn.disabled = false; sync_status_lbl.text = "ОНОВЛЕНО ✅"
+	await get_tree().create_timer(3.0).timeout; sync_status_lbl.text = ""
 
 func _sync_from_cloud():
 	var user = github_user_input.text
