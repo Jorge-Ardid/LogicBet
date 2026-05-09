@@ -389,9 +389,30 @@ func _create_match_card(p) -> PanelContainer:
 	card.mouse_filter = Control.MOUSE_FILTER_PASS
 	var style = StyleBoxFlat.new(); style.bg_color = COLOR_SURFACE; style.content_margin_left = 25; style.content_margin_right = 25; style.content_margin_top = 20; style.content_margin_bottom = 20
 	style.set_corner_radius_all(12); style.border_width_left = 4;
+	# Status Calculation based on user request:
+	# "закінчилася", "йде/проходить/наживо", "скоро буде"
+	var unix_match = Time.get_unix_time_from_datetime_string(p["date"].replace(" ", "T"))
+	var unix_now = Time.get_unix_time_from_system()
+	var diff = unix_now - unix_match
 	
-	# ... (lines 391-415 omitted for brevity in replace, but they are inside this block)
+	var status_text = "СКОРО БУДЕ"
+	var status_color = COLOR_GOLD
 	
+	if p["status"] == "FT":
+		status_text = "ЗАКІНЧИЛАСЯ"
+		status_color = COLOR_TEXT_DIM
+	elif diff > 0 and diff < 7200: # Ongoing for 2 hours
+		status_text = "ЙДЕ / НАЖИВО"
+		status_color = COLOR_SUCCESS
+	elif diff >= 7200:
+		status_text = "ЗАКІНЧИЛАСЯ"
+		status_color = COLOR_TEXT_DIM
+	
+	# Parse metadata
+	var tag = "📊"
+	if p.get("algorithm") != null:
+		var meta_parts = p["algorithm"].split("|")
+		tag = meta_parts[0]
 	style.border_color = COLOR_GOLD if ("💎" in tag or "🔥" in tag) else Color(0,0,0,0)
 	card.add_theme_stylebox_override("panel", style)
 	
