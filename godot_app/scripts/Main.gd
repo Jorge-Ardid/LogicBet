@@ -78,7 +78,7 @@ func _setup_ui():
 	var tabs := TabContainer.new(); tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; v_main.add_child(tabs)
 	
 	# Create Dashboard
-	var dash_scroll = ScrollContainer.new(); dash_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; dash_scroll.name = " 🏟 АНАЛІТИКА "
+	var dash_scroll = _create_mobile_scroll(); dash_scroll.name = " 🏟 АНАЛІТИКА "
 	var dash_margin = MarginContainer.new()
 	dash_margin.add_theme_constant_override("margin_left", 20); dash_margin.add_theme_constant_override("margin_right", 20)
 	dash_margin.add_theme_constant_override("margin_top", 20); dash_margin.add_theme_constant_override("margin_bottom", 20)
@@ -87,18 +87,16 @@ func _setup_ui():
 	tabs.add_child(dash_scroll)
 	
 	# Create History
-	var hist_scroll = ScrollContainer.new(); hist_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; hist_scroll.name = " 📜 ІСТОРІЯ "
+	var hist_scroll = _create_mobile_scroll(); hist_scroll.name = " 📜 ІСТОРІЯ "
 	var hist_margin = MarginContainer.new()
 	hist_margin.add_theme_constant_override("margin_left", 20); hist_margin.add_theme_constant_override("margin_right", 20)
 	hist_margin.add_theme_constant_override("margin_top", 20); hist_margin.add_theme_constant_override("margin_bottom", 20)
 	hist_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hist_scroll.add_child(hist_margin)
 	history_vbox = VBoxContainer.new(); history_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL; history_vbox.add_theme_constant_override("separation", 15); hist_margin.add_child(history_vbox)
-	
-	# History tab setup
 	tabs.add_child(hist_scroll)
 	
 	# Create Search Tab
-	var search_scroll = ScrollContainer.new(); search_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; search_scroll.name = " 🔍 ПОШУК "
+	var search_scroll = _create_mobile_scroll(); search_scroll.name = " 🔍 ПОШУК "
 	var search_margin = MarginContainer.new()
 	search_margin.add_theme_constant_override("margin_left", 30); search_margin.add_theme_constant_override("margin_right", 30); search_margin.add_theme_constant_override("margin_top", 30); search_margin.add_theme_constant_override("margin_bottom", 30)
 	search_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL; search_scroll.add_child(search_margin)
@@ -112,7 +110,7 @@ func _setup_ui():
 	tabs.add_child(search_scroll)
 	
 	# Create Statistics Tab
-	var stats_scroll = ScrollContainer.new(); stats_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; stats_scroll.name = " 📈 СТАТИСТИКА "
+	var stats_scroll = _create_mobile_scroll(); stats_scroll.name = " 📈 СТАТИСТИКА "
 	var stats_margin = MarginContainer.new()
 	stats_margin.add_theme_constant_override("margin_left", 30); stats_margin.add_theme_constant_override("margin_right", 30)
 	stats_margin.add_theme_constant_override("margin_top", 30); stats_margin.add_theme_constant_override("margin_bottom", 30)
@@ -153,6 +151,14 @@ func _setup_ui():
 	
 	_setup_popups()
 
+func _create_mobile_scroll() -> ScrollContainer:
+	var s = ScrollContainer.new()
+	s.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	s.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	s.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	s.scroll_deadzone = 10
+	return s
+
 func _create_header() -> PanelContainer:
 	var pc = PanelContainer.new()
 	var style = StyleBoxFlat.new(); style.bg_color = COLOR_GRAPHITE; style.content_margin_left = 30; style.content_margin_right = 30; style.content_margin_top = 20; style.content_margin_bottom = 20
@@ -169,6 +175,64 @@ func _create_header() -> PanelContainer:
 	bank_label = Label.new(); bank_label.text = "0.00 грн"; bank_label.add_theme_font_size_override("font_size", 28); bank_label.add_theme_color_override("font_color", COLOR_SUCCESS); bank_v.add_child(bank_label)
 	
 	return pc
+
+func _create_match_item(m):
+	var btn = Button.new()
+	btn.custom_minimum_size.y = 120
+	var style = StyleBoxFlat.new()
+	style.bg_color = COLOR_SURFACE; style.set_corner_radius_all(15); style.content_margin_left = 20; style.content_margin_right = 20
+	var style_hover = style.duplicate(); style_hover.bg_color = COLOR_GRAPHITE
+	btn.add_theme_stylebox_override("normal", style); btn.add_theme_stylebox_override("hover", style_hover); btn.add_theme_stylebox_override("pressed", style_hover)
+	btn.pressed.connect(_on_match_clicked.bind(m))
+	
+	var hb = HBoxContainer.new(); hb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_KEEP_WIDTH, 20); btn.add_child(hb)
+	
+	# Teams and Time
+	var left_vb = VBoxContainer.new(); left_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(left_vb)
+	var time_str = m.date.split(" ")[1].substr(0, 5) if " " in m.date else m.date
+	left_vb.add_child(_lbl(time_str + " | " + m.league.to_upper(), COLOR_TEXT_DIM, 14))
+	left_vb.add_child(_lbl(m.home_team + " vs " + m.away_team, COLOR_TEXT, 18))
+	
+	# Prediction (BIG)
+	var right_vb = VBoxContainer.new(); right_vb.alignment = BoxContainer.ALIGNMENT_CENTER; hb.add_child(right_vb)
+	var pred_text = m.selection if m.selection else "(...)"
+	var pred_lbl = _lbl(pred_text, COLOR_GOLD, 24)
+	pred_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	right_vb.add_child(pred_lbl)
+	
+	if m.calculated_prob > 0:
+		var prob_lbl = _lbl(str(round(m.calculated_prob * 100)) + "%", COLOR_GREEN, 14)
+		prob_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		right_vb.add_child(prob_lbl)
+		
+	return btn
+
+func _on_match_clicked(m):
+	# Fetch all predictions for this match
+	var all_preds = db_viewer.fetch_all_predictions_for_match(m.id)
+	
+	var popup = _create_popup("Деталі матчу: " + m.home_team + " - " + m.away_team)
+	var scroll = _create_mobile_scroll(); popup.get_child(0).add_child(scroll)
+	var vb = VBoxContainer.new(); vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL; vb.add_theme_constant_override("separation", 15); scroll.add_child(vb)
+	
+	vb.add_child(_lbl("ВСІ ДОСТУПНІ ПРОГНОЗИ:", COLOR_TEXT_DIM, 14))
+	
+	for p in all_preds:
+		var p_panel = PanelContainer.new()
+		var p_style = StyleBoxFlat.new(); p_style.bg_color = COLOR_GRAPHITE; p_style.set_corner_radius_all(10); p_style.content_margin_all = 15; p_panel.add_theme_stylebox_override("panel", p_style)
+		vb.add_child(p_panel)
+		
+		var p_hb = HBoxContainer.new(); p_panel.add_child(p_hb)
+		var p_left = VBoxContainer.new(); p_left.size_flags_horizontal = Control.SIZE_EXPAND_FILL; p_hb.add_child(p_left)
+		p_left.add_child(_lbl(p.market.to_upper(), COLOR_TEXT_DIM, 12))
+		p_left.add_child(_lbl(p.selection, COLOR_TEXT, 20))
+		
+		var p_right = VBoxContainer.new(); p_right.alignment = BoxContainer.ALIGNMENT_CENTER; p_hb.add_child(p_right)
+		p_right.add_child(_lbl(str(round(p.calculated_prob * 100)) + "%", COLOR_GREEN, 18))
+		if p.bookmaker_odd > 1:
+			p_right.add_child(_lbl("@" + str(p.bookmaker_odd), COLOR_GOLD, 14))
+			
+	popup.popup_centered(Vector2(600, 800))
 
 func _build_settings() -> MarginContainer:
 	var m = MarginContainer.new(); m.add_theme_constant_override("margin_top", 50)

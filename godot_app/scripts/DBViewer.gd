@@ -22,6 +22,11 @@ func _ready() -> void:
 	
 	if db.open_db():
 		print("LogicBet: Connected to DB at: ", full_path)
+		# Initialize tables immediately
+		db.query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
+		db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL, current_form TEXT, rank INTEGER, points INTEGER, avg_scored REAL, avg_conceded REAL)")
+		db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL)")
+		db.query("CREATE TABLE IF NOT EXISTS predictions (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, algorithm TEXT, market TEXT, selection TEXT, calculated_prob REAL, bookmaker_odd REAL, value_percentage REAL, confidence_level TEXT, is_hit INTEGER, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
 	else:
 		print("LogicBet ERROR: Could not open DB at: ", full_path)
 
@@ -242,7 +247,7 @@ func fetch_global_history() -> Array:
 		JOIN teams t1 ON m.home_team_id = t1.id
 		JOIN teams t2 ON m.away_team_id = t2.id
 		LEFT JOIN predictions p ON p.match_id = m.id
-		WHERE m.status IN ('FT', 'AET', 'PEN', 'FINISHED') AND m.league_id IN (39, 2, 3, 848, 140, 78, 135, 61)
+		WHERE m.status IN ('FT', 'AET', 'PEN', 'FINISHED')
 		GROUP BY m.id
 		ORDER BY m.date DESC 
 		LIMIT 150
@@ -381,19 +386,23 @@ func fetch_match_predictions(match_id: int) -> Array:
 	db.query(sql)
 	return db.query_result
 
+func fetch_all_predictions_for_match(match_id: int) -> Array:
+	if not db: return []
+	var sql = "SELECT * FROM predictions WHERE match_id = %d ORDER BY calculated_prob DESC" % match_id
+	db.query(sql)
+	return db.query_result
+
 func sync_from_json(data: Dictionary) -> void:
 	if not db: return
 	
 	print("LogicBet: Syncing data from JSON snapshot...")
 	
 	# 1. Update Config
-	db.query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
 	if data.has("config"):
 		for key in data["config"]:
 			set_config(key, str(data["config"][key]))
 	
 	# 2. Update Teams
-	db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL, current_form TEXT, rank INTEGER, points INTEGER, avg_scored REAL, avg_conceded REAL)")
 	if data.has("teams"):
 		db.query("BEGIN TRANSACTION")
 		for t in data["teams"]:
@@ -404,7 +413,6 @@ func sync_from_json(data: Dictionary) -> void:
 		db.query("COMMIT")
 	
 	# 3. Update Matches & Predictions
-	db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL)")
 	if data.has("matches"):
 		db.query("BEGIN TRANSACTION")
 		for m in data["matches"]:
@@ -416,18 +424,22 @@ func sync_from_json(data: Dictionary) -> void:
 			]
 			db.query(m_sql)
 		db.query("COMMIT")
-	
-	# 4. Update Prediction History
-	db.query("CREATE TABLE IF NOT EXISTS predictions (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, market TEXT, selection TEXT, calculated_prob REAL, bookmaker_odd REAL, is_hit INTEGER, algorithm TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
 
 	# 4. Update Prediction History
 	if data.has("predictions_history"):
 		db.query("BEGIN TRANSACTION")
 		for p in data["predictions_history"]:
 			var p_sql = "INSERT OR REPLACE INTO predictions (id, match_id, algorithm, market, selection, calculated_prob, bookmaker_odd, value_percentage, confidence_level, is_hit) VALUES (%d, %d, '%s', '%s', '%s', %f, %f, %f, '%s', %s)" % [
-				p["id"], p["match_id"], p["algorithm"].replace("'", "''"), p["market"], p["selection"].replace("'", "''"), 
-				p["calculated_prob"], p["bookmaker_odd"], p["value_percentage"], p["confidence_level"],
-				str(p["is_hit"]) if p["is_hit"] != null else "NULL"
+				int(p.get("id", 0)), 
+				int(p.get("match_id", 0)), 
+				str(p.get("algorithm", "")).replace("'", "''"), 
+				str(p.get("market", "")), 
+				str(p.get("selection", "")).replace("'", "''"), 
+				float(p.get("calculated_prob", 0.0)), 
+				float(p.get("bookmaker_odd", 0.0)), 
+				float(p.get("value_percentage", 0.0)), 
+				str(p.get("confidence_level", "")),
+				str(p.get("is_hit")) if p.get("is_hit") != null else "NULL"
 			]
 			db.query(p_sql)
 		db.query("COMMIT")
