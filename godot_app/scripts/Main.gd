@@ -705,13 +705,13 @@ func _on_delete_bet(bet_id):
 	db_viewer.delete_user_bet(bet_id); _refresh_data()
 
 func _on_save_settings():
-	db_viewer.set_bankroll(settings_bank_input.value)
-	db_viewer.set_default_stake(settings_stake_input.value)
 	db_viewer.set_config("github_user", github_user_input.text)
 	db_viewer.set_config("github_repo", github_repo_input.text)
-	_refresh_data()
+	db_viewer.set_bankroll(settings_bank_input.value)
+	db_viewer.set_default_stake(settings_stake_input.value)
 	
 	sync_status_lbl.text = "НАЛАШТУВАННЯ ЗБЕРЕЖЕНО ✅"
+	_refresh_data()
 	await get_tree().create_timer(2.0).timeout
 	sync_status_lbl.text = ""
 

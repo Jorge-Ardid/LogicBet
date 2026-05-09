@@ -3,18 +3,21 @@ class_name LogicBetDBViewer
 
 # Godot-SQLite Addon is required.
 var db = null
-var db_path := "res://logicbet.db" 
+var db_path := "user://logicbet.db" 
 
 func _ready() -> void:
 	db = SQLite.new()
-	# We use globalize_path to make sure the plugin sees the absolute Windows path
-	var full_path = ProjectSettings.globalize_path(db_path)
 	
-	# Ensure directory exists
-	var dir = DirAccess.open("res://")
-	if not dir.dir_exists(db_path.get_base_dir()):
-		dir.make_dir_recursive(db_path.get_base_dir())
-		
+	# MOBILE FIX: On Android/iOS, we must copy the DB from res:// to user:// to make it writable
+	if not FileAccess.file_exists(db_path):
+		var dir = DirAccess.open("user://")
+		var error = dir.copy("res://logicbet.db", db_path)
+		if error == OK:
+			print("LogicBet: Database copied to user:// for writing.")
+		else:
+			print("LogicBet ERROR: Failed to copy database! Code: ", error)
+	
+	var full_path = ProjectSettings.globalize_path(db_path)
 	db.path = full_path
 	
 	if db.open_db():
@@ -128,7 +131,11 @@ func get_config(key: String) -> String:
 
 func set_config(key: String, value: String) -> void:
 	if not db: return
-	db.query("INSERT OR REPLACE INTO config (key, value) VALUES ('" + key + "', '" + value + "')")
+	# Ensure the table and unique constraint exist
+	db.query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
+	var sql = "INSERT OR REPLACE INTO config (key, value) VALUES ('%s', '%s')" % [key, value]
+	db.query(sql)
+	print("LogicBet DB: Saved config ", key, " = ", value)
 
 func record_bet(match_id: int, selection: String, stake: float, actual_odd: float) -> void:
 	if not db: return
