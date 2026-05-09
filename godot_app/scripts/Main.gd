@@ -246,7 +246,7 @@ func _create_popup(title: String) -> Window:
 	win.size = Vector2(650, 900)
 	
 	var panel = PanelContainer.new(); panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); win.add_child(panel)
-	var style = StyleBoxFlat.new(); style.bg_color = COLOR_BG; panel.add_theme_stylebox_override("panel", style)
+	var style = StyleBoxFlat.new(); style.bg_color = COLOR_BLACK; panel.add_theme_stylebox_override("panel", style)
 	
 	var v_box = VBoxContainer.new(); panel.add_child(v_box)
 	
