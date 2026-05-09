@@ -25,8 +25,9 @@ func _ready() -> void:
 		# Initialize tables immediately
 		db.query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
 		db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL, current_form TEXT, rank INTEGER, points INTEGER, avg_scored REAL, avg_conceded REAL)")
-		db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL)")
+		db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, red_cards_h INTEGER, red_cards_a INTEGER, shots_on_h INTEGER, shots_on_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL, ht_score_h INTEGER, ht_score_a INTEGER, form_home TEXT, form_away TEXT)")
 		db.query("CREATE TABLE IF NOT EXISTS predictions (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, algorithm TEXT, market TEXT, selection TEXT, calculated_prob REAL, bookmaker_odd REAL, value_percentage REAL, confidence_level TEXT, is_hit INTEGER, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
+		db.query("CREATE TABLE IF NOT EXISTS user_bets (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, selection TEXT, stake REAL, odd REAL, status TEXT DEFAULT 'PENDING', profit REAL DEFAULT 0.0)")
 	else:
 		print("LogicBet ERROR: Could not open DB at: ", full_path)
 
@@ -416,11 +417,21 @@ func sync_from_json(data: Dictionary) -> void:
 	if data.has("matches"):
 		db.query("BEGIN TRANSACTION")
 		for m in data["matches"]:
-			var m_sql = "INSERT OR REPLACE INTO matches (id, remote_id, date, league, league_id, home_team_id, away_team_id, home_score, away_score, status) VALUES (%d, %d, '%s', '%s', %d, %d, %d, %s, %s, '%s')" % [
+			var m_sql = "INSERT OR REPLACE INTO matches (id, remote_id, date, league, league_id, home_team_id, away_team_id, home_score, away_score, status, corners_h, corners_a, yellow_cards_h, yellow_cards_a, red_cards_h, red_cards_a, shots_on_h, shots_on_a, xg_h, xg_a, possession_h, possession_a, h_elo_change, a_elo_change, ht_score_h, ht_score_a, form_home, form_away) VALUES (%d, %d, '%s', '%s', %d, %d, %d, %s, %s, '%s', %d, %d, %d, %d, %d, %d, %d, %d, %f, %f, %d, %d, %f, %f, %s, %s, '%s', '%s')" % [
 				m["id"], m.get("remote_id", 0), m["date"], m["league"].replace("'", "''"), m.get("league_id", 0), m["home_team_id"], m["away_team_id"],
 				str(m["home_score"]) if m["home_score"] != null else "NULL",
 				str(m["away_score"]) if m["away_score"] != null else "NULL",
-				m["status"]
+				m["status"],
+				m.get("corners_h", 0), m.get("corners_a", 0),
+				m.get("yellow_cards_h", 0), m.get("yellow_cards_a", 0),
+				m.get("red_cards_h", 0), m.get("red_cards_a", 0),
+				m.get("shots_on_h", 0), m.get("shots_on_a", 0),
+				m.get("xg_h", 0.0), m.get("xg_a", 0.0),
+				m.get("possession_h", 50), m.get("possession_a", 50),
+				m.get("h_elo_change", 0.0), m.get("a_elo_change", 0.0),
+				str(m["ht_score_h"]) if m.get("ht_score_h") != null else "NULL",
+				str(m["ht_score_a"]) if m.get("ht_score_a") != null else "NULL",
+				m.get("form_home", "").replace("'", "''"), m.get("form_away", "").replace("'", "''")
 			]
 			db.query(m_sql)
 		db.query("COMMIT")
