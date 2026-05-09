@@ -387,13 +387,14 @@ func sync_from_json(data: Dictionary) -> void:
 	print("LogicBet: Syncing data from JSON snapshot...")
 	
 	# 1. Update Config
+	db.query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
 	if data.has("config"):
 		for key in data["config"]:
 			set_config(key, str(data["config"][key]))
 	
 	# 2. Update Teams
+	db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL, current_form TEXT, rank INTEGER, points INTEGER, avg_scored REAL, avg_conceded REAL)")
 	if data.has("teams"):
-		# We use a transaction for speed
 		db.query("BEGIN TRANSACTION")
 		for t in data["teams"]:
 			var sql = "INSERT OR REPLACE INTO teams (id, name, elo_rating, current_form, rank, points) VALUES (%d, '%s', %f, '%s', %d, %d)" % [
@@ -403,28 +404,21 @@ func sync_from_json(data: Dictionary) -> void:
 		db.query("COMMIT")
 	
 	# 3. Update Matches & Predictions
-	# This is more complex because of foreign keys, but since we are syncing, 
-	# we can just insert/replace everything from the 'matches' list in the snapshot
+	db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL)")
 	if data.has("matches"):
 		db.query("BEGIN TRANSACTION")
 		for m in data["matches"]:
-			# Ensure teams exist (should be handled by step 2, but just in case)
-			var m_sql = "INSERT OR REPLACE INTO matches (id, remote_id, date, league, league_id, home_team_id, away_team_id, home_score, away_score, status, corners_h, corners_a, yellow_cards_h, yellow_cards_a, xg_h, xg_a, possession_h, possession_a) VALUES (%d, %d, '%s', '%s', %d, %d, %d, %s, %s, '%s', %d, %d, %d, %d, %f, %f, %d, %d)" % [
+			var m_sql = "INSERT OR REPLACE INTO matches (id, remote_id, date, league, league_id, home_team_id, away_team_id, home_score, away_score, status) VALUES (%d, %d, '%s', '%s', %d, %d, %d, %s, %s, '%s')" % [
 				m["id"], m.get("remote_id", 0), m["date"], m["league"].replace("'", "''"), m.get("league_id", 0), m["home_team_id"], m["away_team_id"],
 				str(m["home_score"]) if m["home_score"] != null else "NULL",
 				str(m["away_score"]) if m["away_score"] != null else "NULL",
-				m["status"], m.get("corners_h", 0), m.get("corners_a", 0), m.get("yellow_cards_h", 0), m.get("yellow_cards_a", 0),
-				m.get("xg_h", 0.0), m.get("xg_a", 0.0), m.get("possession_h", 50), m.get("possession_a", 50)
+				m["status"]
 			]
 			db.query(m_sql)
-			
-			# Re-insert predictions for this match if they are in the combined strings
-			if m.has("ai_prediction") and m["ai_prediction"]:
-				# Note: Our snapshot doesn't have the individual prediction rows for RECENT matches, 
-				# but it has them in predictions_history. We'll handle individual rows in step 4.
-				pass
-				
 		db.query("COMMIT")
+	
+	# 4. Update Prediction History
+	db.query("CREATE TABLE IF NOT EXISTS predictions (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, market TEXT, selection TEXT, calculated_prob REAL, bookmaker_odd REAL, is_hit INTEGER, algorithm TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
 
 	# 4. Update Prediction History
 	if data.has("predictions_history"):
