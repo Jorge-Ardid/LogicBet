@@ -1,0 +1,315 @@
+{
+  "last_updated": "2026-04-24T00:11:19.087648",
+  "matches": [
+    {
+      "id": 495,
+      "home_team": "Oviedo",
+      "away_team": "Villarreal",
+      "score": "None-None",
+      "date": "2026-04-23T19:30:00Z",
+      "status": "NS",
+      "league": "Ла Ліга (Іспанія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 494,
+      "home_team": "PSV",
+      "away_team": "PEC Zwolle",
+      "score": "None-None",
+      "date": "2026-04-23T19:00:00Z",
+      "status": "NS",
+      "league": "Ередивізі (Нідерланди)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 492,
+      "home_team": "Rayo Vallecano",
+      "away_team": "Espanyol",
+      "score": "None-None",
+      "date": "2026-04-23T18:00:00Z",
+      "status": "NS",
+      "league": "Ла Ліга (Іспанія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 493,
+      "home_team": "Casa Pia",
+      "away_team": "Sporting Clube de Braga",
+      "score": "None-None",
+      "date": "2026-04-23T18:00:00Z",
+      "status": "NS",
+      "league": "Прімейра-ліга (Португалія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 491,
+      "home_team": "Levante",
+      "away_team": "Sevilla",
+      "score": "None-None",
+      "date": "2026-04-23T17:00:00Z",
+      "status": "NS",
+      "league": "Ла Ліга (Іспанія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 490,
+      "home_team": "Go Ahead Eagles",
+      "away_team": "AZ",
+      "score": "None-None",
+      "date": "2026-04-23T16:45:00Z",
+      "status": "NS",
+      "league": "Ередивізі (Нідерланди)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 489,
+      "home_team": "Barcelona",
+      "away_team": "Celta",
+      "score": "1-0",
+      "date": "2026-04-22T19:30:00Z",
+      "status": "FT",
+      "league": "Ла Ліга (Іспанія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 487,
+      "home_team": "Burnley",
+      "away_team": "Man City",
+      "score": "0-1",
+      "date": "2026-04-22T19:00:00Z",
+      "status": "FT",
+      "league": "Прем'єр-ліга (Англія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 488,
+      "home_team": "Bournemouth",
+      "away_team": "Leeds",
+      "score": "2-2",
+      "date": "2026-04-22T19:00:00Z",
+      "status": "FT",
+      "league": "Прем'єр-ліга (Англія)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    },
+    {
+      "id": 485,
+      "home_team": "Telstar 1963",
+      "away_team": "Sparta Rotterdam",
+      "score": "4-1",
+      "date": "2026-04-22T18:00:00Z",
+      "status": "FT",
+      "league": "Ередивізі (Нідерланди)",
+      "statistics": {
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "corners": {
+          "home": 7,
+          "away": 5
+        },
+        "cards": {
+          "home_yellow": 2,
+          "away_yellow": 3
+        },
+        "possession": {
+          "home": 58,
+          "away": 42
+        },
+        "xg": {
+          "home": 2.3,
+          "away": 1.8
+        }
+      }
+    }
+  ]
+}
