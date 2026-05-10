@@ -404,9 +404,11 @@ func sync_from_json(data: Dictionary) -> void:
 	
 	print("LogicBet: Syncing data from JSON snapshot...")
 	
-	# 1. Update Config
+	# 1. Update Config (Protect local-only keys)
 	if data.has("config"):
 		for key in data["config"]:
+			if key == "github_user" or key == "github_repo":
+				continue # Do not overwrite local connection settings
 			set_config(key, str(data["config"][key]))
 	
 	# 2. Update Teams
