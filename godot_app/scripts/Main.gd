@@ -334,8 +334,16 @@ func _refresh_data():
 	if max_preds != "": settings_max_preds_input.value = float(max_preds)
 	if bankroll != "": settings_bankroll_input.value = float(bankroll)
 	
-	github_user_input.text = db_viewer.get_config("github_user") if db_viewer.get_config("github_user") else ""
-	github_repo_input.text = db_viewer.get_config("github_repo") if db_viewer.get_config("github_repo") else ""
+	# Load GitHub settings from a reliable ConfigFile (especially for mobile)
+	var config = ConfigFile.new()
+	var err = config.load("user://settings.cfg")
+	if err == OK:
+		github_user_input.text = config.get_value("github", "user", "")
+		github_repo_input.text = config.get_value("github", "repo", "")
+	else:
+		# Fallback to DB if CFG doesn't exist yet
+		github_user_input.text = db_viewer.get_config("github_user") if db_viewer.get_config("github_user") else ""
+		github_repo_input.text = db_viewer.get_config("github_repo") if db_viewer.get_config("github_repo") else ""
 
 	
 	# Update sync status info
@@ -814,6 +822,13 @@ func _on_delete_bet(bet_id):
 func _on_save_settings():
 	db_viewer.set_config("github_user", github_user_input.text)
 	db_viewer.set_config("github_repo", github_repo_input.text)
+	
+	# Save to a permanent ConfigFile for mobile stability
+	var config = ConfigFile.new()
+	config.set_value("github", "user", github_user_input.text)
+	config.set_value("github", "repo", github_repo_input.text)
+	config.save("user://settings.cfg")
+	
 	db_viewer.set_default_stake(settings_stake_input.value)
 	db_viewer.set_config("max_predictions_per_day", str(settings_max_preds_input.value))
 	db_viewer.set_config("bankroll", str(settings_bankroll_input.value))
