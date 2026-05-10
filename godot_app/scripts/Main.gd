@@ -21,8 +21,9 @@ var stake_input: SpinBox
 var odd_input: SpinBox
 var match_confirm_lbl: Label
 var analysis_popup: Window
-var settings_bank_input: SpinBox
+var settings_max_preds_input: SpinBox
 var settings_stake_input: SpinBox
+var settings_bankroll_input: SpinBox
 var sync_status_lbl: Label
 var search_vbox: VBoxContainer
 var search_input: LineEdit
@@ -273,8 +274,15 @@ func _build_settings() -> MarginContainer:
 	var l = Label.new(); l.text = "⚙️ НАЛАШТУВАННЯ ТРЕКЕРУ"; l.add_theme_font_size_override("font_size", 24); l.add_theme_color_override("font_color", COLOR_GOLD); v.add_child(l)
 	
 	var grid = GridContainer.new(); grid.columns = 2; grid.add_theme_constant_override("h_separation", 30); grid.add_theme_constant_override("v_separation", 20); v.add_child(grid)
-	grid.add_child(_lbl("Банк (грн):", COLOR_TEXT_DIM)); settings_bank_input = SpinBox.new(); settings_bank_input.max_value = 1000000; settings_bank_input.custom_minimum_size.x = 200; grid.add_child(settings_bank_input)
-	grid.add_child(_lbl("Ставка за замовчуванням:", COLOR_TEXT_DIM)); settings_stake_input = SpinBox.new(); settings_stake_input.min_value = 10; settings_stake_input.max_value = 10000; settings_stake_input.custom_minimum_size.x = 200; grid.add_child(settings_stake_input)
+	
+	grid.add_child(_lbl("Ставка за замовчуванням (грн):", COLOR_TEXT_DIM)); 
+	settings_stake_input = SpinBox.new(); settings_stake_input.min_value = 1; settings_stake_input.max_value = 10000; settings_stake_input.step = 1; settings_stake_input.custom_minimum_size.x = 200; grid.add_child(settings_stake_input)
+	
+	grid.add_child(_lbl("Макс. прогнозів на день:", COLOR_TEXT_DIM))
+	settings_max_preds_input = SpinBox.new(); settings_max_preds_input.min_value = 1; settings_max_preds_input.max_value = 50; settings_max_preds_input.custom_minimum_size.x = 200; grid.add_child(settings_max_preds_input)
+	
+	grid.add_child(_lbl("Поточний банкрол ($):", COLOR_TEXT_DIM)); 
+	settings_bankroll_input = SpinBox.new(); settings_bankroll_input.min_value = 10; settings_bankroll_input.max_value = 1000000; settings_bankroll_input.custom_minimum_size.x = 200; grid.add_child(settings_bankroll_input)
 	
 	v.add_child(_lbl("☁️ НАЛАШТУВАННЯ GITHUB (ДЛЯ ТЕЛЕФОНУ)", COLOR_GOLD))
 	var gh_grid = GridContainer.new(); gh_grid.columns = 2; gh_grid.add_theme_constant_override("h_separation", 30); v.add_child(gh_grid)
@@ -317,10 +325,14 @@ func _setup_popups():
 func _refresh_data():
 	if not dash_vbox or not history_vbox: return
 	var bank = db_viewer.get_bankroll()
-	var def_stake = db_viewer.get_default_stake()
+	var _def_stake = db_viewer.get_default_stake()
 	bank_label.text = str(snapped(bank, 0.01)) + " грн"
-	settings_bank_input.value = bank
-	settings_stake_input.value = def_stake
+	
+	settings_stake_input.value = _def_stake
+	var max_preds = db_viewer.get_config("max_predictions_per_day")
+	var bankroll = db_viewer.get_config("bankroll")
+	if max_preds != "": settings_max_preds_input.value = float(max_preds)
+	if bankroll != "": settings_bankroll_input.value = float(bankroll)
 	
 	github_user_input.text = db_viewer.get_config("github_user") if db_viewer.get_config("github_user") else ""
 	github_repo_input.text = db_viewer.get_config("github_repo") if db_viewer.get_config("github_repo") else ""
@@ -398,7 +410,7 @@ func _create_match_card(p) -> PanelContainer:
 	var status_text = "СКОРО БУДЕ"
 	var status_color = COLOR_GOLD
 	
-	if p["status"] == "FT":
+	if p.get("status", "") == "FT":
 		status_text = "ЗАКІНЧИЛАСЯ"
 		status_color = COLOR_TEXT_DIM
 	elif diff > 0 and diff < 7200: # Ongoing for 2 hours
@@ -421,7 +433,7 @@ func _create_match_card(p) -> PanelContainer:
 	card.add_child(hb)
 	
 	var tag_container = Control.new(); tag_container.custom_minimum_size = Vector2(120, 0); hb.add_child(tag_container)
-	var tag_lbl = _lbl(tag + "\n" + status_text, status_color); tag_lbl.set_anchors_and_offsets_preset(Control.PRESET_CENTER_LEFT); tag_container.add_child(tag_lbl)
+	var tag_lbl = _lbl(status_text, status_color); tag_lbl.set_anchors_and_offsets_preset(Control.PRESET_CENTER_LEFT); tag_container.add_child(tag_lbl)
 	
 	var v_info = VBoxContainer.new(); v_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL; v_info.alignment = BoxContainer.ALIGNMENT_CENTER; hb.add_child(v_info)
 	
@@ -802,8 +814,9 @@ func _on_delete_bet(bet_id):
 func _on_save_settings():
 	db_viewer.set_config("github_user", github_user_input.text)
 	db_viewer.set_config("github_repo", github_repo_input.text)
-	db_viewer.set_bankroll(settings_bank_input.value)
 	db_viewer.set_default_stake(settings_stake_input.value)
+	db_viewer.set_config("max_predictions_per_day", str(settings_max_preds_input.value))
+	db_viewer.set_config("bankroll", str(settings_bankroll_input.value))
 	
 	sync_status_lbl.text = "НАЛАШТУВАННЯ ЗБЕРЕЖЕНО ✅"
 	_refresh_data()

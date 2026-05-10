@@ -30,12 +30,17 @@ func _ready() -> void:
 		print("LogicBet: Connected to DB at: ", full_path)
 		# Initialize tables immediately
 		db.query("CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT)")
-		db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL, current_form TEXT, rank INTEGER, points INTEGER, avg_scored REAL, avg_conceded REAL)")
+		db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL DEFAULT 1500.0, attack_rating REAL DEFAULT 1.25, defense_rating REAL DEFAULT 1.25, discipline_rating REAL DEFAULT 2.5, corners_rating REAL DEFAULT 5.0)")
 		db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, red_cards_h INTEGER, red_cards_a INTEGER, shots_on_h INTEGER, shots_on_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL, ht_score_h INTEGER, ht_score_a INTEGER, form_home TEXT, form_away TEXT)")
 		db.query("CREATE TABLE IF NOT EXISTS predictions (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, algorithm TEXT, market TEXT, selection TEXT, calculated_prob REAL, bookmaker_odd REAL, value_percentage REAL, confidence_level TEXT, is_hit INTEGER, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
 		db.query("CREATE TABLE IF NOT EXISTS user_bets (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, selection TEXT, stake REAL, odd REAL, status TEXT DEFAULT 'PENDING', profit REAL DEFAULT 0.0)")
 	else:
 		print("LogicBet ERROR: Could not open DB at: ", full_path)
+
+func get_max_predictions() -> int:
+	var val = get_config("max_predictions_per_day")
+	if val == "" or val == null: return 15 # Default
+	return int(val)
 
 func fetch_predictions() -> Array:
 	if not db: 
@@ -43,36 +48,29 @@ func fetch_predictions() -> Array:
 		return []
 	
 	var sql = """
+	SELECT * FROM (
 		SELECT 
 			m.id as match_id,
-			m.home_team_id,
-			m.away_team_id,
-			t1.name as home_name, 
-			t2.name as away_name, 
-			'MULTI-MARKET' as algorithm,
-			(SELECT GROUP_CONCAT(selection, ' / ') FROM (
-				SELECT selection FROM predictions p2 
-				WHERE p2.match_id = m.id 
-				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
-				LIMIT -1
-			)) as selection, 
-			(SELECT GROUP_CONCAT(calculated_prob, '|') FROM (
-				SELECT calculated_prob FROM predictions p2 
-				WHERE p2.match_id = m.id 
-				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
-				LIMIT -1
-			)) as probabilities, 
-			0.5 as avg_prob, 
-			MAX(p.bookmaker_odd) as bookmaker_odd, 
-			m.league,
 			m.date,
+			m.league,
 			m.status,
 			m.home_score,
 			m.away_score,
+			m.home_team_id,
+			m.away_team_id,
+			t1.name as home_name,
+			t2.name as away_name,
+			t1.elo_rating as h_elo_live,
+			t2.elo_rating as a_elo_live,
 			t1.current_form as form_home,
 			t2.current_form as form_away,
-			t1.elo_rating as h_elo_live,
-			t2.elo_rating as a_elo_live
+			(SELECT GROUP_CONCAT(selection, ' / ') FROM predictions p2 WHERE p2.match_id = m.id ORDER BY p2.calculated_prob DESC) as selection,
+			(SELECT GROUP_CONCAT(calculated_prob, '|') FROM predictions p2 WHERE p2.match_id = m.id ORDER BY p2.calculated_prob DESC) as probabilities,
+			MAX(p.calculated_prob) as calculated_prob,
+			p.algorithm,
+			p.bookmaker_odd,
+			p.value_percentage,
+			((t1.elo_rating + t2.elo_rating) * 0.4 + (MAX(p.calculated_prob) * 1000) * 0.6) as power_score
 		FROM matches m
 		LEFT JOIN teams t1 ON m.home_team_id = t1.id
 		LEFT JOIN teams t2 ON m.away_team_id = t2.id
@@ -80,9 +78,11 @@ func fetch_predictions() -> Array:
 		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'FINISHED', 'FT') 
 		AND m.date > datetime('now', '-6 hours')
 		GROUP BY m.id
-		ORDER BY m.date ASC
-		LIMIT 100
-	"""
+		ORDER BY power_score DESC
+		LIMIT %d
+	)
+	ORDER BY date ASC
+	""" % get_max_predictions()
 	
 	if db.query(sql):
 		return db.query_result
