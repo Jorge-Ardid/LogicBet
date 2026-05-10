@@ -76,7 +76,7 @@ func fetch_predictions() -> Array:
 		LEFT JOIN teams t2 ON m.away_team_id = t2.id
 		LEFT JOIN predictions p ON p.match_id = m.id
 		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'FINISHED', 'FT') 
-		AND m.date > datetime('now', '-6 hours')
+		AND date(m.date) >= date('now', '-10 hours')
 		GROUP BY m.id
 		ORDER BY power_score DESC
 		LIMIT %d
