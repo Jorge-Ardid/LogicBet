@@ -1,8 +1,7 @@
 {
-  "last_updated": "2026-05-10T14:04:07.860442",
+  "last_updated": "2026-05-10T17:29:03.011566",
   "config": {
     "api_requests_left": "100",
-    "bankroll": "1018.3000000000001",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
     "api_key_api_football": "72afa426ab5fb0a7c964261b8b25f977",
     "api_key_network_as_code": "3725c32b04mshb942c2df0e3ab79p18f60djsn14472b9a742",
@@ -13,7 +12,12 @@
     "last_sync_time": "1778411046.9233437",
     "sync_error": "",
     "football_data_requests_left": "9",
-    "api_football_requests_left": "100"
+    "api_football_requests_left": "100",
+    "github_user": "",
+    "github_repo": "",
+    "default_stake": "10.0",
+    "max_predictions_per_day": "10.0",
+    "bankroll": "1000.0"
   },
   "ai_stats": {
     "total": 1655,
@@ -1076,7 +1080,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -9.769949434234832,
       "a_elo_change": 9.769949434234832,
@@ -1114,7 +1118,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 7.410433208165614,
       "a_elo_change": -7.410433208165614,
@@ -1152,7 +1156,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -6.755278094289224,
       "a_elo_change": 6.755278094289224,
