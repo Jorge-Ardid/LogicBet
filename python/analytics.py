@@ -241,13 +241,18 @@ class BettingAnalytics:
                 "def_power": 1.2, 
                 "momentum": 1.0, 
                 "label": "Unknown",
-                "avg_goals": 1.2, 
+                "avg_goals": 1.25, 
                 "avg_goals_ht": 0.5, 
                 "avg_corners": 4.8, 
                 "avg_cards": 1.8, 
                 "avg_shots": 11.0,
                 "team_name": "Unknown"
             }
+            # Database Schema Update:
+            # attack_rating REAL DEFAULT 1.25,
+            # defense_rating REAL DEFAULT 1.25,
+            # discipline_rating REAL DEFAULT 2.5,
+            # corners_rating REAL DEFAULT 5.0,
             return {
                 "home": 0.4, "draw": 0.2, "away": 0.4,
                 "home_elo": 1500, "away_elo": 1500,
@@ -366,22 +371,23 @@ class BettingAnalytics:
         results = []
         
         # 1. Main Winner (1X2 / DC)
-        # Refined Tag Logic
-        selection, prob, tag = "Home", p_h, "СТАТИСТИКА"
+        # Find the outcome with highest probability
+        max_p = max(p_h, p_d, p_a)
+        if max_p == p_h: selection, prob, tag = "Home", p_h, "СТАТИСТИКА"
+        elif max_p == p_a: selection, prob, tag = "Away", p_a, "СТАТИСТИКА"
+        else: selection, prob, tag = "Draw", p_d, "СТАТИСТИКА"
         
-        if p_h >= 0.55: 
+        # Override with special conditions if they are strong enough
+        if p_h >= 0.60: 
             tag = "💎 ЦІННІСТЬ"
-            selection = "Home"
-            prob = p_h
-        elif p_a >= 0.55: 
+            selection, prob = "Home", p_h
+        elif p_a >= 0.60: 
             tag = "🔥 РИЗИК"
-            selection = "Away"
-            prob = p_a
-        elif p_d > 0.35: 
+            selection, prob = "Away", p_a
+        elif p_d > 0.38: 
             tag = "⚖️ ПАРИТЕТ"
-            selection = "Draw"
-            prob = p_d
-        elif abs(p_h - p_a) <= 0.15:
+            selection, prob = "Draw", p_d
+        elif abs(p_h - p_a) <= 0.12:
             if p_h >= p_a: selection, prob, tag = "1X", p_h + p_d, "АНАЛІЗ"
             else: selection, prob, tag = "X2", p_a + p_d, "АНАЛІЗ"
         
