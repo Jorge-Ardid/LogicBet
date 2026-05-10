@@ -8,14 +8,20 @@ var db_path := "user://logicbet.db"
 func _ready() -> void:
 	db = SQLite.new()
 	
-	# MOBILE FIX: On Android/iOS, we must copy the DB from res:// to user:// to make it writable
-	if not FileAccess.file_exists(db_path):
-		var dir = DirAccess.open("user://")
-		var error = dir.copy("res://logicbet.db", db_path)
-		if error == OK:
-			print("LogicBet: Database copied to user:// for writing.")
-		else:
-			print("LogicBet ERROR: Failed to copy database! Code: ", error)
+	# Platform-specific database path
+	if OS.get_name() == "Android" or OS.get_name() == "iOS":
+		db_path = "user://logicbet.db"
+		# Copy from res:// to user:// only if not already present
+		if not FileAccess.file_exists(db_path):
+			var dir = DirAccess.open("user://")
+			var error = dir.copy("res://logicbet.db", db_path)
+			if error == OK:
+				print("LogicBet: Database copied to user:// for mobile writing.")
+			else:
+				print("LogicBet ERROR: Failed to copy database! Code: ", error)
+	else:
+		# On Desktop, use res:// directly so Python updates are visible immediately
+		db_path = "res://logicbet.db"
 	
 	var full_path = ProjectSettings.globalize_path(db_path)
 	db.path = full_path
@@ -68,11 +74,11 @@ func fetch_predictions() -> Array:
 			t1.elo_rating as h_elo_live,
 			t2.elo_rating as a_elo_live
 		FROM matches m
-		JOIN teams t1 ON m.home_team_id = t1.id
-		JOIN teams t2 ON m.away_team_id = t2.id
+		LEFT JOIN teams t1 ON m.home_team_id = t1.id
+		LEFT JOIN teams t2 ON m.away_team_id = t2.id
 		LEFT JOIN predictions p ON p.match_id = m.id
 		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'FINISHED', 'FT') 
-		AND m.date > datetime('now', '-3 hours')
+		AND m.date > datetime('now', '-6 hours')
 		GROUP BY m.id
 		ORDER BY m.date ASC
 		LIMIT 100
