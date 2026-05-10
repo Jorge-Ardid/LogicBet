@@ -53,10 +53,17 @@ class ConfigManager:
         try:
             if os.path.exists(self.config_file):
                 with open(self.config_file, 'r', encoding='utf-8') as f:
-                    self.config = json.load(f)
+                    loaded_config = json.load(f)
+                # Merge loaded config with defaults to ensure all keys exist
+                self.config = self.default_config.copy()
+                for key, value in loaded_config.items():
+                    if isinstance(value, dict) and key in self.config:
+                        self.config[key].update(value)
+                    else:
+                        self.config[key] = value
+            else:
                 self.config = self.default_config.copy()
                 self.save_config()
-                # print statement removed to avoid encoding errors
         except Exception as e:
             print(f"[CONFIG ERROR] Failed to load config: {e}")
             self.config = self.default_config.copy()
@@ -197,7 +204,7 @@ class ConfigManager:
         print("API Keys:")
         for service in ["football_data_org", "api_football"]:
             key = self.get_api_key(service)
-            status = "✅ SET" if self.is_api_key_valid(service) else "❌ NOT SET"
+            status = "[SET]" if self.is_api_key_valid(service) else "[NOT SET]"
             masked = key[:8] + "..." if key and key != "PLACEHOLDER_KEY" else "PLACEHOLDER"
             print(f"  {service}: {status} ({masked})")
         
