@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-22T03:38:20.813506",
+  "last_updated": "2026-05-22T14:38:14.818319",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -14,7 +14,7 @@
     "default_stake": "10.0",
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
-    "last_sync_time": "1779421099.7827675",
+    "last_sync_time": "1779460693.9502618",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100"
@@ -1156,7 +1156,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -10.343760937290426,
       "a_elo_change": 10.343760937290426,
@@ -1194,7 +1194,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -1.1056948598859435,
       "a_elo_change": 1.1056948598859435,
@@ -1232,7 +1232,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 10.57724620515637,
       "a_elo_change": -10.57724620515637,
@@ -45914,7 +45914,7 @@
   ],
   "predictions_history": [
     {
-      "id": 14967,
+      "id": 15384,
       "match_id": 1236,
       "algorithm": "АНАЛІЗ|H_ELO:1489|A_ELO:1536|H_AVG:35.2|A_AVG:35.4|H_TR:Норма|A_TR:Норма|H2H:1",
       "market": "1X2/DC",
@@ -45924,11 +45924,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14968,
+      "id": 15385,
       "match_id": 1236,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -45938,11 +45938,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14969,
+      "id": 15386,
       "match_id": 1236,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -45952,11 +45952,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14970,
+      "id": 15387,
       "match_id": 1236,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -45966,11 +45966,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14971,
+      "id": 15388,
       "match_id": 1236,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -45980,11 +45980,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14972,
+      "id": 15389,
       "match_id": 1236,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -45994,11 +45994,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14973,
+      "id": 15390,
       "match_id": 1236,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46008,11 +46008,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14974,
+      "id": 15391,
       "match_id": 1236,
       "algorithm": "ГОЛИ (1-й ТАЙМ)",
       "market": "1st Half Goals",
@@ -46022,11 +46022,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14975,
+      "id": 15392,
       "match_id": 1236,
       "algorithm": "КАРТКИ",
       "market": "Cards",
@@ -46036,11 +46036,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": null,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-22T18:45:00Z"
     },
     {
-      "id": 14959,
+      "id": 15376,
       "match_id": 1235,
       "algorithm": "СТАТИСТИКА|H_ELO:1489|A_ELO:1436|H_AVG:35.2|A_AVG:35.4|H_TR:Норма|A_TR:Норма|H2H:2",
       "market": "1X2/DC",
@@ -46050,11 +46050,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14960,
+      "id": 15377,
       "match_id": 1235,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -46064,11 +46064,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14961,
+      "id": 15378,
       "match_id": 1235,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -46078,11 +46078,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14962,
+      "id": 15379,
       "match_id": 1235,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46092,11 +46092,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14963,
+      "id": 15380,
       "match_id": 1235,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46106,11 +46106,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14964,
+      "id": 15381,
       "match_id": 1235,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46120,11 +46120,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14965,
+      "id": 15382,
       "match_id": 1235,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46134,11 +46134,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14966,
+      "id": 15383,
       "match_id": 1235,
       "algorithm": "КАРТКИ",
       "market": "Cards",
@@ -46148,11 +46148,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T19:15:00Z"
     },
     {
-      "id": 14950,
+      "id": 15367,
       "match_id": 1234,
       "algorithm": "СТАТИСТИКА|H_ELO:1554|A_ELO:1618|H_AVG:35.5|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:2",
       "market": "1X2/DC",
@@ -46162,11 +46162,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14951,
+      "id": 15368,
       "match_id": 1234,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -46176,11 +46176,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14952,
+      "id": 15369,
       "match_id": 1234,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -46190,11 +46190,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14953,
+      "id": 15370,
       "match_id": 1234,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46204,11 +46204,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14954,
+      "id": 15371,
       "match_id": 1234,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46218,11 +46218,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14955,
+      "id": 15372,
       "match_id": 1234,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46232,11 +46232,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14956,
+      "id": 15373,
       "match_id": 1234,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -46246,11 +46246,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 0,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14957,
+      "id": 15374,
       "match_id": 1234,
       "algorithm": "ГОЛИ (1-й ТАЙМ)",
       "market": "1st Half Goals",
@@ -46260,11 +46260,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     },
     {
-      "id": 14958,
+      "id": 15375,
       "match_id": 1234,
       "algorithm": "КАРТКИ",
       "market": "Cards",
@@ -46274,7 +46274,7 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 1,
-      "created_at": "2026-05-22 03:38:19",
+      "created_at": "2026-05-22 14:38:13",
       "date": "2026-05-19T18:30:00Z"
     }
   ],
