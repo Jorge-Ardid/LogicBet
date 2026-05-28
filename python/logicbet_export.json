@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-28T03:34:26.833517",
+  "last_updated": "2026-05-28T15:54:03.464807",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -14,15 +14,15 @@
     "default_stake": "10.0",
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
-    "last_sync_time": "1779939265.9570217",
+    "last_sync_time": "1779983642.760969",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100"
   },
   "ai_stats": {
     "total": 2648,
-    "hits": 1526,
-    "acc": 57.62839879154078
+    "hits": 1528,
+    "acc": 57.70392749244713
   },
   "matches": [
     {
@@ -451,7 +451,7 @@
       "league_id": 39,
       "home_team_id": 1,
       "away_team_id": 9,
-      "home_score": 1,
+      "home_score": 2,
       "away_score": 2,
       "ht_score_h": 1,
       "ht_score_a": 0,
@@ -479,7 +479,7 @@
       "home_name": "Man City",
       "away_name": "Aston Villa",
       "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ТБ 3.5 / Man City ТБ 0.5 / Man City ТБ 1.5 / Aston Villa ТБ 0.5 / Aston Villa ТБ 1.5 / Картки ТМ 4.5",
-      "ai_hit": "0|1|0|1|0|1|1|0"
+      "ai_hit": "0|1|1|1|1|1|1|0"
     },
     {
       "id": 1254,
@@ -1080,7 +1080,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 5.505959679716398,
       "a_elo_change": -5.505959679716398,
@@ -1118,7 +1118,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 3.901884203255804,
       "a_elo_change": -3.901884203255804,
@@ -2904,7 +2904,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 11.80028890426479,
       "a_elo_change": -11.80028890426479,
