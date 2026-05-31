@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-30T13:28:42.115619",
+  "last_updated": "2026-05-31T03:50:10.247212",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -14,15 +14,15 @@
     "default_stake": "10.0",
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
-    "last_sync_time": "1780147721.2680252",
+    "last_sync_time": "1780199409.4992511",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100"
   },
   "ai_stats": {
-    "total": 2648,
-    "hits": 1526,
-    "acc": 57.62839879154078
+    "total": 2656,
+    "hits": 1532,
+    "acc": 57.68072289156626
   },
   "matches": [
     {
@@ -33,13 +33,13 @@
       "league_id": 2,
       "home_team_id": 61,
       "away_team_id": 4,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 5,
+      "away_score": 4,
+      "ht_score_h": 0,
+      "ht_score_a": 1,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -54,14 +54,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "stats_fetched": 1,
+      "elo_processed": 1,
+      "h_elo_change": 13.07872882038464,
+      "a_elo_change": -13.07872882038464,
       "home_name": "PSG",
       "away_name": "Arsenal",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / ТБ 3.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / Arsenal ТБ 0.5 / Arsenal ТБ 1.5 / ТБ 0.5 (1-й тайм) / Картки ТМ 4.5",
-      "ai_hit": null
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / ТБ 3.5 / PSG ТБ 0.5 / PSG ТБ 1.5 / Arsenal ТБ 0.5 / Arsenal ТБ 1.5 / Картки ТМ 4.5",
+      "ai_hit": "0|1|1|1|1|1|1|0"
     },
     {
       "id": 1265,
@@ -3436,7 +3436,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -7.469633916225803,
       "a_elo_change": 7.469633916225803,
@@ -3474,7 +3474,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 8.65767752344459,
       "a_elo_change": -8.657677523444818,
@@ -47054,21 +47054,21 @@
   ],
   "predictions_history": [
     {
-      "id": 20617,
+      "id": 20778,
       "match_id": 1266,
-      "algorithm": "СТАТИСТИКА|H_ELO:1528|A_ELO:1638|H_AVG:35.4|A_AVG:35.5|H_TR:Норма|A_TR:Хулігани (Bully) 🦁|H2H:0",
+      "algorithm": "АНАЛІЗ|H_ELO:1528|A_ELO:1638|H_AVG:35.6|A_AVG:35.5|H_TR:Вбивця Гігантів 🗡️|A_TR:Хулігани (Bully) 🦁|H2H:1",
       "market": "1X2/DC",
-      "selection": "П2 (Гості)",
-      "calculated_prob": 0.5106546066393461,
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.5772742834846616,
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 0,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20618,
+      "id": 20779,
       "match_id": 1266,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -47077,12 +47077,12 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 1,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20619,
+      "id": 20780,
       "match_id": 1266,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -47091,12 +47091,12 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 1,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20620,
+      "id": 20781,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47105,12 +47105,12 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 1,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20621,
+      "id": 20782,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47119,12 +47119,12 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 1,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20622,
+      "id": 20783,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47133,12 +47133,12 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 1,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20623,
+      "id": 20784,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47147,26 +47147,12 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 1,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20624,
-      "match_id": 1266,
-      "algorithm": "ГОЛИ (1-й ТАЙМ)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1-й тайм)",
-      "calculated_prob": 0.8347011117784134,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
-      "date": "2026-05-30T16:00:00Z"
-    },
-    {
-      "id": 20625,
+      "id": 20785,
       "match_id": 1266,
       "algorithm": "КАРТКИ",
       "market": "Cards",
@@ -47175,8 +47161,8 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
-      "created_at": "2026-05-30 13:28:41",
+      "is_hit": 0,
+      "created_at": "2026-05-31 03:50:09",
       "date": "2026-05-30T16:00:00Z"
     }
   ],
@@ -47208,8 +47194,8 @@
     {
       "id": 4,
       "name": "Arsenal",
-      "elo_rating": 1638.8429975336348,
-      "current_form": "WWWWW",
+      "elo_rating": 1625.7642687132502,
+      "current_form": "WWWWL",
       "rank": 0,
       "points": 0
     },
@@ -47664,8 +47650,8 @@
     {
       "id": 61,
       "name": "PSG",
-      "elo_rating": 1528.29112971845,
-      "current_form": "DDWWL",
+      "elo_rating": 1541.3698585388347,
+      "current_form": "DWWLW",
       "rank": 0,
       "points": 0
     },
