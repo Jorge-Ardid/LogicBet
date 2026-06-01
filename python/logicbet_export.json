@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-31T13:44:19.640476",
+  "last_updated": "2026-06-01T04:02:14.679338",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -14,7 +14,7 @@
     "default_stake": "10.0",
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
-    "last_sync_time": "1780235058.9782596",
+    "last_sync_time": "1780286533.9905171",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100"
@@ -3626,7 +3626,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -13.001755837561404,
       "a_elo_change": 13.001755837561404,
@@ -3664,7 +3664,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -9.9843888567666,
       "a_elo_change": 9.9843888567666,
@@ -3702,7 +3702,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 7.433986620168071,
       "a_elo_change": -7.433986620168071,
@@ -47054,7 +47054,7 @@
   ],
   "predictions_history": [
     {
-      "id": 20937,
+      "id": 20945,
       "match_id": 1266,
       "algorithm": "АНАЛІЗ|H_ELO:1541|A_ELO:1625|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Хулігани (Bully) 🦁|H2H:1",
       "market": "1X2/DC",
@@ -47064,11 +47064,11 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 0,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20938,
+      "id": 20946,
       "match_id": 1266,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -47078,11 +47078,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20939,
+      "id": 20947,
       "match_id": 1266,
       "algorithm": "ГОЛИ",
       "market": "Total Goals",
@@ -47092,11 +47092,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20940,
+      "id": 20948,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47106,11 +47106,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20941,
+      "id": 20949,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47120,11 +47120,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20942,
+      "id": 20950,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47134,11 +47134,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20943,
+      "id": 20951,
       "match_id": 1266,
       "algorithm": "ІНД. ТОТАЛ",
       "market": "Individual Total",
@@ -47148,11 +47148,11 @@
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
       "is_hit": 1,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     },
     {
-      "id": 20944,
+      "id": 20952,
       "match_id": 1266,
       "algorithm": "КАРТКИ",
       "market": "Cards",
@@ -47162,7 +47162,7 @@
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
       "is_hit": 0,
-      "created_at": "2026-05-31 13:44:18",
+      "created_at": "2026-06-01 04:02:13",
       "date": "2026-05-30T16:00:00Z"
     }
   ],
