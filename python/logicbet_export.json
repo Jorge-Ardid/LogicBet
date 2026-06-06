@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-06T03:27:44.652720",
+  "last_updated": "2026-06-06T13:42:15.865296",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -14,7 +14,7 @@
     "default_stake": "10.0",
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
-    "last_sync_time": "1780716463.9467473",
+    "last_sync_time": "1780753335.1776783",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100"
@@ -4994,7 +4994,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 10.805609493966813,
       "a_elo_change": -10.805609493966813,
@@ -5032,7 +5032,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 9.21522926875059,
       "a_elo_change": -9.21522926875059,
@@ -5070,7 +5070,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 8.3984215982357,
       "a_elo_change": -8.3984215982357,
