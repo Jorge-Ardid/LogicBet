@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-10T01:43:46.166381",
+  "last_updated": "2026-08-10T13:05:21.468350",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -25666,7 +25666,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 10.379800620596143,
       "a_elo_change": -10.379800620596143,
@@ -25704,7 +25704,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -9.80768961981289,
       "a_elo_change": 9.80768961981289,
@@ -25742,7 +25742,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -3.5409897022079804,
       "a_elo_change": 3.5409897022079804,
