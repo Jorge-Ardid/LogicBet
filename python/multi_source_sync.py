@@ -188,8 +188,8 @@ class MultiSourceSyncEngine:
         print("\n=== MULTI-SOURCE SYNC ENGINE ===")
         print(f"Target leagues: {target_leagues}")
         
-        # Determine date range - Reduce to 7 days to avoid 400 errors with Football-Data.org
-        date_from = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+        # Determine date range - 10 days back to catch up on missed matches during cooldown
+        date_from = (datetime.now() - timedelta(days=10)).strftime("%Y-%m-%d")
         date_to = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
         
         # === STRATEGY: Single batch request for all dates ===
@@ -342,18 +342,18 @@ class MultiSourceSyncEngine:
                     ht_a=normalized.get('ht_score_a')
                 )
                 
-                # Generate predictions
-                preds = self.analytics.determine_predictions(match_id, home_id, away_id, None, "", "")
-                
-                # Update predictions
+                # Generate predictions ONLY if this match doesn't have predictions yet (preserves pre-match predictions)
                 with self.db.get_connection() as conn:
-                    conn.execute("DELETE FROM predictions WHERE match_id = ?", (match_id,))
-                for p in preds:
-                    self.db.insert_prediction(
-                        p['match_id'], p['algorithm'], p['market'], 
-                        p['selection'], p['calculated_prob'], p['bookmaker_odd'], 
-                        p['value_percentage'], p['confidence_level']
-                    )
+                    existing_preds = conn.execute("SELECT COUNT(*) FROM predictions WHERE match_id = ?", (match_id,)).fetchone()[0]
+                
+                if existing_preds == 0:
+                    preds = self.analytics.determine_predictions(match_id, home_id, away_id, None, "", "")
+                    for p in preds:
+                        self.db.insert_prediction(
+                            p['match_id'], p['algorithm'], p['market'], 
+                            p['selection'], p['calculated_prob'], p['bookmaker_odd'], 
+                            p['value_percentage'], p['confidence_level']
+                        )
                 
                 processed += 1
                 print(f"  ✅ Processed: {normalized['home_team']} vs {normalized['away_team']}")
@@ -426,16 +426,20 @@ class MultiSourceSyncEngine:
 
 
     def _cleanup_stale_matches(self):
-        """Finds old NS/TIMED matches and marks them as FINISHED to clean up UI"""
+        """Finds old NS/TIMED matches that were never updated and marks them as CANCELLED (not FINISHED)
+        so they don't pollute stats or predictions with null scores."""
         print("[DATABASE] Cleaning up stale matches...")
-        cutoff = (datetime.now() - timedelta(hours=24)).strftime("%Y-%m-%d %H:%M:%S")
+        # Use 48h cutoff to avoid race conditions with late-updated matches
+        cutoff = (datetime.now() - timedelta(hours=48)).strftime("%Y-%m-%d %H:%M:%S")
         with self.db.get_connection() as conn:
             cursor = conn.cursor()
+            # Mark as CANCELLED (not FINISHED) - these have NULL scores and should not be used in analytics
             cursor.execute("""
                 UPDATE matches 
-                SET status = 'FINISHED' 
+                SET status = 'CANCELLED' 
                 WHERE status IN ('NS', 'TIMED', 'SCHEDULED', 'TBD') 
                 AND date < ?
+                AND home_score IS NULL
             """, (cutoff,))
             # --- Remove ghost/duplicate matches ---
             # Find matches where same home+away teams play on the same date

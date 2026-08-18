@@ -12,6 +12,7 @@ from config_manager import ConfigManager
 from datetime import datetime, timedelta
 import sqlite3
 import json
+from blackbox_archive import BlackboxArchive
 import os
 import sys
 
@@ -43,6 +44,8 @@ def export_to_json(db):
                 JOIN teams t1 ON m.home_team_id = t1.id
                 JOIN teams t2 ON m.away_team_id = t2.id
                 WHERE DATE(m.date) >= DATE('now', '-365 days')
+                  AND m.status != 'CANCELLED'
+                  AND (m.status NOT IN ('FT', 'FINISHED', 'AET', 'PEN') OR (m.home_score IS NOT NULL AND m.away_score IS NOT NULL))
                 GROUP BY m.id
                 ORDER BY m.date DESC
             """
@@ -172,6 +175,7 @@ def recalculate_elo_from_history(db, analytics):
             SELECT id, home_team_id, away_team_id, home_score, away_score 
             FROM matches 
             WHERE status IN ('FT', 'AET', 'PEN', 'FINISHED') AND elo_processed = 0
+            AND home_score IS NOT NULL AND away_score IS NOT NULL
             ORDER BY date ASC
         """
         matches = conn.execute(query).fetchall()
@@ -202,12 +206,14 @@ def recalculate_elo_from_history(db, analytics):
                     SELECT home_score, away_score, home_team_id 
                     FROM matches 
                     WHERE (home_team_id = ? OR away_team_id = ?) AND status IN ('FT', 'FINISHED')
+                    AND home_score IS NOT NULL AND away_score IS NOT NULL
                     ORDER BY date DESC LIMIT 5
                 """
                 hist = conn.execute(form_query, (t_id, t_id)).fetchall()
                 form_str = ""
                 for h in reversed(hist): # W: Winner, D: Draw, L: Loser
                     hs, ascores, h_team = h
+                    if hs is None or ascores is None: continue
                     is_h = (h_team == t_id)
                     my_s = hs if is_h else ascores
                     op_s = ascores if is_h else hs
@@ -329,7 +335,10 @@ def evaluate_virtual_bets(db):
         query = """
             SELECT p.id, p.selection, m.home_score, m.away_score, 
                    t1.name as h_name, t2.name as a_name,
-                   m.ht_score_h, m.ht_score_a
+                   m.ht_score_h, m.ht_score_a,
+                   m.corners_h, m.corners_a,
+                   m.yellow_cards_h, m.yellow_cards_a,
+                   m.red_cards_h, m.red_cards_a
             FROM predictions p
             JOIN matches m ON p.match_id = m.id
             JOIN teams t1 ON m.home_team_id = t1.id
@@ -340,54 +349,84 @@ def evaluate_virtual_bets(db):
         
         evaluated = 0
         hits = 0
-        for p_id, sel, hs, as_t, h_name, a_name, hth, hta in preds:
+        for p_id, sel, hs, as_t, h_name, a_name, hth, hta, ch, ca, yh, ya, rh, ra in preds:
             if hs is None or as_t is None: continue
             
             is_hit = 0
             # Normalize selection string for matching
-            s = sel.upper()
-            h_n = h_name.upper()
-            a_n = a_name.upper()
+            s = sel.upper().strip()
+            h_n = h_name.upper().strip()
+            a_n = a_name.upper().strip()
             
-            if "1-Й ТАЙМ" in s:
-                if hth is None or hta is None: continue # Skip if no HT data
+            # --- 1. Half-Time Goals ---
+            if "1-Й ТАЙМ" in s or "1-Й Т" in s or "1-Й" in s:
+                if hth is None or hta is None: continue # Skip if no HT data yet
                 total_ht = hth + hta
                 if "ТБ 0.5" in s: is_hit = 1 if total_ht > 0.5 else 0
                 elif "ТМ 0.5" in s: is_hit = 1 if total_ht < 0.5 else 0
-                # Add more HT markets if needed
-            elif h_n in s and ("ТБ" in s or "ТМ" in s):
-                threshold = 0.5
-                if "1.5" in s: threshold = 1.5
-                if "ТБ" in s: is_hit = 1 if hs > threshold else 0
-                else: is_hit = 1 if hs < threshold else 0
-            elif a_n in s and ("ТБ" in s or "ТМ" in s):
-                threshold = 0.5
-                if "1.5" in s: threshold = 1.5
-                if "ТБ" in s: is_hit = 1 if as_t > threshold else 0
-                else: is_hit = 1 if as_t < threshold else 0
+                elif "ТБ 1.5" in s: is_hit = 1 if total_ht > 1.5 else 0
+                elif "ТМ 1.5" in s: is_hit = 1 if total_ht < 1.5 else 0
+                
+            # --- 2. Corners ---
+            elif "КУТОВ" in s:
+                if ch is None or ca is None: continue # Skip if no corner data
+                tot_c = ch + ca
+                threshold = 9.5
+                if "8.5" in s: threshold = 8.5
+                elif "9.5" in s: threshold = 9.5
+                elif "10.5" in s: threshold = 10.5
+                if "ТБ" in s: is_hit = 1 if tot_c > threshold else 0
+                else: is_hit = 1 if tot_c < threshold else 0
+                
+            # --- 3. Cards ---
+            elif "КАРТК" in s:
+                if yh is None or ya is None: continue # Skip if no card data
+                tot_cards = yh + ya + (rh or 0) + (ra or 0)
+                threshold = 4.5
+                if "3.5" in s: threshold = 3.5
+                elif "4.5" in s: threshold = 4.5
+                elif "5.5" in s: threshold = 5.5
+                if "ТБ" in s: is_hit = 1 if tot_cards > threshold else 0
+                else: is_hit = 1 if tot_cards < threshold else 0
+                
+            # --- 4. Individual Team Totals ---
+            elif ("ТБ" in s or "ТМ" in s) and (h_n in s or a_n in s):
+                threshold = 1.5 if "1.5" in s else 0.5
+                is_h_team = (h_n in s)
+                team_score = hs if is_h_team else as_t
+                if "ТБ" in s: is_hit = 1 if team_score > threshold else 0
+                else: is_hit = 1 if team_score < threshold else 0
+                
+            # --- 5. Double Chance (MUST BE CHECKED BEFORE DRAW / 1X2) ---
+            elif "1X" in s or "1Х" in s or "1 X" in s or "1 Х" in s:
+                is_hit = 1 if hs >= as_t else 0
+            elif "X2" in s or "Х2" in s or "X 2" in s or "Х 2" in s:
+                is_hit = 1 if as_t >= hs else 0
+            elif "12" in s or "1 2" in s:
+                is_hit = 1 if hs != as_t else 0
+                
+            # --- 6. Main 1X2 Winners ---
             elif "П1" in s or "HOME" in s:
                 is_hit = 1 if hs > as_t else 0
             elif "П2" in s or "AWAY" in s:
                 is_hit = 1 if as_t > hs else 0
-            elif "X (" in s or "НІЧИЯ" in s or s == "DRAW" or " X" in s:
+            elif "НІЧИЯ" in s or s == "DRAW" or s.startswith("X (") or s.startswith("Х (") or s.startswith("X ") or s.startswith("Х ") or s == "X" or s == "Х":
                 is_hit = 1 if hs == as_t else 0
-            elif "1X" in s or "1 X" in s:
-                is_hit = 1 if hs >= as_t else 0
-            elif "X2" in s or "X 2" in s:
-                is_hit = 1 if as_t >= hs else 0
+                
+            # --- 7. Full Match Total Goals ---
             elif "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s or "ТОТАЛ Б" in s:
-                # Extract number if possible, or default to 2.5
                 threshold = 2.5
                 if "1.5" in s: threshold = 1.5
                 elif "0.5" in s: threshold = 0.5
                 elif "3.5" in s: threshold = 3.5
                 elif "4.5" in s: threshold = 4.5
-                elif "8.5" in s: threshold = 8.5
                 is_hit = 1 if (hs + as_t) > threshold else 0
             elif "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s or "ТОТАЛ М" in s:
                 threshold = 2.5
                 if "1.5" in s: threshold = 1.5
                 elif "0.5" in s: threshold = 0.5
+                elif "3.5" in s: threshold = 3.5
+                elif "4.5" in s: threshold = 4.5
                 is_hit = 1 if (hs + as_t) < threshold else 0
                 
             cursor.execute("UPDATE predictions SET is_hit = ? WHERE id = ?", (is_hit, p_id))
@@ -443,6 +482,21 @@ def heal_database(db, conn):
             print(f"  [HEAL] Merged team ID {old_id} into {new_id} ('{t_name}' -> '{norm_name}')")
         else:
             canonical_teams[norm_name] = t_id
+
+    # --- Clean up ghost matches marked FINISHED without scores ---
+    cursor.execute("""
+        UPDATE matches 
+        SET status = 'CANCELLED' 
+        WHERE status IN ('FT', 'FINISHED', 'AET', 'PEN') 
+          AND (home_score IS NULL OR away_score IS NULL)
+    """)
+    cursor.execute("""
+        UPDATE predictions 
+        SET is_hit = NULL 
+        WHERE match_id IN (
+            SELECT id FROM matches WHERE status = 'CANCELLED' OR home_score IS NULL OR away_score IS NULL
+        )
+    """)
 
     # --- NEW: Delete Duplicate Matches ---
     # Find matches with same teams and same date
@@ -506,38 +560,44 @@ def evaluate_user_bets(db):
             a_n = a_name.upper()
             
             # Reusing the hit detection logic from evaluate_virtual_bets
-            if "1-Й ТАЙМ" in s:
+            if "1-Й ТАЙМ" in s or "1-Й Т" in s or "1-Й" in s:
                 if hth is not None and hta is not None:
                     total_ht = hth + hta
                     if "ТБ 0.5" in s: is_hit = total_ht > 0.5
                     elif "ТМ 0.5" in s: is_hit = total_ht < 0.5
-            elif h_n in s and ("ТБ" in s or "ТМ" in s):
+                    elif "ТБ 1.5" in s: is_hit = total_ht > 1.5
+                    elif "ТМ 1.5" in s: is_hit = total_ht < 1.5
+            elif ("ТБ" in s or "ТМ" in s) and (h_n in s or a_n in s):
                 threshold = 1.5 if "1.5" in s else 0.5
-                if "ТБ" in s: is_hit = hs > threshold
-                else: is_hit = hs < threshold
-            elif a_n in s and ("ТБ" in s or "ТМ" in s):
-                threshold = 1.5 if "1.5" in s else 0.5
-                if "ТБ" in s: is_hit = as_t > threshold
-                else: is_hit = as_t < threshold
+                is_h_team = (h_n in s)
+                team_score = hs if is_h_team else as_t
+                if "ТБ" in s: is_hit = team_score > threshold
+                else: is_hit = team_score < threshold
+            elif "1X" in s or "1Х" in s or "1 X" in s or "1 Х" in s:
+                is_hit = hs >= as_t
+            elif "X2" in s or "Х2" in s or "X 2" in s or "Х 2" in s:
+                is_hit = as_t >= hs
+            elif "12" in s or "1 2" in s:
+                is_hit = hs != as_t
             elif "П1" in s or "HOME" in s:
                 is_hit = hs > as_t
             elif "П2" in s or "AWAY" in s:
                 is_hit = as_t > hs
-            elif "X (" in s or "НІЧИЯ" in s or s == "DRAW" or " X" in s:
+            elif "НІЧИЯ" in s or s == "DRAW" or s.startswith("X (") or s.startswith("Х (") or s.startswith("X ") or s.startswith("Х ") or s == "X" or s == "Х":
                 is_hit = hs == as_t
-            elif "1X" in s or "1 X" in s:
-                is_hit = hs >= as_t
-            elif "X2" in s or "X 2" in s:
-                is_hit = as_t >= hs
-            elif "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s:
+            elif "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s or "ТОТАЛ Б" in s:
                 threshold = 2.5
                 if "1.5" in s: threshold = 1.5
+                elif "0.5" in s: threshold = 0.5
                 elif "3.5" in s: threshold = 3.5
-                elif "8.5" in s: threshold = 8.5
+                elif "4.5" in s: threshold = 4.5
                 is_hit = (hs + as_t) > threshold
-            elif "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s:
+            elif "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s or "ТОТАЛ М" in s:
                 threshold = 2.5
                 if "1.5" in s: threshold = 1.5
+                elif "0.5" in s: threshold = 0.5
+                elif "3.5" in s: threshold = 3.5
+                elif "4.5" in s: threshold = 4.5
                 is_hit = (hs + as_t) < threshold
                 
             if is_hit:
@@ -786,6 +846,10 @@ if __name__ == "__main__":
         multi_engine.print_status()
         
         
+        # Initialize Blackbox Archive (Permanent backup)
+        blackbox = BlackboxArchive()
+        blackbox.restore_from_blackbox(db)
+        
         try:
             # Run multi-source sync (may be skipped by cooldown)
             success = multi_engine.run_full_sync(force_sync=force_sync)
@@ -808,6 +872,9 @@ if __name__ == "__main__":
             
             # --- SHOW MATCH STATISTICS ---
             show_recent_matches_statistics(db)
+            
+            # --- BACKUP TO BLACKBOX ARCHIVE ---
+            blackbox.sync_to_blackbox(db)
             
             # --- EXPORT DATA FOR MOBILE ---
             export_to_json(db)

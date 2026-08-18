@@ -166,8 +166,19 @@ class ConfigManager:
             print(f"[CONFIG ERROR] Failed to store to DB: {e}")
 
     def load_from_db(self):
-        """Load config values from database"""
+        """Load config values from database and environment variables"""
         try:
+            # Check environment variables first (e.g. from GitHub Actions secrets)
+            env_fd = os.environ.get("FOOTBALL_DATA_KEY") or os.environ.get("FOOTBALL_DATA_ORG_KEY")
+            if env_fd and env_fd.strip():
+                self.set_api_key("football_data_org", env_fd.strip())
+                self.db.set_config("api_key_football_data_org", env_fd.strip())
+
+            env_af = os.environ.get("API_FOOTBALL_KEY")
+            if env_af and env_af.strip():
+                self.set_api_key("api_football", env_af.strip())
+                self.db.set_config("api_key_api_football", env_af.strip())
+
             # Load API keys from database
             for service in ["football_data_org", "api_football", "rapidapi_generic", "network_as_code"]:
                 db_key = self.db.get_config(f"api_key_{service}")

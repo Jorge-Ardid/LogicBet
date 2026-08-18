@@ -20,10 +20,36 @@ class BettingAnalytics:
             "La Liga": "Ла Ліга (Іспанія)",
             "Bundesliga": "Бундесліга (Німеччина)",
             "Serie A": "Серія А (Італія)",
-            "Ligue 1": "Ліга 1 (Франція)"
+            "Ligue 1": "Ліга 1 (Франція)",
+            "OVER": "ТБ",
+            "UNDER": "ТМ",
+            "GOALS (AI)": "ГОЛИ (AI)",
+            "INDIVIDUAL TOTAL (AI)": "ІНД. ТОТАЛ (AI)",
+            "GOALS (1ST HALF)": "ГОЛИ (1-й ТАЙМ)",
+            "CORNERS (AI+)": "КУТОВІ (AI+)",
+            "CARDS (AI)": "КАРТКИ (AI)",
+            "STATISTICS": "СТАТИСТИКА",
+            "VALUE": "💎 ЦІННІСТЬ",
+            "RISK": "🔥 РИЗИК",
+            "PARITY": "⚖️ ПАРИТЕТ",
+            "ANALYSIS": "АНАЛІЗ",
+            "H2H": "📊 H2H"
         }
 
     def translate(self, text):
+        # Handle OVER/UNDER translation in selection strings
+        if "OVER" in text:
+            text = text.replace("OVER", "ТБ")
+        elif "UNDER" in text:
+            text = text.replace("UNDER", "ТМ")
+        elif "1st half" in text:
+            text = text.replace("1st half", "1-й тайм")
+        elif "Corners" in text:
+            text = text.replace("Corners", "Кутові")
+        elif "Cards" in text:
+            text = text.replace("Cards", "Картки")
+        
+        # Apply dictionary for other terms
         return self.uk_dict.get(text, text)
 
     def calculate_elo_probability(self, elo_a, elo_b):
@@ -31,8 +57,9 @@ class BettingAnalytics:
         expected_a = 1.0 / (1.0 + 10 ** exponent)
         return expected_a
 
-    def calculate_local_trends(self, team_id):
-        """Calculates form using a blend of Season Averages and Recent Matches."""
+    def calculate_local_trends(self, team_id, match_id=None, match_date=None):
+        """Calculates form using a blend of Season Averages and Recent Matches.
+        Excludes the match being predicted to prevent data leakage/hindsight bias."""
         with self.db.get_connection() as conn:
             # 1. Get Season Averages (Baseline from Standings)
             team_data = conn.execute("SELECT name, attack_rating, defense_rating, elo_rating FROM teams WHERE id = ?", (team_id,)).fetchone()
@@ -41,8 +68,17 @@ class BettingAnalytics:
             season_def = team_data[2] if team_data and team_data[2] else 1.2
             my_elo = team_data[3] if team_data and team_data[3] else 1500.0
             
-            # 2. Get Recent Match Form (Last 5 played matches in local DB)
-            query = """
+            # 2. Get Recent Match Form (Last 5 played matches strictly BEFORE this match)
+            params = [team_id, team_id]
+            extra_where = ""
+            if match_id is not None:
+                extra_where += " AND m.id != ?"
+                params.append(match_id)
+            if match_date is not None:
+                extra_where += " AND m.date < ?"
+                params.append(match_date)
+                
+            query = f"""
                 SELECT m.home_score, m.away_score, m.home_team_id, 
                        (CASE WHEN m.home_team_id = ? THEN t2.elo_rating ELSE t1.elo_rating END) as opp_elo,
                        m.xg_h, m.xg_a, m.corners_h, m.corners_a, m.yellow_cards_h, m.yellow_cards_a, m.shots_on_h, m.shots_on_a,
@@ -52,9 +88,11 @@ class BettingAnalytics:
                 JOIN teams t2 ON m.away_team_id = t2.id
                 WHERE (m.home_team_id = ? OR m.away_team_id = ?) 
                 AND m.status IN ('FT', 'AET', 'PEN', 'FINISHED')
+                AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
+                {extra_where}
                 ORDER BY m.date DESC LIMIT 5
             """
-            matches = conn.execute(query, (team_id, team_id, team_id)).fetchall()
+            matches = conn.execute(query, tuple([team_id] + params)).fetchall()
         
         if not matches:
             # Fallback to pure Season Averages
@@ -67,10 +105,29 @@ class BettingAnalytics:
                 "avg_goals": season_atk,
                 "avg_goals_ht": season_atk * 0.45,
                 "avg_corners": 9.5,
+                "avg_corners_conceded": 4.8,
                 "avg_cards": 4.5,
                 "avg_shots": 12.0
             }
             
+        # Filter out matches with null scores (e.g. NS matches auto-closed as FINISHED)
+        matches = [m for m in matches if m[0] is not None and m[1] is not None]
+        
+        if not matches:
+            return {
+                "team_name": t_name,
+                "atk_power": season_atk,
+                "def_power": season_def,
+                "momentum": 1.0,
+                "label": "Новачок 🆕",
+                "avg_goals": season_atk,
+                "avg_goals_ht": season_atk * 0.45,
+                "avg_corners": 9.5,
+                "avg_corners_conceded": 4.8,
+                "avg_cards": 4.5,
+                "avg_shots": 12.0
+            }
+
         recent_goals = []
         weighted_points = 0.0
         total_weight = 0.0
@@ -177,32 +234,57 @@ class BettingAnalytics:
         }
 
 
-    def _calculate_home_away_factor(self, home_id, away_id):
+    def _calculate_home_away_factor(self, home_id, away_id, match_id=None, match_date=None):
         base_bonus = 50.0
         
+        params_h = [home_id]
+        extra_h = ""
+        if match_id is not None:
+            extra_h += " AND id != ?"
+            params_h.append(match_id)
+        if match_date is not None:
+            extra_h += " AND date < ?"
+            params_h.append(match_date)
+            
+        params_a = [away_id]
+        extra_a = ""
+        if match_id is not None:
+            extra_a += " AND id != ?"
+            params_a.append(match_id)
+        if match_date is not None:
+            extra_a += " AND date < ?"
+            params_a.append(match_date)
+
         with self.db.get_connection() as conn:
-            # Get last 10 HOME matches for home team
-            h_matches = conn.execute("""
+            # Get last 10 HOME matches for home team strictly before this match
+            h_matches = conn.execute(f"""
                 SELECT home_score, away_score 
                 FROM matches 
                 WHERE home_team_id = ? AND status IN ('FT', 'AET', 'PEN', 'FINISHED')
+                AND home_score IS NOT NULL AND away_score IS NOT NULL
+                {extra_h}
                 ORDER BY date DESC LIMIT 10
-            """, (home_id,)).fetchall()
+            """, tuple(params_h)).fetchall()
             
-            # Get last 10 AWAY matches for away team
-            a_matches = conn.execute("""
+            # Get last 10 AWAY matches for away team strictly before this match
+            a_matches = conn.execute(f"""
                 SELECT home_score, away_score 
                 FROM matches 
                 WHERE away_team_id = ? AND status IN ('FT', 'AET', 'PEN', 'FINISHED')
+                AND home_score IS NOT NULL AND away_score IS NOT NULL
+                {extra_a}
                 ORDER BY date DESC LIMIT 10
-            """, (away_id,)).fetchall()
+            """, tuple(params_a)).fetchall()
             
+        # Filter out matches with NULL scores (NS matches that were auto-closed)
+        h_matches = [m for m in h_matches if m[0] is not None and m[1] is not None]
+        a_matches = [m for m in a_matches if m[0] is not None and m[1] is not None]
+
         h_pts = 0.0
         if h_matches:
             for m in h_matches:
-                if m[0] is not None and m[1] is not None:
-                    if m[0] > m[1]: h_pts += 1.0
-                    elif m[0] == m[1]: h_pts += 0.5
+                if m[0] > m[1]: h_pts += 1.0
+                elif m[0] == m[1]: h_pts += 0.5
             h_winrate = h_pts / len(h_matches) if len(h_matches) > 0 else 0.5
         else:
             h_winrate = 0.5
@@ -210,9 +292,8 @@ class BettingAnalytics:
         a_pts = 0.0
         if a_matches:
             for m in a_matches:
-                if m[0] is not None and m[1] is not None:
-                    if m[1] > m[0]: a_pts += 1.0
-                    elif m[1] == m[0]: a_pts += 0.5
+                if m[1] > m[0]: a_pts += 1.0
+                elif m[1] == m[0]: a_pts += 0.5
             a_winrate = a_pts / len(a_matches) if len(a_matches) > 0 else 0.3
         else:
             a_winrate = 0.3
@@ -230,7 +311,7 @@ class BettingAnalytics:
         # Clamp between 0 and 110
         return max(0.0, min(110.0, final_bonus))
 
-    def calculate_win_probabilities(self, home_id, away_id, home_form="", away_form=""):
+    def calculate_win_probabilities(self, home_id, away_id, home_form="", away_form="", match_id=None, match_date=None):
         with self.db.get_connection() as conn:
             h_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (home_id,)).fetchone()
             a_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (away_id,)).fetchone()
@@ -248,11 +329,6 @@ class BettingAnalytics:
                 "avg_shots": 11.0,
                 "team_name": "Unknown"
             }
-            # Database Schema Update:
-            # attack_rating REAL DEFAULT 1.25,
-            # defense_rating REAL DEFAULT 1.25,
-            # discipline_rating REAL DEFAULT 2.5,
-            # corners_rating REAL DEFAULT 5.0,
             return {
                 "home": 0.4, "draw": 0.2, "away": 0.4,
                 "home_elo": 1500, "away_elo": 1500,
@@ -264,13 +340,13 @@ class BettingAnalytics:
         home_elo = h_data[0]
         away_elo = a_data[0]
 
-        # Dynamic Home Advantage
-        home_bonus = self._calculate_home_away_factor(home_id, away_id)
+        # Dynamic Home Advantage (without leakage)
+        home_bonus = self._calculate_home_away_factor(home_id, away_id, match_id=match_id, match_date=match_date)
         win_prob = self.calculate_elo_probability(home_elo + home_bonus, away_elo)
         
-        # Hybrid Trends
-        h_trend = self.calculate_local_trends(home_id)
-        a_trend = self.calculate_local_trends(away_id)
+        # Hybrid Trends (without leakage)
+        h_trend = self.calculate_local_trends(home_id, match_id=match_id, match_date=match_date)
+        a_trend = self.calculate_local_trends(away_id, match_id=match_id, match_date=match_date)
         
         # Calculate Multipliers (Scale productivity: 1.2 is baseline)
         h_mult = 1.0 + (h_trend['atk_power'] - 1.2) * 0.2
@@ -355,6 +431,104 @@ class BettingAnalytics:
             prob_under_eq += self._poisson_pmf(k, lmb)
         return 1.0 - prob_under_eq
 
+    def _calculate_optimal_total(self, expected_value, market_name="Total Goals"):
+        """
+        Знаходить оптимальний варіант тоталу (ТБ або ТМ) на основі очікуваного значення.
+        Розглядає варіанти відповідно до типу ринку і обирає найкращий баланс між ймовірністю та потенційним коефіцієнтом.
+        Тепер враховує "цінність ставки" - баланс між ризиком та винагородою.
+        """
+        # Визначаємо пороги залежно від типу ринку
+        if "Corners" in market_name:
+            thresholds = [7.5, 8.5, 9.5, 10.5, 11.5]
+            balance_range = (8.5, 10.5)
+        elif "Cards" in market_name:
+            thresholds = [2.5, 3.5, 4.5, 5.5, 6.5]
+            balance_range = (3.5, 5.5)
+        elif "1st Half" in market_name:
+            thresholds = [0.5, 1.5, 2.5]
+            balance_range = (0.5, 1.5)
+        elif "Individual" in market_name:  # Individual Team Totals - інші правила
+            thresholds = [0.5, 1.5, 2.5, 3.5]
+            balance_range = (1.5, 2.5)  # для індивідуальних тоталів 1.5-2.5 це норма
+        else:  # Total Goals
+            thresholds = [0.5, 1.5, 2.5, 3.5, 4.5]
+            balance_range = (2.0, 3.0)
+        
+        best_option = None
+        best_score = -1
+        
+        for threshold in thresholds:
+            # Ймовірність ТБ
+            prob_over = self._poisson_over(expected_value, threshold)
+            # Ймовірність ТМ
+            prob_under = 1.0 - prob_over
+            
+            # Оцінюємо "цінність" варіанту з точки зору беттора:
+            # - чим вищий коефіцієнт (нижча ймовірність), тим вища потенційна винагорода
+            # - але ймовірність має бути достатньо високою для надійності
+            
+            # For OVER: higher total = higher odds, but lower probability
+            if prob_over > 0.55:  # minimum probability
+                # Сильний штраф за занадто безпечні варіанти (екстремально низькі тотали)
+                if threshold <= min(thresholds):  # найнижчі пороги
+                    # Для індивідуальних тоталів менший штраф за 0.5, бо це нормальний варіант
+                    if "Individual" in market_name:
+                        safety_penalty = max(0, (0.95 - prob_over) * 3)  # менший штраф
+                    else:
+                        safety_penalty = max(0, (0.90 - prob_over) * 5)  # дуже сильний штраф
+                elif threshold <= min(thresholds) + 1.0:  # другі найнижчі пороги
+                    safety_penalty = max(0, (0.85 - prob_over) * 2)  # зменшений штраф
+                else:
+                    safety_penalty = 0
+                
+                # Бонус за збалансований варіант (оптимальний ризик/винагорода)
+                balance_bonus = 0.5 if balance_range[0] <= threshold <= balance_range[1] else 0
+                
+                # Бонус за "розумний ризик" - якщо ймовірність в діапазоні 0.60-0.75
+                smart_risk_bonus = 0.3 if 0.60 <= prob_over <= 0.75 else 0
+                
+                # Штраф за занадто високу ймовірність (надзвичайно безпечно)
+                high_prob_penalty = 0.4 if prob_over > 0.85 else 0
+                
+                score_over = prob_over - safety_penalty + balance_bonus + smart_risk_bonus - high_prob_penalty
+                if score_over > best_score:
+                    best_score = score_over
+                    best_option = {
+                        "selection": f"OVER {threshold}",
+                        "prob": prob_over,
+                        "type": "OVER"
+                    }
+            
+            # For UNDER: lower total = higher odds, but lower probability
+            if prob_under > 0.55:  # minimum probability
+                # Сильний штраф за занадто безпечні варіанти (екстремально високі тотали)
+                if threshold >= max(thresholds):  # найвищі пороги
+                    safety_penalty = max(0, (0.90 - prob_under) * 5)  # дуже сильний штраф
+                elif threshold >= max(thresholds) - 1.0:  # другі найвищі пороги
+                    safety_penalty = max(0, (0.85 - prob_under) * 3)
+                else:
+                    safety_penalty = 0
+                
+                # Бонус за збалансований варіант
+                balance_bonus = 0.5 if balance_range[0] <= threshold <= balance_range[1] else 0
+                
+                # Бонус за "розумний ризик"
+                smart_risk_bonus = 0.3 if 0.60 <= prob_under <= 0.75 else 0
+                
+                # Штраф за занадто високу ймовірність
+                high_prob_penalty = 0.4 if prob_under > 0.85 else 0
+                
+                score_under = prob_under - safety_penalty + balance_bonus + smart_risk_bonus - high_prob_penalty
+                if score_under > best_score:
+                    best_score = score_under
+                    best_option = {
+                        "selection": f"UNDER {threshold}",
+                        "prob": prob_under,
+                        "type": "UNDER"
+                    }
+        
+        return best_option
+
     def update_elo(self, elo_a, elo_b, score_a, score_b, k_factor=20):
         expected_a = self.calculate_elo_probability(elo_a, elo_b)
         actual_a = 1.0 if score_a > score_b else (0.5 if score_a == score_b else 0.0)
@@ -363,7 +537,13 @@ class BettingAnalytics:
         return new_elo_a, new_elo_b
 
     def determine_predictions(self, match_id, home_id, away_id, bookmaker_odds_data, h_form="", a_form=""):
-        probs = self.calculate_win_probabilities(home_id, away_id, h_form, a_form)
+        match_date = None
+        if match_id is not None:
+            with self.db.get_connection() as conn:
+                row = conn.execute("SELECT date FROM matches WHERE id = ?", (match_id,)).fetchone()
+                if row and row[0]: match_date = row[0]
+                
+        probs = self.calculate_win_probabilities(home_id, away_id, h_form, a_form, match_id=match_id, match_date=match_date)
         h_tr = probs['h_trend']
         a_tr = probs['a_trend']
         
@@ -373,27 +553,27 @@ class BettingAnalytics:
         # 1. Main Winner (1X2 / DC)
         # Find the outcome with highest probability
         max_p = max(p_h, p_d, p_a)
-        if max_p == p_h: selection, prob, tag = "Home", p_h, "СТАТИСТИКА"
-        elif max_p == p_a: selection, prob, tag = "Away", p_a, "СТАТИСТИКА"
-        else: selection, prob, tag = "Draw", p_d, "СТАТИСТИКА"
+        if max_p == p_h: selection, prob, tag = "Home", p_h, "STATISTICS"
+        elif max_p == p_a: selection, prob, tag = "Away", p_a, "STATISTICS"
+        else: selection, prob, tag = "Draw", p_d, "STATISTICS"
         
         # Override with special conditions if they are strong enough
         if p_h >= 0.60: 
-            tag = "💎 ЦІННІСТЬ"
+            tag = "VALUE"
             selection, prob = "Home", p_h
         elif p_a >= 0.60: 
-            tag = "🔥 РИЗИК"
+            tag = "RISK"
             selection, prob = "Away", p_a
         elif p_d > 0.38: 
-            tag = "⚖️ ПАРИТЕТ"
+            tag = "PARITY"
             selection, prob = "Draw", p_d
         elif abs(p_h - p_a) <= 0.12:
-            if p_h >= p_a: selection, prob, tag = "1X", p_h + p_d, "АНАЛІЗ"
-            else: selection, prob, tag = "X2", p_a + p_d, "АНАЛІЗ"
+            if p_h >= p_a: selection, prob, tag = "1X", p_h + p_d, "ANALYSIS"
+            else: selection, prob, tag = "X2", p_a + p_d, "ANALYSIS"
         
         # H2H Modifier for Tag
         if probs.get('h2h_count', 0) >= 3:
-            tag = "📊 H2H " + tag
+            tag = "H2H " + tag
             
         meta = self._last_meta
         ui_metadata = f"{tag}|H_ELO:{int(probs['home_elo'])}|A_ELO:{int(probs['away_elo'])}|H_AVG:{meta['h_avg']:.1f}|A_AVG:{meta['a_avg']:.1f}|H_TR:{meta['h_trend']}|A_TR:{meta['a_trend']}|H2H:{probs.get('h2h_count', 0)}"
@@ -409,70 +589,55 @@ class BettingAnalytics:
             "confidence_level": "HIGH" if prob > 0.65 else "MEDIUM"
         })
         
-        # 2. Goals Totals (Over/Under)
+        # 2. Goals Totals (Over/Under) - ONE optimal option
         lmb_goals = h_tr['avg_goals'] + a_tr['avg_goals']
         
-        # 2.1 Full Match Totals
-        for threshold in [2.5, 3.5]:
-            prob_over = self._poisson_over(lmb_goals, threshold)
-            prob_under = 1.0 - prob_over
-            if prob_over > 0.65:
-                results.append({
-                    "match_id": match_id, "algorithm": "ГОЛИ", "market": "Total Goals",
-                    "selection": f"ТБ {threshold}", "calculated_prob": prob_over, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if prob_over > 0.75 else "MEDIUM"
-                })
-            elif prob_under > 0.65:
-                results.append({
-                    "match_id": match_id, "algorithm": "ГОЛИ", "market": "Total Goals",
-                    "selection": f"ТМ {threshold}", "calculated_prob": prob_under, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if prob_under > 0.75 else "MEDIUM"
-                })
+        # 2.1 Full Match Totals - choose one best option
+        optimal_total = self._calculate_optimal_total(lmb_goals, "Total Goals")
+        if optimal_total and optimal_total['prob'] > 0.60:  # minimum probability
+            results.append({
+                "match_id": match_id, "algorithm": "GOALS (AI)", "market": "Total Goals",
+                "selection": optimal_total['selection'], "calculated_prob": optimal_total['prob'], "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_total['prob'] > 0.75 else "MEDIUM"
+            })
             
-        # 2.3 Individual Team Totals (ITT)
+        # 2.3 Individual Team Totals (ITT) - one option per team
         # Use opponent's defense to refine individual expectations
         exp_h_goals = h_tr['avg_goals'] * a_tr['def_power']
         exp_a_goals = a_tr['avg_goals'] * h_tr['def_power']
         
-        # Home Team Goals
-        for threshold in [0.5, 1.5]:
-            p_h_over = self._poisson_over(exp_h_goals, threshold)
-            if p_h_over > 0.70:
-                results.append({
-                    "match_id": match_id, "algorithm": "ІНД. ТОТАЛ", "market": "Individual Total",
-                    "selection": f"{h_tr['team_name']} ТБ {threshold}", "calculated_prob": p_h_over, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if p_h_over > 0.80 else "MEDIUM"
-                })
-        
-        # Away Team Goals
-        for threshold in [0.5, 1.5]:
-            p_a_over = self._poisson_over(exp_a_goals, threshold)
-            if p_a_over > 0.70:
-                results.append({
-                    "match_id": match_id, "algorithm": "ІНД. ТОТАЛ", "market": "Individual Total",
-                    "selection": f"{a_tr['team_name']} ТБ {threshold}", "calculated_prob": p_a_over, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if p_a_over > 0.80 else "MEDIUM"
-                })
-
-        # 2.4 1st Half Goals
-        lmb_ht = h_tr['avg_goals_ht'] + a_tr['avg_goals_ht']
-        prob_ht05 = self._poisson_over(lmb_ht, 0.5)
-        prob_ht_u05 = 1.0 - prob_ht05
-        
-        if prob_ht05 > 0.70:
+        # Home Team Goals - one optimal option
+        optimal_h_total = self._calculate_optimal_total(exp_h_goals, f"Individual Total {h_tr['team_name']}")
+        if optimal_h_total and optimal_h_total['prob'] > 0.65:  # slightly higher threshold for individual
             results.append({
-                "match_id": match_id, "algorithm": "ГОЛИ (1-й ТАЙМ)", "market": "1st Half Goals",
-                "selection": "ТБ 0.5 (1-й тайм)", "calculated_prob": prob_ht05, "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if prob_ht05 > 0.80 else "MEDIUM"
+                "match_id": match_id, "algorithm": "INDIVIDUAL TOTAL (AI)", "market": "Individual Total",
+                "selection": f"{h_tr['team_name']} {optimal_h_total['selection']}", 
+                "calculated_prob": optimal_h_total['prob'], "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_h_total['prob'] > 0.80 else "MEDIUM"
             })
-        elif prob_ht_u05 > 0.70:
+        
+        # Away Team Goals - one optimal option
+        optimal_a_total = self._calculate_optimal_total(exp_a_goals, f"Individual Total {a_tr['team_name']}")
+        if optimal_a_total and optimal_a_total['prob'] > 0.65:  # slightly higher threshold for individual
             results.append({
-                "match_id": match_id, "algorithm": "ГОЛИ (1-й ТАЙМ)", "market": "1st Half Goals",
-                "selection": "ТМ 0.5 (1-й тайм)", "calculated_prob": prob_ht_u05, "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if prob_ht_u05 > 0.80 else "MEDIUM"
+                "match_id": match_id, "algorithm": "INDIVIDUAL TOTAL (AI)", "market": "Individual Total",
+                "selection": f"{a_tr['team_name']} {optimal_a_total['selection']}", 
+                "calculated_prob": optimal_a_total['prob'], "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_a_total['prob'] > 0.80 else "MEDIUM"
+            })
+
+        # 2.4 1st Half Goals - ONE optimal option
+        lmb_ht = h_tr['avg_goals_ht'] + a_tr['avg_goals_ht']
+        optimal_ht = self._calculate_optimal_total(lmb_ht, "1st Half Goals")
+        if optimal_ht and optimal_ht['prob'] > 0.70:  # higher threshold for 1st half
+            selection = f"{optimal_ht['selection']} (1st half)"
+            results.append({
+                "match_id": match_id, "algorithm": "GOALS (1ST HALF)", "market": "1st Half Goals",
+                "selection": selection, "calculated_prob": optimal_ht['prob'], "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_ht['prob'] > 0.80 else "MEDIUM"
             })
             
-        # 3. Corners Totals (Improved Model)
+        # 3. Corners Totals (Improved Model) - ONE optimal option
         # We blend: (Home Corners + Away Conceded) / 2 and (Away Corners + Home Conceded) / 2
         exp_h_corners = (h_tr['avg_corners'] + a_tr['avg_corners_conceded']) / 2.0
         exp_a_corners = (a_tr['avg_corners'] + h_tr['avg_corners_conceded']) / 2.0
@@ -488,44 +653,24 @@ class BettingAnalytics:
         
         lmb_corners = (exp_h_corners * h_shot_mod) + (exp_a_corners * a_shot_mod)
         
-        # Use more conservative thresholds for corners to improve accuracy
-        for threshold in [8.5, 9.5, 10.5]:
-            prob_c_over = self._poisson_over(lmb_corners, threshold)
-            prob_c_under = 1.0 - prob_c_over
-            
-            # Require higher probability (75%+) for corner predictions
-            if prob_c_over > 0.75:
-                results.append({
-                    "match_id": match_id, "algorithm": "КУТОВІ (AI+)", "market": "Corners",
-                    "selection": f"Кутові ТБ {threshold}", "calculated_prob": prob_c_over, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if prob_c_over > 0.85 else "MEDIUM"
-                })
-                break # Only suggest one total per match (the most confident one)
-            elif prob_c_under > 0.75:
-                results.append({
-                    "match_id": match_id, "algorithm": "КУТОВІ (AI+)", "market": "Corners",
-                    "selection": f"Кутові ТМ {threshold}", "calculated_prob": prob_c_under, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if prob_c_under > 0.85 else "MEDIUM"
-                })
-                break
+        # Choose one optimal option for corners
+        optimal_corners = self._calculate_optimal_total(lmb_corners, "Corners")
+        if optimal_corners and optimal_corners['prob'] > 0.70:  # higher threshold for corners
+            results.append({
+                "match_id": match_id, "algorithm": "CORNERS (AI+)", "market": "Corners",
+                "selection": f"Corners {optimal_corners['selection']}", "calculated_prob": optimal_corners['prob'], "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_corners['prob'] > 0.80 else "MEDIUM"
+            })
 
 
-        # 4. Cards Totals
+        # 4. Cards Totals - ONE optimal option
         lmb_cards = h_tr['avg_cards'] + a_tr['avg_cards']
-        for threshold in [3.5, 4.5]:
-            prob_card_over = self._poisson_over(lmb_cards, threshold)
-            prob_card_under = 1.0 - prob_card_over
-            if prob_card_over > 0.65:
-                results.append({
-                    "match_id": match_id, "algorithm": "КАРТКИ", "market": "Cards",
-                    "selection": f"Картки ТБ {threshold}", "calculated_prob": prob_card_over, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if prob_card_over > 0.75 else "MEDIUM"
-                })
-            elif prob_card_under > 0.65:
-                results.append({
-                    "match_id": match_id, "algorithm": "КАРТКИ", "market": "Cards",
-                    "selection": f"Картки ТМ {threshold}", "calculated_prob": prob_card_under, "bookmaker_odd": 0.0,
-                    "value_percentage": 0.0, "confidence_level": "HIGH" if prob_card_under > 0.75 else "MEDIUM"
-                })
+        optimal_cards = self._calculate_optimal_total(lmb_cards, "Cards")
+        if optimal_cards and optimal_cards['prob'] > 0.65:  # threshold for cards
+            results.append({
+                "match_id": match_id, "algorithm": "CARDS (AI)", "market": "Cards",
+                "selection": f"Cards {optimal_cards['selection']}", "calculated_prob": optimal_cards['prob'], "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_cards['prob'] > 0.75 else "MEDIUM"
+            })
 
         return results

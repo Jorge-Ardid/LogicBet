@@ -168,6 +168,96 @@ class LogicBetDB:
             "AFC Ajax": "Ajax",
             "PSV": "PSV",
             "Club Brugge KV": "Club Brugge",
+            
+            # National Teams (Збірні країн)
+            "Ukraine": "Ukraine",
+            "Україна": "Ukraine",
+            "England": "England",
+            "Germany": "Germany",
+            "Deutschland": "Germany",
+            "Spain": "Spain",
+            "España": "Spain",
+            "France": "France",
+            "Italy": "Italy",
+            "Italia": "Italy",
+            "Netherlands": "Netherlands",
+            "Nederland": "Netherlands",
+            "Holland": "Netherlands",
+            "Belgium": "Belgium",
+            "Portugal": "Portugal",
+            "Croatia": "Croatia",
+            "Hrvatska": "Croatia",
+            "Switzerland": "Switzerland",
+            "Schweiz": "Switzerland",
+            "Austria": "Austria",
+            "Österreich": "Austria",
+            "Poland": "Poland",
+            "Polska": "Poland",
+            "Czech Republic": "Czech Republic",
+            "Czechia": "Czech Republic",
+            "Česko": "Czech Republic",
+            "Denmark": "Denmark",
+            "Danmark": "Denmark",
+            "Sweden": "Sweden",
+            "Sverige": "Sweden",
+            "Norway": "Norway",
+            "Norge": "Norway",
+            "Finland": "Finland",
+            "Suomi": "Finland",
+            "Turkey": "Turkey",
+            "Türkiye": "Turkey",
+            "Greece": "Greece",
+            "Elláda": "Greece",
+            "Serbia": "Serbia",
+            "Srbija": "Serbia",
+            "Romania": "Romania",
+            "România": "Romania",
+            "Hungary": "Hungary",
+            "Magyarország": "Hungary",
+            "Slovakia": "Slovakia",
+            "Slovensko": "Slovakia",
+            "Slovenia": "Slovenia",
+            "Slovenija": "Slovenia",
+            "Ireland": "Ireland",
+            "Republic of Ireland": "Ireland",
+            "Scotland": "Scotland",
+            "Wales": "Wales",
+            "Northern Ireland": "Northern Ireland",
+            "Russia": "Russia",
+            "Rossiya": "Russia",
+            "Brazil": "Brazil",
+            "Brasil": "Brazil",
+            "Argentina": "Argentina",
+            "Uruguay": "Uruguay",
+            "Colombia": "Colombia",
+            "Chile": "Chile",
+            "Mexico": "Mexico",
+            "United States": "USA",
+            "USA": "USA",
+            "USMNT": "USA",
+            "Canada": "Canada",
+            "Japan": "Japan",
+            "South Korea": "South Korea",
+            "Korea Republic": "South Korea",
+            "Australia": "Australia",
+            "New Zealand": "New Zealand",
+            "Morocco": "Morocco",
+            "Egypt": "Egypt",
+            "Nigeria": "Nigeria",
+            "Senegal": "Senegal",
+            "Ghana": "Ghana",
+            "Cameroon": "Cameroon",
+            "Ivory Coast": "Ivory Coast",
+            "Côte d'Ivoire": "Ivory Coast",
+            "Algeria": "Algeria",
+            "Tunisia": "Tunisia",
+            "Saudi Arabia": "Saudi Arabia",
+            "Iran": "Iran",
+            "Qatar": "Qatar",
+            "United Arab Emirates": "UAE",
+            "UAE": "UAE",
+            "China": "China",
+            "China PR": "China",
         }
         
         self._init_db()
@@ -516,9 +606,22 @@ class LogicBetDB:
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO predictions (match_id, algorithm, market, selection, calculated_prob, bookmaker_odd, value_percentage, confidence_level)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (match_id, algorithm, market, selection, prob, odds, value, confidence))
+                SELECT id FROM predictions 
+                WHERE match_id = ? AND market = ? AND selection = ?
+            """, (match_id, market, selection))
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute("""
+                    UPDATE predictions SET 
+                        algorithm = ?, calculated_prob = ?, bookmaker_odd = ?, 
+                        value_percentage = ?, confidence_level = ?
+                    WHERE id = ?
+                """, (algorithm, prob, odds, value, confidence, existing[0]))
+            else:
+                cursor.execute("""
+                    INSERT INTO predictions (match_id, algorithm, market, selection, calculated_prob, bookmaker_odd, value_percentage, confidence_level)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """, (match_id, algorithm, market, selection, prob, odds, value, confidence))
             conn.commit()
 
     def update_match_stats(self, match_id, stats):
