@@ -188,11 +188,13 @@ class MultiSourceSyncEngine:
         print("\n=== MULTI-SOURCE SYNC ENGINE ===")
         print(f"Target leagues: {target_leagues}")
         
-        # Determine date range - 10 days back to catch up on missed matches during cooldown
-        date_from = (datetime.now() - timedelta(days=10)).strftime("%Y-%m-%d")
-        date_to = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+        # Determine date range - look back a few days to catch up on missed matches
+        # during cooldown, and look FAR ahead so upcoming (not-yet-played) matches
+        # are synced too. (fetch_all_matches_batch splits into <=10-day chunks.)
+        date_from = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+        date_to = (datetime.now() + timedelta(days=14)).strftime("%Y-%m-%d")
         
-        # === STRATEGY: Single batch request for all dates ===
+        # === STRATEGY: Batch request for all dates ===
         if self.football_data_org:
             available_requests = self.football_data_org.get_limit_left()
             print(f"Available requests: {available_requests}")
@@ -201,19 +203,19 @@ class MultiSourceSyncEngine:
                 print("[SYNC] No requests available. Skipping API sync.")
                 return False
             
-            if available_requests <= 2:
-                print("[SYNC] Low requests. Fetching today only...")
+            if available_requests <= 3:
+                print("[SYNC] Low requests. Fetching today + next 3 days...")
                 date_from = datetime.now().strftime("%Y-%m-%d")
-                date_to = date_from
+                date_to = (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d")
             elif available_requests <= 5:
-                print("[SYNC] Limited requests. Fetching today + tomorrow...")
+                print("[SYNC] Limited requests. Fetching today + next 7 days...")
                 date_from = datetime.now().strftime("%Y-%m-%d")
-                date_to = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+                date_to = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
             else:
-                print("[SYNC] Good request availability. Full 3-day sync...")
+                print("[SYNC] Good request availability. Fetching 3 days back + 14 days ahead...")
         
-        # --- BATCH FETCH: ONE request for the entire date range ---
-        print(f"\n> Fetching ALL fixtures for {date_from} to {date_to} (single request)...")
+        # --- BATCH FETCH ---
+        print(f"\n> Fetching ALL fixtures for {date_from} to {date_to}...")
         all_fixtures = []
         requests_used = 0
         
@@ -221,7 +223,9 @@ class MultiSourceSyncEngine:
             result = self.football_data_org.fetch_all_matches_batch(date_from, date_to)
             if result and 'matches' in result:
                 raw_matches = result['matches']
-                requests_used += 1
+                # Count actual API requests used by the chunked batch fetch
+                total_days = (datetime.strptime(date_to, "%Y-%m-%d") - datetime.strptime(date_from, "%Y-%m-%d")).days
+                requests_used += max(1, (total_days + 10) // 10)
                 
                 # Build league ID whitelist for Football-Data.org competition IDs
                 fd_league_ids = set()
@@ -255,20 +259,20 @@ class MultiSourceSyncEngine:
                         for lid in gap_leagues:
                             if self.api_football_disabled: break
                             
-                            for d_offset in range((datetime.strptime(date_to, "%Y-%m-%d") - datetime.strptime(date_from, "%Y-%m-%d")).days + 1):
-                                if self.api_football_disabled: break
+                            # Optimized: ONE range request for the whole window per league
+                            # instead of one request per day (saves the daily quota).
+                            fixtures = self.api_football.fetch_fixtures_range(
+                                league_id=lid, date_from=date_from, date_to=date_to
+                            )
+                            
+                            if not fixtures and getattr(self.api_football, 'last_error_code', None) == "PLAN_RESTRICTION":
+                                print("  [FALLBACK] Detected Free Plan restriction for this season. Skipping further fallback attempts.")
+                                self.api_football_disabled = True
+                                break
                                 
-                                d = (datetime.strptime(date_from, "%Y-%m-%d") + timedelta(days=d_offset)).strftime("%Y-%m-%d")
-                                fixtures = self.api_football.fetch_fixtures(date=d, league_id=lid)
-                                
-                                if not fixtures and getattr(self.api_football, 'last_error_code', None) == "PLAN_RESTRICTION":
-                                    print("  [FALLBACK] Detected Free Plan restriction for this season. Skipping further fallback attempts.")
-                                    self.api_football_disabled = True
-                                    break
-                                    
-                                if fixtures:
-                                    all_fixtures.extend(fixtures)
-                                requests_used += 1
+                            if fixtures:
+                                all_fixtures.extend(fixtures)
+                            requests_used += 1
 
             else:
                 print("  [BATCH] No data from Football-Data.org")
@@ -276,24 +280,24 @@ class MultiSourceSyncEngine:
                 if self.api_football:
                     print(f"  [BATCH] Trying full API-Football fallback ({date_from} to {date_to})...")
                     for league_id in target_leagues:
-                        # Iterate through ALL dates in range for fallback
-                        delta = datetime.strptime(date_to, "%Y-%m-%d") - datetime.strptime(date_from, "%Y-%m-%d")
-                        for i in range(delta.days + 1):
-                            d = (datetime.strptime(date_from, "%Y-%m-%d") + timedelta(days=i)).strftime("%Y-%m-%d")
-                            fixtures = self.api_football.fetch_fixtures(date=d, league_id=league_id)
-                            if fixtures:
-                                all_fixtures.extend(fixtures)
-                            requests_used += 1
+                        # ONE range request per league instead of per-day iterator
+                        fixtures = self.api_football.fetch_fixtures_range(
+                            league_id=league_id, date_from=date_from, date_to=date_to
+                        )
+                        if fixtures:
+                            all_fixtures.extend(fixtures)
+                        requests_used += 1
         
         elif self.api_football:
             # No Football-Data.org configured, use API-Football directly
-            for d_offset in range((datetime.strptime(date_to, "%Y-%m-%d") - datetime.strptime(date_from, "%Y-%m-%d")).days + 1):
-                d = (datetime.strptime(date_from, "%Y-%m-%d") + timedelta(days=d_offset)).strftime("%Y-%m-%d")
-                for league_id in target_leagues:
-                    fixtures = self.api_football.fetch_fixtures(date=d, league_id=league_id)
-                    if fixtures:
-                        all_fixtures.extend(fixtures)
-                    requests_used += 1
+            for league_id in target_leagues:
+                # One range request per league (free tier quota friendly)
+                fixtures = self.api_football.fetch_fixtures_range(
+                    league_id=league_id, date_from=date_from, date_to=date_to
+                )
+                if fixtures:
+                    all_fixtures.extend(fixtures)
+                requests_used += 1
 
         
         if not all_fixtures:
@@ -342,18 +346,11 @@ class MultiSourceSyncEngine:
                     ht_a=normalized.get('ht_score_a')
                 )
                 
-                # Generate predictions ONLY if this match doesn't have predictions yet (preserves pre-match predictions)
-                with self.db.get_connection() as conn:
-                    existing_preds = conn.execute("SELECT COUNT(*) FROM predictions WHERE match_id = ?", (match_id,)).fetchone()[0]
-                
-                if existing_preds == 0:
-                    preds = self.analytics.determine_predictions(match_id, home_id, away_id, None, "", "")
-                    for p in preds:
-                        self.db.insert_prediction(
-                            p['match_id'], p['algorithm'], p['market'], 
-                            p['selection'], p['calculated_prob'], p['bookmaker_odd'], 
-                            p['value_percentage'], p['confidence_level']
-                        )
+                # --- NOTE: Predictions are NOT generated here anymore. ---
+                # Правило: прогноз робиться ТІЛЬКИ на 1 (найближчий) майбутній матч
+                # кожної команди. Це робить predict_missing_matches() -> 
+                # db.get_next_matches_without_predictions() ПІСЛЯ повної синхронізації,
+                # коли в БД вже є всі майбутні тури. Тут всі матчі лише зберігаються.
                 
                 processed += 1
                 print(f"  ✅ Processed: {normalized['home_team']} vs {normalized['away_team']}")

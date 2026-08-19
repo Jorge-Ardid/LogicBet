@@ -110,25 +110,52 @@ class FootballDataClient:
         return self._make_request(endpoint)
 
     def fetch_all_matches_batch(self, date_from, date_to):
-        """Fetch ALL matches across ALL free-tier competitions in a SINGLE request.
-        This is the most efficient way to use the Football-Data.org free tier.
-        Instead of 7 requests (one per league), this uses just 1."""
+        """Fetch ALL matches across ALL free-tier competitions for the date range.
+
+        Football-Data.org limits the broad /matches endpoint to ~10-day windows,
+        so the range is split into ≤10-day chunks. Each chunk = 1 API request.
+
+        Returns a single dict in the same {'matches': [...]} format, or None.
+        """
         if self.is_mock:
             return self._get_mock_matches()
         
         if self.requests_remaining <= 0:
             print("[BATCH] No requests remaining, skipping")
             return None
-            
-        # Football-Data.org Free tier limit is often 10 days for broad matches endpoint
+        
+        # Football-Data.org free limit is ~10 days for broad matches endpoint
         d1 = datetime.strptime(date_from, "%Y-%m-%d")
         d2 = datetime.strptime(date_to, "%Y-%m-%d")
-        if (d2 - d1).days > 10:
-            print(f"!!! Warning: Date range {(d2 - d1).days} days is too large for Football-Data.org. Reducing to 10 days. !!!")
-            date_to = (d1 + timedelta(days=10)).strftime("%Y-%m-%d")
+        max_range = timedelta(days=10)
+        
+        total_days = (d2 - d1).days
+        if total_days < 0:
+            print(f"[BATCH] Invalid date range: {date_from} -> {date_to}")
+            return None
+        
+        if total_days > 10:
+            print(f"[BATCH] Date range {total_days} days exceeds 10-day limit. Splitting into chunks...")
+        
+        all_matches = []
+        chunk_start = d1
+        while chunk_start <= d2:
+            chunk_end = min(chunk_start + max_range, d2)
+            cf = chunk_start.strftime("%Y-%m-%d")
+            ct = chunk_end.strftime("%Y-%m-%d")
             
-        endpoint = f"matches?dateFrom={date_from}&dateTo={date_to}"
-        return self._make_request(endpoint)
+            endpoint = f"matches?dateFrom={cf}&dateTo={ct}"
+            result = self._make_request(endpoint)
+            if result and 'matches' in result:
+                all_matches.extend(result['matches'])
+            else:
+                print(f"  [BATCH] Chunk {cf} -> {ct} returned no data")
+            
+            chunk_start = chunk_end + timedelta(days=1)
+        
+        if not all_matches:
+            return None
+        return {"matches": all_matches}
 
     def fetch_standings(self, competition_id):
         """Get current standings for a competition"""

@@ -624,6 +624,60 @@ class LogicBetDB:
                 """, (match_id, algorithm, market, selection, prob, odds, value, confidence))
             conn.commit()
 
+    def get_next_matches_without_predictions(self, league_ids=None):
+        """Повертає матчі, для яких потрібно згенерувати прогнози.
+
+        Правило (за бажанням користувача): прогноз з'являється ТІЛЬКИ на матчі
+        з датою сьогодні або завтра (+1 день). Решта майбутніх матчів (навіть
+        наступний тур через 5-10 днів) прогнозу НЕ мають і отримають його лише
+        коли їх дата увійде у вікно сьогодні/завтра.
+
+        Повертає список (match_id, home_team_id, away_team_id, league, home_name, away_name).
+        """
+        default_leagues = (39, 140, 78, 61, 135, 2, 3, 848)
+        if league_ids:
+            in_list = ",".join(str(int(x)) for x in league_ids)
+            league_cond = f"m.league_id IN ({in_list})"
+        else:
+            league_cond = "m.league_id IN " + str(default_leagues)
+            
+        query = f"""
+            SELECT m.id, m.home_team_id, m.away_team_id, m.league, t1.name, t2.name
+            FROM matches m
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            WHERE DATE(m.date) >= DATE('now')
+              AND DATE(m.date) <= DATE('now', '+1 day')
+              AND m.status NOT IN ('FT', 'AET', 'PEN', 'FINISHED', 'CANCELLED', 'POSTPONED')
+              AND {league_cond}
+              AND NOT EXISTS (
+                  SELECT 1 FROM predictions p2 WHERE p2.match_id = m.id
+              )
+            ORDER BY m.date
+        """
+        with self.get_connection() as conn:
+            return conn.execute(query).fetchall()
+
+    def match_is_next_for_team(self, match_id):
+        """True, якщо це матч у вікні 'сьогодні/завтра' без прогнозу.
+        (Зберігає сумісність для legacy-шляху.)"""
+        ids = [r[0] for r in self.get_next_matches_without_predictions()]
+        return match_id in ids
+
+    def delete_predictions_outside_window(self):
+        """Видаляє прогнози на майбутні матчі за межами вікна 'сьогодні/завтра'.
+        Викликається при синхронізації, щоб прогнози були лише на завтрашній день."""
+        with self.get_connection() as conn:
+            deleted = conn.execute("""
+                DELETE FROM predictions WHERE match_id IN (
+                    SELECT id FROM matches
+                    WHERE DATE(date) > DATE('now', '+1 day')
+                      AND status NOT IN ('FT', 'AET', 'PEN', 'FINISHED', 'CANCELLED', 'POSTPONED')
+                )
+            """).rowcount
+            conn.commit()
+            return deleted
+
     def update_match_stats(self, match_id, stats):
         """Update match statistics"""
         with self.get_connection() as conn:

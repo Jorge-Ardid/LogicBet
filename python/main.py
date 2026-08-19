@@ -229,37 +229,38 @@ def recalculate_elo_from_history(db, analytics):
         conn.commit()
 
 def predict_missing_matches(db, analytics):
-    """Finds matches from the last 48h that have NO predictions and generates them."""
-    print("--- CHECKING FOR MATCHES WITHOUT PREDICTIONS ---")
-    with db.get_connection() as conn:
-        query = """
-            SELECT m.id, m.home_team_id, m.away_team_id, m.league, t1.name, t2.name
-            FROM matches m
-            JOIN teams t1 ON m.home_team_id = t1.id
-            JOIN teams t2 ON m.away_team_id = t2.id
-            LEFT JOIN predictions p ON m.id = p.match_id
-            WHERE p.id IS NULL
-            AND m.date > datetime('now', '-2 days')
-            AND m.league_id IN (39, 140, 78, 61, 135, 2, 3, 848)
-        """
-        missing = conn.execute(query).fetchall()
+    """Прогнози формуються ТІЛЬКИ на матчі з датою сьогодні або завтра (+1 день).
+
+    Інші майбутні матчі (2-4й тури вперед, що вже завантажені в БД) прогнозів
+    не мають. Коли результат поточного матчу надійде і він увійде в аналіз,
+    наступний матч команди потрапить у вікно сьогодні/завтра — і тоді система
+    зробить прогноз на нього.
+    """
+    print("--- PREDICTING ONLY MATCHES IN TODAY/TOMORROW WINDOW ---")
+    
+    # 1) Прибираємо прогнози з далеких майбутніх матчів (їх час ще не настав)
+    cleared = db.delete_predictions_outside_window()
+    if cleared:
+        print(f"  [PREDICT] Removed {cleared} prediction(s) from matches beyond +1 day window.")
+    
+    # 2) Генеруємо прогнози лише на матчі сьогодні-завтра, що без прогнозу
+    missing = db.get_next_matches_without_predictions()
+    
+    if not missing:
+        print("  [PREDICT] No matches in today/tomorrow window need predictions.")
+        return
         
-        if not missing:
-            print("  [PREDICT] No matches missing predictions.")
-            return
-            
-        for m in missing:
-            m_id, h_id, a_id, l_name, h_name, a_name = m
-            print(f"  > Generating predictions for: {h_name} vs {a_name} ({l_name})")
-            preds = analytics.determine_predictions(m_id, h_id, a_id, None, "", "")
-            for p in preds:
-                db.insert_prediction(
-                    p['match_id'], p['algorithm'], p['market'], 
-                    p['selection'], p['calculated_prob'], p['bookmaker_odd'], 
-                    p['value_percentage'], p['confidence_level']
-                )
-        conn.commit()
-        print(f"  [PREDICT] Generated predictions for {len(missing)} matches.")
+    for m in missing:
+        m_id, h_id, a_id, l_name, h_name, a_name = m
+        print(f"  > Generating predictions for (today/tomorrow window): {h_name} vs {a_name} ({l_name})")
+        preds = analytics.determine_predictions(m_id, h_id, a_id, None, "", "")
+        for p in preds:
+            db.insert_prediction(
+                p['match_id'], p['algorithm'], p['market'], 
+                p['selection'], p['calculated_prob'], p['bookmaker_odd'], 
+                p['value_percentage'], p['confidence_level']
+            )
+    print(f"  [PREDICT] Generated predictions for {len(missing)} match(es) in today/tomorrow window.")
 
 def sync_match_stats(db, api):
     """Fetches statistics for finished matches that don't have them yet."""
@@ -670,13 +671,19 @@ def sync_live_data(db, api, engine, target_ids):
             m_id = db.insert_match(fixture['id'], fixture['date'], engine.translate(obj['league']['name']), h_id, a_id, h_score, a_score, status, "", "", l_id)
             
             # Use ELO-only prediction (Zero extra API calls)
-            preds = engine.determine_predictions(m_id, h_id, a_id, None, "", "")
+            # Правило: прогноз лише на 1 (найближчий) майбутній матч команди.
+            # Якщо це не наступний матч команди — пропускаємо (він буде спрогнозований
+            # після завершення попереднього матчу, через predict_missing_matches).
+            if db.match_is_next_for_team(m_id):
+                preds = engine.determine_predictions(m_id, h_id, a_id, None, "", "")
             
-            # Update predictions
-            with db.get_connection() as conn:
-                conn.execute("DELETE FROM predictions WHERE match_id = ?", (m_id,))
-            for p in preds:
-                db.insert_prediction(p['match_id'], p['algorithm'], p['market'], p['selection'], p['calculated_prob'], p['bookmaker_odd'], p['value_percentage'], p['confidence_level'])
+                # Update predictions
+                with db.get_connection() as conn:
+                    conn.execute("DELETE FROM predictions WHERE match_id = ?", (m_id,))
+                for p in preds:
+                    db.insert_prediction(p['match_id'], p['algorithm'], p['market'], p['selection'], p['calculated_prob'], p['bookmaker_odd'], p['value_percentage'], p['confidence_level'])
+            else:
+                print(f"[SKIP-PREDICT] {teams['home']['name']} vs {teams['away']['name']} - не наступний матч для команди (пропущено)")
 
 def initialize_elo_from_standings(db, api, league_id):
     """Uses the current league table to give teams a realistic starting Elo."""
