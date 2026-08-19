@@ -77,9 +77,17 @@ def export_to_json(db):
             cursor.execute("SELECT id, name, elo_rating, current_form, rank, points FROM teams")
             teams = [dict(row) for row in cursor.fetchall()]
             
-            # 5. Fetch Full Config
+                        # 5. Fetch Full Config
             cursor.execute("SELECT key, value FROM config")
             config = {row['key']: row['value'] for row in cursor.fetchall()}
+
+            # Ensure the GitHub owner/repo identifiers are always present and
+            # non-empty so the mobile (Godot) app can build the raw-data URL
+            # WITHOUT prompting for username/password on every update.
+            # The repository is public, so no GitHub token is required to read it.
+            config["github_user"] = config.get("github_user") or "Jorge-Ardid"
+            config["github_repo"] = config.get("github_repo") or "LogicBet"
+            config.setdefault("github_token", "")
             
             # 6. Summary Stats
             cursor.execute("SELECT COUNT(*) FROM predictions WHERE is_hit IS NOT NULL")

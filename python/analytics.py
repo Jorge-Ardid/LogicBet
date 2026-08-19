@@ -82,7 +82,7 @@ class BettingAnalytics:
                 SELECT m.home_score, m.away_score, m.home_team_id, 
                        (CASE WHEN m.home_team_id = ? THEN t2.elo_rating ELSE t1.elo_rating END) as opp_elo,
                        m.xg_h, m.xg_a, m.corners_h, m.corners_a, m.yellow_cards_h, m.yellow_cards_a, m.shots_on_h, m.shots_on_a,
-                       m.ht_score_h, m.ht_score_a
+                       m.ht_score_h, m.ht_score_a, m.date
                 FROM matches m
                 JOIN teams t1 ON m.home_team_id = t1.id
                 JOIN teams t2 ON m.away_team_id = t2.id
@@ -137,8 +137,28 @@ class BettingAnalytics:
         inconsistent_penalty = 0.0
         bully_count = 0
         
-        for m in matches:
-            # Result from query has 12 columns, we unpack the first 4 for basic logic
+
+        from datetime import datetime as _dt, timezone as _tz
+        def _parse_dt(x):
+            d = _dt.fromisoformat(str(x).replace("Z", ""))
+            return d.astimezone(_tz.utc).replace(tzinfo=None) if d.tzinfo else d
+        parsed_dates = []
+        for _m in matches:
+            try:
+                parsed_dates.append(_parse_dt(_m[14]))
+            except Exception:
+                parsed_dates.append(None)
+        _valid = [d for d in parsed_dates if d]
+        if match_date:
+            try:
+                ref_date = _parse_dt(match_date)
+            except Exception:
+                ref_date = max(_valid) if _valid else _dt.utcnow()
+        else:
+            ref_date = max(_valid) if _valid else _dt.utcnow()
+        LAMBDA = math.log(2) / 7.0  # 7-day half-life
+        for idx, m in enumerate(matches):
+            # Result from query now has 15 columns (m.date added at index 14)
             h_s, a_s, h_id, opp_elo = m[0], m[1], m[2], m[3]
             is_home = (h_id == team_id)
             goals = h_s if is_home else a_s
@@ -151,8 +171,13 @@ class BettingAnalytics:
             elif goals == opp_goals: pts = 1
             
             # 1. Streak Weighting
-            weighted_points += pts * weight_step
-            total_weight += 3.0 * weight_step
+                        # Time-decay: older matches matter less (half-life = 7 days)
+            m_date = parsed_dates[idx]
+            age_days = max(0.0, (ref_date - m_date).days) if m_date else 0.0
+            w_time = math.exp(-LAMBDA * age_days)
+            eff_weight = weight_step * w_time
+            weighted_points += pts * eff_weight
+            total_weight += 3.0 * eff_weight
             
             # 2. Opposition Quality checking
             elo_diff = my_elo - opp_elo

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-20T01:44:15.349880",
+  "last_updated": "2026-08-20T02:42:57.840700",
   "config": {
     "api_requests_left": "100",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
@@ -9,15 +9,16 @@
     "fallback_data_source": "api_football",
     "sync_cooldown": "43200",
     "use_historical_data": "True",
-    "github_user": "",
-    "github_repo": "",
+    "github_user": "Jorge-Ardid",
+    "github_repo": "LogicBet",
     "default_stake": "10.0",
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
     "last_sync_time": "1787178297.158485",
     "sync_error": "",
     "football_data_requests_left": "7",
-    "api_football_requests_left": "100"
+    "api_football_requests_left": "100",
+    "github_token": ""
   },
   "ai_stats": {
     "total": 1703,
