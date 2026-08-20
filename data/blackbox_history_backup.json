@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-19T18:36:47.519042",
+  "last_updated": "2026-08-20T01:16:30.333155",
   "matches": {
     "100001_Arsenal_Chelsea_2024-01-15": {
       "db_id": 1,
@@ -51490,6 +51490,29 @@
           "is_hit": 0
         }
       ]
+    },
+    "564628_Atletico Madrid_Malaga_2026-08-19": {
+      "db_id": 1272,
+      "remote_id": 564628,
+      "date": "2026-08-19T19:00:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Atletico Madrid",
+      "away_team": "Malaga",
+      "home_score": 2,
+      "away_score": 0,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": []
     }
   }
 }
