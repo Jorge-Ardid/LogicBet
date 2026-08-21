@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-20T18:40:42.387038",
+  "last_updated": "2026-08-21T01:19:40.906765",
   "matches": {
     "100001_Arsenal_Chelsea_2024-01-15": {
       "db_id": 1,
@@ -51513,6 +51513,75 @@
       "xg_h": 0.0,
       "xg_a": 0.0,
       "predictions": []
+    },
+    "564638_Rayo Vallecano_Alaves_2026-08-20": {
+      "db_id": 1273,
+      "remote_id": 564638,
+      "date": "2026-08-20T19:00:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Rayo Vallecano",
+      "away_team": "Alaves",
+      "home_score": 1,
+      "away_score": 1,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 21280,
+          "algorithm": "ANALYSIS|H_ELO:1492|A_ELO:1469|H_AVG:35.4|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Вбивця Гігантів 🗡️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.6080681355322974,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 21281,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "OVER 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 21282,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Rayo Vallecano OVER 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 21283,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Alaves OVER 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 21284,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards UNDER 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        }
+      ]
     }
   }
 }
