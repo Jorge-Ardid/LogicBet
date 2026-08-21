@@ -12,6 +12,7 @@ from config_manager import ConfigManager
 from datetime import datetime, timedelta
 import sqlite3
 import json
+import re
 from blackbox_archive import BlackboxArchive
 import os
 import sys
@@ -359,85 +360,102 @@ def evaluate_virtual_bets(db):
         evaluated = 0
         hits = 0
         for p_id, sel, hs, as_t, h_name, a_name, hth, hta, ch, ca, yh, ya, rh, ra in preds:
-            if hs is None or as_t is None: continue
-            
+            if hs is None or as_t is None:
+                continue
+
             is_hit = 0
-            # Normalize selection string for matching
-            s = sel.upper().strip()
-            h_n = h_name.upper().strip()
-            a_n = a_name.upper().strip()
-            
-            # --- 1. Half-Time Goals ---
-            if "1-Й ТАЙМ" in s or "1-Й Т" in s or "1-Й" in s:
-                if hth is None or hta is None: continue # Skip if no HT data yet
-                total_ht = hth + hta
-                if "ТБ 0.5" in s: is_hit = 1 if total_ht > 0.5 else 0
-                elif "ТМ 0.5" in s: is_hit = 1 if total_ht < 0.5 else 0
-                elif "ТБ 1.5" in s: is_hit = 1 if total_ht > 1.5 else 0
-                elif "ТМ 1.5" in s: is_hit = 1 if total_ht < 1.5 else 0
-                
-            # --- 2. Corners ---
-            elif "КУТОВ" in s:
-                if ch is None or ca is None: continue # Skip if no corner data
-                tot_c = ch + ca
-                threshold = 9.5
-                if "8.5" in s: threshold = 8.5
-                elif "9.5" in s: threshold = 9.5
-                elif "10.5" in s: threshold = 10.5
-                if "ТБ" in s: is_hit = 1 if tot_c > threshold else 0
-                else: is_hit = 1 if tot_c < threshold else 0
-                
-            # --- 3. Cards ---
-            elif "КАРТК" in s:
-                if yh is None or ya is None: continue # Skip if no card data
-                tot_cards = yh + ya + (rh or 0) + (ra or 0)
-                threshold = 4.5
-                if "3.5" in s: threshold = 3.5
-                elif "4.5" in s: threshold = 4.5
-                elif "5.5" in s: threshold = 5.5
-                if "ТБ" in s: is_hit = 1 if tot_cards > threshold else 0
-                else: is_hit = 1 if tot_cards < threshold else 0
-                
-            # --- 4. Individual Team Totals ---
-            elif ("ТБ" in s or "ТМ" in s) and (h_n in s or a_n in s):
-                threshold = 1.5 if "1.5" in s else 0.5
+            s = (sel or "").upper().strip()
+            h_n = (h_name or "").upper().strip()
+            a_n = (a_name or "").upper().strip()
+            total_match = hs + as_t
+
+            # ---------- 0. BTTS / ОЗ (Обидві заб'ють) ----------
+            if ("ОЗ" in s) or ("BTTS" in s) or ("ОБИДВІ" in s and "ЗАБ" in s):
+                both_scored = (hs > 0 and as_t > 0)
+                no_side = ("НЕ ОЗ" in s) or s.startswith("НЕ ") or ("НЕ ЗАБ" in s)
+                is_hit = 1 if ((not both_scored) if no_side else both_scored) else 0
+
+            # ---------- 1. 1st-Half Goals (both notations) ----------
+            elif ("1-Й" in s) or ("1ST HALF" in s) or ("(1ST HALF)" in s):
+                if hth is None or hta is None:
+                    continue  # keep is_hit NULL until HT data is available
+                _nums = [float(x) for x in re.findall(r"\d+\.\d+", s)]
+                _t = max(_nums) if _nums else 1.5
+                if ("ТБ" in s) or ("OVER" in s):
+                    is_hit = 1 if (hth + hta) > _t else 0
+                else:
+                    is_hit = 1 if (hth + hta) < _t else 0
+
+            # ---------- 2. Corners (both notations) ----------
+            elif ("КУТОВ" in s) or ("CORNERS" in s):
+                if ch is None or ca is None:
+                    continue
+                _nums = [float(x) for x in re.findall(r"\d+\.\d+", s)]
+                _t = max(_nums) if _nums else 9.5
+                _totc = ch + ca
+                if ("ТБ" in s) or ("OVER" in s):
+                    is_hit = 1 if _totc > _t else 0
+                else:
+                    is_hit = 1 if _totc < _t else 0
+
+            # ---------- 3. Cards (both notations) ----------
+            elif ("КАРТК" in s) or ("CARDS" in s):
+                if yh is None or ya is None:
+                    continue
+                _nums = [float(x) for x in re.findall(r"\d+\.\d+", s)]
+                _t = max(_nums) if _nums else 4.5
+                _totcards = yh + ya + (rh or 0) + (ra or 0)
+                if ("ТБ" in s) or ("OVER" in s):
+                    is_hit = 1 if _totcards > _t else 0
+                else:
+                    is_hit = 1 if _totcards < _t else 0
+
+            # ---------- 4. Individual Team Totals (both notations) ----------
+            elif (("ТБ" in s) or ("ТМ" in s) or ("OVER" in s) or ("UNDER" in s)) and (h_n in s or a_n in s):
+                _nums = [float(x) for x in re.findall(r"\d+\.\d+", s)]
+                _t = max(_nums) if _nums else 1.5
                 is_h_team = (h_n in s)
+                is_a_team = (a_n in s)
+                if is_h_team and is_a_team:
+                    if len(h_n) >= len(a_n):
+                        is_a_team = False
+                    else:
+                        is_h_team = False
                 team_score = hs if is_h_team else as_t
-                if "ТБ" in s: is_hit = 1 if team_score > threshold else 0
-                else: is_hit = 1 if team_score < threshold else 0
-                
-            # --- 5. Double Chance (MUST BE CHECKED BEFORE DRAW / 1X2) ---
-            elif "1X" in s or "1Х" in s or "1 X" in s or "1 Х" in s:
+                if ("ТБ" in s) or ("OVER" in s):
+                    is_hit = 1 if team_score > _t else 0
+                else:
+                    is_hit = 1 if team_score < _t else 0
+
+            # ---------- 5. Double Chance (before 1X2) ----------
+            elif ("1X" in s) or ("1Х" in s) or ("1 X" in s) or ("1 Х" in s):
                 is_hit = 1 if hs >= as_t else 0
-            elif "X2" in s or "Х2" in s or "X 2" in s or "Х 2" in s:
+            elif ("X2" in s) or ("Х2" in s) or ("X 2" in s) or ("Х 2" in s):
                 is_hit = 1 if as_t >= hs else 0
-            elif "12" in s or "1 2" in s:
+            elif ("12" in s) or ("1 2" in s):
                 is_hit = 1 if hs != as_t else 0
-                
-            # --- 6. Main 1X2 Winners ---
-            elif "П1" in s or "HOME" in s:
+
+            # ---------- 6. Main 1X2 ----------
+            elif ("П1" in s) or ("HOME" in s):
                 is_hit = 1 if hs > as_t else 0
-            elif "П2" in s or "AWAY" in s:
+            elif ("П2" in s) or ("AWAY" in s):
                 is_hit = 1 if as_t > hs else 0
-            elif "НІЧИЯ" in s or s == "DRAW" or s.startswith("X (") or s.startswith("Х (") or s.startswith("X ") or s.startswith("Х ") or s == "X" or s == "Х":
+            elif ("НІЧИЯ" in s) or s == "DRAW" or s.startswith("X (") or s.startswith("Х (") or s.startswith("X ") or s.startswith("Х ") or s in ("X", "Х"):
                 is_hit = 1 if hs == as_t else 0
-                
-            # --- 7. Full Match Total Goals ---
-            elif "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s or "ТОТАЛ Б" in s:
-                threshold = 2.5
-                if "1.5" in s: threshold = 1.5
-                elif "0.5" in s: threshold = 0.5
-                elif "3.5" in s: threshold = 3.5
-                elif "4.5" in s: threshold = 4.5
-                is_hit = 1 if (hs + as_t) > threshold else 0
-            elif "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s or "ТОТАЛ М" in s:
-                threshold = 2.5
-                if "1.5" in s: threshold = 1.5
-                elif "0.5" in s: threshold = 0.5
-                elif "3.5" in s: threshold = 3.5
-                elif "4.5" in s: threshold = 4.5
-                is_hit = 1 if (hs + as_t) < threshold else 0
-                
+
+            # ---------- 7. Full-Match Total Goals ----------
+            elif ("БІЛЬШЕ" in s) or ("OVER" in s) or ("ТБ" in s) or ("ТОТАЛ Б" in s):
+                _nums = [float(x) for x in re.findall(r"\d+\.\d+", s)]
+                _t = max(_nums) if _nums else 2.5
+                is_hit = 1 if total_match > _t else 0
+            elif ("МЕНШЕ" in s) or ("UNDER" in s) or ("ТМ" in s) or ("ТОТАЛ М" in s):
+                _nums = [float(x) for x in re.findall(r"\d+\.\d+", s)]
+                _t = max(_nums) if _nums else 2.5
+                is_hit = 1 if total_match < _t else 0
+            else:
+                print(f"  [EVAL] Unknown selection format: {sel!r} (left unevaluated)")
+                continue
+
             cursor.execute("UPDATE predictions SET is_hit = ? WHERE id = ?", (is_hit, p_id))
             evaluated += 1
             if is_hit: hits += 1
@@ -755,7 +773,9 @@ if __name__ == "__main__":
         # ==================================
         
         db = LogicBetDB()
-        api = APIFootballClient(api_key="72afa426ab5fb0a7c964261b8b25f977") 
+        # NOTE: use the key from config_manager (data/api_config.json), NOT a hardcoded value
+        _config = ConfigManager()
+        api = APIFootballClient(api_key=_config.get_api_key("api_football"))
         engine = BettingAnalytics(db)
         
         # --- Cooldown Check ---
@@ -871,7 +891,10 @@ if __name__ == "__main__":
             
             if force_sync:
                 print("[DATABASE] Resetting predictions for re-evaluation...")
-                db.get_connection().execute("UPDATE predictions SET is_hit = NULL")
+                conn_reset = db.get_connection()
+                conn_reset.execute("UPDATE predictions SET is_hit = NULL")
+                conn_reset.commit()
+                conn_reset.close()
             
             if success:
                 print("\n[SYNC] ✅ API sync completed successfully")

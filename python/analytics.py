@@ -519,7 +519,7 @@ class BettingAnalytics:
                 if score_over > best_score:
                     best_score = score_over
                     best_option = {
-                        "selection": f"OVER {threshold}",
+                        "selection": f"ТБ {threshold}",
                         "prob": prob_over,
                         "type": "OVER"
                     }
@@ -547,7 +547,7 @@ class BettingAnalytics:
                 if score_under > best_score:
                     best_score = score_under
                     best_option = {
-                        "selection": f"UNDER {threshold}",
+                        "selection": f"ТМ {threshold}",
                         "prob": prob_under,
                         "type": "UNDER"
                     }
@@ -651,6 +651,23 @@ class BettingAnalytics:
                 "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_a_total['prob'] > 0.80 else "MEDIUM"
             })
 
+        # 2.5  BTTS (ОЗ) — Both Teams to Score (Обидві заб'ють)
+        p_home_scored = 1.0 - self._poisson_pmf(0, exp_h_goals)
+        p_away_scored = 1.0 - self._poisson_pmf(0, exp_a_goals)
+        prob_btts_yes = p_home_scored * p_away_scored
+        prob_btts_no = 1.0 - prob_btts_yes
+        if max(prob_btts_yes, prob_btts_no) > 0.60:
+            if prob_btts_yes >= prob_btts_no:
+                sel_btts = "ОЗ (Обидві заб'ють)"
+                p_btts = prob_btts_yes
+            else:
+                sel_btts = "НЕ ОЗ (Хтось не заб'є)"
+                p_btts = prob_btts_no
+            results.append({
+                "match_id": match_id, "algorithm": "BTTS (AI)", "market": "BTTS",
+                "selection": sel_btts, "calculated_prob": p_btts, "bookmaker_odd": 0.0,
+                "value_percentage": 0.0, "confidence_level": "HIGH" if p_btts > 0.75 else "MEDIUM"
+            })
         # 2.4 1st Half Goals - ONE optimal option
         lmb_ht = h_tr['avg_goals_ht'] + a_tr['avg_goals_ht']
         optimal_ht = self._calculate_optimal_total(lmb_ht, "1st Half Goals")
