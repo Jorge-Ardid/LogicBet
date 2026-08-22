@@ -561,6 +561,103 @@ class BettingAnalytics:
         new_elo_b = elo_b + k_factor * ((1.0 - actual_a) - (1.0 - expected_a))
         return new_elo_a, new_elo_b
 
+    def calibrate_team_strength_from_user_bets(self):
+        """POST-FACTO ANALYSIS (does NOT modify ELO / team ratings).
+
+        Compares the AI model's probability vs the market-implied probability
+        (1 / user_odd) for every resolved user bet. Groups results by odds
+        band so you can see *in which favorite/underdog categories* the model
+        is sharpest against the market.
+
+        Returns:
+            dict: {
+                "overall":  {"n": int, "model_acc": float, "market_acc": float, "edge": float},
+                "by_band":  { "Fav (<=1.5)": {...}, "Even (1.5-2.5)": {...}, "Long (>3)": {...} },
+                "by_market": { "1X2/DC": {...}, "BTTS": {...}, ... }
+            }
+        """
+        with self.db.get_connection() as conn:
+            rows = conn.execute("""
+                SELECT ub.selection,
+                       ub.odd            AS user_odd,
+                       p.bookmaker_odd   AS kb_odd,
+                       p.calculated_prob AS model_prob,
+                       p.is_hit          AS hit,
+                       p.market,
+                       p.selection       AS pred_sel,
+                       m.home_team_id,
+                       m.away_team_id
+                FROM user_bets ub
+                JOIN predictions p ON p.match_id = ub.match_id AND p.selection = ub.selection
+                JOIN matches m  ON m.id = ub.match_id
+                WHERE ub.status IN ('WON','LOST')
+                  AND ub.odd IS NOT NULL
+                  AND ub.odd > 0
+                  AND p.calculated_prob IS NOT NULL
+            """).fetchall()
+
+        # Band helper — market-implied probability
+        def _band(odd: float) -> str:
+            if odd <= 1.5:
+                return "Fav (<=1.5)"
+            if odd <= 2.5:
+                return "Even (1.5-2.5)"
+            return "Long (>3.0)"
+
+        bands: dict = {}
+        markets: dict = {}
+        overall_n = overall_model = overall_market = overall_edge = 0.0
+
+        for sel, user_odd, kb_odd, model_prob, hit, market, pred_sel, h_id, a_id in rows or []:
+            hit_val = 1 if hit else 0
+            # Model accuracy = how often model_prob>0.5 matches the actual outcome
+            model_correct = 1 if (model_prob > 0.5) == bool(hit_val) else 0
+            # Market-implied probability
+            market_prob = 1.0 / user_odd if user_odd > 0 else 0.0
+            # Market "accuracy": did the favourite (lowest odd → highest implied) win?
+            market_correct = 1 if (market_prob > 0.5) == bool(hit_val) else 0
+            edge = model_prob - market_prob
+
+            for agg in (bands, markets):
+                key = _band(user_odd) if agg is bands else market
+                b = agg.setdefault(key, {"n": 0, "model_acc": 0.0, "market_acc": 0.0, "edge_sum": 0.0})
+                b["n"] += 1
+                b["model_acc"] += model_correct
+                b["market_acc"] += market_correct
+                b["edge_sum"] += edge
+
+            overall_n += 1
+            overall_model += model_correct
+            overall_market += market_correct
+            overall_edge += edge
+
+        def _finalize(d):
+            out = {}
+            for k, v in d.items():
+                out[k] = {
+                    "n": v["n"],
+                    "model_acc": round(v["model_acc"] / v["n"] * 100, 1) if v["n"] else 0.0,
+                    "market_acc": round(v["market_acc"] / v["n"] * 100, 1) if v["n"] else 0.0,
+                    "avg_edge": round(v["edge_sum"] / v["n"], 4) if v["n"] else 0.0,
+                }
+            return out
+
+        result = {
+            "overall": {
+                "n": overall_n,
+                "model_acc": round(overall_model / overall_n * 100, 1) if overall_n else 0.0,
+                "market_acc": round(overall_market / overall_n * 100, 1) if overall_n else 0.0,
+                "edge": round(overall_edge / overall_n, 4) if overall_n else 0.0,
+            },
+            "by_band": _finalize(bands),
+            "by_market": _finalize(markets),
+        }
+        print("--- CALIBRATION REPORT ---")
+        print(f"  Overall: model {result['overall']['model_acc']}% vs market {result['overall']['market_acc']}% (edge={result['overall']['edge']:+.4f})")
+        for band, d in result["by_band"].items():
+            print(f"  Band '{band}': n={d['n']}  model={d['model_acc']}%  market={d['market_acc']}%  edge={d['avg_edge']:+.4f}")
+        return result
+
     def determine_predictions(self, match_id, home_id, away_id, bookmaker_odds_data, h_form="", a_form=""):
         match_date = None
         if match_id is not None:

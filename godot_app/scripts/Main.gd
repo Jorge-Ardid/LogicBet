@@ -44,6 +44,10 @@ var ai_odd: float = 0.0
 var is_syncing: bool = false
 var sync_pid: int = -1
 
+# UI state
+var current_date_filter: String = "ALL"  # "ALL" | "TODAY" | "TOMORROW"
+var date_filter: OptionButton
+
 # Match statistics data
 # @onready var db_viewer = $DBViewer (Keep below)
 @onready var db_viewer = $DBViewer
@@ -191,15 +195,18 @@ func _create_match_item(m):
 	
 	# Teams and Time
 	var left_vb = VBoxContainer.new(); left_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(left_vb)
-	var time_str = m.date.split(" ")[1].substr(0, 5) if " " in m.date else m.date
+	var time_str = _format_match_date(m.date).split(" ")[1] if " " in _format_match_date(m.date) else _format_match_date(m.date)
 	left_vb.add_child(_lbl(time_str + " | " + m.league.to_upper(), COLOR_TEXT_DIM, 14))
 	left_vb.add_child(_lbl(m.home_team + " vs " + m.away_team, COLOR_TEXT, 18))
 	
-	# Prediction (BIG)
-	var right_vb = VBoxContainer.new(); right_vb.alignment = BoxContainer.ALIGNMENT_CENTER; hb.add_child(right_vb)
+	# Prediction (BIG) - Give more space for multi-line text
+	var right_vb = VBoxContainer.new(); right_vb.alignment = BoxContainer.ALIGNMENT_CENTER; right_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(right_vb)
 	var pred_text = m.selection if m.selection else "(...)"
-	var pred_lbl = _lbl(pred_text, COLOR_GOLD, 24)
+	
+	# Use original font size with proper word wrap for multi-line display
+	var pred_lbl = _lbl(pred_text, COLOR_GOLD, 24, true)  # Original size 24, enabled wrap
 	pred_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	pred_lbl.custom_minimum_size.x = 300  # Ensure minimum width for proper wrapping
 	right_vb.add_child(pred_lbl)
 	
 	if m.calculated_prob > 0:
@@ -231,7 +238,10 @@ func _on_match_clicked(m):
 		var p_hb = HBoxContainer.new(); p_panel.add_child(p_hb)
 		var p_left = VBoxContainer.new(); p_left.size_flags_horizontal = Control.SIZE_EXPAND_FILL; p_hb.add_child(p_left)
 		p_left.add_child(_lbl(p.market.to_upper(), COLOR_TEXT_DIM, 12))
-		p_left.add_child(_lbl(p.selection, COLOR_TEXT, 20))
+		
+		var selection_lbl = _lbl(p.selection, COLOR_TEXT, 20, true)  # Original size 20, enabled wrap
+		selection_lbl.custom_minimum_size.x = 400  # Ensure minimum width for proper wrapping in popup
+		p_left.add_child(selection_lbl)
 		
 		var p_right = VBoxContainer.new(); p_right.alignment = BoxContainer.ALIGNMENT_CENTER; p_hb.add_child(p_right)
 		p_right.add_child(_lbl(str(round(p.calculated_prob * 100)) + "%", Color.GREEN, 18))
@@ -294,9 +304,9 @@ func _build_settings() -> MarginContainer:
 	return m
 
 func _setup_popups():
-	bet_dialog = ConfirmationDialog.new(); bet_dialog.title = "ОФОРМИТИ ТРЕКЕР"; add_child(bet_dialog)
-	var v = VBoxContainer.new(); v.add_theme_constant_override("separation", 20); v.custom_minimum_size = Vector2(400, 150); bet_dialog.add_child(v)
-	match_confirm_lbl = Label.new(); match_confirm_lbl.add_theme_color_override("font_color", COLOR_GOLD); match_confirm_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; v.add_child(match_confirm_lbl)
+	bet_dialog = ConfirmationDialog.new(); bet_dialog.title = "ОФОРМИТИ СТАВКУ"; add_child(bet_dialog)
+	var v = VBoxContainer.new(); v.add_theme_constant_override("separation", 20); v.custom_minimum_size = Vector2(500, 200); bet_dialog.add_child(v)  # Increased size for better text display
+	match_confirm_lbl = Label.new(); match_confirm_lbl.add_theme_color_override("font_color", COLOR_GOLD); match_confirm_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; match_confirm_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; match_confirm_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL; match_confirm_lbl.custom_minimum_size.x = 350; v.add_child(match_confirm_lbl)
 	var grid = GridContainer.new(); grid.columns = 2; grid.add_theme_constant_override("h_separation", 20); v.add_child(grid)
 	grid.add_child(_lbl("Кеф:")); odd_input = SpinBox.new(); odd_input.min_value = 1.01; odd_input.max_value = 50.0; odd_input.step = 0.01; grid.add_child(odd_input)
 	grid.add_child(_lbl("Сума (грн):")); stake_input = SpinBox.new(); stake_input.min_value = 1.0; stake_input.max_value = 10000.0; stake_input.step = 1.0; grid.add_child(stake_input)
@@ -381,7 +391,26 @@ func _update_dashboard():
 		stat_hb.add_child(_lbl("  (" + str(ai_stats["hits"]) + "/" + str(ai_stats["total"]) + " успішних прогнозів)", COLOR_TEXT_DIM))
 		dash_vbox.add_child(stat_panel)
 		
-	var predictions = db_viewer.fetch_predictions()
+	# Date filter: Сьогодні / Завтра / Усі
+	var filter_hb = HBoxContainer.new(); filter_hb.add_theme_constant_override("separation", 10); dash_vbox.add_child(filter_hb)
+	filter_hb.add_child(_lbl("🔍 Фільтр дат:", COLOR_TEXT_DIM))
+	if date_filter == null:
+		date_filter = OptionButton.new(); date_filter.custom_minimum_size.x = 180
+		date_filter.add_item("Усі матчі", 0)
+		date_filter.add_item("Сьогодні", 1)
+		date_filter.add_item("Завтра", 2)
+		date_filter.select(0)
+		date_filter.item_selected.connect(_on_date_filter_changed)
+	filter_hb.add_child(date_filter)
+	dash_vbox.add_theme_constant_override("separation", 20)
+	
+	var predictions
+	if current_date_filter == "TODAY":
+		predictions = db_viewer.fetch_predictions("TODAY")
+	elif current_date_filter == "TOMORROW":
+		predictions = db_viewer.fetch_predictions("TOMORROW")
+	else:
+		predictions = db_viewer.fetch_predictions("ALL")
 	if predictions.size() == 0:
 		dash_vbox.add_child(_lbl("Натисніть «ОНОВИТИ», щоб завантажити ігри на наступні дні.", COLOR_TEXT_DIM))
 		return
@@ -472,7 +501,7 @@ func _create_match_card(p) -> PanelContainer:
 	
 	var v_pred = VBoxContainer.new(); v_pred.alignment = BoxContainer.ALIGNMENT_CENTER; v_pred.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(v_pred)
 	if p.get("selection") != null:
-		var flow = HFlowContainer.new(); flow.alignment = FlowContainer.ALIGNMENT_CENTER; v_pred.add_child(flow)
+		# Use VBoxContainer for better multi-line display instead of HFlowContainer
 		var choices = str(p["selection"]).split(" / ")
 		var probs = str(p.get("probabilities", "")).split("|")
 		for i in range(choices.size()):
@@ -480,8 +509,9 @@ func _create_match_card(p) -> PanelContainer:
 			if choice_text == "": continue
 			var prob_text = ""
 			if i < probs.size(): prob_text = " (%d%%)" % (float(probs[i]) * 100)
-			var clbl = _lbl(choice_text + prob_text, COLOR_GOLD_BRIGHT); clbl.add_theme_font_size_override("font_size", 14); flow.add_child(clbl)
-			if i < choices.size() - 1: flow.add_child(_lbl("  •  ", COLOR_TEXT_DIM))
+			var clbl = _lbl(choice_text + prob_text, COLOR_GOLD_BRIGHT, 14, true)  # Enable wrap
+			clbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			v_pred.add_child(clbl)
 	else:
 		v_pred.add_child(_lbl("АНАЛІЗУЄТЬСЯ...", COLOR_TEXT_DIM))
 
@@ -493,7 +523,7 @@ func _create_match_card(p) -> PanelContainer:
 	else:
 		v_odd.add_child(_lbl("—", COLOR_TEXT_DIM))
 	
-	var btn = Button.new(); btn.text = " ТРЕКАТИ "; btn.custom_minimum_size = Vector2(110, 40); btn.pressed.connect(_on_record_pressed.bind(p)); hb.add_child(btn)
+		var btn = Button.new(); btn.text = " СТАВКА "; btn.custom_minimum_size = Vector2(110, 40); btn.pressed.connect(_on_record_pressed.bind(p)); hb.add_child(btn)
 	return card
 
 func _update_history():
@@ -576,33 +606,36 @@ func _create_result_card(m) -> PanelContainer:
 	
 	var h_btn = LinkButton.new(); h_btn.text = m["home_name"]; h_btn.add_theme_color_override("font_color", COLOR_GOLD); h_btn.pressed.connect(_on_show_team_stats.bind(m["home_team_id"])); match_hb.add_child(h_btn)
 	
-	var s_btn = LinkButton.new(); s_btn.text = "  " + str(m["home_score"]) + " : " + str(m["away_score"]) + "  "; s_btn.add_theme_color_override("font_color", COLOR_TEXT); s_btn.underline = LinkButton.UNDERLINE_MODE_NEVER; s_btn.pressed.connect(_on_show_analysis.bind(m)); match_hb.add_child(s_btn)
+	var hs_val = m.get("home_score")
+	var as_val = m.get("away_score")
+	var hs_str = str(hs_val) if hs_val != null else "?"
+	var as_str = str(as_val) if as_val != null else "?"
+	var s_btn = LinkButton.new(); s_btn.text = "  " + hs_str + " : " + as_str + "  "; s_btn.add_theme_color_override("font_color", COLOR_TEXT); s_btn.underline = LinkButton.UNDERLINE_MODE_NEVER; s_btn.pressed.connect(_on_show_analysis.bind(m)); match_hb.add_child(s_btn)
 	
 	var a_btn = LinkButton.new(); a_btn.text = m["away_name"]; a_btn.add_theme_color_override("font_color", COLOR_GOLD); a_btn.pressed.connect(_on_show_team_stats.bind(m["away_team_id"])); match_hb.add_child(a_btn)
 	
 	if m.has("ai_prediction") and m["ai_prediction"] != null:
-		var pred_container = HFlowContainer.new()
+		var pred_container = VBoxContainer.new()  # Changed from HFlowContainer to VBoxContainer for multi-line
 		pred_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		hb.add_child(pred_container)
 		
 		var preds = str(m["ai_prediction"]).split(" / ")
 		var hits = str(m["ai_hit"]).split("|")
+		var has_score = (hs_val != null and as_val != null)
 		
 		for i in range(preds.size()):
 			var p_text = preds[i].strip_edges()
 			if p_text == "": continue
 			
 			var is_hit = 0
-			if i < hits.size(): is_hit = int(hits[i])
+			if i < hits.size() and hits[i] != "": is_hit = int(hits[i])
 			
-			var p_color = COLOR_SUCCESS if is_hit > 0 else COLOR_DANGER
-			var p_lbl = _lbl(p_text, p_color)
-			p_lbl.add_theme_font_size_override("font_size", 12)
+			var p_color = COLOR_GOLD_BRIGHT
+			if has_score:
+				p_color = COLOR_SUCCESS if is_hit > 0 else COLOR_DANGER
+			var p_lbl = _lbl(p_text, p_color, 12, true)  # Enable wrap for history predictions
+			p_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			pred_container.add_child(p_lbl)
-			
-			if i < preds.size() - 1:
-				var sep = _lbl(" • ", COLOR_TEXT_DIM)
-				pred_container.add_child(sep)
 		
 		# Set a minimum width to force flow container to wrap its children
 		pred_container.custom_minimum_size.x = 400
@@ -704,6 +737,14 @@ func _create_team_search_card(t) -> PanelContainer:
 	hb.add_child(_lbl("Elo: " + str(int(t["elo_rating"])), COLOR_GOLD_BRIGHT))
 	hb.add_child(_lbl("⚽ " + str(snapped(t["avg_scored"], 0.1)), COLOR_TEXT_DIM))
 	return card
+
+func _on_date_filter_changed(index: int) -> void:
+	match index:
+		0: current_date_filter = "ALL"
+		1: current_date_filter = "TODAY"
+		2: current_date_filter = "TOMORROW"
+		_: current_date_filter = "ALL"
+	_update_dashboard()
 
 func _on_sync_pressed():
 	if is_syncing: return
@@ -809,7 +850,9 @@ func _update_dashboard_with_data(matches):
 
 func _on_record_pressed(p_data):
 	current_match_id = int(p_data["match_id"]); current_selection = p_data["selection"]; ai_odd = p_data["bookmaker_odd"]
+	# Use full prediction text with line breaks for better display
 	match_confirm_lbl.text = p_data["home_name"] + " — " + p_data["away_name"] + "\nПрогноз: " + current_selection
+	match_confirm_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART  # Enable word wrap
 	odd_input.value = ai_odd if ai_odd > 0 else 1.95; stake_input.value = db_viewer.get_default_stake()
 	bet_dialog.popup_centered()
 
@@ -988,9 +1031,13 @@ func _format_match_date(utc_date_str: String) -> String:
 	
 	return "%04d-%02d-%02d %02d:%02d" % [local_dict["year"], local_dict["month"], local_dict["day"], local_dict["hour"], local_dict["minute"]]
 
-func _lbl(txt, color = COLOR_TEXT, f_size = 16) -> Label:
+func _lbl(txt, color = COLOR_TEXT, f_size = 16, enable_wrap = false) -> Label:
 	var l = Label.new(); l.text = str(txt); l.add_theme_color_override("font_color", color)
 	l.add_theme_font_size_override("font_size", f_size)
+	if enable_wrap:
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		l.custom_minimum_size.x = 200  # Ensure minimum width for proper wrapping
 	return l
 
 func _on_show_team_stats(team_id):

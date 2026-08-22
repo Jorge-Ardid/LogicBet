@@ -839,6 +839,8 @@ if __name__ == "__main__":
             recalculate_elo_from_history(db, engine)
             evaluate_virtual_bets(db)
             evaluate_user_bets(db)
+            # Post-facto calibration report: model vs market (by odds bands)
+            engine.calibrate_team_strength_from_user_bets()
             sync_match_stats(db, api)
             
             # --- SHOW MATCH STATISTICS ---
@@ -906,6 +908,8 @@ if __name__ == "__main__":
             predict_missing_matches(db, analytics)
             evaluate_virtual_bets(db)
             evaluate_user_bets(db)
+            # Post-facto calibration report: model vs market (by odds bands)
+            analytics.calibrate_team_strength_from_user_bets()
             sync_match_stats(db, multi_engine.api_football)
             
             # --- SHOW MATCH STATISTICS ---

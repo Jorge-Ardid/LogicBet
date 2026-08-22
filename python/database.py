@@ -392,7 +392,8 @@ class LogicBetDB:
                     xg_a REAL DEFAULT 0.0,
                     possession_h INTEGER DEFAULT 50,
                     possession_a INTEGER DEFAULT 50,
-                    stats_fetched INTEGER DEFAULT 0,
+                                        stats_fetched INTEGER DEFAULT 0,
+                    finished_at TEXT, -- Timestamp when match was FINALIZED (locks predictions forever)
                     FOREIGN KEY(home_team_id) REFERENCES teams(id),
                     FOREIGN KEY(away_team_id) REFERENCES teams(id)
                 )
@@ -492,8 +493,13 @@ class LogicBetDB:
                     try:
                         cursor.execute(f"ALTER TABLE matches ADD COLUMN {col}")
                     except sqlite3.OperationalError:
-                        pass # Column might already exist
-                        
+                                                pass # Column might already exist
+
+            # Migration for finished_at (locks predictions when match is finalized)
+            if "finished_at" not in columns:
+                cursor.execute("ALTER TABLE matches ADD COLUMN finished_at TEXT")
+                print("[DATABASE] Migration: added matches.finished_at")
+            
             # Initialize sync status if not exists
             cursor.execute("INSERT OR IGNORE INTO config (key, value) VALUES ('last_sync_time', '0')")
             cursor.execute("INSERT OR IGNORE INTO config (key, value) VALUES ('sync_error', '')")
@@ -605,15 +611,25 @@ class LogicBetDB:
     def insert_prediction(self, match_id, algorithm, market, selection, prob, odds, value, confidence='MEDIUM'):
         with self.get_connection() as conn:
             cursor = conn.cursor()
+
+            # CRITICAL RULE: Once a match is finalized (finished_at set),
+            # its predictions are LOCKED forever — no re-evaluation is allowed.
+            finished_at_val = cursor.execute(
+                "SELECT finished_at FROM matches WHERE id = ?", (match_id,)
+            ).fetchone()
+            if finished_at_val and finished_at_val[0]:
+                # Match already finalized → freeze existing predictions in place
+                return None
+
             cursor.execute("""
-                SELECT id FROM predictions 
+                SELECT id FROM predictions
                 WHERE match_id = ? AND market = ? AND selection = ?
             """, (match_id, market, selection))
             existing = cursor.fetchone()
             if existing:
                 cursor.execute("""
-                    UPDATE predictions SET 
-                        algorithm = ?, calculated_prob = ?, bookmaker_odd = ?, 
+                    UPDATE predictions SET
+                        algorithm = ?, calculated_prob = ?, bookmaker_odd = ?,
                         value_percentage = ?, confidence_level = ?
                     WHERE id = ?
                 """, (algorithm, prob, odds, value, confidence, existing[0]))
@@ -623,6 +639,7 @@ class LogicBetDB:
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """, (match_id, algorithm, market, selection, prob, odds, value, confidence))
             conn.commit()
+            return cursor.lastrowid
 
     def get_next_matches_without_predictions(self, league_ids=None):
         """Повертає матчі, для яких потрібно згенерувати прогнози.

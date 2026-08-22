@@ -33,7 +33,15 @@ func _ready() -> void:
 		db.query("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name TEXT, elo_rating REAL DEFAULT 1500.0, attack_rating REAL DEFAULT 1.25, defense_rating REAL DEFAULT 1.25, discipline_rating REAL DEFAULT 2.5, corners_rating REAL DEFAULT 5.0, current_form TEXT, rank INTEGER, points INTEGER, avg_scored REAL, avg_conceded REAL)")
 		db.query("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, remote_id INTEGER, date TEXT, league TEXT, league_id INTEGER, home_team_id INTEGER, away_team_id INTEGER, home_score INTEGER, away_score INTEGER, status TEXT, corners_h INTEGER, corners_a INTEGER, yellow_cards_h INTEGER, yellow_cards_a INTEGER, red_cards_h INTEGER, red_cards_a INTEGER, shots_on_h INTEGER, shots_on_a INTEGER, xg_h REAL, xg_a REAL, possession_h INTEGER, possession_a INTEGER, h_elo_change REAL, a_elo_change REAL, ht_score_h INTEGER, ht_score_a INTEGER, form_home TEXT, form_away TEXT)")
 		db.query("CREATE TABLE IF NOT EXISTS predictions (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, algorithm TEXT, market TEXT, selection TEXT, calculated_prob REAL, bookmaker_odd REAL, value_percentage REAL, confidence_level TEXT, is_hit INTEGER, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
-		db.query("CREATE TABLE IF NOT EXISTS user_bets (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, selection TEXT, stake REAL, odd REAL, status TEXT DEFAULT 'PENDING', profit REAL DEFAULT 0.0)")
+		db.query("CREATE TABLE IF NOT EXISTS user_bets (id INTEGER PRIMARY KEY AUTOINCREMENT, match_id INTEGER, selection TEXT, stake REAL, odd REAL, status TEXT DEFAULT 'PENDING', profit REAL DEFAULT 0.0, bookkeeper_odd REAL)"
+		# Migration: add bookkeeper_odd for pre-existing installs
+		db.query("PRAGMA table_info(user_bets)")
+		var has_bk_col := false
+		for col in db.query_result:
+			if col["name"] == "bookkeeper_odd":
+				has_bk_col = true
+		if not has_bk_col:
+			db.query("ALTER TABLE user_bets ADD COLUMN bookkeeper_odd REAL")
 	else:
 		print("LogicBet ERROR: Could not open DB at: ", full_path)
 
@@ -42,12 +50,22 @@ func get_max_predictions() -> int:
 	if val == "" or val == null: return 15 # Default
 	return int(val)
 
-func fetch_predictions() -> Array:
+func fetch_predictions(date_filter: String = "ALL") -> Array:
 	if not db: 
 		print("LogicBet ERROR: DB is null")
 		return []
 	
-	var sql = """
+	var sql = ""
+	var date_clause = ""
+	match date_filter:
+		"TODAY":
+			date_clause = "AND date(m.date) = date('now')"
+		"TOMORROW":
+			date_clause = "AND date(m.date) = date('now', '+1 day')"
+		"ALL", _:
+			date_clause = ""
+	
+	sql = """
 	SELECT * FROM (
 		SELECT 
 			m.id as match_id,
@@ -62,10 +80,18 @@ func fetch_predictions() -> Array:
 			t2.name as away_name,
 			t1.elo_rating as h_elo_live,
 			t2.elo_rating as a_elo_live,
-			t1.current_form as form_home,
-			t2.current_form as form_away,
-			(SELECT GROUP_CONCAT(selection, ' / ') FROM predictions p2 WHERE p2.match_id = m.id ORDER BY p2.calculated_prob DESC) as selection,
-			(SELECT GROUP_CONCAT(calculated_prob, '|') FROM predictions p2 WHERE p2.match_id = m.id ORDER BY p2.calculated_prob DESC) as probabilities,
+			(SELECT GROUP_CONCAT(selection, ' • ') FROM (
+				SELECT selection FROM predictions p2 
+				WHERE p2.match_id = m.id 
+				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+				LIMIT 5  -- Limit to 5 predictions to prevent text overflow
+			)) as selection,
+			(SELECT GROUP_CONCAT(calculated_prob, '|') FROM (
+				SELECT calculated_prob FROM predictions p2 
+				WHERE p2.match_id = m.id 
+				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
+				LIMIT 5  -- Limit to 5 predictions to match selection limit
+			)) as probabilities,
 			MAX(p.calculated_prob) as calculated_prob,
 			p.algorithm,
 			p.bookmaker_odd,
@@ -75,14 +101,15 @@ func fetch_predictions() -> Array:
 		LEFT JOIN teams t1 ON m.home_team_id = t1.id
 		LEFT JOIN teams t2 ON m.away_team_id = t2.id
 		LEFT JOIN predictions p ON p.match_id = m.id
-		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'FINISHED', 'FT') 
+		WHERE m.status IN ('NS', 'TIMED', 'SCHEDULED', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'FINISHED', 'FT')
 		AND date(m.date) >= date('now', '-10 hours')
+		%s
 		GROUP BY m.id
 		ORDER BY power_score DESC
 		LIMIT %d
 	)
 	ORDER BY date ASC
-	""" % get_max_predictions()
+	""" % [date_clause, get_max_predictions()]
 	
 	if db.query(sql):
 		return db.query_result
@@ -157,10 +184,16 @@ func record_bet(match_id: int, selection: String, stake: float, actual_odd: floa
 	var new_bank = current - stake
 	set_bankroll(new_bank)
 	
-	# Insert into user_bets
-	var sql = "INSERT INTO user_bets (match_id, selection, stake, odd, status) VALUES (%d, '%s', %f, %f, 'PENDING')" % [match_id, selection, stake, actual_odd]
+	# Insert into user_bets (store both user-entered odd AND bookkeeper_odd for calibration)
+	var sql = "INSERT INTO user_bets (match_id, selection, stake, odd, bookkeeper_odd, status) VALUES (%d, '%s', %f, %f, %f, 'PENDING')" % [match_id, selection, stake, actual_odd, actual_odd]
 	db.query(sql)
 	print("LogicBet: Bet recorded. MatchID: ", match_id, " Stake: ", stake, " Odds: ", actual_odd)
+
+func update_user_bet_odd(bet_id: int, new_odd: float) -> void:
+	if not db: return
+	var sql = "UPDATE user_bets SET odd = %f WHERE id = %d" % [new_odd, bet_id]
+	db.query(sql)
+	print("LogicBet: Bet %d odd updated to %f" % [bet_id, new_odd])
 
 func fetch_user_bets() -> Array:
 	if not db: return []
@@ -242,19 +275,21 @@ func fetch_global_history() -> Array:
 				SELECT selection FROM predictions p2 
 				WHERE p2.match_id = m.id 
 				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
-				LIMIT -1
+				LIMIT 5  -- Limit to 5 predictions to prevent text overflow
 			)) as ai_prediction,
 			(SELECT GROUP_CONCAT(is_hit, '|') FROM (
 				SELECT is_hit FROM predictions p2 
 				WHERE p2.match_id = m.id 
 				ORDER BY (CASE WHEN market = '1X2/DC' THEN 0 ELSE 1 END) ASC, calculated_prob DESC
-				LIMIT -1
+				LIMIT 5  -- Limit to 5 predictions to match selection limit
 			)) as ai_hit
 		FROM matches m
 		JOIN teams t1 ON m.home_team_id = t1.id
 		JOIN teams t2 ON m.away_team_id = t2.id
 		LEFT JOIN predictions p ON p.match_id = m.id
 		WHERE m.status IN ('FT', 'AET', 'PEN', 'FINISHED')
+		  AND m.home_score IS NOT NULL 
+		  AND m.away_score IS NOT NULL
 		GROUP BY m.id
 		ORDER BY m.date DESC 
 		LIMIT 150
@@ -447,6 +482,7 @@ func sync_from_json(data: Dictionary) -> void:
 	# 4. Update Prediction History
 	if data.has("predictions_history"):
 		db.query("BEGIN TRANSACTION")
+		db.query("DELETE FROM predictions")
 		for p in data["predictions_history"]:
 			var p_sql = "INSERT OR REPLACE INTO predictions (id, match_id, algorithm, market, selection, calculated_prob, bookmaker_odd, value_percentage, confidence_level, is_hit) VALUES (%d, %d, '%s', '%s', '%s', %f, %f, %f, '%s', %s)" % [
 				int(p.get("id", 0)), 
