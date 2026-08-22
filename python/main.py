@@ -341,6 +341,19 @@ def evaluate_virtual_bets(db):
     print("--- EVALUATING VIRTUAL BETS ---")
     with db.get_connection() as conn:
         cursor = conn.cursor()
+        # FINALIZE RULE: stamp finished_at on every match whose result has arrived.
+        # Once stamped, insert_prediction() refuses to touch its predictions —
+        # they stay frozen exactly as they were before kickoff.
+        cursor.execute("""
+            UPDATE matches
+            SET finished_at = CURRENT_TIMESTAMP
+            WHERE status IN ('FT', 'AET', 'PEN', 'FINISHED')
+              AND home_score IS NOT NULL AND away_score IS NOT NULL
+              AND finished_at IS NULL
+        """)
+        finalized = cursor.rowcount
+        if finalized:
+            print(f"  [FREEZE] {finalized} matches finalized — their predictions are now locked")
         # Include 'FINISHED' and 'FT' statuses
         query = """
             SELECT p.id, p.selection, m.home_score, m.away_score, 

@@ -564,39 +564,32 @@ class BettingAnalytics:
     def calibrate_team_strength_from_user_bets(self):
         """POST-FACTO ANALYSIS (does NOT modify ELO / team ratings).
 
-        Compares the AI model's probability vs the market-implied probability
-        (1 / user_odd) for every resolved user bet. Groups results by odds
-        band so you can see *in which favorite/underdog categories* the model
-        is sharpest against the market.
+        Compares the AI model's per-prediction probability vs the market-implied
+        probability (1 / user_odd) for every settled user bet. The user bet
+        stores a COMBO string ("П1 / ТБ 2.5 / ..."), so it is split into parts
+        and each part is matched against that match's predictions.
 
-        Returns:
-            dict: {
-                "overall":  {"n": int, "model_acc": float, "market_acc": float, "edge": float},
-                "by_band":  { "Fav (<=1.5)": {...}, "Even (1.5-2.5)": {...}, "Long (>3)": {...} },
-                "by_market": { "1X2/DC": {...}, "BTTS": {...}, ... }
-            }
+        Returns dict with overall / by_band / by_market accuracy stats.
         """
         with self.db.get_connection() as conn:
-            rows = conn.execute("""
-                SELECT ub.selection,
-                       ub.odd            AS user_odd,
-                       p.bookmaker_odd   AS kb_odd,
-                       p.calculated_prob AS model_prob,
-                       p.is_hit          AS hit,
-                       p.market,
-                       p.selection       AS pred_sel,
-                       m.home_team_id,
-                       m.away_team_id
+            bets = conn.execute("""
+                SELECT ub.match_id, ub.selection, ub.odd, ub.status
                 FROM user_bets ub
-                JOIN predictions p ON p.match_id = ub.match_id AND p.selection = ub.selection
-                JOIN matches m  ON m.id = ub.match_id
                 WHERE ub.status IN ('WON','LOST')
-                  AND ub.odd IS NOT NULL
-                  AND ub.odd > 0
-                  AND p.calculated_prob IS NOT NULL
+                  AND ub.odd IS NOT NULL AND ub.odd > 0
+            """).fetchall()
+            preds = conn.execute("""
+                SELECT match_id, selection, market, calculated_prob, is_hit
+                FROM predictions
+                WHERE calculated_prob IS NOT NULL
             """).fetchall()
 
-        # Band helper — market-implied probability
+        # index predictions per match by normalized selection text
+        preds_by_match = {}
+        for mid, sel, market, prob, hit in preds:
+            key = " ".join((sel or "").upper().split())
+            preds_by_match.setdefault(mid, {})[key] = (market or "?", float(prob), 1 if hit else 0)
+
         def _band(odd: float) -> str:
             if odd <= 1.5:
                 return "Fav (<=1.5)"
@@ -604,58 +597,76 @@ class BettingAnalytics:
                 return "Even (1.5-2.5)"
             return "Long (>3.0)"
 
-        bands: dict = {}
-        markets: dict = {}
-        overall_n = overall_model = overall_market = overall_edge = 0.0
+        bands, markets = {}, {}
+        totals = {"n": 0, "model": 0, "market": 0, "edge": 0.0}
+        unmatched_parts = 0
 
-        for sel, user_odd, kb_odd, model_prob, hit, market, pred_sel, h_id, a_id in rows or []:
-            hit_val = 1 if hit else 0
-            # Model accuracy = how often model_prob>0.5 matches the actual outcome
-            model_correct = 1 if (model_prob > 0.5) == bool(hit_val) else 0
-            # Market-implied probability
-            market_prob = 1.0 / user_odd if user_odd > 0 else 0.0
-            # Market "accuracy": did the favourite (lowest odd → highest implied) win?
-            market_correct = 1 if (market_prob > 0.5) == bool(hit_val) else 0
-            edge = model_prob - market_prob
+        for match_id, combo, user_odd, status in bets:
+            parts = [p.strip() for p in (combo or "").split("/") if p.strip()]
+            lookup = preds_by_match.get(match_id, {})
+            matched_any = False
+            for part in parts:
+                rec = lookup.get(" ".join(part.upper().split()))
+                if rec is None:
+                    continue
+                market, model_prob, hit_val = rec
+                matched_any = True
 
-            for agg in (bands, markets):
-                key = _band(user_odd) if agg is bands else market
-                b = agg.setdefault(key, {"n": 0, "model_acc": 0.0, "market_acc": 0.0, "edge_sum": 0.0})
-                b["n"] += 1
-                b["model_acc"] += model_correct
-                b["market_acc"] += market_correct
-                b["edge_sum"] += edge
+                # Model "call" = probability above coin-flip; Market call = implied prob > 0.5
+                model_correct = 1 if ((model_prob > 0.5) == bool(hit_val)) else 0
+                market_prob = min(0.99, 1.0 / float(user_odd))
+                market_correct = 1 if ((market_prob > 0.5) == bool(hit_val)) else 0
+                edge = model_prob - market_prob
 
-            overall_n += 1
-            overall_model += model_correct
-            overall_market += market_correct
-            overall_edge += edge
+                for agg, key in ((bands, _band(user_odd)), (markets, market)):
+                    b = agg.setdefault(key, {"n": 0, "model": 0, "market": 0, "edge": 0.0})
+                    b["n"] += 1
+                    b["model"] += model_correct
+                    b["market"] += market_correct
+                    b["edge"] += edge
+
+                totals["n"] += 1
+                totals["model"] += model_correct
+                totals["market"] += market_correct
+                totals["edge"] += edge
+
+            if not matched_any:
+                unmatched_parts += len(parts)
 
         def _finalize(d):
             out = {}
             for k, v in d.items():
+                n = v["n"]
                 out[k] = {
-                    "n": v["n"],
-                    "model_acc": round(v["model_acc"] / v["n"] * 100, 1) if v["n"] else 0.0,
-                    "market_acc": round(v["market_acc"] / v["n"] * 100, 1) if v["n"] else 0.0,
-                    "avg_edge": round(v["edge_sum"] / v["n"], 4) if v["n"] else 0.0,
+                    "n": n,
+                    "model_acc": round(v["model"] / n * 100, 1) if n else 0.0,
+                    "market_acc": round(v["market"] / n * 100, 1) if n else 0.0,
+                    "avg_edge": round(v["edge"] / n, 4) if n else 0.0,
                 }
             return out
 
+        n = totals["n"]
         result = {
             "overall": {
-                "n": overall_n,
-                "model_acc": round(overall_model / overall_n * 100, 1) if overall_n else 0.0,
-                "market_acc": round(overall_market / overall_n * 100, 1) if overall_n else 0.0,
-                "edge": round(overall_edge / overall_n, 4) if overall_n else 0.0,
+                "n": n,
+                "model_acc": round(totals["model"] / n * 100, 1) if n else 0.0,
+                "market_acc": round(totals["market"] / n * 100, 1) if n else 0.0,
+                "edge": round(totals["edge"] / n, 4) if n else 0.0,
             },
             "by_band": _finalize(bands),
             "by_market": _finalize(markets),
         }
-        print("--- CALIBRATION REPORT ---")
-        print(f"  Overall: model {result['overall']['model_acc']}% vs market {result['overall']['market_acc']}% (edge={result['overall']['edge']:+.4f})")
-        for band, d in result["by_band"].items():
-            print(f"  Band '{band}': n={d['n']}  model={d['model_acc']}%  market={d['market_acc']}%  edge={d['avg_edge']:+.4f}")
+        print("--- CALIBRATION REPORT (model vs market) ---")
+        if n == 0:
+            print("  No settled bets could be matched to predictions yet.")
+        else:
+            o = result["overall"]
+            print(f"  Matched picks: {n} (unmatched combo parts skipped: {unmatched_parts})")
+            print(f"  Overall: model {o['model_acc']}% vs market {o['market_acc']}% (avg edge {o['edge']:+.4f})")
+            for band, d in result["by_band"].items():
+                print(f"  [{band}] n={d['n']}  model={d['model_acc']}%  market={d['market_acc']}%  edge={d['avg_edge']:+.4f}")
+            for mk, d in result["by_market"].items():
+                print(f"  <{mk}> n={d['n']}  model={d['model_acc']}%  market={d['market_acc']}%  edge={d['avg_edge']:+.4f}")
         return result
 
     def determine_predictions(self, match_id, home_id, away_id, bookmaker_odds_data, h_form="", a_form=""):
