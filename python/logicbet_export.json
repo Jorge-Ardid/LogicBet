@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-22T12:39:50.042628",
+  "last_updated": "2026-08-22T18:31:44.560858",
   "config": {
     "api_requests_left": "100",
     "api_key_network_as_code": "3725c32b04mshb942c2df0e3ab79p18f60djsn14472b9a742",
@@ -14,16 +14,16 @@
     "bankroll": "1000.0",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
     "api_key_api_football": "72afa426ab5fb0a7c964261b8b25f977",
-    "last_sync_time": "1787402389.2151816",
+    "last_sync_time": "1787423503.548625",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100",
     "github_token": ""
   },
   "ai_stats": {
-    "total": 1538,
-    "hits": 997,
-    "acc": 64.82444733420026
+    "total": 1593,
+    "hits": 1029,
+    "acc": 64.59510357815442
   },
   "matches": [
     {
@@ -3264,13 +3264,13 @@
       "league_id": 140,
       "home_team_id": 38,
       "away_team_id": 31,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 0,
+      "away_score": 0,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "LIVE",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3302,13 +3302,13 @@
       "league_id": 135,
       "home_team_id": 87,
       "away_team_id": 97,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 1,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "LIVE",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3340,13 +3340,13 @@
       "league_id": 135,
       "home_team_id": 79,
       "away_team_id": 156,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 4,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 1,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3361,14 +3361,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "stats_fetched": 1,
+      "elo_processed": 1,
+      "h_elo_change": 5.8543591440648015,
+      "a_elo_change": -5.8543591440648015,
       "home_name": "Inter",
       "away_name": "Monza",
       "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Inter ТБ 1.5 / Monza ТБ 1.5 / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": null
+      "ai_hit": "1|1|1|0|1|1|0"
     },
     {
       "id": 1195,
@@ -3378,13 +3378,13 @@
       "league_id": 39,
       "home_team_id": 16,
       "away_team_id": 3,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 3,
+      "away_score": 0,
+      "ht_score_h": 2,
+      "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3399,14 +3399,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "stats_fetched": 1,
+      "elo_processed": 1,
+      "h_elo_change": 8.185881375574581,
+      "a_elo_change": -8.185881375574581,
       "home_name": "Brentford",
       "away_name": "Tottenham",
       "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Brentford ТБ 1.5 / Tottenham ТБ 1.5 / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": null
+      "ai_hit": "0|1|1|0|0|1"
     },
     {
       "id": 1192,
@@ -3416,13 +3416,13 @@
       "league_id": 61,
       "home_team_id": 105,
       "away_team_id": 76,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 5,
+      "away_score": 2,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3437,14 +3437,14 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "stats_fetched": 1,
+      "elo_processed": 1,
+      "h_elo_change": 9.465072504218142,
+      "a_elo_change": -9.465072504218142,
       "home_name": "Racing Club de Lens",
       "away_name": "Auxerre",
       "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Racing Club de Lens ТБ 1.5 / Auxerre ТБ 1.5 / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": null
+      "ai_hit": "1|1|1|1|1|1|1"
     },
     {
       "id": 1191,
@@ -3454,13 +3454,13 @@
       "league_id": 140,
       "home_team_id": 33,
       "away_team_id": 37,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 1,
+      "away_score": 3,
+      "ht_score_h": 0,
+      "ht_score_a": 1,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3476,13 +3476,13 @@
       "possession_h": 50,
       "possession_a": 50,
       "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "elo_processed": 1,
+      "h_elo_change": -9.774399518544215,
+      "a_elo_change": 9.774399518544215,
       "home_name": "Athletic Club",
       "away_name": "Sevilla",
       "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Athletic Club ТБ 1.5 / Sevilla ТБ 1.5 / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": null
+      "ai_hit": "0|1|0|1|1|1|1"
     },
     {
       "id": 1188,
@@ -3492,13 +3492,13 @@
       "league_id": 39,
       "home_team_id": 155,
       "away_team_id": 20,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 2,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 1,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3514,13 +3514,13 @@
       "possession_h": 50,
       "possession_a": 50,
       "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "elo_processed": 1,
+      "h_elo_change": 9.642227019724032,
+      "a_elo_change": -9.642227019724032,
       "home_name": "Ipswich Town",
       "away_name": "Sunderland",
       "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Ipswich Town ТБ 1.5 / Sunderland ТБ 1.5 / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": null
+      "ai_hit": "1|1|1|0|1|1|0"
     },
     {
       "id": 1189,
@@ -3530,13 +3530,13 @@
       "league_id": 39,
       "home_team_id": 17,
       "away_team_id": 13,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 2,
+      "away_score": 0,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3552,13 +3552,13 @@
       "possession_h": 50,
       "possession_a": 50,
       "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "elo_processed": 1,
+      "h_elo_change": 9.250543568942248,
+      "a_elo_change": -9.250543568942248,
       "home_name": "Everton",
       "away_name": "Crystal Palace",
       "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Everton ТБ 1.5 / Crystal Palace ТБ 1.5 / ОЗ (Обидві заб'ють) / ТМ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": null
+      "ai_hit": "1|0|1|0|0|0|1"
     },
     {
       "id": 1190,
@@ -3568,13 +3568,13 @@
       "league_id": 39,
       "home_team_id": 14,
       "away_team_id": 19,
-      "home_score": null,
-      "away_score": null,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 0,
+      "away_score": 1,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "NS",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3590,13 +3590,13 @@
       "possession_h": 50,
       "possession_a": 50,
       "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "elo_processed": 1,
+      "h_elo_change": -9.589443156783545,
+      "a_elo_change": 9.589443156783545,
       "home_name": "Forest",
       "away_name": "Leeds",
       "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Forest ТБ 1.5 / Leeds ТБ 1.5 / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": null
+      "ai_hit": "0|0|0|0|0|0|1"
     },
     {
       "id": 1187,
@@ -3612,7 +3612,7 @@
       "ht_score_a": 0,
       "form_home": "",
       "form_away": "",
-      "status": "LIVE",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3628,13 +3628,13 @@
       "possession_h": 50,
       "possession_a": 50,
       "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
+      "elo_processed": 1,
+      "h_elo_change": 12.178961592416726,
+      "a_elo_change": -12.178961592416726,
       "home_name": "Hull City",
       "away_name": "Man United",
       "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Hull City ТБ 1.5 / Man United ТБ 1.5 / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": null
+      "ai_hit": "1|0|1|0|0|1|0"
     },
     {
       "id": 1185,
@@ -47910,7 +47910,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -47924,7 +47924,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -47938,7 +47938,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -47952,7 +47952,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -47966,7 +47966,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -47980,7 +47980,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -47994,7 +47994,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48008,7 +48008,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48022,7 +48022,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48036,7 +48036,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48050,7 +48050,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48064,7 +48064,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48078,7 +48078,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T16:30:00Z"
     },
@@ -48092,7 +48092,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48106,7 +48106,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48120,7 +48120,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48134,7 +48134,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48148,7 +48148,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48162,7 +48162,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48176,7 +48176,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:15:00Z"
     },
@@ -48190,7 +48190,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48204,7 +48204,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48218,7 +48218,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48232,7 +48232,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48246,7 +48246,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48260,7 +48260,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48274,7 +48274,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T15:00:00Z"
     },
@@ -48288,7 +48288,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48302,7 +48302,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48316,7 +48316,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48330,7 +48330,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48344,7 +48344,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48358,7 +48358,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48372,7 +48372,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48386,7 +48386,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48400,7 +48400,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48414,7 +48414,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48428,7 +48428,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48442,7 +48442,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48456,7 +48456,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48470,7 +48470,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48484,7 +48484,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48498,7 +48498,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48512,7 +48512,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48526,7 +48526,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48540,7 +48540,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48554,7 +48554,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48568,7 +48568,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:15",
       "date": "2026-08-22T14:00:00Z"
     },
@@ -48582,7 +48582,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -48596,7 +48596,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -48610,7 +48610,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -48624,7 +48624,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -48638,7 +48638,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -48652,7 +48652,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -48666,7 +48666,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-21 13:33:14",
       "date": "2026-08-22T11:30:00Z"
     },
@@ -49131,16 +49131,16 @@
     {
       "id": 2,
       "name": "Man United",
-      "elo_rating": 1576.9383369017003,
-      "current_form": "LWWWD",
+      "elo_rating": 1564.7593753092835,
+      "current_form": "WWWDL",
       "rank": 0,
       "points": 0
     },
     {
       "id": 3,
       "name": "Tottenham",
-      "elo_rating": 1443.5696376853475,
-      "current_form": "LLDWW",
+      "elo_rating": 1435.383756309773,
+      "current_form": "LDWWL",
       "rank": 0,
       "points": 0
     },
@@ -49219,16 +49219,16 @@
     {
       "id": 13,
       "name": "Crystal Palace",
-      "elo_rating": 1474.1743280644034,
-      "current_form": "DWDLL",
+      "elo_rating": 1464.9237844954612,
+      "current_form": "WDLLL",
       "rank": 0,
       "points": 0
     },
     {
       "id": 14,
       "name": "Forest",
-      "elo_rating": 1488.6048498435694,
-      "current_form": "WDWWW",
+      "elo_rating": 1479.0154066867858,
+      "current_form": "DWWWL",
       "rank": 0,
       "points": 0
     },
@@ -49243,16 +49243,16 @@
     {
       "id": 16,
       "name": "Brentford",
-      "elo_rating": 1507.303989848816,
-      "current_form": "DDLWL",
+      "elo_rating": 1515.4898712243905,
+      "current_form": "DLWLW",
       "rank": 0,
       "points": 0
     },
     {
       "id": 17,
       "name": "Everton",
-      "elo_rating": 1500.2620283959407,
-      "current_form": "WDLLD",
+      "elo_rating": 1509.512571964883,
+      "current_form": "DLLDW",
       "rank": 0,
       "points": 0
     },
@@ -49267,16 +49267,16 @@
     {
       "id": 19,
       "name": "Leeds",
-      "elo_rating": 1502.8770781153378,
-      "current_form": "DWWDW",
+      "elo_rating": 1512.4665212721213,
+      "current_form": "WWDWW",
       "rank": 0,
       "points": 0
     },
     {
       "id": 20,
       "name": "Sunderland",
-      "elo_rating": 1487.5643857745695,
-      "current_form": "WLLDD",
+      "elo_rating": 1477.9221587548454,
+      "current_form": "LLDDL",
       "rank": 0,
       "points": 0
     },
@@ -49379,8 +49379,8 @@
     {
       "id": 33,
       "name": "Athletic Club",
-      "elo_rating": 1478.7087052661084,
-      "current_form": "LLWLW",
+      "elo_rating": 1468.9343057475642,
+      "current_form": "LWLWL",
       "rank": 0,
       "points": 0
     },
@@ -49411,8 +49411,8 @@
     {
       "id": 37,
       "name": "Sevilla",
-      "elo_rating": 1486.54819896873,
-      "current_form": "LLWWW",
+      "elo_rating": 1496.3225984872743,
+      "current_form": "LWWWW",
       "rank": 0,
       "points": 0
     },
@@ -49723,8 +49723,8 @@
     {
       "id": 76,
       "name": "Auxerre",
-      "elo_rating": 1500.2797001291292,
-      "current_form": "DLW",
+      "elo_rating": 1490.814627624911,
+      "current_form": "DLWL",
       "rank": 0,
       "points": 0
     },
@@ -49747,8 +49747,8 @@
     {
       "id": 79,
       "name": "Inter",
-      "elo_rating": 1653.2573064953904,
-      "current_form": "WWDWW",
+      "elo_rating": 1659.1116656394552,
+      "current_form": "WDWWW",
       "rank": 0,
       "points": 0
     },
@@ -49955,8 +49955,8 @@
     {
       "id": 105,
       "name": "Racing Club de Lens",
-      "elo_rating": 1518.882742502421,
-      "current_form": "WDDW",
+      "elo_rating": 1528.3478150066392,
+      "current_form": "WDDWW",
       "rank": 0,
       "points": 0
     },
@@ -50347,24 +50347,24 @@
     {
       "id": 154,
       "name": "Hull City",
-      "elo_rating": 1500.0,
-      "current_form": "",
+      "elo_rating": 1512.1789615924167,
+      "current_form": "W",
       "rank": 0,
       "points": 0
     },
     {
       "id": 155,
       "name": "Ipswich Town",
-      "elo_rating": 1500.0,
-      "current_form": "",
+      "elo_rating": 1509.642227019724,
+      "current_form": "W",
       "rank": 0,
       "points": 0
     },
     {
       "id": 156,
       "name": "Monza",
-      "elo_rating": 1500.0,
-      "current_form": "",
+      "elo_rating": 1494.1456408559352,
+      "current_form": "L",
       "rank": 0,
       "points": 0
     },

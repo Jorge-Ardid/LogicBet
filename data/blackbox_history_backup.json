@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-22T12:39:49.795215",
+  "last_updated": "2026-08-22T18:31:44.304949",
   "matches": {
     "100001_Arsenal_Chelsea_2024-01-15": {
       "db_id": 1,
@@ -40004,6 +40004,693 @@
         },
         {
           "id": 11290,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        }
+      ]
+    },
+    "560543_Hull City_Man United_2026-08-22": {
+      "db_id": 1187,
+      "remote_id": 560543,
+      "date": "2026-08-22T11:30:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Hull City",
+      "away_team": "Man United",
+      "home_score": 2,
+      "away_score": 0,
+      "ht_score_h": 2,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11291,
+          "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1576|H_AVG:50.0|A_AVG:35.4|H_TR:Новачок 🆕|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.5170990195800361,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11292,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11293,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Hull City ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11294,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Man United ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11295,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11296,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТБ 0.5 (1st half)",
+          "calculated_prob": 0.9999999999515263,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11297,
+          "algorithm": "CORNERS (AI+)",
+          "market": "Corners",
+          "selection": "Corners ТБ 9.5",
+          "calculated_prob": 0.7160889535714536,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        }
+      ]
+    },
+    "560544_Ipswich Town_Sunderland_2026-08-22": {
+      "db_id": 1188,
+      "remote_id": 560544,
+      "date": "2026-08-22T14:00:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Ipswich Town",
+      "away_team": "Sunderland",
+      "home_score": 2,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 1,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11298,
+          "algorithm": "VALUE|H_ELO:1500|A_ELO:1487|H_AVG:50.0|A_AVG:35.3|H_TR:Новачок 🆕|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.8006866565046462,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11299,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11300,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Ipswich Town ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11301,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Sunderland ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11302,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11303,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТБ 0.5 (1st half)",
+          "calculated_prob": 0.9999999998973812,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11304,
+          "algorithm": "CORNERS (AI+)",
+          "market": "Corners",
+          "selection": "Corners ТБ 9.5",
+          "calculated_prob": 0.7419847748160369,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        }
+      ]
+    },
+    "560546_Everton_Crystal Palace_2026-08-22": {
+      "db_id": 1189,
+      "remote_id": 560546,
+      "date": "2026-08-22T14:00:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Everton",
+      "away_team": "Crystal Palace",
+      "home_score": 2,
+      "away_score": 0,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11305,
+          "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1474|H_AVG:35.6|A_AVG:35.2|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:1",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.5519343240396131,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11306,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11307,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Everton ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11308,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Crystal Palace ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11309,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11310,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТМ 0.5 (1st half)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11311,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        }
+      ]
+    },
+    "560545_Forest_Leeds_2026-08-22": {
+      "db_id": 1190,
+      "remote_id": 560545,
+      "date": "2026-08-22T14:00:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Forest",
+      "away_team": "Leeds",
+      "home_score": 0,
+      "away_score": 1,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11312,
+          "algorithm": "ANALYSIS|H_ELO:1488|A_ELO:1502|H_AVG:36.0|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.6075135535120391,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11313,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11314,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Forest ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11315,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Leeds ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11316,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11317,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТБ 1.5 (1st half)",
+          "calculated_prob": 0.8008517265285442,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11318,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        }
+      ]
+    },
+    "564641_Athletic Club_Sevilla_2026-08-22": {
+      "db_id": 1191,
+      "remote_id": 564641,
+      "date": "2026-08-22T15:00:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Athletic Club",
+      "away_team": "Sevilla",
+      "home_score": 1,
+      "away_score": 3,
+      "ht_score_h": 0,
+      "ht_score_a": 1,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11319,
+          "algorithm": "ANALYSIS|H_ELO:1478|A_ELO:1486|H_AVG:35.5|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.6338153461307944,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11320,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11321,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Athletic Club ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11322,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Sevilla ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11323,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11324,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТМ 1.5 (1st half)",
+          "calculated_prob": 0.8556951983876533,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11325,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        }
+      ]
+    },
+    "559712_Racing Club de Lens_Auxerre_2026-08-22": {
+      "db_id": 1192,
+      "remote_id": 559712,
+      "date": "2026-08-22T15:15:00Z",
+      "league": "Ліга 1 (Франція)",
+      "league_id": 61,
+      "home_team": "Racing Club de Lens",
+      "away_team": "Auxerre",
+      "home_score": 5,
+      "away_score": 2,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11326,
+          "algorithm": "VALUE|H_ELO:1518|A_ELO:1500|H_AVG:35.6|A_AVG:35.7|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.6190248965021975,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11327,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11328,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Racing Club de Lens ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11329,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Auxerre ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11330,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11331,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТБ 0.5 (1st half)",
+          "calculated_prob": 0.7364028618842733,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11332,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        }
+      ]
+    },
+    "558632_Inter_Monza_2026-08-22": {
+      "db_id": 1194,
+      "remote_id": 558632,
+      "date": "2026-08-22T16:30:00Z",
+      "league": "Серія А (Італія)",
+      "league_id": 135,
+      "home_team": "Inter",
+      "away_team": "Monza",
+      "home_score": 4,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 1,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11339,
+          "algorithm": "STATISTICS|H_ELO:1653|A_ELO:1500|H_AVG:35.8|A_AVG:50.0|H_TR:Хулігани (Bully) 🦁|A_TR:Новачок 🆕|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.4905852292998824,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11340,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11341,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Inter ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11342,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Monza ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11343,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11344,
+          "algorithm": "GOALS (1ST HALF)",
+          "market": "1st Half Goals",
+          "selection": "ТБ 0.5 (1st half)",
+          "calculated_prob": 0.9999999999377586,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11345,
+          "algorithm": "CORNERS (AI+)",
+          "market": "Corners",
+          "selection": "Corners ТБ 9.5",
+          "calculated_prob": 0.7160889535714536,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        }
+      ]
+    },
+    "560547_Brentford_Tottenham_2026-08-22": {
+      "db_id": 1195,
+      "remote_id": 560547,
+      "date": "2026-08-22T16:30:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Brentford",
+      "away_team": "Tottenham",
+      "home_score": 3,
+      "away_score": 0,
+      "ht_score_h": 2,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 11346,
+          "algorithm": "ANALYSIS|H_ELO:1507|A_ELO:1443|H_AVG:35.4|A_AVG:35.3|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.6181158757334909,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11347,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11348,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Brentford ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 11349,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Tottenham ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11350,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ (Обидві заб'ють)",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 11351,
           "algorithm": "CARDS (AI)",
           "market": "Cards",
           "selection": "Cards ТМ 4.5",
