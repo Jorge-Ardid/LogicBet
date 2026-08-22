@@ -1,0 +1,28 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# --- Local DB artifacts ---
+*.db-journal
+*.db-wal
+*.db-shm
+
+# --- Scratch / debug outputs (session helpers) ---
+*_out.txt
+*_check.txt
+*_dump.txt
+*_full.txt
+done_flag.tmp
+_cleanup_report.txt
+_lsfiles.txt
+_pre_delete_check.txt
+conflicts*.txt
+git_*.txt
+*.log
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
