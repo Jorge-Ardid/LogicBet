@@ -439,11 +439,15 @@ func sync_from_json(data: Dictionary) -> void:
 	
 	print("LogicBet: Syncing data from JSON snapshot...")
 	
-	# 1. Update Config (Protect local-only keys)
+	# 1. Update Config (Protect LOCAL-USER state from cloud overwrite!)
+	# Cloud config may be stale (exported from repo DB). Money & preferences
+	# belong to THIS device only.
+	const LOCAL_PROTECTED := ["bankroll", "default_stake", "max_predictions_per_day",
+		"github_user", "github_repo"]
 	if data.has("config"):
 		for key in data["config"]:
-			if key == "github_user" or key == "github_repo":
-				continue # Do not overwrite local connection settings
+			if LOCAL_PROTECTED.has(key):
+				continue # keep local bank / stake / settings / credentials
 			set_config(key, str(data["config"][key]))
 	
 	# 2. Update Teams
@@ -458,6 +462,11 @@ func sync_from_json(data: Dictionary) -> void:
 	
 	# 3. Update Matches & Predictions
 	if data.has("matches"):
+		# Preserve FREEZE stamps: cloud snapshot has no finished_at, but plain
+		# REPLACE would null it out and unlock frozen predictions on this device.
+		db.query("CREATE TEMP TABLE IF NOT EXISTS _fa_backup (id INTEGER PRIMARY KEY, fa TEXT)")
+		db.query("DELETE FROM _fa_backup")
+		db.query("INSERT INTO _fa_backup SELECT id, finished_at FROM matches WHERE finished_at IS NOT NULL")
 		db.query("BEGIN TRANSACTION")
 		for m in data["matches"]:
 			var m_sql = "INSERT OR REPLACE INTO matches (id, remote_id, date, league, league_id, home_team_id, away_team_id, home_score, away_score, status, corners_h, corners_a, yellow_cards_h, yellow_cards_a, red_cards_h, red_cards_a, shots_on_h, shots_on_a, xg_h, xg_a, possession_h, possession_a, h_elo_change, a_elo_change, ht_score_h, ht_score_a, form_home, form_away) VALUES (%d, %d, '%s', '%s', %d, %d, %d, %s, %s, '%s', %d, %d, %d, %d, %d, %d, %d, %d, %f, %f, %d, %d, %f, %f, %s, %s, '%s', '%s')" % [
@@ -478,6 +487,9 @@ func sync_from_json(data: Dictionary) -> void:
 			]
 			db.query(m_sql)
 		db.query("COMMIT")
+		# Restore freeze stamps wiped by REPLACE
+		db.query("UPDATE matches SET finished_at = (SELECT fa FROM _fa_backup WHERE _fa_backup.id = matches.id) WHERE finished_at IS NULL AND id IN (SELECT id FROM _fa_backup)")
+		db.query("DELETE FROM _fa_backup")
 
 	# 4. Update Prediction History
 	if data.has("predictions_history"):
@@ -499,14 +511,24 @@ func sync_from_json(data: Dictionary) -> void:
 			db.query(p_sql)
 		db.query("COMMIT")
 
-	# 5. Update User Bets
+	# 5. Merge User Bets (LOCAL STATE IS MASTER!)
+	# - bets that exist locally are NEVER overwritten by the stale cloud copy
+	# - exception: a local PENDING bet may adopt a WON/LOST settlement made on desktop
+	# - brand-new cloud bets are inserted so desktop history appears on phone
 	if data.has("user_bets"):
 		db.query("BEGIN TRANSACTION")
 		for ub in data["user_bets"]:
-			var ub_sql = "INSERT OR REPLACE INTO user_bets (id, match_id, selection, stake, odd, status, profit) VALUES (%d, %d, '%s', %f, %f, '%s', %f)" % [
-				ub["id"], ub["match_id"], ub["selection"].replace("'", "''"), ub["stake"], ub["odd"], ub["status"], ub["profit"]
-			]
-			db.query(ub_sql)
+			var bid := int(ub["id"])
+			db.query("SELECT status FROM user_bets WHERE id = %d" % bid)
+			var local_status: String = str(db.query_result[0]["status"]) if db.query_result.size() > 0 else ""
+			if local_status == "":
+				var bk := float(ub.get("bookkeeper_odd", ub["odd"]))
+				var ub_sql = "INSERT INTO user_bets (id, match_id, selection, stake, odd, bookkeeper_odd, status, profit) VALUES (%d, %d, '%s', %f, %f, %f, '%s', %f)" % [
+					bid, ub["match_id"], ub["selection"].replace("'", "''"), ub["stake"], ub["odd"], bk, ub["status"], ub["profit"]
+				]
+				db.query(ub_sql)
+			elif local_status == "PENDING" and (str(ub["status"]) == "WON" or str(ub["status"]) == "LOST"):
+				db.query("UPDATE user_bets SET status = '%s', profit = %f WHERE id = %d" % [str(ub["status"]), ub["profit"], bid])
 		db.query("COMMIT")
 	
 	print("LogicBet: Cloud sync applied successfully to local DB.")

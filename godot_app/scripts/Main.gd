@@ -125,7 +125,7 @@ func _setup_ui():
 	
 	var filter_hb = HBoxContainer.new(); filter_hb.alignment = BoxContainer.ALIGNMENT_CENTER; stats_vbox.add_child(filter_hb)
 	filter_hb.add_child(_lbl("Маркет: ", COLOR_TEXT_DIM))
-	stats_filter = OptionButton.new()
+	stats_filter = OptionButton.new(); stats_filter.custom_minimum_size = Vector2(240, 56); stats_filter.add_theme_font_size_override("font_size", 18)
 	stats_filter.add_item("Всі прогнози") # 0
 	stats_filter.add_item("Ісход (1X2/DC)") # 1
 	stats_filter.add_item("Тотали (Голи)") # 2
@@ -175,7 +175,7 @@ func _create_header() -> PanelContainer:
 	var spacer = Control.new(); spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(spacer)
 	
 	sync_status_lbl = Label.new(); sync_status_lbl.text = ""; sync_status_lbl.add_theme_color_override("font_color", COLOR_GOLD_BRIGHT); hb.add_child(sync_status_lbl)
-	refresh_btn = Button.new(); refresh_btn.text = " ↻ ОНОВИТИ "; refresh_btn.pressed.connect(_on_sync_pressed); hb.add_child(refresh_btn)
+	refresh_btn = Button.new(); refresh_btn.text = " ↻ ОНОВИТИ "; refresh_btn.custom_minimum_size = Vector2(230, 64); refresh_btn.add_theme_font_size_override("font_size", 20); refresh_btn.pressed.connect(_on_sync_pressed); hb.add_child(refresh_btn)
 	
 	var bank_v = VBoxContainer.new(); bank_v.alignment = BoxContainer.ALIGNMENT_CENTER; hb.add_child(bank_v)
 	bank_label = Label.new(); bank_label.text = "0.00 грн"; bank_label.add_theme_font_size_override("font_size", 28); bank_label.add_theme_color_override("font_color", COLOR_SUCCESS); bank_v.add_child(bank_label)
@@ -269,7 +269,7 @@ func _create_popup(title: String) -> Window:
 	var h_hb = HBoxContainer.new(); header.add_child(h_hb)
 	h_hb.add_child(_lbl(title.to_upper(), COLOR_GOLD, 18))
 	h_hb.add_spacer(false)
-	var close_btn = Button.new(); close_btn.text = " X "; close_btn.pressed.connect(win.hide); h_hb.add_child(close_btn)
+	var close_btn = Button.new(); close_btn.text = " ✕ "; close_btn.custom_minimum_size = Vector2(88, 72); close_btn.add_theme_font_size_override("font_size", 30); close_btn.pressed.connect(win.hide); h_hb.add_child(close_btn)
 	
 	add_child(win)
 	return win
@@ -299,12 +299,16 @@ func _build_settings() -> MarginContainer:
 	gh_grid.add_child(_lbl("User:", COLOR_TEXT_DIM)); github_user_input = LineEdit.new(); github_user_input.custom_minimum_size.x = 200; gh_grid.add_child(github_user_input)
 	gh_grid.add_child(_lbl("Repo:", COLOR_TEXT_DIM)); github_repo_input = LineEdit.new(); github_repo_input.custom_minimum_size.x = 200; gh_grid.add_child(github_repo_input)
 
-	var save_btn = Button.new(); save_btn.text = " ЗБЕРЕГТИ ВСІ ЗМІНИ "; save_btn.custom_minimum_size.y = 50; save_btn.pressed.connect(_on_save_settings); v.add_child(save_btn)
+	var save_btn = Button.new(); save_btn.text = " ЗБЕРЕГТИ ВСІ ЗМІНИ "; save_btn.custom_minimum_size = Vector2(0, 68); save_btn.add_theme_font_size_override("font_size", 20); save_btn.pressed.connect(_on_save_settings); v.add_child(save_btn)
 
 	return m
 
 func _setup_popups():
 	bet_dialog = ConfirmationDialog.new(); bet_dialog.title = "ОФОРМИТИ СТАВКУ"; add_child(bet_dialog)
+	bet_dialog.get_ok_button().custom_minimum_size = Vector2(170, 64)
+	bet_dialog.get_cancel_button().custom_minimum_size = Vector2(170, 64)
+	bet_dialog.get_ok_button().add_theme_font_size_override("font_size", 18)
+	bet_dialog.get_cancel_button().add_theme_font_size_override("font_size", 18)
 	var v = VBoxContainer.new(); v.add_theme_constant_override("separation", 20); v.custom_minimum_size = Vector2(500, 200); bet_dialog.add_child(v)  # Increased size for better text display
 	match_confirm_lbl = Label.new(); match_confirm_lbl.add_theme_color_override("font_color", COLOR_GOLD); match_confirm_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; match_confirm_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; match_confirm_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL; match_confirm_lbl.custom_minimum_size.x = 350; v.add_child(match_confirm_lbl)
 	var grid = GridContainer.new(); grid.columns = 2; grid.add_theme_constant_override("h_separation", 20); v.add_child(grid)
@@ -395,7 +399,7 @@ func _update_dashboard():
 	var filter_hb = HBoxContainer.new(); filter_hb.add_theme_constant_override("separation", 10); dash_vbox.add_child(filter_hb)
 	filter_hb.add_child(_lbl("🔍 Фільтр дат:", COLOR_TEXT_DIM))
 	if date_filter == null:
-		date_filter = OptionButton.new(); date_filter.custom_minimum_size.x = 180
+		date_filter = OptionButton.new(); date_filter.custom_minimum_size = Vector2(220, 56); date_filter.add_theme_font_size_override("font_size", 18)
 		date_filter.add_item("Усі матчі", 0)
 		date_filter.add_item("Сьогодні", 1)
 		date_filter.add_item("Завтра", 2)
@@ -490,14 +494,14 @@ func _create_match_card(p) -> PanelContainer:
 	var h_form = p.get("form_home", null)
 	var a_form = p.get("form_away", null)
 	
-	var h_btn = LinkButton.new(); h_btn.text = p["home_name"]; h_btn.add_theme_font_size_override("font_size", 18); h_btn.add_theme_color_override("font_color", _form_color(h_form)); h_btn.pressed.connect(_on_show_team_stats.bind(p["home_team_id"])); match_hb.add_child(h_btn)
+	var h_btn = LinkButton.new(); h_btn.text = p["home_name"]; h_btn.add_theme_font_size_override("font_size", 20); h_btn.add_theme_color_override("font_color", _form_color(h_form)); h_btn.pressed.connect(_on_show_team_stats.bind(p["home_team_id"])); match_hb.add_child(h_btn)
 	
 	var sep_btn = LinkButton.new(); sep_btn.underline = LinkButton.UNDERLINE_MODE_NEVER
 	var sep_text = " — "
 	if p.get("home_score") != null: sep_text = " %d : %d " % [p["home_score"], p["away_score"]]
 	sep_btn.text = sep_text; sep_btn.add_theme_color_override("font_color", COLOR_GOLD); sep_btn.pressed.connect(_on_show_analysis.bind(p)); match_hb.add_child(sep_btn)
 	
-	var a_btn = LinkButton.new(); a_btn.text = p.get("away_name", "N/A"); a_btn.add_theme_font_size_override("font_size", 18); a_btn.add_theme_color_override("font_color", _form_color(a_form)); a_btn.pressed.connect(_on_show_team_stats.bind(p.get("away_team_id", 0))); match_hb.add_child(a_btn)
+	var a_btn = LinkButton.new(); a_btn.text = p.get("away_name", "N/A"); a_btn.add_theme_font_size_override("font_size", 20); a_btn.add_theme_color_override("font_color", _form_color(a_form)); a_btn.pressed.connect(_on_show_team_stats.bind(p.get("away_team_id", 0))); match_hb.add_child(a_btn)
 	
 	var v_pred = VBoxContainer.new(); v_pred.alignment = BoxContainer.ALIGNMENT_CENTER; v_pred.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(v_pred)
 	if p.get("selection") != null:
@@ -523,7 +527,7 @@ func _create_match_card(p) -> PanelContainer:
 	else:
 		v_odd.add_child(_lbl("—", COLOR_TEXT_DIM))
 	
-		var btn = Button.new(); btn.text = " СТАВКА "; btn.custom_minimum_size = Vector2(110, 40); btn.pressed.connect(_on_record_pressed.bind(p)); hb.add_child(btn)
+		var btn = Button.new(); btn.text = " СТАВКА "; btn.custom_minimum_size = Vector2(150, 60); btn.add_theme_font_size_override("font_size", 18); btn.pressed.connect(_on_record_pressed.bind(p)); hb.add_child(btn)
 	return card
 
 func _update_history():
@@ -588,7 +592,7 @@ func _create_history_card(b) -> PanelContainer:
 	var status_lbl = _lbl(str(b["status"]), status_color)
 	hb.add_child(status_lbl)
 	
-	var del_btn = Button.new(); del_btn.text = " ✕ "; del_btn.add_theme_color_override("font_color", COLOR_DANGER); del_btn.pressed.connect(_on_delete_bet.bind(b["id"])); hb.add_child(del_btn)
+	var del_btn = Button.new(); del_btn.text = " ✕ "; del_btn.custom_minimum_size = Vector2(72, 60); del_btn.add_theme_font_size_override("font_size", 24); del_btn.add_theme_color_override("font_color", COLOR_DANGER); del_btn.pressed.connect(_on_delete_bet.bind(b["id"])); hb.add_child(del_btn)
 	return card
 
 func _create_result_card(m) -> PanelContainer:

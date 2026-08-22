@@ -336,6 +336,35 @@ def sync_match_stats(db, api):
                 db.update_match_stats(m_id, {"stats_fetched": 1})
                 print(f"  [STATS] No statistics available for Match ID {m_id}. Marked as fetched.")
 
+def print_league_coverage(db):
+    """Diagnostics: proves every target league (incl. Bundesliga id=78) is loaded,
+    and shows how many upcoming matches already have predictions."""
+    target = [39, 140, 78, 61, 135, 2, 3, 848]
+    with db.get_connection() as conn:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT m.league_id, MAX(m.league),
+                   COUNT(DISTINCT m.id),
+                   SUM(CASE WHEN p.id IS NOT NULL THEN 1 ELSE 0 END)
+            FROM matches m
+            LEFT JOIN predictions p ON p.match_id = m.id
+            WHERE m.status NOT IN ('FT', 'AET', 'PEN', 'FINISHED')
+            GROUP BY m.league_id ORDER BY m.league_id
+        """)
+        rows = cur.fetchall()
+    print("--- LEAGUE COVERAGE (upcoming matches / with predictions) ---")
+    present = set()
+    for lid, name, total_up, with_p in rows:
+        present.add(lid)
+        mark = "" if lid in target else "   (поза цільовими)"
+        print(f"  [{lid}] {name}: upcoming={total_up}, with_predictions={with_p or 0}{mark}")
+    missing = [l for l in target if l not in present]
+    if missing:
+        print(f"  [WARN] ЦІЛЬОВІ ЛІГИ ВІДСУТНІ В БД: {missing} — перевірте sync!")
+    else:
+        print("  [OK] Усі цільові ліги завантажені (39/140/78/61/135/2/3/848).")
+    print("  Нагадування: прогнози генеруються лише на матчі сьогодні/завтра.")
+
 def evaluate_virtual_bets(db):
     """Evaluates all pending predictions against finished match results."""
     print("--- EVALUATING VIRTUAL BETS ---")
@@ -858,10 +887,10 @@ if __name__ == "__main__":
             
             # --- SHOW MATCH STATISTICS ---
             show_recent_matches_statistics(db)
-            
-            # --- SHOW MATCH STATISTICS ---
-            show_recent_matches_statistics(db)
-            
+
+            # --- LEAGUE COVERAGE DIAGNOSTICS (Bundesliga 78 included) ---
+            print_league_coverage(db)
+
             # --- EXPORT STATISTICS FOR GODOT ---
             try:
                 from godot_data_exporter import export_match_statistics_to_godot
@@ -927,7 +956,10 @@ if __name__ == "__main__":
             
             # --- SHOW MATCH STATISTICS ---
             show_recent_matches_statistics(db)
-            
+
+            # --- LEAGUE COVERAGE DIAGNOSTICS (Bundesliga 78 included) ---
+            print_league_coverage(db)
+
             # --- BACKUP TO BLACKBOX ARCHIVE ---
             blackbox.sync_to_blackbox(db)
             
