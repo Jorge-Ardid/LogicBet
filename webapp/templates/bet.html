@@ -95,22 +95,6 @@
           ПРИЙНЯТИ СТАВКУ
         </button>
       </form>
-    <section id="bet-done" class="hidden">
-      <div class="bg-cardBg border border-greenAccent/40 rounded-xl p-6 text-center space-y-3">
-        <div class="text-5xl">✅</div>
-        <h2 class="text-greenAccent font-extrabold text-lg tracking-wide">СТАВКУ ПРИЙНЯТО!</h2>
-        <p id="done-line" class="text-white font-bold text-sm leading-snug"></p>
-        <p id="done-detail" class="text-gray-400 text-xs"></p>
-        <div class="pt-2 grid grid-cols-2 gap-2">
-          <a href="/" class="bg-borderDark hover:bg-gray-700 text-gray-200 font-bold py-3 rounded-xl text-xs transition active:scale-95 text-center">
-            ← ДО МАТЧІВ
-          </a>
-          <button onclick="location.reload()" class="bg-goldAccent hover:bg-yellow-400 text-black font-bold py-3 rounded-xl text-xs transition active:scale-95">
-            ↻ НОВА СТАВКА
-          </button>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">LOGICBET PREDICTIVE AI</footer>
@@ -153,15 +137,8 @@
           return r.json().then(function (j) { return { ok: r.ok, j: j }; });
         }).then(function (res) {
           if (!res.ok) throw new Error(res.j.error || 'Помилка збереження');
-          document.getElementById('bet-form-wrap').classList.add('hidden');
-          document.getElementById('bet-msg') && msg.classList.add('hidden');
-          document.getElementById('done-line').textContent =
-            '{{ m.home }} — {{ m.away }}';
-          document.getElementById('done-detail').textContent =
-            selection + ' • ' + stake.toFixed(1) + ' грн × ' + odd.toFixed(2) +
-            ' = ' + (stake * odd).toFixed(2) + ' грн потенційно';
-          document.getElementById('bet-done').classList.remove('hidden');
-          window.scrollTo(0, 0);
+          /* одразу повертаємось на головну зі прогнозами */
+          window.location.href = '/?saved=1';
         }).catch(function (e) {
           showMsg('⚠️ ' + e.message, false);
           btn.disabled = false;

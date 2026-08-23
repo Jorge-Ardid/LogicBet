@@ -123,6 +123,12 @@ async function loadMatches() {
 
 /* ІНІЦІАЛІЗАЦІЯ */
 document.addEventListener("DOMContentLoaded", () => {
+  /* повернення зі сторінки ставки: підтвердження */
+  if (new URLSearchParams(location.search).get("saved")) {
+    toast("✅ Ставку прийнято!");
+    history.replaceState(null, "", "/");
+  }
+
   document.querySelectorAll(".nav-btn").forEach((b) =>
     b.addEventListener("click", () => switchTab(b.dataset.tab)));
 
