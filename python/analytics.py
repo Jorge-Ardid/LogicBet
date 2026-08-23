@@ -147,6 +147,19 @@ class BettingAnalytics:
         shift = max(-span, min(span, karma * 0.015))
         return max(floor, min(cap, base - shift))
 
+    def _karma_bonus(self, token_or_selection):
+        """Confidence multiplier from market karma (Reward & Penalty engine).
+
+        Confidence Score formula (user-approved): prob * (1 + karma_bonus).
+        Bonus is scaled and clamped so a hot market gets up to +20% relative
+        boost and a punished one up to -20%, keeping scores sane.
+        """
+        tok = self._market_token(token_or_selection)
+        if not tok:
+            return 0.0
+        karma = (self._reputation or {}).get(tok, {}).get("karma", 0.0)
+        return max(-0.20, min(0.20, karma * 0.03))
+
     def calculate_elo_probability(self, elo_a, elo_b):
         exponent = (elo_b - elo_a) / 400.0
         expected_a = 1.0 / (1.0 + 10 ** exponent)
@@ -821,16 +834,32 @@ class BettingAnalytics:
         meta = self._last_meta
         ui_metadata = f"{tag}|H_ELO:{int(probs['home_elo'])}|A_ELO:{int(probs['away_elo'])}|H_AVG:{meta['h_avg']:.1f}|A_AVG:{meta['a_avg']:.1f}|H_TR:{meta['h_trend']}|A_TR:{meta['a_trend']}|H2H:{probs.get('h2h_count', 0)}"
         
-        results.append({
-            "match_id": match_id,
-            "algorithm": ui_metadata,
-            "market": "1X2/DC",
-            "selection": self.translate(selection),
-            "calculated_prob": prob,
-            "bookmaker_odd": 0.0,
-            "value_percentage": 0.0,
-            "confidence_level": "HIGH" if prob > self._learned_threshold(self.translate(selection)) else "MEDIUM"
-        })
+        # --- Equal-rights markets: П1/Х/П2 + подвійні шанси, кожен з Confidence Score ---
+        SEL_TXT = {"Home": "П1 (Господарі)", "Draw": "X (Нічия)", "Away": "П2 (Гості)",
+                   "1X": "1X (Подвійний шанс)", "X2": "X2 (Подвійний шанс)",
+                   "12": "12 (Подвійний шанс)"}
+        risk_skip = set()
+        if p1_pen < 0: risk_skip.add("Home")   # RISK-TO-1X: хедж явним 1X нижче
+        if p2_pen < 0: risk_skip.add("Away")   # RISK-TO-X2: хедж явним X2 нижче
+        equal_markets = [("Home", p_h), ("Draw", p_d), ("Away", p_a),
+                         ("1X", p_h + p_d), ("X2", p_a + p_d), ("12", p_h + p_a)]
+        for label, prob_v in equal_markets:
+            if label in risk_skip:
+                continue
+            sel_txt = SEL_TXT[label]
+            kb = self._karma_bonus(label)
+            conf_pct = min(99.0, round(float(prob_v) * (1.0 + kb) * 100.0,))
+            results.append({
+                "match_id": match_id,
+                "algorithm": ui_metadata,
+                "market": "1X2/DC",
+                "selection": sel_txt,
+                "calculated_prob": round(float(prob_v), 4),
+                "bookmaker_odd": 0.0,
+                "value_percentage": 0.0,
+                "confidence_level": "HIGH" if prob_v > self._learned_threshold(sel_txt) else "MEDIUM",
+                "confidence_score_pct": conf_pct
+            })
         
         # 2. Goals Totals (Over/Under) - ONE optimal option
         lmb_goals = h_tr['avg_goals'] + a_tr['avg_goals']
@@ -838,10 +867,14 @@ class BettingAnalytics:
         # 2.1 Full Match Totals - choose one best option
         optimal_total = self._calculate_optimal_total(lmb_goals, "Total Goals")
         if optimal_total and optimal_total['prob'] > 0.60:  # minimum probability
+            _tk = self._market_token("ТБ" if "Over" in str(optimal_total.get('selection','')) else "ТМ")
+            _kb = self._karma_bonus(_tk)
+            _conf_pct = min(99.0, round(float(optimal_total['prob']) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "GOALS (AI)", "market": "Total Goals",
                 "selection": optimal_total['selection'], "calculated_prob": optimal_total['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_total['prob'] > 0.75 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_total['prob'] > 0.75 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
             
         # 2.3 Individual Team Totals (ITT) - one option per team
@@ -852,21 +885,29 @@ class BettingAnalytics:
         # Home Team Goals - one optimal option
         optimal_h_total = self._calculate_optimal_total(exp_h_goals, f"Individual Total {h_tr['team_name']}")
         if optimal_h_total and optimal_h_total['prob'] > 0.65:  # slightly higher threshold for individual
+            _tk = self._market_token("ТБ" if "Over" in str(optimal_h_total.get('selection','')) else "ТМ")
+            _kb = self._karma_bonus(_tk)
+            _conf_pct = min(99.0, round(float(optimal_h_total['prob']) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "INDIVIDUAL TOTAL (AI)", "market": "Individual Total",
-                "selection": f"{h_tr['team_name']} {optimal_h_total['selection']}", 
+                "selection": f"{h_tr['team_name']} {optimal_h_total['selection']}",
                 "calculated_prob": optimal_h_total['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_h_total['prob'] > 0.80 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_h_total['prob'] > 0.80 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
         
         # Away Team Goals - one optimal option
         optimal_a_total = self._calculate_optimal_total(exp_a_goals, f"Individual Total {a_tr['team_name']}")
         if optimal_a_total and optimal_a_total['prob'] > 0.65:  # slightly higher threshold for individual
+            _tk = self._market_token("ТБ" if "Over" in str(optimal_a_total.get('selection','')) else "ТМ")
+            _kb = self._karma_bonus(_tk)
+            _conf_pct = min(99.0, round(float(optimal_a_total['prob']) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "INDIVIDUAL TOTAL (AI)", "market": "Individual Total",
-                "selection": f"{a_tr['team_name']} {optimal_a_total['selection']}", 
+                "selection": f"{a_tr['team_name']} {optimal_a_total['selection']}",
                 "calculated_prob": optimal_a_total['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_a_total['prob'] > 0.80 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_a_total['prob'] > 0.80 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
 
         # 2.5  BTTS (ОЗ) — Both Teams to Score (Обидві заб'ють)
@@ -881,20 +922,27 @@ class BettingAnalytics:
             else:
                 sel_btts = "ОЗ - Ні"
                 p_btts = prob_btts_no
+            _kb = self._karma_bonus("ОЗ")
+            _conf_pct = min(99.0, round(float(p_btts) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "BTTS (AI)", "market": "BTTS",
                 "selection": sel_btts, "calculated_prob": p_btts, "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if p_btts > 0.75 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if p_btts > 0.75 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
         # 2.4 1st Half Goals - ONE optimal option
         lmb_ht = h_tr['avg_goals_ht'] + a_tr['avg_goals_ht']
         optimal_ht = self._calculate_optimal_total(lmb_ht, "1st Half Goals")
         if optimal_ht and optimal_ht['prob'] > 0.70:  # higher threshold for 1st half
             selection = f"{optimal_ht['selection']} (1st half)"
+            _tk = self._market_token("ТБ" if "Over" in str(optimal_ht.get('selection','')) else "ТМ")
+            _kb = self._karma_bonus(_tk)
+            _conf_pct = min(99.0, round(float(optimal_ht['prob']) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "GOALS (1ST HALF)", "market": "1st Half Goals",
                 "selection": selection, "calculated_prob": optimal_ht['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_ht['prob'] > 0.80 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_ht['prob'] > 0.80 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
             
         # 3. Corners Totals (Improved Model) - ONE optimal option
@@ -916,10 +964,14 @@ class BettingAnalytics:
         # Choose one optimal option for corners
         optimal_corners = self._calculate_optimal_total(lmb_corners, "Corners")
         if optimal_corners and optimal_corners['prob'] > 0.70:  # higher threshold for corners
+            _tk = self._market_token("ТБ" if "Over" in str(optimal_corners.get('selection','')) else "ТМ")
+            _kb = self._karma_bonus(_tk)
+            _conf_pct = min(99.0, round(float(optimal_corners['prob']) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "CORNERS (AI+)", "market": "Corners",
                 "selection": f"Corners {optimal_corners['selection']}", "calculated_prob": optimal_corners['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_corners['prob'] > 0.80 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_corners['prob'] > 0.80 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
 
 
@@ -927,10 +979,14 @@ class BettingAnalytics:
         lmb_cards = h_tr['avg_cards'] + a_tr['avg_cards']
         optimal_cards = self._calculate_optimal_total(lmb_cards, "Cards")
         if optimal_cards and optimal_cards['prob'] > 0.65:  # threshold for cards
+            _tk = self._market_token("ТБ" if "Over" in str(optimal_cards.get('selection','')) else "ТМ")
+            _kb = self._karma_bonus(_tk)
+            _conf_pct = min(99.0, round(float(optimal_cards['prob']) * (1 + _kb) * 100,))
             results.append({
                 "match_id": match_id, "algorithm": "CARDS (AI)", "market": "Cards",
                 "selection": f"Cards {optimal_cards['selection']}", "calculated_prob": optimal_cards['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_cards['prob'] > 0.75 else "MEDIUM"
+                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_cards['prob'] > 0.75 else "MEDIUM",
+                "confidence_score_pct": _conf_pct
             })
 
         return results

@@ -1,11 +1,13 @@
-const CACHE = "logicbet-v4";
+const CACHE = "logicbet-v5";
 const SHELL = [
   "/", "/static/js/app.js", "/static/js/views.js", "/static/css/app.css",
   "/static/manifest.json", "/static/icons/icon-192.png", "/static/icons/icon-512.png"
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (e) => {
@@ -13,6 +15,12 @@ self.addEventListener("activate", (e) => {
     caches.keys()
       .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: "window", includeUncontrolled: true }))
+      .then((clients) => {
+        for (const cl of clients) {
+          cl.postMessage({ type: "SW_UPDATED" }); // кажемо вкладка/пWA: є нова версія
+        }
+      })
   );
 });
 
@@ -29,8 +37,8 @@ self.addEventListener("fetch", (e) => {
     );
     return;
   }
-  /* усе своє — мережа-перша; кеш лише як offline-fallback.
-     Так жодні зміни JS/CSS/сторінок не «застрягають» на пристроях */
+  /* своє — мережа-перша; кеш лише offline-fallback.
+     SW v5 ще примусово повідомляє клієнтів про оновлення. */
   e.respondWith(
     fetch(e.request)
       .then((resp) => {

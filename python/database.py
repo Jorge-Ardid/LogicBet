@@ -656,6 +656,46 @@ class LogicBetDB:
             conn.commit()
             return cursor.lastrowid
 
+    def get_team_form_status(self, team_id):
+        """Team Form Status ('світлофор') — points earned in the team's last 5 finished matches.
+
+        GREEN  🟢  >= 11 pts  (excellent form, wins almost every match)
+        YELLOW 🟡  5–10 pts   (can slip, often draws)
+        RED    🔴  < 5 pts    (crisis, usually loses)
+
+        Combines the team's last 5 finished HOME matches (home_team_id) and
+        last 5 finished AWAY matches (away_team_id), then takes the 5 most
+        recent overall. W=3, D=1, L=0.
+
+        Returns: {'status': 'green'|'yellow'|'red', 'points': int, 'matches': int}
+        """
+        with self.get_connection() as conn:
+            home_rows = conn.execute(
+                "SELECT home_score, away_score FROM matches "
+                "WHERE home_team_id = ? AND status IN ('FT','AET','PEN','FINISHED') "
+                "AND home_score IS NOT NULL AND away_score IS NOT NULL "
+                "ORDER BY date DESC LIMIT 5", (team_id,)).fetchall()
+            away_rows = conn.execute(
+                "SELECT home_score, away_score FROM matches "
+                "WHERE away_team_id = ? AND status IN ('FT','AET','PEN','FINISHED') "
+                "AND home_score IS NOT NULL AND away_score IS NOT NULL "
+                "ORDER BY date DESC LIMIT 5", (team_id,)).fetchall()
+
+        rows = [(h, a) for (h, a) in home_rows] + [(a_h, a_a) for (a_h, a_a) in away_rows]
+        rows = rows[-5:]  # 5 most recent overall
+        pts = 0
+        for hs, ascore in rows:
+            if hs > ascore: pts += 3
+            elif hs == ascore: pts += 1
+
+        if pts >= 11:
+            status = "green"
+        elif pts >= 5:
+            status = "yellow"
+        else:
+            status = "red"
+        return {"status": status, "points": pts, "matches": len(rows)}
+
     def get_next_matches_without_predictions(self, league_ids=None):
         """Повертає матчі, для яких потрібно згенерувати прогнози.
 

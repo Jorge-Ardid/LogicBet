@@ -72,6 +72,11 @@ def predictions_by_match(match_ids):
     if not match_ids:
         return {}
     marks = ",".join("?" for _ in match_ids)
+    # Reuse the same karma/reputation engine that analytics.py uses so that
+    # confidence_score_pct is consistent between generation and serving.
+    from analytics import BettingAnalytics
+    _an = BettingAnalytics(db)
+    _an._compute_reputation()  # build/refresh market karma from settled bets
     with db.get_connection() as conn:
         rows = conn.execute(
             "SELECT match_id, market, selection, calculated_prob, bookmaker_odd, confidence_level "
@@ -80,12 +85,15 @@ def predictions_by_match(match_ids):
         ).fetchall()
     result = {}
     for mid, market, selection, prob, odd, conf in rows:
-        pct = round(float(prob or 0) * 100, 1)
+        prob_f = float(prob or 0)
+        pct = round(prob_f * 100, 1)
         sel_txt = selection
         is_btts = (market == "BTTS") or ("ОЗ" in (selection or ""))
         if is_btts:
-            # Чіткий вердикт замість відсотка: ОЗ - Так / ОЗ - Ні
-            sel_txt = "ОЗ - Так" if float(prob or 0) >= 0.5 else "ОЗ - Ні"
+            sel_txt = "ОЗ - Так" if prob_f >= 0.5 else "ОЗ - Ні"
+        token = _an._market_token(sel_txt) if is_btts else _an._market_token(selection)
+        kb = _an._karma_bonus(token) if token else 0.0
+        conf_pct = min(99.0, round(prob_f * (1 + kb) * 100, 1))
         result.setdefault(mid, []).append({
             "market": market,
             "selection": sel_txt,
@@ -93,12 +101,15 @@ def predictions_by_match(match_ids):
             "odd": float(odd) if odd else None,
             "confidence": conf or "",
             "btts": is_btts,
+            "confidence_score_pct": conf_pct,
         })
+    for mid in result:
+        result[mid].sort(key=lambda p: p.get("confidence_score_pct", 0), reverse=True)
     return result
 
 
 def match_payload(row, preds):
-    (mid, date_str, league, status, hs, ascore, home, away) = row
+    (mid, date_str, league, status, hs, ascore, home, away, home_id, away_id) = row
     label, key = status_info(status)
     kickoff = parse_dt(date_str)
     show_score = key in ("finished", "live") and hs is not None and ascore is not None
@@ -115,13 +126,17 @@ def match_payload(row, preds):
         "predictions": preds,
         "summary": " • ".join(p["selection"] for p in preds[:5]),
         "top_prob": preds[0]["prob"] if preds else None,
+        # internal only — consumed by load_matches to enrich form status;
+        # popped out before sending to the client
+        "_home_id": home_id,
+        "_away_id": away_id,
     }
 
 
 def load_matches(date_condition, params):
     query = """
         SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
-               t1.name, t2.name
+               t1.name, t2.name, m.home_team_id, m.away_team_id
         FROM matches m
         JOIN teams t1 ON m.home_team_id = t1.id
         JOIN teams t2 ON m.away_team_id = t2.id
@@ -134,11 +149,21 @@ def load_matches(date_condition, params):
         betted = dict(conn.execute(
             "SELECT match_id, MAX(odd) FROM user_bets "
             "WHERE status='PENDING' GROUP BY match_id").fetchall())
-    preds = predictions_by_match([r[0] for r in rows])
-    payloads = [match_payload(r, preds.get(r[0], [])) for r in rows]
-    for p in payloads:
-        p["has_bet"] = p["id"] in betted
-        p["bet_odd"] = betted.get(p["id"])
+        preds = predictions_by_match([r[0] for r in rows])
+        payloads = [match_payload(r, preds.get(r[0], [])) for r in rows]
+        for p in payloads:
+            home_id = p.pop("_home_id", None)
+            away_id = p.pop("_away_id", None)
+            p["has_bet"] = p["id"] in betted
+            p["bet_odd"] = betted.get(p["id"])
+            if home_id:
+                fs_h = db.get_team_form_status(home_id)
+                p["home_form_status"] = fs_h["status"]
+                p["home_form_points"] = fs_h["points"]
+            if away_id:
+                fs_a = db.get_team_form_status(away_id)
+                p["away_form_status"] = fs_a["status"]
+                p["away_form_points"] = fs_a["points"]
     return payloads
 
 
@@ -350,7 +375,7 @@ def bet_page(match_id):
     with db.get_connection() as conn:
         row = conn.execute("""
             SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
-                   t1.name, t2.name
+                   t1.name, t2.name, m.home_team_id, m.away_team_id
             FROM matches m
             JOIN teams t1 ON m.home_team_id = t1.id
             JOIN teams t2 ON m.away_team_id = t2.id

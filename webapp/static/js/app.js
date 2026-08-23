@@ -69,6 +69,11 @@ function switchTab(tab) {
 /* АНАЛІТИКА: матчі, згруповані Сьогодні/Завтра */
 let currentMatches = {};
 
+/* Team form ('світлофор') badge helper */
+function formBadge(status) {
+  const map = { green: '🟢', yellow: '🟡', red: '🔴' };
+  return status ? (map[status] || '⚪') : '';
+}
 function matchCardHtml(m) {
   const cls = m.status_key === "live" ? "text-goldAccent"
     : m.status_key === "finished" ? "text-red-400" : "text-green-400";
@@ -89,7 +94,7 @@ function matchCardHtml(m) {
     '<div class="flex flex-col md:flex-row justify-between md:items-center gap-3">' +
       '<div class="space-y-1 min-w-0">' +
         '<div class="text-base sm:text-lg font-bold text-white tracking-wide">' +
-          esc(m.home) + ' <span class="text-gray-500 font-normal mx-1">—</span> ' + esc(m.away) + score +
+          formBadge(m.home_form_status) + ' ' + esc(m.home) + ' <span class="text-gray-500 font-normal mx-1">—</span> ' + esc(m.away) + score + formBadge(m.away_form_status) +
         "</div>" +
         '<p class="text-xs sm:text-sm text-goldAccent font-medium leading-relaxed break-words">' +
           esc(m.summary || "Прогнози генеруються…") + prob +
@@ -106,7 +111,13 @@ async function loadMatches() {
   try {
     const data = await api("/api/matches?filter=" + state.filter);
     currentMatches = {};
-    (data.groups || []).forEach((g) => g.matches.forEach((m) => (currentMatches[m.id] = m)));
+    (data.groups || []).forEach((g) => g.matches.forEach((m) => {
+      // резервне сортування за Confidence Score спаданням (якщо серверне не спрацювало)
+      if (m.predictions && Array.isArray(m.predictions)) {
+        m.predictions.sort((a, b) => (b.confidence_score_pct || 0) - (a.confidence_score_pct || 0));
+      }
+      currentMatches[m.id] = m;
+    }));
     const any = (data.groups || []).some((g) => g.matches.length);
     box.innerHTML = !any
       ? '<p class="text-gray-500 text-sm text-center py-8">На цю дату матчів немає 📭</p>'
@@ -173,8 +184,23 @@ document.addEventListener("DOMContentLoaded", () => {
     location.href = "/bet/" + btn.dataset.id;
   });
 
+    /* SW update: миттєва перезавантаження при виході нової версії */
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
+    navigator.serviceWorker.register("/sw.js").then((reg) => {
+      reg.addEventListener("updatefound", () => {
+        const newW = reg.installing;
+        if (newW) newW.addEventListener("statechange", () => {
+          if (newW.state === "installed" && navigator.serviceWorker.controller) {
+            location.reload(); // нова SW активна — перезавантажуємо
+          }
+        });
+      });
+    }).catch(() => {});
+    navigator.serviceWorker.addEventListener("message", (event) => {
+      if (event.data && event.data.type === "SW_UPDATED") {
+        location.reload();
+      }
+    });
   }
 
   loadState();
