@@ -1,0 +1,341 @@
+"""LogicBet Web — Flask backend reusing existing analytics/database modules.
+
+The single source of truth remains the existing SQLite database
+(godot_app/logicbet.db) that CI sync keeps updating. Local user data
+(user_bets, config/bankroll) lives in the same DB on the server side and is
+NEVER overwritten by this app — it only INSERTs user bets and updates the
+explicitly protected config keys.
+"""
+import os
+import sys
+from datetime import datetime, timedelta
+
+from flask import Flask, jsonify, render_template, request, send_from_directory
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "python"))
+
+from database import LogicBetDB  # noqa: E402
+
+DB_OVERRIDE = os.environ.get("LOGICBET_DB_PATH")
+db = LogicBetDB(DB_OVERRIDE) if DB_OVERRIDE else LogicBetDB()
+
+app = Flask(__name__)
+
+FINISHED = ("FT", "AET", "PEN", "FINISHED")
+LIVE = ("LIVE", "1H", "2H", "HT", "ET", "BT", "P")
+KYIV_TZ_OFFSET = timedelta(hours=3)  # EEST (UTC+3)
+
+STATUS_LABELS = {
+    "FT": ("Завершено", "finished"),
+    "AET": ("Завершено", "finished"),
+    "PEN": ("Завершено", "finished"),
+    "FINISHED": ("Завершено", "finished"),
+    "CANCELLED": ("Скасовано", "cancelled"),
+    "POSTPONED": ("Перенесено", "cancelled"),
+    "NS": ("Очікується", "scheduled"),
+    "LIVE": ("LIVE", "live"),
+}
+
+
+def parse_dt(value):
+    """Parse stored ISO date ('2026-08-23T13:00:00Z' or '2026-08-23 13:00:00')."""
+    if not value:
+        return None
+    txt = str(value).strip().replace("Z", "+00:00")
+    for fmt in ("%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
+        try:
+            dt = datetime.strptime(txt, fmt)
+            return dt if dt.tzinfo is None else dt.replace(tzinfo=None) - timedelta(hours=0)
+        except ValueError:
+            continue
+    return None
+
+
+def to_kyiv(dt):
+    return dt + KYIV_TZ_OFFSET
+
+
+def status_info(status):
+    return STATUS_LABELS.get((status or "NS").upper(), ("Очікується", "scheduled"))
+
+
+def cfg_float(key, default):
+    val = db.get_config(key)
+    try:
+        return float(val) if val is not None else float(default)
+    except (TypeError, ValueError):
+        return float(default)
+
+
+def predictions_by_match(match_ids):
+    if not match_ids:
+        return {}
+    marks = ",".join("?" for _ in match_ids)
+    with db.get_connection() as conn:
+        rows = conn.execute(
+            "SELECT match_id, market, selection, calculated_prob, bookmaker_odd, confidence_level "
+            "FROM predictions WHERE match_id IN (%s) ORDER BY id" % marks,
+            list(match_ids),
+        ).fetchall()
+    result = {}
+    for mid, market, selection, prob, odd, conf in rows:
+        result.setdefault(mid, []).append({
+            "market": market,
+            "selection": selection,
+            "prob": round(float(prob or 0) * 100, 1),
+            "odd": float(odd) if odd else None,
+            "confidence": conf or "",
+        })
+    return result
+
+
+def match_payload(row, preds):
+    (mid, date_str, league, status, hs, ascore, home, away) = row
+    label, key = status_info(status)
+    kickoff = parse_dt(date_str)
+    show_score = key in ("finished", "live") and hs is not None and ascore is not None
+    return {
+        "id": mid,
+        "date": date_str,
+        "time": to_kyiv(kickoff).strftime("%H:%M") if kickoff else "--:--",
+        "league": league,
+        "status": label,
+        "status_key": key,
+        "home": home,
+        "away": away,
+        "score": "%s:%s" % (hs, ascore) if show_score else None,
+        "predictions": preds,
+        "summary": " • ".join(p["selection"] for p in preds[:5]),
+        "top_prob": preds[0]["prob"] if preds else None,
+    }
+
+
+def load_matches(date_condition, params):
+    query = """
+        SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
+               t1.name, t2.name
+        FROM matches m
+        JOIN teams t1 ON m.home_team_id = t1.id
+        JOIN teams t2 ON m.away_team_id = t2.id
+        WHERE %s AND m.status NOT IN ('CANCELLED', 'POSTPONED')
+        ORDER BY m.date, m.league
+    """ % date_condition
+    with db.get_connection() as conn:
+        rows = conn.execute(query, params).fetchall()
+    preds = predictions_by_match([r[0] for r in rows])
+    return [match_payload(r, preds.get(r[0], [])) for r in rows]
+
+
+UK_WEEKDAYS = ["понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя"]
+
+
+def day_label(dt_utc):
+    local = to_kyiv(dt_utc)
+    return "%s, %s" % (UK_WEEKDAYS[local.weekday()], local.strftime("%d.%m.%Y"))
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/manifest.json")
+def manifest():
+    return send_from_directory(os.path.join(app.root_path, "static"), "manifest.json")
+
+
+@app.route("/sw.js")
+def service_worker():
+    resp = send_from_directory(os.path.join(app.root_path, "static"), "sw.js")
+    resp.headers["Service-Worker-Allowed"] = "/"
+    return resp
+
+
+@app.route("/api/state")
+def api_state():
+    with db.get_connection() as conn:
+        acc = conn.execute("""
+            SELECT SUM(CASE WHEN p.is_hit = 1 THEN 1 ELSE 0 END), COUNT(p.is_hit)
+            FROM predictions p JOIN matches m ON m.id = p.match_id
+            WHERE m.status IN ('FT','AET','PEN','FINISHED') AND p.is_hit IS NOT NULL
+        """).fetchone()
+        pending = conn.execute("SELECT COUNT(*) FROM user_bets WHERE status='PENDING'").fetchone()[0]
+        today_n = conn.execute(
+            "SELECT COUNT(*) FROM matches WHERE DATE(date)=DATE('now') AND status NOT IN ('CANCELLED','POSTPONED')"
+        ).fetchone()[0]
+    hits, total = (acc[0] or 0), (acc[1] or 0)
+    return jsonify({
+        "bankroll": cfg_float("bankroll", 1000.0),
+        "default_stake": cfg_float("default_stake", 10.0),
+        "accuracy": {"hits": hits, "total": total,
+                     "pct": round(hits * 100.0 / total, 1) if total else 0.0},
+        "pending_bets": pending,
+        "today_matches": today_n,
+    })
+
+
+@app.route("/api/matches")
+def api_matches():
+    flt = request.args.get("filter", "all")
+    groups = []
+    if flt in ("all", "today"):
+        rows = load_matches("DATE(m.date) = DATE('now')", [])
+        groups.append({"key": "today", "title": "Сьогодні",
+                       "label": day_label(datetime.utcnow()), "matches": rows})
+    if flt in ("all", "tomorrow"):
+        rows = load_matches("DATE(m.date) = DATE('now', '+1 day')", [])
+        groups.append({"key": "tomorrow", "title": "Завтра",
+                       "label": day_label(datetime.utcnow() + timedelta(days=1)), "matches": rows})
+    return jsonify({"groups": groups})
+
+
+@app.route("/api/bets", methods=["POST"])
+def api_place_bet():
+    data = request.get_json(silent=True) or {}
+    try:
+        match_id = int(data.get("match_id") or 0)
+        stake = float(data.get("stake") or 0)
+        odd = float(data.get("odd") or 0)
+    except (TypeError, ValueError):
+        return jsonify({"error": "Некоректні числа"}), 400
+    selection = str(data.get("selection") or "").strip()
+    if not match_id or len(selection) < 2:
+        return jsonify({"error": "Вкажіть матч і вибір"}), 400
+    if stake <= 0 or stake > 100000:
+        return jsonify({"error": "Ставка має бути > 0"}), 400
+    if odd < 1.01:
+        return jsonify({"error": "Коефіцієнт має бути ≥ 1.01"}), 400
+
+    with db.get_connection() as conn:
+        exists = conn.execute("SELECT 1 FROM matches WHERE id=?", (match_id,)).fetchone()
+        if not exists:
+            return jsonify({"error": "Матч не знайдено"}), 404
+        cur = conn.execute(
+            "INSERT INTO user_bets (match_id, selection, stake, odd, status, profit) "
+            "VALUES (?, ?, ?, ?, 'PENDING', 0.0)",
+            (match_id, selection, stake, odd))
+        conn.commit()
+        bet_id = cur.lastrowid
+    return jsonify({"ok": True, "id": bet_id}), 201
+
+
+@app.route("/api/bets/<int:bet_id>", methods=["DELETE"])
+def api_delete_bet(bet_id):
+    with db.get_connection() as conn:
+        row = conn.execute("SELECT status FROM user_bets WHERE id=?", (bet_id,)).fetchone()
+        if not row:
+            return jsonify({"error": "Ставку не знайдено"}), 404
+        if row[0] != "PENDING":
+            return jsonify({"error": "Можна скасувати лише PENDING"}), 400
+        conn.execute("DELETE FROM user_bets WHERE id=?", (bet_id,))
+        conn.commit()
+    return jsonify({"ok": True})
+
+
+@app.route("/api/bets")
+def api_history():
+    status = request.args.get("status", "ALL").upper()
+    cond, params = "", []
+    if status in ("PENDING", "WON", "LOST"):
+        cond = "WHERE ub.status = ?"
+        params = [status]
+    query = """
+        SELECT ub.id, ub.selection, ub.stake, ub.odd, ub.status, ub.profit,
+               m.id, m.date, m.league, m.status, m.home_score, m.away_score,
+               t1.name, t2.name
+        FROM user_bets ub
+        JOIN matches m ON ub.match_id = m.id
+        JOIN teams t1 ON m.home_team_id = t1.id
+        JOIN teams t2 ON m.away_team_id = t2.id
+        %s ORDER BY m.date DESC, ub.id DESC LIMIT 200
+    """ % cond
+    with db.get_connection() as conn:
+        rows = conn.execute(query, params).fetchall()
+    bets = []
+    for (bid, sel, stake, odd, bstat, profit, mid, date_str, league,
+         mstat, hs, ascore, home, away) in rows:
+        label, key = status_info(mstat)
+        kickoff = parse_dt(date_str)
+        bets.append({
+            "id": bid, "selection": sel,
+            "stake": float(stake or 0), "odd": float(odd or 0),
+            "status": bstat, "profit": round(float(profit or 0), 2),
+            "match": "%s — %s" % (home, away),
+            "league": league,
+            "time": to_kyiv(kickoff).strftime("%d.%m %H:%M") if kickoff else "--:--",
+            "match_status": label, "match_status_key": key,
+            "score": "%s:%s" % (hs, ascore) if hs is not None and ascore is not None else None,
+        })
+    return jsonify({"bets": bets})
+
+
+@app.route("/api/stats")
+def api_stats():
+    with db.get_connection() as conn:
+        counts = dict(conn.execute(
+            "SELECT status, COUNT(*) FROM user_bets GROUP BY status").fetchall())
+        profit = conn.execute(
+            "SELECT COALESCE(SUM(profit),0) FROM user_bets WHERE status IN ('WON','LOST')"
+        ).fetchone()[0]
+        acc = conn.execute("""
+            SELECT SUM(CASE WHEN p.is_hit=1 THEN 1 ELSE 0 END), COUNT(p.is_hit)
+            FROM predictions p JOIN matches m ON m.id=p.match_id
+            WHERE m.status IN ('FT','AET','PEN','FINISHED') AND p.is_hit IS NOT NULL
+        """).fetchone()
+        markets = conn.execute("""
+            SELECT p.market, SUM(CASE WHEN p.is_hit=1 THEN 1 ELSE 0 END), COUNT(p.is_hit)
+            FROM predictions p JOIN matches m ON m.id=p.match_id
+            WHERE m.status IN ('FT','AET','PEN','FINISHED') AND p.is_hit IS NOT NULL
+            GROUP BY p.market ORDER BY 3 DESC LIMIT 8
+        """).fetchall()
+    won, lost = counts.get("WON", 0), counts.get("LOST", 0)
+    decided = won + lost
+    hits, total = (acc[0] or 0), (acc[1] or 0)
+    return jsonify({
+        "bankroll": cfg_float("bankroll", 1000.0),
+        "bets": {"won": won, "lost": lost,
+                 "pending": counts.get("PENDING", 0)},
+        "winrate_pct": round(won * 100.0 / decided, 1) if decided else 0.0,
+        "profit": round(float(profit or 0), 2),
+        "model_accuracy": {"hits": hits, "total": total,
+                           "pct": round(hits * 100.0 / total, 1) if total else 0.0},
+        "by_market": [{"market": mk, "hits": h or 0, "total": t}
+                      for mk, h, t in markets],
+    })
+
+
+@app.route("/api/search")
+def api_search():
+    q = (request.args.get("q") or "").strip()
+    if len(q) < 2:
+        return jsonify({"matches": []})
+    like = "%" + q + "%"
+    rows = load_matches(
+        "(t1.name LIKE ? OR t2.name LIKE ?) "
+        "AND DATE(m.date) BETWEEN DATE('now','-7 day') AND DATE('now','+14 day')",
+        [like, like])
+    return jsonify({"matches": rows[:50]})
+
+
+@app.route("/api/settings", methods=["GET", "POST"])
+def api_settings():
+    if request.method == "POST":
+        data = request.get_json(silent=True) or {}
+        try:
+            bankroll = float(data.get("bankroll"))
+            stake = float(data.get("default_stake"))
+        except (TypeError, ValueError):
+            return jsonify({"error": "Введіть числа"}), 400
+        if bankroll <= 0 or stake <= 0:
+            return jsonify({"error": "Значення мають бути > 0"}), 400
+        db.set_config("bankroll", str(bankroll))
+        db.set_config("default_stake", str(stake))
+    return jsonify({"bankroll": cfg_float("bankroll", 1000.0),
+                    "default_stake": cfg_float("default_stake", 10.0)})
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", "8000"))
+    print("LogicBet Web: http://localhost:%d  (DB: %s)" % (port, db.db_path))
+    app.run(host="0.0.0.0", port=port, debug=False)
