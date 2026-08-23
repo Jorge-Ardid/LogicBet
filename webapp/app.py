@@ -130,8 +130,16 @@ def load_matches(date_condition, params):
     """ % date_condition
     with db.get_connection() as conn:
         rows = conn.execute(query, params).fetchall()
+        # матчі, на які вже є активна ставка користувача (PENDING)
+        betted = dict(conn.execute(
+            "SELECT match_id, MAX(odd) FROM user_bets "
+            "WHERE status='PENDING' GROUP BY match_id").fetchall())
     preds = predictions_by_match([r[0] for r in rows])
-    return [match_payload(r, preds.get(r[0], [])) for r in rows]
+    payloads = [match_payload(r, preds.get(r[0], [])) for r in rows]
+    for p in payloads:
+        p["has_bet"] = p["id"] in betted
+        p["bet_odd"] = betted.get(p["id"])
+    return payloads
 
 
 UK_WEEKDAYS = ["понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя"]
@@ -218,6 +226,18 @@ def api_place_bet():
         exists = conn.execute("SELECT 1 FROM matches WHERE id=?", (match_id,)).fetchone()
         if not exists:
             return jsonify({"error": "Матч не знайдено"}), 404
+        # Upsert: if the user already has a PENDING bet on this match — rewrite it
+        # (keeps the last placed coefficient until the match is sent to history).
+        prev = conn.execute(
+            "SELECT id FROM user_bets WHERE match_id=? AND status='PENDING' "
+            "ORDER BY id LIMIT 1", (match_id,)).fetchone()
+        if prev:
+            bet_id = prev[0]
+            conn.execute(
+                "UPDATE user_bets SET selection=?, stake=?, odd=? WHERE id=?",
+                (selection, stake, odd, bet_id))
+            conn.commit()
+            return jsonify({"ok": True, "id": bet_id, "updated": True}), 200
         cur = conn.execute(
             "INSERT INTO user_bets (match_id, selection, stake, odd, status, profit) "
             "VALUES (?, ?, ?, ?, 'PENDING', 0.0)",
@@ -340,8 +360,18 @@ def bet_page(match_id):
         abort(404)
     preds = predictions_by_match([match_id]).get(match_id, [])
     m = match_payload(row, preds)
+    # current PENDING bet (if any) so the user can review & fix the coefficient
+    cur_bet = None
+    with db.get_connection() as conn:
+        b = conn.execute(
+            "SELECT selection, stake, odd FROM user_bets "
+            "WHERE match_id=? AND status='PENDING' ORDER BY id LIMIT 1",
+            (match_id,)).fetchone()
+        if b:
+            cur_bet = {"selection": b[0], "stake": b[1], "odd": b[2]}
     return render_template("bet.html", m=m,
-                           default_stake=cfg_float("default_stake", 10.0))
+                           default_stake=cfg_float("default_stake", 10.0),
+                           cur_bet=cur_bet)
 
 
 @app.route("/api/settings", methods=["GET", "POST"])

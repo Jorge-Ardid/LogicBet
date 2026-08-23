@@ -67,23 +67,23 @@
           <label for="bm-selection" class="text-gray-400 text-xs font-medium">Вибір (прогноз ШІ)</label>
           <select id="bm-selection" class="field-input mt-1">
             {% for p in m.predictions %}
-            <option value="{{ p.selection }}">{{ p.selection }}{% if not p.btts %} ({{ p.prob }}%){% endif %}</option>
+            <option value="{{ p.selection }}"{% if cur_bet and cur_bet.selection == p.selection %} selected{% endif %}>{{ p.selection }}{% if not p.btts %} ({{ p.prob }}%){% endif %}</option>
             {% endfor %}
-            <option value="__custom">✍️ Власний варіант…</option>
+            <option value="__custom"{% if cur_bet and m.predictions and cur_bet.selection != m.predictions[0].selection %} selected{% endif %}>✍️ Власний варіант…</option>
           </select>
-          <input id="bm-custom" type="text" placeholder="Свій варіант: П1 і ТБ 2.5…"
+          <input id="bm-custom" type="text" placeholder="Свій варіант: П1 і ТБ 2.5…" value="{{ cur_bet.selection if cur_bet and m.predictions and cur_bet.selection != m.predictions[0].selection else '' }}"
                  class="field-input mt-2 hidden">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label for="bm-stake" class="text-gray-400 text-xs font-medium">Ставка, грн</label>
-            <input id="bm-stake" type="number" step="0.5" min="0.5" value="{{ '%g'|format(default_stake) }}"
+            <input id="bm-stake" type="number" step="0.5" min="0.5" value="{{ '%g'|format(cur_bet.stake if cur_bet else default_stake) }}"
                    class="field-input mt-1" required>
           </div>
           <div>
             <label for="bm-odd" class="text-gray-400 text-xs font-medium">Коефіцієнт</label>
-            <input id="bm-odd" type="number" step="0.01" min="1.01" placeholder="1.85"
+            <input id="bm-odd" type="number" step="0.01" min="1.01" placeholder="1.85" value="{{ cur_bet.odd if cur_bet else '' }}"
                    class="field-input mt-1" required>
           </div>
         </div>
@@ -92,7 +92,7 @@
 
         <button type="submit"
                 class="w-full bg-greenAccent hover:bg-green-400 text-black font-extrabold py-3.5 rounded-xl transition active:scale-95 tracking-wider shadow">
-          ПРИЙНЯТИ СТАВКУ
+          {% if cur_bet %}ОНОВИТИ СТАВКУ{% else %}ПРИЙНЯТИ СТАВКУ{% endif %}
         </button>
       </form>
   </main>

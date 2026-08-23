@@ -75,6 +75,12 @@ function matchCardHtml(m) {
   const dot = m.status_key === "live" ? '<span class="live-dot mr-1"></span>' : "";
   const score = m.score ? '<span class="text-white font-extrabold ml-2">' + esc(m.score) + "</span>" : "";
   const prob = m.top_prob != null ? ' <span class="text-gray-400 font-normal">(' + m.top_prob + "%)</span>" : "";
+  const betLabel = m.has_bet && m.bet_odd
+    ? "К-т " + Number(m.bet_odd).toFixed(2) + " ↗"
+    : "СТАВКА";
+  const betBtnCls = m.has_bet
+    ? "bg-borderDark hover:bg-gray-700 text-gray-300 border-gray-500/50"
+    : "bg-goldAccent/10 hover:bg-goldAccent hover:text-black text-goldAccent border-goldAccent/60";
   return '<div class="bg-cardBg border border-borderDark rounded-xl p-3.5 sm:p-4 hover:border-gray-700 transition space-y-3">' +
     '<div class="flex justify-between items-center text-xs border-b border-borderDark/60 pb-2">' +
       '<span class="font-bold uppercase tracking-wider ' + cls + '">' + dot + esc(m.status) + "</span>" +
@@ -89,7 +95,7 @@ function matchCardHtml(m) {
           esc(m.summary || "Прогнози генеруються…") + prob +
         "</p>" +
       "</div>" +
-      '<button class="bet-btn w-full sm:w-auto bg-borderDark hover:bg-goldAccent hover:text-black text-gray-200 font-bold px-5 py-2.5 rounded-lg border border-gray-700 transition text-xs sm:text-sm active:scale-95 shadow" data-id="' + m.id + '">СТАВКА</button>' +
+      '<button class="bet-btn w-full sm:w-auto ' + betBtnCls + ' font-bold px-5 py-2.5 rounded-lg border transition text-xs sm:text-sm active:scale-95 shadow" data-id="' + m.id + '">' + betLabel + '</button>' +
     "</div></div>";
 }
 window.matchCardHtml = matchCardHtml;
