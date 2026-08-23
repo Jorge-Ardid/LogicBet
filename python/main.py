@@ -414,7 +414,8 @@ def evaluate_virtual_bets(db):
             # ---------- 0. BTTS / ОЗ (Обидві заб'ють) ----------
             if ("ОЗ" in s) or ("BTTS" in s) or ("ОБИДВІ" in s and "ЗАБ" in s):
                 both_scored = (hs > 0 and as_t > 0)
-                no_side = ("НЕ ОЗ" in s) or s.startswith("НЕ ") or ("НЕ ЗАБ" in s)
+                no_side = (("НЕ ОЗ" in s) or ("ОЗ - НІ" in s)
+                           or s.startswith("НЕ ") or ("НЕ ЗАБ" in s))
                 is_hit = 1 if ((not both_scored) if no_side else both_scored) else 0
 
             # ---------- 1. 1st-Half Goals (both notations) ----------
@@ -668,6 +669,12 @@ def evaluate_user_bets(db):
                 elif "3.5" in s: threshold = 3.5
                 elif "4.5" in s: threshold = 4.5
                 is_hit = (hs + as_t) < threshold
+            elif ("ОЗ" in s) or ("BTTS" in s) or ("ОБИДВІ" in s and "ЗАБ" in s):
+                # Both Teams To Score: 'ОЗ - Так' / 'ОЗ - Ні' (legacy: 'ОЗ (...)','НЕ ОЗ...')
+                both_scored = (hs > 0 and as_t > 0)
+                no_side = (("НЕ ОЗ" in s) or ("ОЗ - НІ" in s)
+                           or s.startswith("НЕ ") or ("НЕ ЗАБ" in s))
+                is_hit = (not both_scored) if no_side else both_scored
                 
             if is_hit:
                 win_amount = stake * odd

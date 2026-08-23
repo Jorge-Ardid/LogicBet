@@ -80,12 +80,19 @@ def predictions_by_match(match_ids):
         ).fetchall()
     result = {}
     for mid, market, selection, prob, odd, conf in rows:
+        pct = round(float(prob or 0) * 100, 1)
+        sel_txt = selection
+        is_btts = (market == "BTTS") or ("ОЗ" in (selection or ""))
+        if is_btts:
+            # Чіткий вердикт замість відсотка: ОЗ - Так / ОЗ - Ні
+            sel_txt = "ОЗ - Так" if float(prob or 0) >= 0.5 else "ОЗ - Ні"
         result.setdefault(mid, []).append({
             "market": market,
-            "selection": selection,
-            "prob": round(float(prob or 0) * 100, 1),
+            "selection": sel_txt,
+            "prob": pct,
             "odd": float(odd) if odd else None,
             "confidence": conf or "",
+            "btts": is_btts,
         })
     return result
 

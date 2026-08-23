@@ -129,7 +129,8 @@ function openBetModal(m) {
   const sel = $("bm-selection"), custom = $("bm-custom");
   sel.innerHTML =
     (m.predictions || []).map((p) =>
-      '<option value="' + esc(p.selection) + '">' + esc(p.selection) + " (" + p.prob + "%)</option>").join("") +
+      '<option value="' + esc(p.selection) + '">' + esc(p.selection) +
+      (p.btts ? "" : " (" + p.prob + "%)") + "</option>").join("") +
     '<option value="__custom">✍️ Власний варіант…</option>';
   custom.classList.add("hidden");
   custom.value = "";

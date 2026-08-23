@@ -766,10 +766,10 @@ class BettingAnalytics:
         prob_btts_no = 1.0 - prob_btts_yes
         if max(prob_btts_yes, prob_btts_no) > 0.60:
             if prob_btts_yes >= prob_btts_no:
-                sel_btts = "ОЗ (Обидві заб'ють)"
+                sel_btts = "ОЗ - Так"
                 p_btts = prob_btts_yes
             else:
-                sel_btts = "НЕ ОЗ (Хтось не заб'є)"
+                sel_btts = "ОЗ - Ні"
                 p_btts = prob_btts_no
             results.append({
                 "match_id": match_id, "algorithm": "BTTS (AI)", "market": "BTTS",

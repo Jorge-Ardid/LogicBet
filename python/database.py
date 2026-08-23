@@ -499,6 +499,21 @@ class LogicBetDB:
             if "finished_at" not in columns:
                 cursor.execute("ALTER TABLE matches ADD COLUMN finished_at TEXT")
                 print("[DATABASE] Migration: added matches.finished_at")
+
+            # Migration: explicit ОЗ Так/Ні selections (replaces vague legacy labels).
+            # Legacy 'ОЗ (...)' stored YES-prob; legacy 'НЕ ОЗ (...)' stored NO-prob.
+            cursor.execute("""
+                UPDATE predictions SET selection =
+                  CASE
+                    WHEN selection LIKE 'НЕ ОЗ%' THEN
+                      CASE WHEN calculated_prob >= 0.5 THEN 'ОЗ - Ні' ELSE 'ОЗ - Так' END
+                    ELSE
+                      CASE WHEN calculated_prob >= 0.5 THEN 'ОЗ - Так' ELSE 'ОЗ - Ні' END
+                  END
+                WHERE market = 'BTTS'
+                  AND (selection LIKE 'ОЗ (%' OR selection LIKE 'НЕ ОЗ (%')
+            """)
+
             
             # Initialize sync status if not exists
             cursor.execute("INSERT OR IGNORE INTO config (key, value) VALUES ('last_sync_time', '0')")
