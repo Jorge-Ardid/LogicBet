@@ -1,4 +1,4 @@
-const CACHE = "logicbet-v1";
+const CACHE = "logicbet-v2";
 const SHELL = [
   "/", "/static/js/app.js", "/static/js/views.js", "/static/css/app.css",
   "/static/manifest.json", "/static/icons/icon-192.png", "/static/icons/icon-512.png"
@@ -26,6 +26,19 @@ self.addEventListener("fetch", (e) => {
           status: 503, headers: { "Content-Type": "application/json" }
         })
       )
+    );
+    return;
+  }
+  /* головна сторінка — завжди свіжа з мережі, кеш лише як offline-fallback */
+  if (url.pathname === "/") {
+    e.respondWith(
+      fetch(e.request)
+        .then((resp) => {
+          const clone = resp.clone();
+          caches.open(CACHE).then((c) => c.put("/", clone));
+          return resp;
+        })
+        .catch(() => caches.match("/"))
     );
     return;
   }

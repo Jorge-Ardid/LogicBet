@@ -1,5 +1,7 @@
 /* LogicBet Web — додаткові стилі поверх Tailwind */
-.page-fade-in { animation: fadeIn 0.25s ease-out forwards; }
+.page-fade-in { animation: fadeIn 0.25s ease-out backwards; }
+/* NB: fill-mode саме 'backwards' — 'forwards' залишав би transform на елементі,
+   і body перетворювався б на контейнер для position:fixed (ламало модалку) */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
