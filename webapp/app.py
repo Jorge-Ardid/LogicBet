@@ -10,7 +10,7 @@ import os
 import sys
 from datetime import datetime, timedelta
 
-from flask import Flask, jsonify, render_template, request, send_from_directory
+from flask import Flask, abort, jsonify, render_template, request, send_from_directory
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "python"))
@@ -323,6 +323,25 @@ def api_search():
         "AND DATE(m.date) BETWEEN DATE('now','-7 day') AND DATE('now','+14 day')",
         [like, like])
     return jsonify({"matches": rows[:50]})
+
+
+@app.route("/bet/<int:match_id>")
+def bet_page(match_id):
+    with db.get_connection() as conn:
+        row = conn.execute("""
+            SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
+                   t1.name, t2.name
+            FROM matches m
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            WHERE m.id = ?
+        """, (match_id,)).fetchone()
+    if row is None:
+        abort(404)
+    preds = predictions_by_match([match_id]).get(match_id, [])
+    m = match_payload(row, preds)
+    return render_template("bet.html", m=m,
+                           default_stake=cfg_float("default_stake", 10.0))
 
 
 @app.route("/api/settings", methods=["GET", "POST"])

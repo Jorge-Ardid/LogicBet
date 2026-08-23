@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1115">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/static/icons/icon-192.png">
+  <title>LogicBet • Ставка</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+          colors: {
+            darkBg: '#0f1115', cardBg: '#181b20', borderDark: '#262a33',
+            goldAccent: '#e5b842', greenAccent: '#22c55e'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body class="bg-darkBg text-gray-200 font-sans min-h-screen select-none flex flex-col">
+
+  <header class="sticky top-0 z-50 bg-cardBg/85 backdrop-blur-md border-b border-borderDark px-4 py-3 flex justify-between items-center shadow-md">
+    <a href="/" class="flex items-center gap-1 text-gray-300 hover:text-white text-xs font-bold tracking-wide transition active:scale-95">
+      <span class="text-goldAccent text-base">‹</span> МАТЧІ
+    </a>
+    <div class="flex items-center space-x-2">
+      <span class="text-goldAccent font-extrabold text-sm md:text-base tracking-wider">LOGICBET</span>
+      <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hidden sm:inline">• СТАВКА</span>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto px-4 mt-5 w-full flex-1">
+
+    {% if m.status_key not in ('scheduled',) %}
+    <div class="bg-goldAccent/10 border border-goldAccent/40 text-goldAccent rounded-lg px-3 py-2 text-xs mb-3">
+      ⚠️ Матч вже «{{ m.status }}»{% if m.score %} ({{ m.score }}){% endif %} — ставка буде збережена в історію як є.
+    </div>
+    {% endif %}
+
+    <section id="bet-form-wrap" class="space-y-4">
+      <div class="bg-cardBg border border-borderDark rounded-xl p-4 space-y-1">
+        <div class="flex justify-between items-center text-xs border-b border-borderDark/60 pb-2">
+          {% if m.status_key == 'live' %}
+            <span class="font-bold uppercase tracking-wider text-goldAccent"><span class="live-dot mr-1"></span>{{ m.status }}</span>
+          {% elif m.status_key == 'finished' %}
+            <span class="font-bold uppercase tracking-wider text-red-400">{{ m.status }}</span>
+          {% else %}
+            <span class="font-bold uppercase tracking-wider text-green-400">{{ m.status }}</span>
+          {% endif %}
+          <span class="text-gray-400">{{ m.league }} • <b class="text-gray-200">{{ m.time }}</b></span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-wide pt-1">
+          {{ m.home }} <span class="text-gray-500 font-normal">—</span> {{ m.away }}
+          {% if m.score %}<span class="text-goldAccent text-lg align-middle ml-1">{{ m.score }}</span>{% endif %}
+        </h1>
+      </div>
+
+      <form id="bet-form" class="bg-cardBg border border-borderDark rounded-xl p-4 space-y-4" autocomplete="off">
+        <div>
+          <label for="bm-selection" class="text-gray-400 text-xs font-medium">Вибір (прогноз ШІ)</label>
+          <select id="bm-selection" class="field-input mt-1">
+            {% for p in m.predictions %}
+            <option value="{{ p.selection }}">{{ p.selection }}{% if not p.btts %} ({{ p.prob }}%){% endif %}</option>
+            {% endfor %}
+            <option value="__custom">✍️ Власний варіант…</option>
+          </select>
+          <input id="bm-custom" type="text" placeholder="Свій варіант: П1 і ТБ 2.5…"
+                 class="field-input mt-2 hidden">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="bm-stake" class="text-gray-400 text-xs font-medium">Ставка, грн</label>
+            <input id="bm-stake" type="number" step="0.5" min="0.5" value="{{ '%g'|format(default_stake) }}"
+                   class="field-input mt-1" required>
+          </div>
+          <div>
+            <label for="bm-odd" class="text-gray-400 text-xs font-medium">Коефіцієнт</label>
+            <input id="bm-odd" type="number" step="0.01" min="1.01" placeholder="1.85"
+                   class="field-input mt-1" required>
+          </div>
+        </div>
+
+        <p id="bet-msg" class="hidden text-xs"></p>
+
+        <button type="submit"
+                class="w-full bg-greenAccent hover:bg-green-400 text-black font-extrabold py-3.5 rounded-xl transition active:scale-95 tracking-wider shadow">
+          ПРИЙНЯТИ СТАВКУ
+        </button>
+      </form>
+    <section id="bet-done" class="hidden">
+      <div class="bg-cardBg border border-greenAccent/40 rounded-xl p-6 text-center space-y-3">
+        <div class="text-5xl">✅</div>
+        <h2 class="text-greenAccent font-extrabold text-lg tracking-wide">СТАВКУ ПРИЙНЯТО!</h2>
+        <p id="done-line" class="text-white font-bold text-sm leading-snug"></p>
+        <p id="done-detail" class="text-gray-400 text-xs"></p>
+        <div class="pt-2 grid grid-cols-2 gap-2">
+          <a href="/" class="bg-borderDark hover:bg-gray-700 text-gray-200 font-bold py-3 rounded-xl text-xs transition active:scale-95 text-center">
+            ← ДО МАТЧІВ
+          </a>
+          <button onclick="location.reload()" class="bg-goldAccent hover:bg-yellow-400 text-black font-bold py-3 rounded-xl text-xs transition active:scale-95">
+            ↻ НОВА СТАВКА
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">LOGICBET PREDICTIVE AI</footer>
+
+  <script>
+    (function () {
+      var sel = document.getElementById('bm-selection');
+      var custom = document.getElementById('bm-custom');
+      var msg = document.getElementById('bet-msg');
+      var MATCH_ID = {{ m.id }};
+
+      function syncCustom() {
+        custom.classList.toggle('hidden', sel.value !== '__custom');
+        if (sel.value === '__custom') custom.focus();
+      }
+      sel.addEventListener('change', syncCustom);
+
+      function showMsg(text, ok) {
+        msg.textContent = text;
+        msg.className = 'text-xs ' + (ok ? 'text-greenAccent' : 'text-red-400');
+      }
+
+      document.getElementById('bet-form').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var selection = sel.value === '__custom' ? custom.value.trim() : sel.value;
+        var stake = parseFloat(document.getElementById('bm-stake').value);
+        var odd = parseFloat(document.getElementById('bm-odd').value);
+        if (!selection || selection.length < 2) return showMsg('Вкажіть вибір', false);
+        if (!(stake > 0)) return showMsg('Ставка має бути більше 0', false);
+        if (!(odd >= 1.01)) return showMsg('Коефіцієнт має бути ≥ 1.01', false);
+
+        var btn = this.querySelector('button[type=submit]');
+        btn.disabled = true;
+        btn.textContent = 'ЗБЕРЕЖЕННЯ…';
+        fetch('/api/bets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ match_id: MATCH_ID, selection: selection, stake: stake, odd: odd })
+        }).then(function (r) {
+          return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+        }).then(function (res) {
+          if (!res.ok) throw new Error(res.j.error || 'Помилка збереження');
+          document.getElementById('bet-form-wrap').classList.add('hidden');
+          document.getElementById('bet-msg') && msg.classList.add('hidden');
+          document.getElementById('done-line').textContent =
+            '{{ m.home }} — {{ m.away }}';
+          document.getElementById('done-detail').textContent =
+            selection + ' • ' + stake.toFixed(1) + ' грн × ' + odd.toFixed(2) +
+            ' = ' + (stake * odd).toFixed(2) + ' грн потенційно';
+          document.getElementById('bet-done').classList.remove('hidden');
+          window.scrollTo(0, 0);
+        }).catch(function (e) {
+          showMsg('⚠️ ' + e.message, false);
+          btn.disabled = false;
+          btn.textContent = 'ПРИЙНЯТИ СТАВКУ';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

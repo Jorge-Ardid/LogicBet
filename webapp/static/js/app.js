@@ -119,50 +119,7 @@ async function loadMatches() {
     box.innerHTML = '<p class="text-red-400 text-sm text-center py-6">Помилка: ' + esc(e.message) + "</p>";
   }
 }
-/* МОДАЛЬНЕ ВІКНО СТАВКИ */
-let modalMatch = null;
-
-function openBetModal(m) {
-  modalMatch = m;
-  $("bm-match").textContent = m.home + " — " + m.away;
-  $("bm-meta").textContent = m.league + " • " + m.time;
-  const sel = $("bm-selection"), custom = $("bm-custom");
-  sel.innerHTML =
-    (m.predictions || []).map((p) =>
-      '<option value="' + esc(p.selection) + '">' + esc(p.selection) +
-      (p.btts ? "" : " (" + p.prob + "%)") + "</option>").join("") +
-    '<option value="__custom">✍️ Власний варіант…</option>';
-  custom.classList.add("hidden");
-  custom.value = "";
-  sel.onchange = () => custom.classList.toggle("hidden", sel.value !== "__custom");
-  $("bm-stake").value = state.defaultStake;
-  const first = (m.predictions || [])[0];
-  $("bm-odd").value = first && first.odd ? first.odd : "";
-  $("bet-modal").classList.remove("hidden");
-}
-
-async function saveBet() {
-  if (!modalMatch) return;
-  const sel = $("bm-selection");
-  const selection = sel.value === "__custom" ? $("bm-custom").value.trim() : sel.value;
-  try {
-    await api("/api/bets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        match_id: modalMatch.id,
-        selection: selection,
-        stake: parseFloat($("bm-stake").value),
-        odd: parseFloat($("bm-odd").value),
-      }),
-    });
-    toast("✅ Ставку прийнято!");
-    $("bet-modal").classList.add("hidden");
-    loadState();
-  } catch (e) {
-    toast("⚠️ " + e.message, false);
-  }
-}
+/* СТАВКА тепер на окремій сторінці /bet/<match_id> — перехід у клік-обробнику нижче */
 
 /* ІНІЦІАЛІЗАЦІЯ */
 document.addEventListener("DOMContentLoaded", () => {
@@ -197,18 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter" && window.doSearch) window.doSearch();
   });
 
-  $("bm-close").addEventListener("click", () => $("bet-modal").classList.add("hidden"));
-  $("bet-modal").addEventListener("click", (e) => {
-    if (e.target === $("bet-modal")) $("bet-modal").classList.add("hidden");
-  });
-  $("bm-save").addEventListener("click", saveBet);
-
+  /* СТАВКА = перехід на окрему сторінку ставки */
   document.addEventListener("click", (e) => {
     const btn = e.target.closest(".bet-btn");
     if (!btn) return;
-    const m = currentMatches[btn.dataset.id] ||
-      (window.currentSearchMatches && window.currentSearchMatches[btn.dataset.id]);
-    if (m) openBetModal(m);
+    location.href = "/bet/" + btn.dataset.id;
   });
 
   if ("serviceWorker" in navigator) {
