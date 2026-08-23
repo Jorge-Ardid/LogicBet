@@ -4,6 +4,7 @@ import math
 class BettingAnalytics:
     def __init__(self, db):
         self.db = db
+        self._reputation = None
         self.uk_dict = {
             "Home": "П1 (Господарі)",
             "Away": "П2 (Гості)",
@@ -51,6 +52,100 @@ class BettingAnalytics:
         
         # Apply dictionary for other terms
         return self.uk_dict.get(text, text)
+
+    # ------------------------------------------------------------------
+    # Reward & Penalty engine: per-market "karma" learned from settled user bets.
+    #   WON  -> karma += (odd - 1) * confidence      (reward; higher odd is sweeter)
+    #   LOST -> karma -= odd * confidence             (penalty; higher odd hurts more)
+    # A negative karma acts as a market weight downgrade: the more expensive a lost
+    # bet was (high odd), the stronger the market's internal trust drops and the more
+    # the model hesitates / hedges on that market until it proves itself again.
+    # ------------------------------------------------------------------
+    def _market_token(self, selection):
+        """Map a prediction selection string to its 1X2/karma market token."""
+        if not selection:
+            return None
+        s = str(selection).strip()
+        if s.startswith("П1") or s == "Home":
+            return "П1"
+        if s.startswith("П2") or s == "Away":
+            return "П2"
+        if s.startswith("1X"):
+            return "1X"
+        if s.startswith("X2"):
+            return "X2"
+        if s.startswith("12"):
+            return "12"
+        if s.startswith("Х") or s.startswith("X ") or s == "Draw":
+            return "X"
+        for tok in ("ТБ", "ТМ", "ОЗ"):
+            if tok in s:
+                return tok
+        return None
+
+    def _compute_reputation(self):
+        """Reward & Penalty engine: rebuild market karma from settled user bets.
+
+        User bets store a COMBO string ("П1 / ТБ 2.5 / ...") — each part is matched
+        against that match's predictions; confidence = prediction's own probability,
+        so reward/penalty is scaled by how sure the AI was on that pick.
+        Also keeps a 5-match sliding penalty balance per market (for the risk switch).
+        WON  -> karma += (odd - 1) * confidence
+        LOST -> karma -= odd * confidence
+        """
+        with self.db.get_connection() as conn:
+            bets = conn.execute(
+                "SELECT match_id, selection, odd, status FROM user_bets "
+                "WHERE status IN ('WON','LOST') "
+                "  AND odd IS NOT NULL AND odd > 0"
+            ).fetchall()
+            pred_rows = conn.execute(
+                "SELECT match_id, selection, calculated_prob FROM predictions "
+                "WHERE calculated_prob IS NOT NULL"
+            ).fetchall()
+
+        # index predictions per match by normalized selection text
+        preds_by_match = {}
+        for mid, sel, prob in pred_rows:
+            key = " ".join((sel or "").upper().split())
+            preds_by_match.setdefault(mid, {})[key] = float(prob)
+
+        rep = {}
+        for mid, combo, odd, status in bets:
+            parts = [p.strip() for p in (combo or "").split("/") if p.strip()]
+            lookup = preds_by_match.get(mid, {})
+            for part in parts:
+                rec = lookup.get(" ".join(part.upper().split()))
+                if rec is None:
+                    continue
+                tok = self._market_token(part)
+                if not tok:
+                    continue
+                conf = float(rec or 0.0)
+                delta = (float(odd) - 1.0) * conf if status == "WON" else -float(odd) * conf
+                entry = rep.setdefault(tok, {"karma": 0.0, "recent": []})
+                entry["karma"] += delta
+                entry["recent"].append((float(odd), status, conf))
+        for tok, entry in rep.items():
+            recent = entry["recent"][-5:]
+            entry["penalty_last5"] = sum(
+                -o * c for o, st, c in recent if st == "LOST"
+            )
+            entry["recent"] = recent
+        self._reputation = rep
+        return rep
+
+    def _learned_threshold(self, selection, base=0.65, span=0.12, floor=0.55, cap=0.80):
+        """Adaptively calibrate the confidence threshold from market karma.
+
+        Positive market karma lowers the required confidence (model earns trust);
+        negative karma raises it (market penalized -> require more evidence before
+        issuing a HIGH-confidence pick on that type).
+        """
+        tok = self._market_token(selection)
+        karma = (self._reputation or {}).get(tok, {}).get("karma", 0.0) if tok else 0.0
+        shift = max(-span, min(span, karma * 0.015))
+        return max(floor, min(cap, base - shift))
 
     def calculate_elo_probability(self, elo_a, elo_b):
         exponent = (elo_b - elo_a) / 400.0
@@ -682,6 +777,11 @@ class BettingAnalytics:
         
         p_h, p_d, p_a = probs['home'], probs['draw'], probs['away']
         results = []
+
+        # Reward & Penalty engine: market karma from settled user bets.
+        rep = self._compute_reputation()
+        p1_pen = rep.get("П1", {}).get("penalty_last5", 0.0)
+        p2_pen = rep.get("П2", {}).get("penalty_last5", 0.0)
         
         # 1. Main Winner (1X2 / DC)
         # Find the outcome with highest probability
@@ -703,6 +803,16 @@ class BettingAnalytics:
         elif abs(p_h - p_a) <= 0.12:
             if p_h >= p_a: selection, prob, tag = "1X", p_h + p_d, "ANALYSIS"
             else: selection, prob, tag = "X2", p_a + p_d, "ANALYSIS"
+
+        # ------------------------------------------------------------------
+        # Risk Safety Switch (auto-hedge): if the P1/P2 market has a net-negative
+        # penalty balance over its last 5 settled bets, stop issuing that thin pick
+        # and hedge it into the double-chance market (Home -> 1X, Away -> X2).
+        # ------------------------------------------------------------------
+        if selection in ("Home", "П1") and p1_pen < 0:
+            selection, prob, tag = "1X", p_h + p_d, "RISK-TO-1X"
+        elif selection in ("Away", "П2") and p2_pen < 0:
+            selection, prob, tag = "X2", p_a + p_d, "RISK-TO-X2"
         
         # H2H Modifier for Tag
         if probs.get('h2h_count', 0) >= 3:
@@ -719,7 +829,7 @@ class BettingAnalytics:
             "calculated_prob": prob,
             "bookmaker_odd": 0.0,
             "value_percentage": 0.0,
-            "confidence_level": "HIGH" if prob > 0.65 else "MEDIUM"
+            "confidence_level": "HIGH" if prob > self._learned_threshold(self.translate(selection)) else "MEDIUM"
         })
         
         # 2. Goals Totals (Over/Under) - ONE optimal option
