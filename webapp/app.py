@@ -122,6 +122,9 @@ def match_payload(row, preds):
         "status_key": key,
         "home": home,
         "away": away,
+        # public ids — клієнт будує посилання на профіль команди / аналіз матчу
+        "home_id": home_id,
+        "away_id": away_id,
         "score": "%s:%s" % (hs, ascore) if show_score else None,
         "predictions": preds,
         "summary": " • ".join(p["selection"] for p in preds[:5]),
@@ -397,6 +400,177 @@ def bet_page(match_id):
     return render_template("bet.html", m=m,
                            default_stake=cfg_float("default_stake", 10.0),
                            cur_bet=cur_bet)
+
+
+# ============== MATCH DETAILS / TEAM PROFILE (модалки) ==============
+
+FINISHED_SQL = "m.status IN ('FT','AET','PEN','FINISHED')"
+
+
+def _form_letters(conn, team_id, limit=5):
+    """Останні завершені матчі команди -> ['W','D','L',...] (новіші спершу)."""
+    rows = conn.execute("""
+        SELECT m.home_team_id, m.home_score, m.away_score
+        FROM matches m
+        WHERE (m.home_team_id = ? OR m.away_team_id = ?) AND %s
+          AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
+        ORDER BY m.date DESC LIMIT ?
+    """ % FINISHED_SQL, (team_id, team_id, limit)).fetchall()
+    out = []
+    for hid, hs, ascore in rows:
+        if hs is None or ascore is None:
+            continue
+        mine, theirs = (hs, ascore) if hid == team_id else (ascore, hs)
+        out.append("W" if mine > theirs else ("D" if mine == theirs else "L"))
+    return out
+
+
+def _team_averages(conn, team_id, limit=10):
+    """Середні кутові/картки/xG за останні limit завершених матчів зі статистикою."""
+    row = conn.execute("""
+        SELECT AVG(CASE WHEN m.home_team_id = ? THEN m.corners_h ELSE m.corners_a END),
+               AVG(CASE WHEN m.home_team_id = ? THEN m.yellow_cards_h ELSE m.yellow_cards_a END),
+               AVG(CASE WHEN m.home_team_id = ? THEN m.red_cards_h ELSE m.red_cards_a END),
+               AVG(CASE WHEN m.home_team_id = ? THEN m.xg_h ELSE m.xg_a END),
+               COUNT(*)
+        FROM (
+            SELECT * FROM matches
+            WHERE (home_team_id = ? OR away_team_id = ?)
+              AND stats_fetched = 1 AND status IN ('FT','AET','PEN','FINISHED')
+            ORDER BY date DESC LIMIT ?
+        ) m
+    """, (team_id, team_id, team_id, team_id, team_id, team_id, limit)).fetchone()
+    avg = lambda v: round(float(v), 2) if v is not None else None  # noqa: E731
+    return {"corners": avg(row[0]), "yellow_cards": avg(row[1]),
+            "red_cards": avg(row[2]), "xg": avg(row[3]), "sample": row[4] or 0}
+
+
+def _team_side(conn, team_id):
+    """Загальний блок даних команди для порівняння та профілю."""
+    t = conn.execute(
+        "SELECT id, name, elo_rating, current_form, rank, points "
+        "FROM teams WHERE id = ?", (team_id,)).fetchone()
+    if t is None:
+        return None
+    return {
+        "id": t[0], "name": t[1],
+        "elo": round(float(t[2] or 1500), 1),
+        "current_form": t[3] or "",
+        "rank": t[4] or 0, "points": t[5] or 0,
+        "form_letters": _form_letters(conn, team_id, 5),
+        "avg": _team_averages(conn, team_id, 10),
+    }
+
+
+@app.route("/api/match/<int:match_id>/details")
+def api_match_details(match_id):
+    """Статистика завершеного матчу або порівняння команд до матчу."""
+    with db.get_connection() as conn:
+        r = conn.execute("""
+            SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
+                   m.ht_score_h, m.ht_score_a,
+                   t1.id, t1.name, t1.elo_rating,
+                   t2.id, t2.name, t2.elo_rating,
+                   m.corners_h, m.corners_a,
+                   m.yellow_cards_h, m.yellow_cards_a,
+                   m.red_cards_h, m.red_cards_a,
+                   m.shots_on_h, m.shots_on_a,
+                   m.shots_off_h, m.shots_off_a,
+                   m.xg_h, m.xg_a,
+                   m.possession_h, m.possession_a,
+                   m.stats_fetched, m.h_elo_change, m.a_elo_change
+            FROM matches m
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            WHERE m.id = ?
+        """, (match_id,)).fetchone()
+        if r is None:
+            return jsonify({"error": "Матч не знайдено"}), 404
+
+        (mid, date_str, league, status, hs, ascore, ht_h, ht_a,
+         h_id, h_name, h_elo, a_id, a_name, a_elo,
+         c_h, c_a, yc_h, yc_a, rc_h, rc_a, so_h, so_a, soff_h, soff_a,
+         xg_h, xg_a, pos_h, pos_a, stf, elo_chg_h, elo_chg_a) = r
+
+        label, key = status_info(status)
+        kickoff = parse_dt(date_str)
+        d = {
+            "id": mid, "date": date_str, "league": league,
+            "status": label, "status_key": key,
+            "time": to_kyiv(kickoff).strftime("%H:%M") if kickoff else "--:--",
+            "home": {"id": h_id, "name": h_name,
+                     "elo": round(float(h_elo or 1500), 1)},
+            "away": {"id": a_id, "name": a_name,
+                     "elo": round(float(a_elo or 1500), 1)},
+            "score": [hs, ascore] if hs is not None else None,
+            "ht": [ht_h, ht_a] if ht_h is not None else None,
+        }
+
+        if key == "finished":
+            d["elo_change"] = [round(float(elo_chg_h or 0), 1),
+                               round(float(elo_chg_a or 0), 1)]
+
+        if key == "finished" and stf:
+            d["stats"] = {
+                "possession": [pos_h, pos_a],
+                "xg": [round(float(xg_h or 0), 2), round(float(xg_a or 0), 2)],
+                "shots_total": [(so_h or 0) + (soff_h or 0),
+                                (so_a or 0) + (soff_a or 0)],
+                "shots_on": [so_h or 0, so_a or 0],
+                "shots_off": [soff_h or 0, soff_a or 0],
+                "corners": [c_h or 0, c_a or 0],
+                "yellow": [yc_h or 0, yc_a or 0],
+                "red": [rc_h or 0, rc_a or 0],
+            }
+        else:
+            # Матч не зіграно (або статистику не зібрано) -> порівняння до матчу
+            d["comparison"] = {"home": _team_side(conn, h_id),
+                               "away": _team_side(conn, a_id)}
+    return jsonify(d)
+
+
+@app.route("/api/team/<int:team_id>/profile")
+def api_team_profile(team_id):
+    """Профіль команди: Elo, форма W/D/L, середні кутові/картки/xG, наступний матч."""
+    with db.get_connection() as conn:
+        side = _team_side(conn, team_id)
+        if side is None:
+            return jsonify({"error": "Команду не знайдено"}), 404
+        recent = []
+        for date_str, hid, h_name, a_name, hs, ascore in conn.execute("""
+                SELECT m.date, m.home_team_id, t1.name, t2.name,
+                       m.home_score, m.away_score
+                FROM matches m
+                JOIN teams t1 ON m.home_team_id = t1.id
+                JOIN teams t2 ON m.away_team_id = t2.id
+                WHERE (m.home_team_id = ? OR m.away_team_id = ?) AND %s
+                  AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
+                ORDER BY m.date DESC LIMIT 8
+            """ % FINISHED_SQL, (team_id, team_id)).fetchall():
+            mine, theirs = (hs, ascore) if hid == team_id else (ascore, hs)
+            recent.append({
+                "date": str(date_str)[:10] if date_str else "",
+                "opp": a_name if hid == team_id else h_name,
+                "venue": "H" if hid == team_id else "A",
+                "score": "%s:%s" % (mine, theirs),
+                "r": "W" if mine > theirs else ("D" if mine == theirs else "L"),
+            })
+        nxt = conn.execute("""
+            SELECT m.date, t1.name, t2.name, m.home_team_id
+            FROM matches m
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            WHERE (m.home_team_id = ? OR m.away_team_id = ?)
+              AND m.status NOT IN ('FT','AET','PEN','FINISHED','CANCELLED','POSTPONED')
+            ORDER BY m.date ASC LIMIT 1
+        """, (team_id, team_id)).fetchone()
+        side["recent"] = recent
+        side["next"] = (
+            {"date": str(nxt[0])[:16] if nxt[0] else "",
+             "opp": nxt[2] if nxt[3] == team_id else nxt[1],
+             "venue": "H" if nxt[3] == team_id else "A"}
+            if nxt else None)
+    return jsonify(side)
 
 
 @app.route("/api/settings", methods=["GET", "POST"])

@@ -81,7 +81,9 @@ function matchCardHtml(m) {
   const cls = m.status_key === "live" ? "text-goldAccent"
     : m.status_key === "finished" ? "text-red-400" : "text-green-400";
   const dot = m.status_key === "live" ? '<span class="live-dot mr-1"></span>' : "";
-  const score = m.score ? '<span class="text-white font-extrabold ml-2">' + esc(m.score) + "</span>" : "";
+  const score = m.score
+    ? '<button class="detail-btn text-white font-extrabold ml-1 hover:text-goldAccent cursor-pointer transition" data-mid="' + m.id + '" title="Аналіз матчу">' + esc(m.score) + "</button>"
+    : "";
   const prob = m.top_prob != null ? ' <span class="text-gray-400 font-normal">(' + m.top_prob + "%)</span>" : "";
   const betLabel = m.has_bet && m.bet_odd != null
     ? Number(m.bet_odd).toFixed(2)
@@ -96,8 +98,11 @@ function matchCardHtml(m) {
     "</div>" +
     '<div class="flex flex-col md:flex-row justify-between md:items-center gap-3">' +
       '<div class="space-y-1 min-w-0">' +
-        '<div class="text-base sm:text-lg font-bold text-white tracking-wide">' +
-          teamNameHtml(m.home, m.home_form_status) + ' <span class="text-gray-500 font-normal mx-1">—</span> ' + teamNameHtml(m.away, m.away_form_status) + score +
+        '<div class="text-base sm:text-lg font-bold text-white tracking-wide flex flex-wrap items-center gap-x-0.5">' +
+          '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left" data-tid="' + m.home_id + '" title="Профіль команди">' + teamNameHtml(m.home, m.home_form_status) + "</button>" +
+          '<button class="detail-btn text-gray-500 font-normal mx-1.5 hover:text-goldAccent cursor-pointer transition" data-mid="' + m.id + '" title="Аналіз матчу / порівняння">—</button>' +
+          '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left" data-tid="' + m.away_id + '" title="Профіль команди">' + teamNameHtml(m.away, m.away_form_status) + "</button>" +
+          score +
         "</div>" +
         '<p class="text-xs sm:text-sm text-goldAccent font-medium leading-relaxed break-words">' +
           esc(m.summary || "Прогнози генеруються…") + prob +
@@ -140,6 +145,183 @@ async function loadMatches() {
   }
 }
 /* СТАВКА тепер на окремій сторінці /bet/<match_id> — перехід у клік-обробнику нижче */
+
+/* ===== МОДАЛЬНІ ВІКНА: Аналіз матчу / Порівняння / Профіль команди ===== */
+function closeModal() {
+  const m = $("lb-modal");
+  if (m) m.remove();
+}
+
+function openModal(innerHtml) {
+  closeModal();
+  const ov = document.createElement("div");
+  ov.id = "lb-modal";
+  ov.className = "fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-3";
+  ov.innerHTML =
+    '<div class="bg-cardBg border border-borderDark rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto p-4 sm:p-5 space-y-3 shadow-2xl">' +
+      '<button id="modal-close" class="float-right text-gray-400 hover:text-white text-2xl leading-none -mt-1 px-1">×</button>' +
+      innerHtml +
+    "</div>";
+  document.body.appendChild(ov);
+  ov.addEventListener("click", (e) => {
+    if (e.target === ov || e.target.id === "modal-close") closeModal();
+  });
+}
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+function modalHeader(title) {
+  return '<h3 class="font-bold text-goldAccent uppercase tracking-wide text-sm">' + esc(title) + "</h3>";
+}
+
+function formChips(letters) {
+  const cls = { W: "bg-greenAccent/15 text-greenAccent border-greenAccent/40",
+                D: "bg-gray-500/15 text-gray-300 border-gray-500/40",
+                L: "bg-red-500/10 text-red-400 border-red-500/40" };
+  return (letters || []).map((l) =>
+    '<span class="inline-flex w-6 h-6 items-center justify-center rounded-md border text-[11px] font-extrabold ' +
+    (cls[l] || cls.D) + '">' + l + "</span>").join(" ") ||
+    '<span class="text-gray-500 text-xs">немає даних</span>';
+}
+
+/* Симетричний рядок статистики: h — господарі, a — гості */
+function statRow(label, h, a, suffix) {
+  suffix = suffix || "";
+  const total = (Number(h) || 0) + (Number(a) || 0);
+  const pctH = total ? Math.round((Number(h) || 0) * 100 / total) : 50;
+  return (
+    '<div class="space-y-1">' +
+      '<div class="flex justify-between text-xs font-bold">' +
+        '<span class="text-white">' + (h ?? "—") + suffix + "</span>" +
+        '<span class="text-gray-400 uppercase tracking-wide text-[10px] pt-0.5">' + esc(label) + "</span>" +
+        '<span class="text-white">' + (a ?? "—") + suffix + "</span>" +
+      "</div>" +
+      '<div class="flex h-1.5 rounded-full overflow-hidden bg-borderDark">' +
+        '<span class="h-full bg-goldAccent" style="width:' + pctH + '%"></span>' +
+        '<span class="h-full bg-gray-600 flex-1"></span>' +
+      "</div>" +
+    "</div>");
+}
+
+window.matchModal = async function (mid) {
+  openModal('<p class="text-gray-400 text-sm py-8 text-center animate-pulse">Завантаження…</p>');
+  try {
+    const d = await api("/api/match/" + mid + "/details");
+    let html = modalHeader(d.league + " • " + d.status + " • " + d.time);
+    html +=
+      '<div class="flex justify-between items-center gap-2">' +
+        '<b class="text-sm sm:text-base text-white">' + esc(d.home.name) + "</b>" +
+        (d.score
+          ? '<span class="font-extrabold text-xl text-goldAccent whitespace-nowrap">' + esc(d.score[0]) + ":" + esc(d.score[1]) +
+            (d.ht ? ' <small class="text-gray-500 font-normal text-xs">(' + d.ht[0] + ":" + d.ht[1] + ")</small>" : "") + "</span>"
+          : '<span class="text-gray-500 font-normal text-xs">VS</span>') +
+        '<b class="text-sm sm:text-base text-white">' + esc(d.away.name) + "</b>" +
+      "</div>";
+
+    if (d.stats) {
+      html += '<div class="space-y-2.5 pt-1">' +
+        statRow("Володіння %", d.stats.possession[0], d.stats.possession[1]) +
+        statRow("xG", d.stats.xg[0], d.stats.xg[1]) +
+        statRow("Удари", d.stats.shots_total[0], d.stats.shots_total[1]) +
+        statRow("Удари в ціль", d.stats.shots_on[0], d.stats.shots_on[1]) +
+        statRow("Удари повз", d.stats.shots_off[0], d.stats.shots_off[1]) +
+        statRow("Кутові", d.stats.corners[0], d.stats.corners[1]) +
+        statRow("Жовті картки", d.stats.yellow[0], d.stats.yellow[1]) +
+        statRow("Червоні картки", d.stats.red[0], d.stats.red[1]) +
+        "</div>";
+      if (d.elo_change) {
+        const fmt = (v) => (v > 0 ? "+" : "") + v;
+        html += '<p class="text-xs text-center text-gray-400 pt-1">ΔElo: ' +
+          '<b class="' + (d.elo_change[0] >= 0 ? "text-greenAccent" : "text-red-400") + '">' + fmt(d.elo_change[0]) + "</b> / " +
+          '<b class="' + (d.elo_change[1] >= 0 ? "text-greenAccent" : "text-red-400") + '">' + fmt(d.elo_change[1]) + "</b></p>";
+      }
+    } else if (d.comparison) {
+      const H = d.comparison.home, A = d.comparison.away;
+      const line = (label, hv, av, suf) =>
+        '<div class="flex justify-between text-xs py-1 border-b border-borderDark/50">' +
+          '<b class="text-white">' + (hv ?? "—") + (suf || "") + "</b>" +
+          '<span class="text-gray-400 uppercase tracking-wide text-[10px] pt-0.5">' + esc(label) + "</span>" +
+          '<b class="text-white">' + (av ?? "—") + (suf || "") + "</b></div>";
+      html += '<div class="grid grid-cols-2 gap-3 text-center">' +
+          '<div><p class="text-[11px] text-gray-500 uppercase">Elo</p><p class="font-extrabold text-lg text-white">' + H.elo + '</p><div class="mt-1 flex justify-center">' + formChips(H.form_letters) + "</div></div>" +
+          '<div><p class="text-[11px] text-gray-500 uppercase">Elo</p><p class="font-extrabold text-lg text-white">' + A.elo + '</p><div class="mt-1 flex justify-center">' + formChips(A.form_letters) + "</div></div>" +
+        "</div>";
+      html += '<div class="pt-1">' +
+        line("Сер. кутові", H.avg.corners, A.avg.corners) +
+        line("Сер. ЖК", H.avg.yellow_cards, A.avg.yellow_cards) +
+        line("Сер. ЧК", H.avg.red_cards, A.avg.red_cards) +
+        line("Сер. xG", H.avg.xg, A.avg.xg) +
+        "</div>" +
+        '<p class="text-[11px] text-gray-500 text-center">Порівняння команд до матчу • вибірка ' + Math.max(H.avg.sample, A.avg.sample) + " матчів</p>";
+    } else {
+      html += '<p class="text-gray-500 text-sm text-center py-4">Статистика ще недоступна</p>';
+    }
+    openModal(html);
+  } catch (e) {
+    openModal('<p class="text-red-400 text-sm py-6 text-center">Помилка: ' + esc(e.message) + "</p>");
+  }
+};
+
+window.teamModal = async function (tid) {
+  openModal('<p class="text-gray-400 text-sm py-8 text-center animate-pulse">Завантаження…</p>');
+  try {
+    const t = await api("/api/team/" + tid + "/profile");
+    let html = modalHeader("Профіль команди");
+    html += '<div class="flex items-center justify-between gap-2">' +
+        '<b class="text-lg text-white">' + esc(t.name) + "</b>" +
+        '<span class="bg-goldAccent/10 border border-goldAccent/40 text-goldAccent font-extrabold px-2.5 py-1 rounded-lg text-sm">Elo ' + t.elo + "</span>" +
+      "</div>";
+    const meta = [];
+    if (t.rank) meta.push("№" + t.rank);
+    if (t.points) meta.push(t.points + " очок");
+    if (meta.length) html += '<p class="text-xs text-gray-400">' + meta.join(" • ") + "</p>";
+
+    html += '<div class="space-y-1">' +
+        '<p class="text-[11px] text-gray-500 uppercase tracking-wide">Форма (останні ' + (t.form_letters.length || 0) + ')</p>' +
+        '<div>' + formChips(t.form_letters) + "</div>" +
+      "</div>";
+
+    const avgLine = (label, v, suf) =>
+      '<div class="flex justify-between text-xs py-1 border-b border-borderDark/50">' +
+        '<span class="text-gray-400">' + label + "</span>" +
+        '<b class="text-white">' + (v ?? "—") + (suf || "") + "</b></div>";
+    html += '<div class="pt-1">' +
+      avgLine("Середні кутові", t.avg.corners) +
+      avgLine("Середні ЖК", t.avg.yellow_cards) +
+      avgLine("Середні ЧК", t.avg.red_cards) +
+      avgLine("Середній xG", t.avg.xg) +
+      "</div>" +
+      '<p class="text-[11px] text-gray-500">Вибірка: останні ' + t.avg.sample + ' матчів зі статистикою</p>';
+
+    if (t.recent && t.recent.length) {
+      const rc = { W: "text-greenAccent", D: "text-gray-300", L: "text-red-400" };
+      html += '<div><p class="text-[11px] text-gray-500 uppercase tracking-wide pb-1">Останні матчі</p>' +
+        '<div class="space-y-1">' +
+        t.recent.map((m) =>
+          '<div class="flex items-center gap-2 text-xs">' +
+            '<b class="' + (rc[m.r] || "") + ' w-4 text-center">' + m.r + "</b>" +
+            '<span class="text-gray-300 flex-1 truncate">' + (m.venue === "H" ? "" : "@ ") + esc(m.opp) + "</span>" +
+            '<span class="text-gray-400">' + m.score + '</span>' +
+            '<span class="text-gray-600">' + esc(m.date) + "</span>" +
+          "</div>").join("") + "</div></div>";
+    }
+    if (t.next) {
+      html += '<p class="text-xs text-center pt-1">Наступний: <b class="text-goldAccent">' +
+        (t.next.venue === "H" ? " вдома" : " виїзд") + " vs " + esc(t.next.opp) + "</b> " +
+        '<span class="text-gray-500">(' + esc(t.next.date) + ")</span></p>";
+    }
+    openModal(html);
+  } catch (e) {
+    openModal('<p class="text-red-400 text-sm py-6 text-center">Помилка: ' + esc(e.message) + "</p>");
+  }
+};
+
+/* Делегування: клік по назві команди / рахунку / розділювачу */
+document.addEventListener("click", (e) => {
+  const tl = e.target.closest(".team-link");
+  if (tl && tl.dataset.tid) { window.teamModal(+tl.dataset.tid); return; }
+  const dbtn = e.target.closest(".detail-btn");
+  if (dbtn && dbtn.dataset.mid) { window.matchModal(+dbtn.dataset.mid); return; }
+});
 
 /* ІНІЦІАЛІЗАЦІЯ */
 document.addEventListener("DOMContentLoaded", () => {
