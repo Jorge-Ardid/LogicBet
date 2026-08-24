@@ -10,6 +10,10 @@ venv/
 *.db-wal
 *.db-shm
 
+# --- Runtime user data (bets/bankroll) — NEVER overwrite on deploy ---
+webapp/user_data.db
+webapp/*.db
+
 # --- Scratch / debug outputs (session helpers) ---
 *_out.txt
 *_check.txt

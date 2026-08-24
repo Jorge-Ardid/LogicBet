@@ -2,15 +2,27 @@ import sqlite3
 import os
 
 class LogicBetDB:
-    def __init__(self, db_path='../godot_app/logicbet.db'):
+    def __init__(self, db_path='../godot_app/logicbet.db', data_db_path=None):
+        # ДВА РЕЖИМИ:
+        #  1) Моноліт (data_db_path=None) — pipeline/CI: усі таблиці в одному
+        #     файлі db_path. Повна сумісність зі старою поведінкою.
+        #  2) Split (data_db_path задано) — вебзастосунок: db_path = РОБОЧА БД
+        #     ставок (user_bets + config), яка НІКОЛИ не трекається git'ом, тому
+        #     `git reset --hard` / `git pull` на сервері фізично не можуть
+        #     перетерти ставки. Канонічна БД даних Godot/API (трекана, оновлюється
+        #     CI-синком) attach'иться як 'datadb' лише для читання через VIEW.
+        self.user_db_mode = data_db_path is not None
+        self.data_db_path = os.path.abspath(data_db_path) if data_db_path else None
         # Database is back in the godot_app folder as per user preference
         self.db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), db_path))
         
-        # Ensure the directory exists (important for GitHub Actions)
-        db_dir = os.path.dirname(self.db_path)
-        if not os.path.exists(db_dir):
-            os.makedirs(db_dir, exist_ok=True)
-            print(f"  [DB] Created missing directory: {db_dir}")
+        # Ensure the directories exist (important for GitHub Actions)
+        for _p in ([self.db_path, self.data_db_path]
+                   if self.data_db_path else [self.db_path]):
+            db_dir = os.path.dirname(_p)
+            if not os.path.exists(db_dir):
+                os.makedirs(db_dir, exist_ok=True)
+                print(f"  [DB] Created missing directory: {db_dir}")
             
         print(f"--- LOGICBET DATABASE INITIALIZED ---")
         
@@ -261,7 +273,10 @@ class LogicBetDB:
         }
         
         self._init_db()
-        self._sync_map_to_synonyms()
+        if not self.user_db_mode:
+            # У split-режимі teams/team_synonyms живуть у канонічній БД даних;
+            # ця одноразова міграція пише в них і виконується лише пайплайном.
+            self._sync_map_to_synonyms()
 
     def _sync_map_to_synonyms(self):
         """One-time migration: fills team_synonyms table from TEAM_MAP if it's empty."""
@@ -319,13 +334,84 @@ class LogicBetDB:
         return self.TEAM_MAP.get(clean, clean)
 
     def get_connection(self):
-        return sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path)
+        if self.user_db_mode:
+            conn.execute("ATTACH DATABASE ? AS datadb", (self.data_db_path,))
+            # TEMP-views: звичайні (постійні) view у SQLite не можуть
+            # посилатись на attached-базу, а temp — можуть. Тож усі наявні
+            # запити ("FROM matches", "JOIN teams ...") прозоро читають
+            # канонічну БД даних без жодних змін у SQL.
+            for _t in ("teams", "matches", "predictions", "odds", "team_synonyms"):
+                conn.execute(
+                    "CREATE TEMP VIEW IF NOT EXISTS %s AS SELECT * FROM datadb.%s"
+                    % (_t, _t))
+        return conn
 
-    def _init_db(self):
+    def _init_user_db(self):
+        """Схема РОБОЧОЇ БД вебу (split-режим).
+
+        Тут живуть ТІЛЬКИ дані користувача: user_bets + config. Вони ніколи
+        не трекаються git'ом, тому деплой (reset --hard / pull) їх не чіпає.
+        Канонічні таблиці даних (teams/matches/predictions/odds/team_synonyms)
+        лежать у godot_app/logicbet.db і доступні тут лише на читання через
+        VIEW-синоніми, тож усі наявні SQL-запити продовжують працювати без змін.
+        """
         with self.get_connection() as conn:
             cursor = conn.cursor()
-            
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS user_bets (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    match_id INTEGER,
+                    selection TEXT,
+                    stake REAL,
+                    odd REAL,
+                    status TEXT DEFAULT 'PENDING',
+                    profit REAL DEFAULT 0.0
+                )
+            ''')
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS config (
+                    key TEXT PRIMARY KEY,
+                    value TEXT
+                )
+            ''')
+            conn.commit()
+
+            # Одноразова міграція: переносимо ставки зі старої монолітної БД,
+            # поки робоча ще порожня (щоб жодна ставка не загубилась при апгрейді).
+            n = cursor.execute("SELECT COUNT(*) FROM user_bets").fetchone()[0]
+            if n == 0:
+                try:
+                    moved = cursor.execute("""
+                        INSERT INTO user_bets (id, match_id, selection, stake, odd, status, profit)
+                        SELECT id, match_id, selection, stake, odd, status, profit
+                        FROM datadb.user_bets
+                    """).rowcount
+                    if moved:
+                        print(f"[DB] Migrated {moved} existing bets into user_data.db")
+                except sqlite3.Error as e:
+                    print("[DB] Legacy bets migration skipped:", e)
+            # Налаштування банку — теж переносимо, якщо робочі ще не задані
+            nc = cursor.execute("SELECT COUNT(*) FROM config").fetchone()[0]
+            if nc == 0:
+                try:
+                    cursor.execute("""
+                        INSERT OR IGNORE INTO config (key, value)
+                        SELECT key, value FROM datadb.config
+                        WHERE key IN ('bankroll', 'default_stake')
+                    """)
+                except sqlite3.Error as e:
+                    print("[DB] Config migration skipped:", e)
+            conn.commit()
+
+    def _init_db(self):
+        if self.user_db_mode:
+            self._init_user_db()
+            return
+        with self.get_connection() as conn:
+
             # Teams table
+            cursor = conn.cursor()
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS teams (
                     id INTEGER PRIMARY KEY,

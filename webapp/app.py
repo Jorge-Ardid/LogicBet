@@ -17,13 +17,17 @@ sys.path.insert(0, os.path.join(ROOT, "python"))
 
 from database import LogicBetDB  # noqa: E402
 
-# Точний абсолютний шлях до єдиної БД (<repo>/godot_app/logicbet.db) —
-# саме сюди пише Godot-пайплайн і саме цей файл оновлює CI-sync.
-# Явне зшивання шляху усуває ризик відкриття застарілої копії БД
-# (причина "квітневої" історії на проді).
-DB_PATH = os.environ.get("LOGICBET_DB_PATH") or os.path.join(
+# Канонічна БД ДАНИХ (Godot/API): трекається git'ом, оновлюється CI-синком —
+# саме через неї на сервер приходять свіжі матчі/команди/прогнози.
+DATA_DB_PATH = os.environ.get("LOGICBET_DATA_DB") or os.path.join(
     ROOT, "godot_app", "logicbet.db")
-db = LogicBetDB(DB_PATH)
+# РОБОЧА БД ВЕБУ: ставки користувача + банкрол. НІКОЛИ не трекається git'ом
+# (.gitignore), тому `git reset --hard` / `git pull` при деплої фізично не
+# можуть їх перетерти. Якщо файлу нема — створюється порожня схема
+# (CREATE TABLE IF NOT EXISTS); існуючий файл НІКОЛИ не перезаписується.
+USER_DB_PATH = os.environ.get("LOGICBET_DB_PATH") or os.path.join(
+    ROOT, "webapp", "user_data.db")
+db = LogicBetDB(USER_DB_PATH, data_db_path=DATA_DB_PATH)
 
 app = Flask(__name__)
 

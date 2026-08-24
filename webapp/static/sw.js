@@ -38,7 +38,7 @@ self.addEventListener("fetch", (e) => {
     return;
   }
   /* своє — мережа-перша; кеш лише offline-fallback.
-     SW v8 примусово повідомляє клієнтів про оновлення. */
+     SW v9 примусово повідомляє клієнтів про оновлення. */
   e.respondWith(
     fetch(e.request)
       .then((resp) => {
