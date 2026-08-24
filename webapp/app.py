@@ -17,8 +17,13 @@ sys.path.insert(0, os.path.join(ROOT, "python"))
 
 from database import LogicBetDB  # noqa: E402
 
-DB_OVERRIDE = os.environ.get("LOGICBET_DB_PATH")
-db = LogicBetDB(DB_OVERRIDE) if DB_OVERRIDE else LogicBetDB()
+# Точний абсолютний шлях до єдиної БД (<repo>/godot_app/logicbet.db) —
+# саме сюди пише Godot-пайплайн і саме цей файл оновлює CI-sync.
+# Явне зшивання шляху усуває ризик відкриття застарілої копії БД
+# (причина "квітневої" історії на проді).
+DB_PATH = os.environ.get("LOGICBET_DB_PATH") or os.path.join(
+    ROOT, "godot_app", "logicbet.db")
+db = LogicBetDB(DB_PATH)
 
 app = Flask(__name__)
 
@@ -291,10 +296,15 @@ def api_delete_bet(bet_id):
 @app.route("/api/bets")
 def api_history():
     status = request.args.get("status", "ALL").upper()
-    cond, params = "", []
+    filters, params = [], []
     if status in ("PENDING", "WON", "LOST"):
-        cond = "WHERE ub.status = ?"
-        params = [status]
+        filters.append("ub.status = ?")
+        params.append(status)
+    # Актуальна вибірка: лише останні 90 днів — застарілі квітневі записи
+    # не потрапляють в історію. ?all=1 вимикає фільтр (для аудиту).
+    if request.args.get("all", "0") not in ("1", "true"):
+        filters.append("DATE(m.date) >= DATE('now', '-90 day')")
+    cond = "WHERE " + " AND ".join(filters) if filters else ""
     query = """
         SELECT ub.id, ub.selection, ub.stake, ub.odd, ub.status, ub.profit,
                m.id, m.date, m.league, m.status, m.home_score, m.away_score,
@@ -303,7 +313,7 @@ def api_history():
         JOIN matches m ON ub.match_id = m.id
         JOIN teams t1 ON m.home_team_id = t1.id
         JOIN teams t2 ON m.away_team_id = t2.id
-        %s ORDER BY m.date DESC, ub.id DESC LIMIT 200
+        %s ORDER BY m.date DESC, m.id DESC, ub.id DESC LIMIT 200
     """ % cond
     with db.get_connection() as conn:
         rows = conn.execute(query, params).fetchall()

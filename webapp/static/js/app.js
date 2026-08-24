@@ -78,8 +78,10 @@ function teamNameHtml(name, status) {
     : esc(name);
 }
 function matchCardHtml(m) {
-  const cls = m.status_key === "live" ? "text-goldAccent"
-    : m.status_key === "finished" ? "text-red-400" : "text-green-400";
+  /* Зелений — ВИКЛЮЧНО для LIVE. ОЧІКУЄТЬСЯ — нейтральний сірий,
+     завершені — червонуваті. */
+  const cls = m.status_key === "live" ? "text-greenAccent"
+    : m.status_key === "finished" ? "text-red-400" : "text-gray-300";
   const dot = m.status_key === "live" ? '<span class="live-dot mr-1"></span>' : "";
   const score = m.score
     ? '<button class="detail-btn text-white font-extrabold ml-1 hover:text-goldAccent cursor-pointer transition" data-mid="' + m.id + '" title="Аналіз матчу">' + esc(m.score) + "</button>"
