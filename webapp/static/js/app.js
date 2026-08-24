@@ -69,10 +69,13 @@ function switchTab(tab) {
 /* АНАЛІТИКА: матчі, згруповані Сьогодні/Завтра */
 let currentMatches = {};
 
-/* Team form ('світлофор') badge helper */
-function formBadge(status) {
-  const map = { green: '🟢', yellow: '🟡', red: '🔴' };
-  return status ? (map[status] || '⚪') : '';
+/* Світлофор форми: колір застосовується безпосередньо до ТЕКСТУ назви команди */
+const FORM_COLORS = { green: "#22c55e", yellow: "#eab308", red: "#ef4444" };
+function teamNameHtml(name, status) {
+  const color = status ? FORM_COLORS[status] : null;
+  return color
+    ? '<span style="color:' + color + '">' + esc(name) + "</span>"
+    : esc(name);
 }
 function matchCardHtml(m) {
   const cls = m.status_key === "live" ? "text-goldAccent"
@@ -80,8 +83,8 @@ function matchCardHtml(m) {
   const dot = m.status_key === "live" ? '<span class="live-dot mr-1"></span>' : "";
   const score = m.score ? '<span class="text-white font-extrabold ml-2">' + esc(m.score) + "</span>" : "";
   const prob = m.top_prob != null ? ' <span class="text-gray-400 font-normal">(' + m.top_prob + "%)</span>" : "";
-  const betLabel = m.has_bet && m.bet_odd
-    ? "К-т " + Number(m.bet_odd).toFixed(2) + " ↗"
+  const betLabel = m.has_bet && m.bet_odd != null
+    ? Number(m.bet_odd).toFixed(2)
     : "СТАВКА";
   const betBtnCls = m.has_bet
     ? "bg-borderDark hover:bg-gray-700 text-gray-300 border-gray-500/50"
@@ -94,7 +97,7 @@ function matchCardHtml(m) {
     '<div class="flex flex-col md:flex-row justify-between md:items-center gap-3">' +
       '<div class="space-y-1 min-w-0">' +
         '<div class="text-base sm:text-lg font-bold text-white tracking-wide">' +
-          formBadge(m.home_form_status) + ' ' + esc(m.home) + ' <span class="text-gray-500 font-normal mx-1">—</span> ' + esc(m.away) + score + formBadge(m.away_form_status) +
+          teamNameHtml(m.home, m.home_form_status) + ' <span class="text-gray-500 font-normal mx-1">—</span> ' + teamNameHtml(m.away, m.away_form_status) + score +
         "</div>" +
         '<p class="text-xs sm:text-sm text-goldAccent font-medium leading-relaxed break-words">' +
           esc(m.summary || "Прогнози генеруються…") + prob +
