@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-25T01:11:40.098810",
+  "last_updated": "2026-08-25T01:17:25.856573",
   "config": {
     "api_requests_left": "100",
     "api_key_network_as_code": "3725c32b04mshb942c2df0e3ab79p18f60djsn14472b9a742",
@@ -14,16 +14,16 @@
     "bankroll": "1000.0",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
     "api_key_api_football": "72afa426ab5fb0a7c964261b8b25f977",
-    "last_sync_time": "1787620298.9588835",
+    "last_sync_time": "1787620644.1483648",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100",
     "github_token": ""
   },
   "ai_stats": {
-    "total": 1935,
-    "hits": 1179,
-    "acc": 60.93023255813953
+    "total": 1955,
+    "hits": 1186,
+    "acc": 60.66496163682864
   },
   "matches": [
     {
@@ -4111,7 +4111,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 0.005183191757623717,
       "a_elo_change": -0.005183191757623717,
@@ -4703,8 +4703,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Espanyol",
       "away_name": "Real Madrid",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Espanyol ТБ 1.5 / Real Madrid ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|1|0|1|1|1|1|1|1|1|1|1|1|0|1"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Espanyol ТБ 1.5 / Real Madrid ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|1|1|1|1|1|1|1|1|0|1"
     },
     {
       "id": 1197,
@@ -4742,8 +4742,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Genoa",
       "away_name": "Napoli",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Genoa ТБ 1.5 / Napoli ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Genoa ТБ 1.5 / Napoli ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1198,
@@ -4781,8 +4781,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "ES Troyes",
       "away_name": "Paris FC",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ES Troyes ТБ 1.5 / Paris FC ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ES Troyes ТБ 1.5 / Paris FC ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"
     },
     {
       "id": 1199,
@@ -4820,8 +4820,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Toulouse",
       "away_name": "Lyon",
-      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Toulouse ТБ 1.5 / Lyon ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Toulouse ТБ 1.5 / Lyon ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1200,
@@ -4859,8 +4859,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Nice",
       "away_name": "Lorient",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Nice ТБ 1.5 / Lorient ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Nice ТБ 1.5 / Lorient ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1"
     },
     {
       "id": 1201,
@@ -4898,8 +4898,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Parma",
       "away_name": "Cagliari",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Parma ТБ 1.5 / Cagliari ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Parma ТБ 1.5 / Cagliari ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1202,
@@ -4937,8 +4937,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Le Mans",
       "away_name": "Brest",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Le Mans ТБ 1.5 / Brest ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "0|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Le Mans ТБ 1.5 / Brest ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 1196,
@@ -4976,8 +4976,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Valencia",
       "away_name": "Celta",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Valencia ТБ 1.5 / Celta ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Valencia ТБ 1.5 / Celta ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1193,
@@ -5015,8 +5015,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Udinese",
       "away_name": "Como",
-      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Udinese ТБ 1.5 / Como ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|0|1|1|1|1|1|1|1|1|1|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Udinese ТБ 1.5 / Como ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|0|1|1|1|1|1|1|1|1|1|1|1"
     },
     {
       "id": 1194,
@@ -5054,8 +5054,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Inter",
       "away_name": "Monza",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Inter ТБ 1.5 / Monza ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Inter ТБ 1.5 / Monza ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 1195,
@@ -5093,8 +5093,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Brentford",
       "away_name": "Tottenham",
-      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Brentford ТБ 1.5 / Tottenham ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "0|1|1|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Brentford ТБ 1.5 / Tottenham ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "0|1|1|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1192,
@@ -5132,8 +5132,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Racing Club de Lens",
       "away_name": "Auxerre",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Racing Club de Lens ТБ 1.5 / Auxerre ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Racing Club de Lens ТБ 1.5 / Auxerre ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
     },
     {
       "id": 1191,
@@ -5171,8 +5171,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Athletic Club",
       "away_name": "Sevilla",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Athletic Club ТБ 1.5 / Sevilla ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "0|1|0|1|1|1|1|1|1|1|1|1|1|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Athletic Club ТБ 1.5 / Sevilla ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "0|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1"
     },
     {
       "id": 1188,
@@ -5210,8 +5210,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Ipswich Town",
       "away_name": "Sunderland",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Ipswich Town ТБ 1.5 / Sunderland ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Ipswich Town ТБ 1.5 / Sunderland ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 1189,
@@ -5249,8 +5249,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Everton",
       "away_name": "Crystal Palace",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Everton ТБ 1.5 / Crystal Palace ТБ 1.5 / ОЗ - Так / ТМ 0.5 (1st half) / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Everton ТБ 1.5 / Crystal Palace ТБ 1.5 / ОЗ - Так / ТМ 0.5 (1st half) / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1190,
@@ -5288,8 +5288,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Forest",
       "away_name": "Leeds",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Forest ТБ 1.5 / Leeds ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Forest ТБ 1.5 / Leeds ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1187,
@@ -5327,8 +5327,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Hull City",
       "away_name": "Man United",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Hull City ТБ 1.5 / Man United ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Hull City ТБ 1.5 / Man United ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0"
     },
     {
       "id": 1185,
@@ -5366,8 +5366,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Arsenal",
       "away_name": "Coventry City",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Arsenal ТБ 1.5 / Coventry City ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Arsenal ТБ 1.5 / Coventry City ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|0|1|0"
     },
     {
       "id": 1186,
@@ -5405,8 +5405,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Betis",
       "away_name": "Real Sociedad",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Betis ТБ 1.5 / Real Sociedad ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Betis ТБ 1.5 / Real Sociedad ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1184,
@@ -5444,8 +5444,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Marseille",
       "away_name": "Strasbourg",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Marseille ТБ 1.5 / Strasbourg ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Marseille ТБ 1.5 / Strasbourg ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 0.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|0|1|1"
     },
     {
       "id": 1183,
@@ -13120,7 +13120,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 9.57863251466597,
       "a_elo_change": -9.57863251466597,
@@ -13159,7 +13159,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": -13.026716016609726,
       "a_elo_change": 13.026716016609726,
@@ -49815,13 +49815,27 @@
       "match_id": 1203,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 1,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T19:30:00Z"
+    },
+    {
+      "id": 11731,
+      "match_id": 1203,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T19:30:00Z"
     },
     {
@@ -50991,7 +51005,7 @@
       "match_id": 1197,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51005,7 +51019,7 @@
       "match_id": 1198,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51019,7 +51033,7 @@
       "match_id": 1199,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51033,7 +51047,7 @@
       "match_id": 1200,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51047,7 +51061,7 @@
       "match_id": 1201,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51061,13 +51075,97 @@
       "match_id": 1202,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 1,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T18:45:00Z"
+    },
+    {
+      "id": 11725,
+      "match_id": 1197,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T18:45:00Z"
+    },
+    {
+      "id": 11726,
+      "match_id": 1198,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T18:45:00Z"
+    },
+    {
+      "id": 11727,
+      "match_id": 1199,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T18:45:00Z"
+    },
+    {
+      "id": 11728,
+      "match_id": 1200,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T18:45:00Z"
+    },
+    {
+      "id": 11729,
+      "match_id": 1201,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T18:45:00Z"
+    },
+    {
+      "id": 11730,
+      "match_id": 1202,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T18:45:00Z"
     },
     {
@@ -51257,13 +51355,27 @@
       "match_id": 1196,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 0,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T17:30:00Z"
+    },
+    {
+      "id": 11724,
+      "match_id": 1196,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T17:30:00Z"
     },
     {
@@ -51831,7 +51943,7 @@
       "match_id": 1194,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51845,7 +51957,7 @@
       "match_id": 1195,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -51859,13 +51971,55 @@
       "match_id": 1193,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 1,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T16:30:00Z"
+    },
+    {
+      "id": 11721,
+      "match_id": 1194,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T16:30:00Z"
+    },
+    {
+      "id": 11722,
+      "match_id": 1195,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T16:30:00Z"
+    },
+    {
+      "id": 11723,
+      "match_id": 1193,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T16:30:00Z"
     },
     {
@@ -52069,13 +52223,27 @@
       "match_id": 1192,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 1,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T15:15:00Z"
+    },
+    {
+      "id": 11720,
+      "match_id": 1192,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T15:15:00Z"
     },
     {
@@ -52279,13 +52447,27 @@
       "match_id": 1191,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 1,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T15:00:00Z"
+    },
+    {
+      "id": 11719,
+      "match_id": 1191,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T15:00:00Z"
     },
     {
@@ -52881,7 +53063,7 @@
       "match_id": 1188,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -52895,7 +53077,7 @@
       "match_id": 1189,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
@@ -52909,13 +53091,55 @@
       "match_id": 1190,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 0,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T14:00:00Z"
+    },
+    {
+      "id": 11716,
+      "match_id": 1188,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 1,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T14:00:00Z"
+    },
+    {
+      "id": 11717,
+      "match_id": 1189,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
+      "date": "2026-08-22T14:00:00Z"
+    },
+    {
+      "id": 11718,
+      "match_id": 1190,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T14:00:00Z"
     },
     {
@@ -53119,13 +53343,27 @@
       "match_id": 1187,
       "algorithm": "BTTS (AI)",
       "market": "BTTS",
-      "selection": "ОЗ (Обидві заб'ють)",
+      "selection": "ОЗ - Так",
       "calculated_prob": 1.0,
       "bookmaker_odd": 0.0,
       "value_percentage": null,
       "confidence_level": null,
       "is_hit": 0,
       "created_at": "2026-08-25 01:11:34",
+      "date": "2026-08-22T11:30:00Z"
+    },
+    {
+      "id": 11715,
+      "match_id": 1187,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ (Обидві заб'ють)",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": null,
+      "confidence_level": null,
+      "is_hit": 0,
+      "created_at": "2026-08-25 01:17:19",
       "date": "2026-08-22T11:30:00Z"
     }
   ],
