@@ -137,8 +137,12 @@ def settle_pending_bets():
     """Авто-розрахунок PENDING-ставок робочої БД проти фінальних рахунків
     канонічної logicbet.db. Викликається при кожному читанні /api/bets.
 
-    Нарахування банкролу — як у пайплайні: WON додає повну виплату
-    stake*odd, LOST банкрол не змінює (profit = -stake в історії)."""
+    Модель капіталу (заморожені кошти):
+      • стейк PENDING-ставки ВЖЕ у загальному балансі (заморожений);
+      • WON  -> банкрол += чистий виграш stake*(odd-1), заморозка знімається;
+      • LOST -> банкрол -= stake (програний стейк списується).
+    Тобто заморозка сама по собі НІКОЛИ не є просадкою і не штрафує систему —
+    ефективність оцінюється лише по РОЗРАХОВАНИХ ставках (див. analytics)."""
     with db.get_connection() as conn:
         rows = conn.execute("""
             SELECT ub.id, ub.selection, ub.stake, ub.odd,
@@ -162,16 +166,17 @@ def settle_pending_bets():
             if hit is None:
                 continue  # невідомий/custom маркет — залишається PENDING
             if hit:
-                payout = round(stake * odd, 2)
+                profit = round(stake * (odd - 1), 2)   # чистий виграш
                 conn.execute(
                     "UPDATE user_bets SET status='WON', profit=? WHERE id=?",
-                    (round(payout - stake, 2), bid))
-                bankroll += payout
+                    (profit, bid))
+                bankroll += profit
                 wins += 1
             else:
                 conn.execute(
                     "UPDATE user_bets SET status='LOST', profit=? WHERE id=?",
                     (-round(stake, 2), bid))
+                bankroll -= float(stake)               # програний стейк
             settled += 1
 
         if settled:
@@ -322,9 +327,31 @@ def api_state():
         today_n = conn.execute(
             "SELECT COUNT(*) FROM matches WHERE DATE(date)=DATE('now') AND status NOT IN ('CANCELLED','POSTPONED')"
         ).fetchone()[0]
+        # Капітал: загальний баланс (включно із замороженими у PENDING),
+        # вільні кошти та ROI за РОЗРАХОВАНИМИ ставками.
+        money = conn.execute("""
+            SELECT COALESCE(SUM(CASE WHEN status='PENDING' THEN stake END), 0),
+                   COALESCE(SUM(stake), 0),
+                   COALESCE(SUM(profit), 0)
+            FROM user_bets
+            WHERE status IN ('PENDING','WON','LOST')
+        """).fetchone()
     hits, total = (acc[0] or 0), (acc[1] or 0)
+    bankroll = cfg_float("bankroll", 1000.0)
+    frozen_stake = round(float(money[0] or 0), 2)
+    settled_stake = round(float(money[1] or 0) - frozen_stake, 2)
+    settled_net = round(float(money[2] or 0), 2)
+    roi_pct = round(settled_net / settled_stake * 100.0, 1) if settled_stake > 0 else None
     return jsonify({
-        "bankroll": cfg_float("bankroll", 1000.0),
+        "bankroll": bankroll,
+        # Загальний баланс (включно із замороженим під PENDING портфелем)
+        "balance_total": round(bankroll, 2),
+        # Заморожено під активними ставками (відкритий портфель — не просадка)
+        "frozen": frozen_stake,
+        # Доступні кошти (Free Capital)
+        "free_capital": round(bankroll - frozen_stake, 2),
+        # Settled ROI %: чистий прибуток / сума розрахованих ставок
+        "settled_roi_pct": roi_pct,
         "default_stake": cfg_float("default_stake", 10.0),
         "accuracy": {"hits": hits, "total": total,
                      "pct": round(hits * 100.0 / total, 1) if total else 0.0},

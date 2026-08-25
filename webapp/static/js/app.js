@@ -29,8 +29,23 @@ window.toast = function (msg, ok = true) {
 async function loadState() {
   try {
     const st = await api("/api/state");
-    $("bankroll-badge").textContent = st.bankroll.toFixed(1) + " грн";
+    /* Загальний баланс (включно із замороженими під PENDING портфелем) */
+    $("bankroll-badge").textContent = st.balance_total.toFixed(1) + " грн";
     state.defaultStake = st.default_stake;
+    /* Доступні кошти (Free Capital) */
+    const freeEl = $("bal-free-badge");
+    if (freeEl) freeEl.textContent = "🪙 " + st.free_capital.toFixed(1);
+    /* Settled ROI % — ефективність лише за розрахованими ставками */
+    const roiEl = $("roi-badge");
+    if (roiEl) {
+      const r = st.settled_roi_pct;
+      const colorCls = r == null ? "text-goldAccent"
+        : r > 0 ? "text-greenAccent border-greenAccent/40"
+        : r < 0 ? "text-red-400 border-red-500/40" : "text-goldAccent";
+      roiEl.className = "hidden sm:block bg-cardBg border font-bold text-xs sm:text-sm px-2 py-1.5 rounded-lg whitespace-nowrap " + colorCls;
+      roiEl.textContent = r == null ? "ROI —"
+        : "ROI " + (r > 0 ? "+" : "") + r.toFixed(1) + "%";
+    }
     const a = st.accuracy;
     $("accuracy-pct").textContent = "Точність " + a.pct.toFixed(1) + "%";
     $("accuracy-detail").textContent = "(" + a.hits + "/" + a.total + " успішних прогнозів)";

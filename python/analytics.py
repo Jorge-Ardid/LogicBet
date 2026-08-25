@@ -76,7 +76,7 @@ class BettingAnalytics:
             return "X2"
         if s.startswith("12"):
             return "12"
-        if s.startswith("Х") or s.startswith("X ") or s == "Draw":
+        if s.startswith("Х") or s.startswith("X ") or s in ("X", "Х") or s == "Draw":
             return "X"
         for tok in ("ТБ", "ТМ", "ОЗ"):
             if tok in s:
@@ -95,7 +95,7 @@ class BettingAnalytics:
         """
         with self.db.get_connection() as conn:
             bets = conn.execute(
-                "SELECT match_id, selection, odd, status FROM user_bets "
+                "SELECT match_id, selection, odd, stake, status FROM user_bets "
                 "WHERE status IN ('WON','LOST') "
                 "  AND odd IS NOT NULL AND odd > 0"
             ).fetchall()
@@ -110,28 +110,58 @@ class BettingAnalytics:
             key = " ".join((sel or "").upper().split())
             preds_by_match.setdefault(mid, {})[key] = float(prob)
 
+        # Оцінка ефективності — ВИКЛЮЧНО за РОЗРАХОВАНИМИ ставками (WON/LOST).
+        # Активні ставки (PENDING) — це заморожений інвестиційний портфель:
+        # вони ніколи не потрапляють сюди і не створюють ані штрафів, ані бонусів.
         rep = {}
-        for mid, combo, odd, status in bets:
+        for mid, combo, odd, stake, status in bets:
             parts = [p.strip() for p in (combo or "").split("/") if p.strip()]
             lookup = preds_by_match.get(mid, {})
-            for part in parts:
+            known = [p for p in parts
+                     if self._market_token(p) and (" ".join(p.upper().split()) in lookup)]
+            if not known:
+                continue
+            # Комбо-ставку чесно ділимо порівну між розпізнаними маркетами,
+            # щоб Yield кожного сигналу рахувався без подвійного обліку грошей.
+            share = float(stake or 0.0) / len(known)
+            for part in known:
                 rec = lookup.get(" ".join(part.upper().split()))
-                if rec is None:
-                    continue
                 tok = self._market_token(part)
-                if not tok:
-                    continue
                 conf = float(rec or 0.0)
                 delta = (float(odd) - 1.0) * conf if status == "WON" else -float(odd) * conf
-                entry = rep.setdefault(tok, {"karma": 0.0, "recent": []})
+                entry = rep.setdefault(tok, {
+                    "karma": 0.0, "recent": [],
+                    "staked": 0.0, "returned": 0.0, "net": 0.0,
+                    "bets": 0, "wins": 0,
+                })
                 entry["karma"] += delta
                 entry["recent"].append((float(odd), status, conf))
+                # --- Money-метрики для ROI / Yield (тільки settled) ---
+                entry["bets"] += 1
+                entry["staked"] += share
+                if status == "WON":
+                    payout = share * float(odd)
+                    entry["returned"] += payout
+                    entry["net"] += payout - share
+                    entry["wins"] += 1
+                else:
+                    entry["net"] -= share
+
         for tok, entry in rep.items():
             recent = entry["recent"][-5:]
             entry["penalty_last5"] = sum(
                 -o * c for o, st, c in recent if st == "LOST"
             )
             entry["recent"] = recent
+            staked = entry.pop("staked")
+            returned = entry.pop("returned")
+            net = entry.pop("net")
+            entry["staked"] = round(staked, 2)
+            entry["returned"] = round(returned, 2)
+            entry["net"] = round(net, 2)
+            # Yield = чистий прибуток / загальна сума РОЗРАХОВАНИХ ставок * 100
+            entry["yield_pct"] = (
+                round(net / staked * 100.0, 2) if staked > 0 else None)
         self._reputation = rep
         return rep
 
@@ -148,17 +178,31 @@ class BettingAnalytics:
         return max(floor, min(cap, base - shift))
 
     def _karma_bonus(self, token_or_selection):
-        """Confidence multiplier from market karma (Reward & Penalty engine).
+        """Confidence multiplier from market karma + Settled ROI / Yield.
 
         Confidence Score formula (user-approved): prob * (1 + karma_bonus).
-        Bonus is scaled and clamped so a hot market gets up to +20% relative
-        boost and a punished one up to -20%, keeping scores sane.
-        """
+        База — старий karma-сигнал (clamped ±20%). Зверху — грошова оцінка
+        дистанції ВИКЛЮЧНО за РОЗРАХОВАНИМИ ставками (PENDING не рахується
+        і ніколи не штрафується):
+          • Yield < 0  -> ШТРАФ: бонус примусово від'ємний (до −20%), глибина
+            просадки (|Yield|) посилює покарання;
+          • Yield >= 0 -> ПОХВАЛА: позитивний Yield на дистанції додає бонус
+            (до +10% поверх karma-бази, загалом не вище +20%)."""
         tok = self._market_token(token_or_selection)
         if not tok:
             return 0.0
-        karma = (self._reputation or {}).get(tok, {}).get("karma", 0.0)
-        return max(-0.20, min(0.20, karma * 0.03))
+        entry = (self._reputation or {}).get(tok)
+        if not entry:
+            return 0.0
+        base = max(-0.20, min(0.20, entry.get("karma", 0.0) * 0.03))
+        y = entry.get("yield_pct")
+        if y is None:
+            return base
+        if y < 0:
+            raw = base - min(0.15, abs(y) * 0.005)
+            return max(-0.20, min(0.0, raw))
+        raw = base + min(0.10, y * 0.0025)
+        return max(0.0, min(0.20, raw))
 
     def calculate_elo_probability(self, elo_a, elo_b):
         exponent = (elo_b - elo_a) / 400.0

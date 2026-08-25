@@ -39,8 +39,14 @@
       <button id="btn-refresh" class="bg-borderDark hover:bg-gray-700 text-xs px-3 py-2 rounded-lg text-gray-300 font-medium transition active:scale-95 flex items-center gap-1">
         <span id="refresh-icon">↻</span> <span class="hidden sm:inline">ОНОВИТИ</span>
       </button>
-      <div id="bankroll-badge" class="bg-greenAccent/10 border border-greenAccent/30 text-greenAccent font-bold text-base md:text-lg px-3 py-1.5 rounded-lg">
+      <div id="bankroll-badge" title="Загальний баланс (включно із замороженими під активними ставками)" class="bg-greenAccent/10 border border-greenAccent/30 text-greenAccent font-bold text-xs sm:text-base md:text-lg px-2 sm:px-3 py-1.5 rounded-lg whitespace-nowrap">
         — грн
+      </div>
+      <div id="bal-free-badge" title="Доступні кошти (Free Capital)" class="hidden sm:block bg-borderDark border border-gray-500/40 text-gray-200 font-bold text-xs sm:text-sm px-2 py-1.5 rounded-lg whitespace-nowrap">
+        🪙 —
+      </div>
+      <div id="roi-badge" title="ROI за розрахованими ставками (Settled only)" class="hidden sm:block bg-cardBg border border-goldAccent/40 font-bold text-xs sm:text-sm px-2 py-1.5 rounded-lg whitespace-nowrap text-goldAccent">
+        ROI —%
       </div>
     </div>
   </header>
