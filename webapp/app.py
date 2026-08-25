@@ -77,6 +77,112 @@ def cfg_float(key, default):
         return float(default)
 
 
+def _resolve_selection_hit(sel, hs, as_t, hth=None, hta=None):
+    """Чи пройшов маркет: True/False; None — не розпізнано (лишаємо PENDING).
+
+    Семантика 1-в-1 з evaluate_user_bets() у python/main.py (пайплайн),
+    щоб веб і CI ніколи не розійшлися в оцінці однієї ставки."""
+    s = (sel or "").upper().strip()
+    if not s:
+        return None
+    # Комбо ("П1 / ТБ 2.5") — рахуємо за першим маркетом
+    s = s.split("/")[0].strip()
+
+    def _thr(default=2.5):
+        for t in ("0.5", "1.5", "2.5", "3.5", "4.5", "5.5", "6.5"):
+            if t in s:
+                return float(t)
+        return default
+
+    # --- 1-й тайм ---
+    if ("1-Й ТАЙМ" in s or "1-Й Т" in s or "1-Й" in s):
+        if hth is None or hta is None:
+            return None
+        tot_ht = hth + hta
+        if "ТБ" in s:
+            return tot_ht > _thr()
+        if "ТМ" in s:
+            return tot_ht < _thr()
+        return None
+    # --- Подвійний шанс (до 1X2: '1X' містить '1'...) ---
+    if "1X" in s or "1Х" in s or "1 X" in s or "1 Х" in s:
+        return hs >= as_t
+    if "X2" in s or "Х2" in s or "X 2" in s or "Х 2" in s:
+        return as_t >= hs
+    if "12" in s or "1 2" in s:
+        return hs != as_t
+    # --- Основний 1X2 ---
+    if "П1" in s or "HOME" in s:
+        return hs > as_t
+    if "П2" in s or "AWAY" in s:
+        return as_t > hs
+    if ("НІЧИЯ" in s or s == "DRAW" or s.startswith("X (")
+            or s.startswith("Х (") or s == "X" or s == "Х"):
+        return hs == as_t
+    # --- ОЗ / BTTS ('ОЗ - Так' / 'ОЗ - Ні'; legacy 'НЕ ОЗ…') ---
+    if "ОЗ" in s or "BTTS" in s:
+        both = hs > 0 and as_t > 0
+        no = ("НЕ ОЗ" in s or "ОЗ - НІ" in s or "ОЗ - НI" in s
+              or s.startswith("НЕ ") or "НЕ ЗАБ" in s)
+        return (not both) if no else both
+    # --- Загальні тотали ---
+    if "БІЛЬШЕ" in s or "OVER" in s or "ТБ" in s or "ТОТАЛ Б" in s:
+        return (hs + as_t) > _thr()
+    if "МЕНШЕ" in s or "UNDER" in s or "ТМ" in s or "ТОТАЛ М" in s:
+        return (hs + as_t) < _thr()
+    return None
+
+
+def settle_pending_bets():
+    """Авто-розрахунок PENDING-ставок робочої БД проти фінальних рахунків
+    канонічної logicbet.db. Викликається при кожному читанні /api/bets.
+
+    Нарахування банкролу — як у пайплайні: WON додає повну виплату
+    stake*odd, LOST банкрол не змінює (profit = -stake в історії)."""
+    with db.get_connection() as conn:
+        rows = conn.execute("""
+            SELECT ub.id, ub.selection, ub.stake, ub.odd,
+                   m.home_score, m.away_score, m.ht_score_h, m.ht_score_a
+            FROM user_bets ub
+            JOIN matches m ON ub.match_id = m.id
+            WHERE ub.status = 'PENDING'
+              AND m.status IN ('FT','AET','PEN','FINISHED')
+              AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
+        """).fetchall()
+        if not rows:
+            return {"settled": 0, "wins": 0}
+
+        row = conn.execute(
+            "SELECT value FROM config WHERE key = 'bankroll'").fetchone()
+        bankroll = float(row[0]) if row else 1000.0
+
+        settled = wins = 0
+        for bid, sel, stake, odd, hs, as_t, hth, hta in rows:
+            hit = _resolve_selection_hit(sel, int(hs), int(as_t), hth, hta)
+            if hit is None:
+                continue  # невідомий/custom маркет — залишається PENDING
+            if hit:
+                payout = round(stake * odd, 2)
+                conn.execute(
+                    "UPDATE user_bets SET status='WON', profit=? WHERE id=?",
+                    (round(payout - stake, 2), bid))
+                bankroll += payout
+                wins += 1
+            else:
+                conn.execute(
+                    "UPDATE user_bets SET status='LOST', profit=? WHERE id=?",
+                    (-round(stake, 2), bid))
+            settled += 1
+
+        if settled:
+            conn.execute("""
+                INSERT INTO config (key, value) VALUES ('bankroll', ?)
+                ON CONFLICT(key) DO UPDATE SET value = excluded.value
+            """, (str(round(bankroll, 2)),))
+            conn.commit()
+    return {"settled": settled, "wins": wins}
+
+
 def predictions_by_match(match_ids):
     if not match_ids:
         return {}
@@ -299,28 +405,44 @@ def api_delete_bet(bet_id):
 
 @app.route("/api/bets")
 def api_history():
+    # Авто-розрахунок: PENDING-ставки звіряються з фінальними рахунками
+    # канонічної БД; WON/LOST + банкрол оновлюються до формування відповіді.
+    settle_pending_bets()
+
     status = request.args.get("status", "ALL").upper()
     filters, params = [], []
     if status in ("PENDING", "WON", "LOST"):
         filters.append("ub.status = ?")
         params.append(status)
-    # Актуальна вибірка: лише останні 90 днів — застарілі квітневі записи
-    # не потрапляють в історію. ?all=1 вимикає фільтр (для аудиту).
-    if request.args.get("all", "0") not in ("1", "true"):
-        filters.append("DATE(m.date) >= DATE('now', '-90 day')")
-    cond = "WHERE " + " AND ".join(filters) if filters else ""
-    query = """
-        SELECT ub.id, ub.selection, ub.stake, ub.odd, ub.status, ub.profit,
-               m.id, m.date, m.league, m.status, m.home_score, m.away_score,
-               t1.name, t2.name
+    cond = ("WHERE " + " AND ".join(filters)) if filters else ""
+
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+    except (TypeError, ValueError):
+        page = 1
+    try:
+        per_page = min(max(int(request.args.get("per_page", 50)), 1), 200)
+    except (TypeError, ValueError):
+        per_page = 50
+
+    base_from = """
         FROM user_bets ub
         JOIN matches m ON ub.match_id = m.id
         JOIN teams t1 ON m.home_team_id = t1.id
         JOIN teams t2 ON m.away_team_id = t2.id
-        %s ORDER BY m.date DESC, m.id DESC, ub.id DESC LIMIT 200
-    """ % cond
+    """
     with db.get_connection() as conn:
-        rows = conn.execute(query, params).fetchall()
+        total = conn.execute(
+            "SELECT COUNT(*) " + base_from + (cond + " " if cond else ""),
+            params).fetchone()[0]
+        rows = conn.execute("""
+            SELECT ub.id, ub.selection, ub.stake, ub.odd, ub.status, ub.profit,
+                   m.id, m.date, m.league, m.status, m.home_score, m.away_score,
+                   t1.name, t2.name
+        """ + base_from + """
+            %s ORDER BY m.date DESC, m.id DESC, ub.id DESC
+            LIMIT ? OFFSET ?
+        """ % cond, params + [per_page, (page - 1) * per_page]).fetchall()
     bets = []
     for (bid, sel, stake, odd, bstat, profit, mid, date_str, league,
          mstat, hs, ascore, home, away) in rows:
@@ -336,7 +458,13 @@ def api_history():
             "match_status": label, "match_status_key": key,
             "score": "%s:%s" % (hs, ascore) if hs is not None and ascore is not None else None,
         })
-    return jsonify({"bets": bets})
+    return jsonify({
+        "bets": bets,
+        "page": page,
+        "per_page": per_page,
+        "total": total,
+        "has_more": page * per_page < total,
+    })
 
 
 @app.route("/api/stats")
