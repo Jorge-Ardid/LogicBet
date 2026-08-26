@@ -531,13 +531,13 @@ def api_history():
     cond = ("WHERE " + " AND ".join(filters)) if filters else ""
 
     try:
-        page = max(int(request.args.get("page", 1)), 1)
+        limit = min(max(int(request.args.get("limit", 300)), 1), 500)
     except (TypeError, ValueError):
-        page = 1
+        limit = 300
     try:
-        per_page = min(max(int(request.args.get("per_page", 50)), 1), 200)
+        offset = max(int(request.args.get("offset", 0)), 0)
     except (TypeError, ValueError):
-        per_page = 50
+        offset = 0
 
     base_from = """
         FROM user_bets ub
@@ -556,7 +556,7 @@ def api_history():
         """ + base_from + """
             %s ORDER BY m.date DESC, m.id DESC, ub.id DESC
             LIMIT ? OFFSET ?
-        """ % cond, params + [per_page, (page - 1) * per_page]).fetchall()
+        """ % cond, params + [limit, offset]).fetchall()
     bets = []
     for (bid, sel, stake, odd, bstat, profit, mid, date_str, league,
          mstat, hs, ascore, home, away) in rows:
@@ -572,12 +572,14 @@ def api_history():
             "match_status": label, "match_status_key": key,
             "score": "%s:%s" % (hs, ascore) if hs is not None and ascore is not None else None,
         })
+    next_offset = offset + len(bets)
     return jsonify({
         "bets": bets,
-        "page": page,
-        "per_page": per_page,
+        "limit": limit,
+        "offset": offset,
         "total": total,
-        "has_more": page * per_page < total,
+        "has_more": next_offset < total,
+        "next_offset": next_offset,
     })
 
 

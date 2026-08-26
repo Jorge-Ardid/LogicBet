@@ -5,8 +5,8 @@
 const H_ACTIVE = "bg-goldAccent text-black";
 const H_IDLE = "bg-borderDark text-gray-300 hover:bg-gray-700";
 let hStatus = "ALL";
-let hPage = 1;
-const H_PER_PAGE = 50;
+let hOffset = 0;
+const H_PAGE_LIMIT = 300;
 
 function betBadge(s) {
   if (s === "WON") return "bg-greenAccent/15 text-greenAccent border-greenAccent/40";
@@ -34,37 +34,38 @@ function historyCard(b) {
 
 window.loadHistory = async function (silent) {
   const box = $("history-container");
-  if (hPage === 1 && !silent) box.innerHTML = '<div class="skeleton"></div>';
+  if (hOffset === 0 && !silent) box.innerHTML = '<div class="skeleton"></div>';
   try {
     const data = await api("/api/bets?status=" + hStatus +
-                           "&page=" + hPage + "&per_page=" + H_PER_PAGE);
+                           "&limit=" + H_PAGE_LIMIT + "&offset=" + hOffset);
     const items = data.bets || [];
     const wrap = $("load-more-wrap");
     if (wrap) wrap.remove();
 
-    if (!items.length && hPage === 1) {
+    if (!items.length && hOffset === 0) {
       box.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">Ставок ще немає 🎯</p>';
       return;
     }
     const html = items.map(historyCard).join("");
-    if (hPage === 1) {
+    if (hOffset === 0) {
       box.innerHTML = '<div id="hist-list" class="space-y-3">' + html + "</div>";
     } else {
       $("hist-list").insertAdjacentHTML("beforeend", html);
     }
-    /* Підвантаження старіших записів (23.08, 22.08, …) без обмежень за датою */
+    /* Довантаження старіших записів (23.08, 22.08, …) — наступним offset,
+       без перезапису поточного списку. */
     if (data.has_more) {
-      const left = Math.max((data.total || 0) - hPage * H_PER_PAGE, 0);
+      const left = Math.max((data.total || 0) - data.next_offset, 0);
       box.insertAdjacentHTML("beforeend",
         '<div id="load-more-wrap" class="pt-2">' +
           '<button id="btn-load-more" class="w-full bg-borderDark hover:bg-gray-700 ' +
           'text-gray-300 font-bold py-3 rounded-lg text-sm transition active:scale-95">' +
-          "ПОКАЗАТИ ЩЕ" + (left ? " (" + left + ")" : "") + "</button></div>");
+          "ЗАВАНТАЖИТИ ЩЕ" + (left ? " (" + left + ")" : "") + "</button></div>");
       $("btn-load-more").addEventListener("click", function () {
         this.disabled = true;
         this.textContent = "Завантаження…";
-        hPage += 1;
-        window.loadHistory();
+        hOffset = data.next_offset;
+        window.loadHistory(true);
       });
     }
   } catch (e) {
@@ -75,7 +76,7 @@ window.loadHistory = async function (silent) {
 document.querySelectorAll(".hbtn").forEach((b) =>
   b.addEventListener("click", () => {
     hStatus = b.dataset.bstatus;
-    hPage = 1; /* новий фільтр — з першої сторінки */
+    hOffset = 0; /* новий фільтр — з початку історії */
     document.querySelectorAll(".hbtn").forEach((x) => {
       x.className = "hbtn px-3 py-1.5 rounded-md font-bold transition " +
         (x.dataset.bstatus === hStatus ? H_ACTIVE : H_IDLE);
