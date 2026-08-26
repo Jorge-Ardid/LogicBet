@@ -32,6 +32,36 @@ db = LogicBetDB(USER_DB_PATH, data_db_path=DATA_DB_PATH)
 
 app = Flask(__name__)
 
+# --- Авто-парсинг детальної статистики завершених матчів ---
+# Живиться з паузою між циклами (~10 хв), бюджет-захищено за квотою API.
+import time as _time                                     # noqa: E402
+import stats_refresher as _stats                         # noqa: E402
+_STATS_LAST_SWEEP = {"ts": 0.0}
+
+
+def maybe_refresh_recent_stats(force=False):
+    """ЗАВДАННЯ 1/3: фоновий синк розширеної статистики.
+
+    Матчі, що стали FT/FINISHED, отримують окремий запит деталей;
+    якщо джерело ще не виклало цифри — матч лишається у черзі й
+    ретраїться кожні REFRESH_INTERVAL_SEC (5-15 хв) протягом
+    MAX_AGE_HOURS годин після свистка. Охоплює останні 24-48 годин
+    та лікує легасі-матчі, заблоковані нулями старим пайплайном.
+    Повертає summary або None (пропущено через тротлінг)."""
+    now = _time.monotonic()
+    if not force and (
+            now - _STATS_LAST_SWEEP["ts"] < _stats.REFRESH_INTERVAL_SEC):
+        return None
+    _STATS_LAST_SWEEP["ts"] = now
+    try:
+        return _stats.refresh_missing_stats(
+            DATA_DB_PATH,
+            get_config=db.get_config, set_config=db.set_config)
+    except Exception as exc:                             # noqa: BLE001
+        print("[WEB] stats refresh error:", exc)
+        _stats.logger.error("цикл авто-парсингу впав: %s", exc)
+        return None
+
 
 @app.after_request
 def _no_cache_api(resp):
@@ -485,9 +515,12 @@ def settle_pending_bets():
     УСІХ прогнозів-маркетів ШІ (Завдання 3) і лише потім — сам сетлмент ставок
     користувача (див. recalc_team_elo_form / settle_ai_predictions).
 
-    Порядок: ПОВНИЙ перерахунок роздільного Elo по історії (один раз за
-    життя процесу) -> інкрементальні свіжі результати -> повний сетлмент
-    маркетів ШІ -> сетлмент ставок користувача."""
+    Порядок: фонове довантаження статистики 24-48 годин -> ПОВНИЙ
+    перерахунок роздільного Elo по історії (один раз за життя процесу)
+    -> інкрементальні свіжі результати -> повний сетлмент маркетів ШІ
+    -> сетлмент ставок користувача. Статистика йде ПЕРШОЮ, бо тоталі
+    (кутові/картки/xG) у сетлменті ШІ залежать від свіжих цифр."""
+    maybe_refresh_recent_stats()
     full_elo_recalc()
     recalc_team_elo_form()
     ai_res = settle_ai_predictions()
@@ -771,6 +804,22 @@ def api_place_bet():
         conn.commit()
         bet_id = cur.lastrowid
     return jsonify({"ok": True, "id": bet_id}), 201
+
+
+@app.route("/api/stats/refresh", methods=["POST"])
+def api_stats_refresh():
+    """ЗАВДАННЯ 3: ручний перепарсинг відсутньої статистики завершених
+    матчів за останні MAX_AGE_HOURS годин. {"force": true} ігнорує
+    тротлінг між циклами (денний ліміт квоти лишається чинним)."""
+    data = request.get_json(silent=True) or {}
+    res = maybe_refresh_recent_stats(force=bool(data.get("force")))
+    if res is None:
+        res = {"skipped": "throttled"}
+    try:
+        res["budget_left"] = _stats.daily_budget_left(db.get_config)
+    except Exception:                                    # noqa: BLE001
+        pass
+    return jsonify(res)
 
 
 @app.route("/api/bets/<int:bet_id>", methods=["DELETE"])
