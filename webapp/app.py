@@ -31,6 +31,18 @@ db = LogicBetDB(USER_DB_PATH, data_db_path=DATA_DB_PATH)
 
 app = Flask(__name__)
 
+
+@app.after_request
+def _no_cache_api(resp):
+    """Заборона кешування всіх JSON/API-відповідей на рівні HTTP,
+    щоб браузер і проміжні CDN не віддавали застарілі дані (Історія,
+    матчі, ставки). Статику (CSS/JS/PNG) це не чіпає — тут лише JSON."""
+    if resp.mimetype == "application/json":
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        resp.headers["Pragma"] = "no-cache"
+        resp.headers["Expires"] = "0"
+    return resp
+
 FINISHED = ("FT", "AET", "PEN", "FINISHED")
 LIVE = ("LIVE", "1H", "2H", "HT", "ET", "BT", "P")
 KYIV_TZ_OFFSET = timedelta(hours=3)  # EEST (UTC+3)

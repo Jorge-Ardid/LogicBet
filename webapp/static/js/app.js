@@ -130,9 +130,9 @@ function matchCardHtml(m) {
 }
 window.matchCardHtml = matchCardHtml;
 
-async function loadMatches() {
+async function loadMatches(silent) {
   const box = $("matches-container");
-  box.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
+  if (!silent) box.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
   try {
     const data = await api("/api/matches?filter=" + state.filter);
     currentMatches = {};
@@ -340,6 +340,30 @@ document.addEventListener("click", (e) => {
   if (dbtn && dbtn.dataset.mid) { window.matchModal(+dbtn.dataset.mid); return; }
 });
 
+/* ===== АВТО-ФОНОВЕ ОНОВЛЕННЯ ДАНИХ =====
+   Свіжість без перезавантаження: повторний fetch активного погляду
+   при таймері (~30с) і при поверненні фокусу/вкладки (visibilitychange).
+   /api/* обробляється SW як Network-Only та no-cache Flask-заголовками,
+   тож тут завжди приходять свіжі дані (статуси матчів, Історія). */
+let autoRefreshTimer = null;
+function refreshActiveView(silent) {
+  if (state.tab === "history") { window.loadHistory(silent); }
+  else if (state.tab === "analytics") { window.loadMatches(silent); }
+}
+function startAutoRefresh() {
+  if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+  autoRefreshTimer = setInterval(() => refreshActiveView(true), 30000);
+}
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && state.tab &&
+      (state.tab === "history" || state.tab === "analytics")) {
+    refreshActiveView(true);  // повернулись на вкладку — одразу свіжі дані
+  }
+});
+window.addEventListener("focus", () => {
+  if (state.tab === "history" || state.tab === "analytics") refreshActiveView(true);
+});
+
 /* ІНІЦІАЛІЗАЦІЯ */
 document.addEventListener("DOMContentLoaded", () => {
   /* повернення зі сторінки ставки: підтвердження */
@@ -407,4 +431,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadState();
   switchTab("analytics");
+  startAutoRefresh();
 });

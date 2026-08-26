@@ -1,4 +1,4 @@
-const CACHE = "logicbet-v11";
+const CACHE = "logicbet-v12";
 const SHELL = [
   "/", "/static/js/app.js", "/static/js/views.js", "/static/css/app.css",
   "/static/manifest.json", "/static/icons/icon-192.png", "/static/icons/icon-512.png"
@@ -27,6 +27,9 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET") return;
+  /* API НІКОЛИ не кешується: Network Only + fallback-помилка офлайну.
+     Це гарантує, що /api/history, /api/bets, /api/matches завжди
+     тягнуть свіжі дані з сервера, а не зі статичного кешу SW. */
   if (url.pathname.startsWith("/api/")) {
     e.respondWith(
       fetch(e.request).catch(() =>
@@ -38,7 +41,7 @@ self.addEventListener("fetch", (e) => {
     return;
   }
   /* своє — мережа-перша; кеш лише offline-fallback.
-     SW v11 примусово повідомляє клієнтів про оновлення. */
+     SW v12 примусово повідомляє клієнтів про оновлення. */
   e.respondWith(
     fetch(e.request)
       .then((resp) => {

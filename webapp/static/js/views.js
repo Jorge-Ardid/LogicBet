@@ -32,9 +32,9 @@ function historyCard(b) {
     "</div></div>";
 }
 
-window.loadHistory = async function () {
+window.loadHistory = async function (silent) {
   const box = $("history-container");
-  if (hPage === 1) box.innerHTML = '<div class="skeleton"></div>';
+  if (hPage === 1 && !silent) box.innerHTML = '<div class="skeleton"></div>';
   try {
     const data = await api("/api/bets?status=" + hStatus +
                            "&page=" + hPage + "&per_page=" + H_PER_PAGE);
