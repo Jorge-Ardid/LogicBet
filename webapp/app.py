@@ -342,6 +342,77 @@ def settle_ai_predictions():
         conn.close()
 
 
+_FULL_RECALC_DONE = False
+
+
+def full_elo_recalc(force=False):
+    """Примусовий ПОВНИЙ перерахунок роздільного Elo по всій історії.
+
+    Усі завершені матчі прогоняються від найстарішого до найновішого;
+    кожен ДОМАШНІЙ матч змінює ТІЛЬКИ home_elo господаря, а ВИЇЗНИЙ —
+    ТІЛЬКИ away_elo гостя (пара порівнюється саме по цих каналах).
+    Загальний elo_rating власної динаміки більше не має: після кожного
+    матчу він перераховується як середнє арифметичне двох венюних
+    рейтингів команди. Перед прогоном канали скидаються у базові 1500,
+    тож фінальні значення визначаються ВИКЛЮЧНО історією ігор.
+
+    Автоматично виконується ОДИН раз за життя процесу при першому
+    сетлменті; force=True дозволяє повторити примусово."""
+    global _FULL_RECALC_DONE
+    if _FULL_RECALC_DONE and not force:
+        return {"skipped": True}
+    import sqlite3 as _sq
+    from analytics import BettingAnalytics
+    _an = BettingAnalytics(db)
+    conn = _sq.connect(DATA_DB_PATH)
+    try:
+        _ensure_elo_split_cols(conn)
+        conn.execute("UPDATE teams SET home_elo = 1500, away_elo = 1500, "
+                     "elo_rating = 1500")
+        rows = conn.execute("""
+            SELECT m.home_team_id, m.away_team_id,
+                   m.home_score, m.away_score
+            FROM matches m
+            WHERE m.status IN ('FT','AET','PEN','FINISHED')
+              AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
+            ORDER BY m.date ASC, m.id ASC
+        """).fetchall()
+
+        r_home, r_away = {}, {}
+        for (t_id,) in conn.execute("SELECT id FROM teams"):
+            r_home[t_id] = 1500.0
+            r_away[t_id] = 1500.0
+
+        n_upd = 0
+        for h_id, a_id, hs, asc in rows:
+            # одночасний апдейт пари венюних каналів: home-канал господаря
+            # проти away-каналу гостя (стандартна Elo-формула, K=20)
+            eh, ea = r_home.get(h_id, 1500.0), r_away.get(a_id, 1500.0)
+            new_eh, new_ea = _an.update_elo(eh, ea, int(hs), int(asc))
+            r_home[h_id] = new_eh
+            r_away[a_id] = new_ea
+            n_upd += 1
+
+        for t_id in list(r_home.keys()):
+            he, ae = r_home[t_id], r_away[t_id]
+            conn.execute(
+                "UPDATE teams SET home_elo=?, away_elo=?, elo_rating=? "
+                "WHERE id=?",
+                (round(he, 4), round(ae, 4),
+                 round((he + ae) / 2.0, 4), t_id))
+        # Історія повністю врахована новими правилами — інкрементальний
+        # пост-майтч хід далі працюватиме лише зі СВІЖИМИ результатами.
+        conn.execute("""UPDATE matches SET elo_processed = 1
+                        WHERE status IN ('FT','AET','PEN','FINISHED')""")
+        conn.commit()
+        print("[WEB] Full Elo recalc: %d матчів застосовано для %d команд"
+              % (n_upd, len(r_home)))
+        _FULL_RECALC_DONE = True
+        return {"matches": n_upd, "teams": len(r_home)}
+    finally:
+        conn.close()
+
+
 def recalc_team_elo_form():
     """Пост-майнотч перерахунок Elo та форми команд.
 
@@ -366,32 +437,32 @@ def recalc_team_elo_form():
         if not matches:
             return {"processed": 0}
         for m_id, h_id, a_id, hs, asc in matches:
-            # Зміна A (Роздільний ELO): глобальний канал elo_rating
-            # оновлюється як і раніше, А ТАЖ венюні канали — господар
-            # отримує результат у свій home_elo, гість — у свій away_elo.
+            # Нова логіка: одна пара венюних каналів за стандартною формулою.
+            # Домашній матч рухає ТІЛЬКИ home_elo господаря, виїзний —
+            # ТІЛЬКИ away_elo гостя; загальний elo_rating одразу стає
+            # середнім арифметичним двох венюних каналів кожної команди.
             hrow = conn.execute(
-                "SELECT elo_rating, COALESCE(home_elo, elo_rating) "
+                "SELECT COALESCE(home_elo, elo_rating, 1500), "
+                "COALESCE(away_elo, elo_rating, 1500) "
                 "FROM teams WHERE id = ?", (h_id,)).fetchone()
             arow = conn.execute(
-                "SELECT elo_rating, COALESCE(away_elo, elo_rating) "
+                "SELECT COALESCE(home_elo, elo_rating, 1500), "
+                "COALESCE(away_elo, elo_rating, 1500) "
                 "FROM teams WHERE id = ?", (a_id,)).fetchone()
             if not hrow or not arow:
                 continue
-            new_h, new_a = _an.update_elo(float(hrow[0]), float(arow[0]),
-                                          int(hs), int(asc))
-            dh = new_h - float(hrow[0])
-            da = new_a - float(arow[0])
-            conn.execute("UPDATE teams SET elo_rating = ? WHERE id = ?",
-                         (round(new_h, 4), h_id))
-            conn.execute("UPDATE teams SET elo_rating = ? WHERE id = ?",
-                         (round(new_a, 4), a_id))
-            # Венюні канали (окремий прогін тієї ж Elo-формули)
             new_h_home, new_a_away = _an.update_elo(
-                float(hrow[1]), float(arow[1]), int(hs), int(asc))
-            conn.execute("UPDATE teams SET home_elo = ? WHERE id = ?",
-                         (round(new_h_home, 4), h_id))
-            conn.execute("UPDATE teams SET away_elo = ? WHERE id = ?",
-                         (round(new_a_away, 4), a_id))
+                float(hrow[0]), float(arow[1]), int(hs), int(asc))
+            dh = new_h_home - float(hrow[0])
+            da = new_a_away - float(arow[1])
+            conn.execute(
+                "UPDATE teams SET home_elo = ?, elo_rating = ? WHERE id = ?",
+                (round(new_h_home, 4),
+                 round((new_h_home + float(hrow[1])) / 2.0, 4), h_id))
+            conn.execute(
+                "UPDATE teams SET away_elo = ?, elo_rating = ? WHERE id = ?",
+                (round(new_a_away, 4),
+                 round((float(arow[0]) + new_a_away) / 2.0, 4), a_id))
             conn.execute(
                 "UPDATE matches SET h_elo_change = ?, a_elo_change = ? WHERE id = ?",
                 (round(dh, 4), round(da, 4), m_id))
@@ -412,7 +483,12 @@ def settle_pending_bets():
 
     Спершу — перерахунок Elo/форми команд (пост-майтч), потім повний сетлмент
     УСІХ прогнозів-маркетів ШІ (Завдання 3) і лише потім — сам сетлмент ставок
-    користувача (див. recalc_team_elo_form / settle_ai_predictions)."""
+    користувача (див. recalc_team_elo_form / settle_ai_predictions).
+
+    Порядок: ПОВНИЙ перерахунок роздільного Elo по історії (один раз за
+    життя процесу) -> інкрементальні свіжі результати -> повний сетлмент
+    маркетів ШІ -> сетлмент ставок користувача."""
+    full_elo_recalc()
     recalc_team_elo_form()
     ai_res = settle_ai_predictions()
 
