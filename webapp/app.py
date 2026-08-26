@@ -1037,7 +1037,9 @@ def api_match_details(match_id):
             SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
                    m.ht_score_h, m.ht_score_a,
                    t1.id, t1.name, t1.elo_rating,
+                   t1.home_elo AS h_home_elo,
                    t2.id, t2.name, t2.elo_rating,
+                   t2.away_elo AS a_away_elo,
                    m.corners_h, m.corners_a,
                    m.yellow_cards_h, m.yellow_cards_a,
                    m.red_cards_h, m.red_cards_a,
@@ -1055,7 +1057,8 @@ def api_match_details(match_id):
             return jsonify({"error": "Матч не знайдено"}), 404
 
         (mid, date_str, league, status, hs, ascore, ht_h, ht_a,
-         h_id, h_name, h_elo, a_id, a_name, a_elo,
+         h_id, h_name, h_elo, h_home_elo,
+         a_id, a_name, a_elo, a_away_elo,
          c_h, c_a, yc_h, yc_a, rc_h, rc_a, so_h, so_a, soff_h, soff_a,
          xg_h, xg_a, pos_h, pos_a, stf, elo_chg_h, elo_chg_a) = r
 
@@ -1065,10 +1068,19 @@ def api_match_details(match_id):
             "id": mid, "date": date_str, "league": league,
             "status": label, "status_key": key,
             "time": to_kyiv(kickoff).strftime("%H:%M") if kickoff else "--:--",
+            # Контекстний венюний Elo для матч-модалки: господар входить
+            # у гру зі своїм ДОМАШНІМ рейтингом, гість — з ВИЇЗНИМ.
+            # Якщо канали ще не мігрували (NULL) — деградація до загального.
             "home": {"id": h_id, "name": h_name,
-                     "elo": round(float(h_elo or 1500), 1)},
+                     "elo": round(float(h_elo or 1500), 1),
+                     "home_elo": round(float(h_home_elo), 1)
+                                 if h_home_elo is not None else None,
+                     "context_elo": round(float(h_home_elo or h_elo or 1500), 1)},
             "away": {"id": a_id, "name": a_name,
-                     "elo": round(float(a_elo or 1500), 1)},
+                     "elo": round(float(a_elo or 1500), 1),
+                     "away_elo": round(float(a_away_elo), 1)
+                                 if a_away_elo is not None else None,
+                     "context_elo": round(float(a_away_elo or a_elo or 1500), 1)},
             "score": [hs, ascore] if hs is not None else None,
             "ht": [ht_h, ht_a] if ht_h is not None else None,
         }

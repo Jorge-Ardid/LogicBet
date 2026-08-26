@@ -280,9 +280,19 @@ window.matchModal = async function (mid) {
           '<b class="text-white">' + (hv ?? "—") + (suf || "") + "</b>" +
           '<span class="text-gray-400 uppercase tracking-wide text-[10px] pt-0.5">' + esc(label) + "</span>" +
           '<b class="text-white">' + (av ?? "—") + (suf || "") + "</b></div>";
+      /* Контекстний венюний Elo (Зміна A): господар показує свій HOME-канал,
+         гість — AWAY-канал; загальний середній лишається маленьким довідником. */
+      const hCtx = (H.home_elo != null) ? H.home_elo : H.elo;
+      const aCtx = (A.away_elo != null) ? A.away_elo : A.elo;
       html += '<div class="grid grid-cols-2 gap-3 text-center">' +
-          '<div><p class="text-[11px] text-gray-500 uppercase">Elo</p><p class="font-extrabold text-lg text-white">' + H.elo + '</p><div class="mt-1 flex justify-center">' + formChips(H.form_letters) + "</div></div>" +
-          '<div><p class="text-[11px] text-gray-500 uppercase">Elo</p><p class="font-extrabold text-lg text-white">' + A.elo + '</p><div class="mt-1 flex justify-center">' + formChips(A.form_letters) + "</div></div>" +
+          '<div><p class="text-[11px] text-gray-500 uppercase">🏠 Home Elo</p>' +
+            '<p class="font-extrabold text-lg text-white">' + hCtx + '</p>' +
+            '<p class="text-[10px] text-gray-500">загальний ' + H.elo + '</p>' +
+            '<div class="mt-1 flex justify-center">' + formChips(H.form_letters) + "</div></div>" +
+          '<div><p class="text-[11px] text-gray-500 uppercase">✈️ Away Elo</p>' +
+            '<p class="font-extrabold text-lg text-white">' + aCtx + '</p>' +
+            '<p class="text-[10px] text-gray-500">загальний ' + A.elo + '</p>' +
+            '<div class="mt-1 flex justify-center">' + formChips(A.form_letters) + "</div></div>" +
         "</div>";
       html += '<div class="pt-1">' +
         line("Сер. кутові", H.avg.corners, A.avg.corners) +
