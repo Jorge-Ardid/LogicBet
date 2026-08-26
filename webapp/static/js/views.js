@@ -39,8 +39,6 @@ window.loadHistory = async function (silent) {
     const data = await api("/api/bets?status=" + hStatus +
                            "&limit=" + H_PAGE_LIMIT + "&offset=" + hOffset);
     const items = data.bets || [];
-    const wrap = $("load-more-wrap");
-    if (wrap) wrap.remove();
 
     if (!items.length && hOffset === 0) {
       box.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">Ставок ще немає 🎯</p>';
@@ -52,21 +50,37 @@ window.loadHistory = async function (silent) {
     } else {
       $("hist-list").insertAdjacentHTML("beforeend", html);
     }
+
     /* Довантаження старіших записів (23.08, 22.08, …) — наступним offset,
        без перезапису поточного списку. */
+    let more = $("load-more-wrap");
+    if (!more) {
+      more = document.createElement("div");
+      more.id = "load-more-wrap";
+      more.className = "py-3";
+      box.appendChild(more);
+    }
+    more.innerHTML = "";
+    const indicator = document.createElement("p");
+    indicator.className = "text-center text-xs text-gray-500 py-2";
+    indicator.textContent = data.has_more
+      ? "--- ВЕРСІЯ V15 (ПОВНА ІСТОРІЯ) ---"
+      : "--- Всі записи завантажені ---";
+    more.appendChild(indicator);
+
     if (data.has_more) {
       const left = Math.max((data.total || 0) - data.next_offset, 0);
-      box.insertAdjacentHTML("beforeend",
-        '<div id="load-more-wrap" class="pt-2">' +
-          '<button id="btn-load-more" class="w-full bg-borderDark hover:bg-gray-700 ' +
-          'text-gray-300 font-bold py-3 rounded-lg text-sm transition active:scale-95">' +
-          "ЗАВАНТАЖИТИ ЩЕ" + (left ? " (" + left + ")" : "") + "</button></div>");
-      $("btn-load-more").addEventListener("click", function () {
+      const btn = document.createElement("button");
+      btn.id = "btn-load-more";
+      btn.className = "w-full bg-borderDark hover:bg-gray-700 text-gray-300 font-bold py-2 rounded-lg text-sm transition active:scale-95";
+      btn.textContent = "ЗАВАНТАЖИТИ ЩЕ" + (left ? " (" + left + ")" : "");
+      btn.addEventListener("click", function () {
         this.disabled = true;
         this.textContent = "Завантаження…";
         hOffset = data.next_offset;
         window.loadHistory(true);
       });
+      more.appendChild(btn);
     }
   } catch (e) {
     box.innerHTML = '<p class="text-red-400 text-sm text-center py-6">Помилка: ' + esc(e.message) + "</p>";
