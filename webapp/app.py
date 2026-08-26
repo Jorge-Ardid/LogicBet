@@ -519,16 +519,19 @@ def api_delete_bet(bet_id):
 
 @app.route("/api/bets")
 def api_history():
-    # Авто-розрахунок: PENDING-ставки звіряються з фінальними рахунками
-    # канонічної БД; WON/LOST + банкрол оновлюються до формування відповіді.
+    """Повертає ВСІ завершені матчі з LEFT JOIN user_bets"""
     settle_pending_bets()
 
-    status = request.args.get("status", "ALL").upper()
-    filters, params = [], []
-    if status in ("PENDING", "WON", "LOST"):
-        filters.append("ub.status = ?")
-        params.append(status)
-    cond = ("WHERE " + " AND ".join(filters)) if filters else ""
+    status_filter = request.args.get("status", "ALL").upper()
+    where_clauses = ["m.status IN ('FT','AET','PEN','FINISHED')"]
+    params = []
+
+    if status_filter == "WON":
+        where_clauses.append("ub.status = 'WON'")
+    elif status_filter == "LOST":
+        where_clauses.append("ub.status = 'LOST'")
+
+    where_sql = " AND ".join(where_clauses)
 
     try:
         limit = min(max(int(request.args.get("limit", 300)), 1), 500)
@@ -539,39 +542,55 @@ def api_history():
     except (TypeError, ValueError):
         offset = 0
 
-    base_from = """
-        FROM user_bets ub
-        JOIN matches m ON ub.match_id = m.id
-        JOIN teams t1 ON m.home_team_id = t1.id
-        JOIN teams t2 ON m.away_team_id = t2.id
-    """
     with db.get_connection() as conn:
         total = conn.execute(
-            "SELECT COUNT(*) " + base_from + (cond + " " if cond else ""),
+            "SELECT COUNT(*) FROM matches m LEFT JOIN user_bets ub ON m.id = ub.match_id WHERE " + where_sql,
             params).fetchone()[0]
+
         rows = conn.execute("""
-            SELECT ub.id, ub.selection, ub.stake, ub.odd, ub.status, ub.profit,
-                   m.id, m.date, m.league, m.status, m.home_score, m.away_score,
-                   t1.name, t2.name
-        """ + base_from + """
-            %s ORDER BY m.date DESC, m.id DESC, ub.id DESC
+            SELECT
+              m.id, m.date, m.league, m.status, m.home_score, m.away_score,
+              t1.name AS home, t2.name AS away,
+              ub.id AS bet_id, ub.selection, ub.stake, ub.odd, ub.status AS bet_status, ub.profit
+            FROM matches m
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            LEFT JOIN user_bets ub ON m.id = ub.match_id AND ub.status IN ('WON', 'LOST')
+            WHERE """ + where_sql + """
+            ORDER BY m.date DESC, m.id DESC
             LIMIT ? OFFSET ?
-        """ % cond, params + [limit, offset]).fetchall()
-    bets = []
-    for (bid, sel, stake, odd, bstat, profit, mid, date_str, league,
-         mstat, hs, ascore, home, away) in rows:
-        label, key = status_info(mstat)
-        kickoff = parse_dt(date_str)
-        bets.append({
-            "id": bid, "selection": sel,
-            "stake": float(stake or 0), "odd": float(odd or 0),
-            "status": bstat, "profit": round(float(profit or 0), 2),
-            "match": "%s — %s" % (home, away),
-            "league": league,
-            "time": to_kyiv(kickoff).strftime("%d.%m %H:%M") if kickoff else "--:--",
-            "match_status": label, "match_status_key": key,
-            "score": "%s:%s" % (hs, ascore) if hs is not None and ascore is not None else None,
-        })
+        """, params + [limit, offset]).fetchall()
+
+        bets = []
+        for row in rows:
+            (mid, date_str, league, mstat, hs, ascore,
+             home, away, bet_id, selection, stake, odd, bet_status, profit) = row
+
+            label, key = status_info(mstat)
+            kickoff = parse_dt(date_str)
+
+            bet = None
+            if bet_id is not None:
+                bet = {
+                    "id": bet_id,
+                    "selection": selection,
+                    "stake": float(stake or 0),
+                    "odd": float(odd or 0),
+                    "status": bet_status,
+                    "profit": round(float(profit or 0), 2)
+                }
+
+            bets.append({
+                "id": mid,
+                "match": "%s — %s" % (home, away),
+                "league": league,
+                "time": to_kyiv(kickoff).strftime("%d.%m %H:%M") if kickoff else "--:--",
+                "match_status": label,
+                "match_status_key": key,
+                "score": "%s:%s" % (hs, ascore) if hs is not None and ascore is not None else None,
+                "bet": bet,
+            })
+
     next_offset = offset + len(bets)
     return jsonify({
         "bets": bets,

@@ -23,7 +23,7 @@ function historyCard(b) {
   const hasBet = bet && bet.status;
   const statusKey = hasBet ? bet.status : null;
   const badgeClass = hasBet ? betBadge(statusKey) : "bg-gray-600 text-gray-300 border-gray-600";
-  const statusLabel = hasBet ? (label[statusKey] || statusKey) : "—";
+  const statusLabel = hasBet ? (label[statusKey] || statusKey) : "БЕЗ СТАВКИ";
 
   return '<div class="bg-cardBg border border-borderDark rounded-xl p-3.5 space-y-2">' +
     '<div class="flex justify-between items-center text-xs">' +
