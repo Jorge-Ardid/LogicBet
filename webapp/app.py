@@ -7,6 +7,7 @@ NEVER overwritten by this app — it only INSERTs user bets and updates the
 explicitly protected config keys.
 """
 import os
+import sqlite3
 import sys
 from datetime import datetime, timedelta
 
@@ -145,16 +146,83 @@ def _resolve_selection_hit(sel, hs, as_t, hth=None, hta=None):
     return None
 
 
+def _form_str_for_team(conn, team_id, limit=5):
+    """Поточна форма команди W/D/L (новіші спершу) за останні limit матчів."""
+    hist = conn.execute("""
+        SELECT home_score, away_score, home_team_id
+        FROM matches
+        WHERE (home_team_id = ? OR away_team_id = ?)
+          AND status IN ('FT','AET','PEN','FINISHED')
+          AND home_score IS NOT NULL AND away_score IS NOT NULL
+        ORDER BY date DESC LIMIT ?
+    """, (team_id, team_id, limit)).fetchall()
+    out = []
+    for hs, ascore, hid in reversed(hist):
+        is_h = (hid == team_id)
+        mine, theirs = (hs, ascore) if is_h else (ascore, hs)
+        out.append("W" if mine > theirs else ("L" if mine < theirs else "D"))
+    return "".join(out)
+
+
+def recalc_team_elo_form():
+    """Пост-майнотч перерахунок Elo та форми команд.
+
+    Після того як ставка розрахувалась, а матч став завершеним (рахунок
+    записано в канонічну logicbet.db), миттєво перераховується Elo обох
+    команд і їх форма (останні 5). Тим самим веб ніколи не показує
+    застарілу форму/рейтинг (фаворити з кількома перемогами — не аутсайдери).
+    Це локальна копія логіки пайплайну recalculate_elo_from_history/main.py."""
+    import sqlite3 as _sq
+    from analytics import BettingAnalytics
+    _an = BettingAnalytics(db)
+    conn = _sq.connect(DATA_DB_PATH)
+    try:
+        matches = conn.execute("""
+            SELECT id, home_team_id, away_team_id, home_score, away_score
+            FROM matches
+            WHERE status IN ('FT','AET','PEN','FINISHED') AND elo_processed = 0
+              AND home_score IS NOT NULL AND away_score IS NOT NULL
+            ORDER BY date ASC
+        """).fetchall()
+        if not matches:
+            return {"processed": 0}
+        for m_id, h_id, a_id, hs, asc in matches:
+            hrow = conn.execute(
+                "SELECT elo_rating FROM teams WHERE id = ?", (h_id,)).fetchone()
+            arow = conn.execute(
+                "SELECT elo_rating FROM teams WHERE id = ?", (a_id,)).fetchone()
+            if not hrow or not arow:
+                continue
+            new_h, new_a = _an.update_elo(float(hrow[0]), float(arow[0]),
+                                          int(hs), int(asc))
+            dh = new_h - float(hrow[0])
+            da = new_a - float(arow[0])
+            conn.execute("UPDATE teams SET elo_rating = ? WHERE id = ?",
+                         (round(new_h, 4), h_id))
+            conn.execute("UPDATE teams SET elo_rating = ? WHERE id = ?",
+                         (round(new_a, 4), a_id))
+            conn.execute(
+                "UPDATE matches SET h_elo_change = ?, a_elo_change = ? WHERE id = ?",
+                (round(dh, 4), round(da, 4), m_id))
+            for t_id in (h_id, a_id):
+                conn.execute("UPDATE teams SET current_form = ? WHERE id = ?",
+                             (_form_str_for_team(conn, t_id), t_id))
+            conn.execute("UPDATE matches SET elo_processed = 1 WHERE id = ?",
+                         (m_id,))
+        conn.commit()
+        return {"processed": len(matches)}
+    finally:
+        conn.close()
+
+
 def settle_pending_bets():
     """Авто-розрахунок PENDING-ставок робочої БД проти фінальних рахунків
     канонічної logicbet.db. Викликається при кожному читанні /api/bets.
 
-    Модель капіталу (заморожені кошти):
-      • стейк PENDING-ставки ВЖЕ у загальному балансі (заморожений);
-      • WON  -> банкрол += чистий виграш stake*(odd-1), заморозка знімається;
-      • LOST -> банкрол -= stake (програний стейк списується).
-    Тобто заморозка сама по собі НІКОЛИ не є просадкою і не штрафує систему —
-    ефективність оцінюється лише по РОЗРАХОВАНИХ ставках (див. analytics)."""
+    Спершу — перерахунок Elo/форми команд (пост-майтч), потім — сам
+    сетлмент ставок (див. recalc_team_elo_form)."""
+    recalc_team_elo_form()
+
     with db.get_connection() as conn:
         rows = conn.execute("""
             SELECT ub.id, ub.selection, ub.stake, ub.odd,
@@ -241,7 +309,10 @@ def predictions_by_match(match_ids):
 
 
 def match_payload(row, preds):
-    (mid, date_str, league, status, hs, ascore, home, away, home_id, away_id) = row
+    (mid, date_str, league, status, hs, ascore, home, away, home_id, away_id) = row[:10]
+    # Elo (для підсвічування фаворита в картці) — якщо присутній у рядку
+    h_elo = row[10] if len(row) >= 11 else None
+    a_elo = row[11] if len(row) >= 12 else None
     label, key = status_info(status)
     kickoff = parse_dt(date_str)
     show_score = key in ("finished", "live") and hs is not None and ascore is not None
@@ -257,6 +328,9 @@ def match_payload(row, preds):
         # public ids — клієнт будує посилання на профіль команди / аналіз матчу
         "home_id": home_id,
         "away_id": away_id,
+        # актуальний Elo (для визначення фаворита в картці)
+        "home_elo": round(float(h_elo), 1) if h_elo is not None else None,
+        "away_elo": round(float(a_elo), 1) if a_elo is not None else None,
         "score": "%s:%s" % (hs, ascore) if show_score else None,
         "predictions": preds,
         "summary": " • ".join(p["selection"] for p in preds[:5]),
@@ -271,7 +345,8 @@ def match_payload(row, preds):
 def load_matches(date_condition, params):
     query = """
         SELECT m.id, m.date, m.league, m.status, m.home_score, m.away_score,
-               t1.name, t2.name, m.home_team_id, m.away_team_id
+               t1.name, t2.name, m.home_team_id, m.away_team_id,
+               t1.elo_rating, t2.elo_rating
         FROM matches m
         JOIN teams t1 ON m.home_team_id = t1.id
         JOIN teams t2 ON m.away_team_id = t2.id

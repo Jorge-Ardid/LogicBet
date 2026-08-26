@@ -1,4 +1,4 @@
-const CACHE = "logicbet-v12";
+const CACHE = "logicbet-v13";
 const SHELL = [
   "/", "/static/js/app.js", "/static/js/views.js", "/static/css/app.css",
   "/static/manifest.json", "/static/icons/icon-192.png", "/static/icons/icon-512.png"
@@ -41,7 +41,7 @@ self.addEventListener("fetch", (e) => {
     return;
   }
   /* своє — мережа-перша; кеш лише offline-fallback.
-     SW v12 примусово повідомляє клієнтів про оновлення. */
+     SW v13 примусово повідомляє клієнтів про оновлення. */
   e.respondWith(
     fetch(e.request)
       .then((resp) => {

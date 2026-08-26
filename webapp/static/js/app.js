@@ -84,10 +84,15 @@ function switchTab(tab) {
 /* АНАЛІТИКА: матчі, згруповані Сьогодні/Завтра */
 let currentMatches = {};
 
-/* Світлофор форми: колір застосовується безпосередньо до ТЕКСТУ назви команди */
-const FORM_COLORS = { green: "#22c55e", yellow: "#eab308", red: "#ef4444" };
-function teamNameHtml(name, status) {
-  const color = status ? FORM_COLORS[status] : null;
+/* Фаворит за АКТУАЛЬНИМ Elo: команда з вищим Elo — зелений, друга —
+   нейтральний сірий (щоб аутсайдер не виглядав "у кризі"). Якщо Elo нема
+   або вони рівні — стандартний білий. */
+const ELO_GREEN = "#22c55e";
+const ELO_GRAY = "#9ca3af";
+function teamNameByElo(name, hElo, aElo, home) {
+  const h = Number(hElo || 0), a = Number(aElo || 0);
+  let color = null;
+  if (h && a && h !== a) color = (home === (h > a)) ? ELO_GREEN : ELO_GRAY;
   return color
     ? '<span style="color:' + color + '">' + esc(name) + "</span>"
     : esc(name);
@@ -116,9 +121,9 @@ function matchCardHtml(m) {
     '<div class="flex flex-col md:flex-row justify-between md:items-center gap-3">' +
       '<div class="space-y-1 min-w-0">' +
         '<div class="text-base sm:text-lg font-bold text-white tracking-wide flex flex-wrap items-center gap-x-0.5">' +
-          '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left" data-tid="' + m.home_id + '" title="Профіль команди">' + teamNameHtml(m.home, m.home_form_status) + "</button>" +
+          '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left" data-tid="' + m.home_id + '" title="Профіль команди">' + teamNameByElo(m.home, m.home_elo, m.away_elo, true) + "</button>" +
           '<button class="detail-btn text-gray-500 font-normal mx-1.5 hover:text-goldAccent cursor-pointer transition" data-mid="' + m.id + '" title="Аналіз матчу / порівняння">—</button>' +
-          '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left" data-tid="' + m.away_id + '" title="Профіль команди">' + teamNameHtml(m.away, m.away_form_status) + "</button>" +
+          '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left" data-tid="' + m.away_id + '" title="Профіль команди">' + teamNameByElo(m.away, m.home_elo, m.away_elo, false) + "</button>" +
           score +
         "</div>" +
         '<p class="text-xs sm:text-sm text-goldAccent font-medium leading-relaxed break-words">' +
