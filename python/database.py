@@ -417,6 +417,10 @@ class LogicBetDB:
                     id INTEGER PRIMARY KEY,
                     name TEXT UNIQUE,
                     elo_rating REAL DEFAULT 1500.0,
+                    -- Роздільний ELO (Зміна A): домашній рейтинг господарів
+                    -- та виїзний рейтинг гостей рахуються окремими каналами
+                    home_elo REAL,
+                    away_elo REAL,
                     attack_rating REAL DEFAULT 1.25,
                     defense_rating REAL DEFAULT 1.25,
                     discipline_rating REAL DEFAULT 2.5,
@@ -446,6 +450,20 @@ class LogicBetDB:
                 cursor.execute("ALTER TABLE teams ADD COLUMN rank INTEGER DEFAULT 0")
             if "points" not in cols:
                 cursor.execute("ALTER TABLE teams ADD COLUMN points INTEGER DEFAULT 0")
+            # Зміна A (Роздільний ELO): окремі домашній/виїзний канали рейтингу.
+            # NULL-значення одноразово сідуються поточним загальним elo_rating.
+            if "home_elo" not in cols:
+                cursor.execute("ALTER TABLE teams ADD COLUMN home_elo REAL")
+                print("[DATABASE] Migration: added teams.home_elo")
+            if "away_elo" not in cols:
+                cursor.execute("ALTER TABLE teams ADD COLUMN away_elo REAL")
+                print("[DATABASE] Migration: added teams.away_elo")
+            cursor.execute(
+                "UPDATE teams SET home_elo = elo_rating WHERE home_elo IS NULL "
+                "AND elo_rating IS NOT NULL")
+            cursor.execute(
+                "UPDATE teams SET away_elo = elo_rating WHERE away_elo IS NULL "
+                "AND elo_rating IS NOT NULL")
             
             # Matches table (Historical Data & Fixtures)
             cursor.execute('''

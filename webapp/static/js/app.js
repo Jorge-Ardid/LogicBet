@@ -16,6 +16,23 @@ function esc(s) {
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
+/* Локалізація назв маркетів (розділ «Статистика» та будь-які UI-відображення).
+   Сервер віддає канонічні англійські ключі таблиці predictions.market —
+   тут вони перетворюються на українські підписи; невідоме повертається як є. */
+const MARKET_UA = {
+  "Individual Total": "Індивідуальний тотал",
+  "BTTS": "Обидві заб'ють (ОЗ)",
+  "Total Goals": "Тотал голів",
+  "1X2/DC": "Результат / Подвійний шанс",
+  "Cards": "Картки",
+  "1st Half Goals": "Голи в 1-му таймі",
+  "Corners": "Кутові"
+};
+window.uaMarket = function (name) {
+  const key = String(name ?? "").trim();
+  return MARKET_UA[key] || name;
+};
+
 window.toast = function (msg, ok = true) {
   document.querySelectorAll(".toast").forEach((t) => t.remove());
   const el = document.createElement("div");

@@ -164,6 +164,184 @@ def _form_str_for_team(conn, team_id, limit=5):
     return "".join(out)
 
 
+def _ensure_elo_split_cols(conn):
+    """Разова міграція роздільного Elo (Зміна A) у канонічній БД даних.
+
+    Схемою передбачені teams.home_elo / teams.away_elo; для баз, де їх ще
+    немає, колонки додаються ALTER-ом, а NULL-значення сідуються загальним
+    elo_rating — до перших венюних перерахунків поведінка тотожна старій.
+    Аналогічна міграція є в database.py для монолітного режиму пайплайну."""
+    cur = conn.cursor()
+    cur.execute("PRAGMA table_info(teams)")
+    tcols = [c[1] for c in cur.fetchall()]
+    for col in ("home_elo", "away_elo"):
+        if col not in tcols:
+            cur.execute("ALTER TABLE teams ADD COLUMN %s REAL" % col)
+            print("[WEB] Migration: added teams.%s" % col)
+    cur.execute("UPDATE teams SET home_elo = elo_rating "
+                "WHERE home_elo IS NULL AND elo_rating IS NOT NULL")
+    cur.execute("UPDATE teams SET away_elo = elo_rating "
+                "WHERE away_elo IS NULL AND elo_rating IS NOT NULL")
+    conn.commit()
+
+
+def _ai_pred_hit(sel, hs, as_t, hth, hta, ch, ca, yh, ya, rh, ra,
+                 h_name, a_name, re_mod):
+    """Чи пройшов конкретний прогноз ШІ. True/False; None — статистики бракує
+    (HT/кутові/картки NULL) або формат нерозпізнано (is_hit лишається NULL).
+
+    Гілки 1-в-1 повторюють оцінювач python/main.py: веб і CI-пайплайн
+    ніколи не розходяться в оцінці одного прогнозу."""
+    if hs is None or as_t is None:
+        return None
+    s = (sel or "").upper().strip()
+    if not s:
+        return None
+    h_n = (h_name or "").upper().strip()
+    a_n = (a_name or "").upper().strip()
+    total_match = hs + as_t
+
+    def _nums():
+        return [float(x) for x in re_mod.findall(r"\d+\.\d+", s)]
+
+    # ---------- 0. BTTS / ОЗ ----------
+    if ("ОЗ" in s) or ("BTTS" in s) or ("ОБИДВІ" in s and "ЗАБ" in s):
+        both_scored = (hs > 0 and as_t > 0)
+        no_side = (("НЕ ОЗ" in s) or ("ОЗ - НІ" in s)
+                   or s.startswith("НЕ ") or ("НЕ ЗАБ" in s))
+        return (not both_scored) if no_side else both_scored
+
+    # ---------- 1. 1st-Half Goals ----------
+    elif ("1-Й" in s) or ("1ST HALF" in s) or ("(1ST HALF)" in s):
+        if hth is None or hta is None:
+            return None  # чекаємо HT-статистику — is_hit залишається NULL
+        nums = _nums()
+        thr = max(nums) if nums else 1.5
+        return ((hth + hta) > thr) if (("ТБ" in s) or ("OVER" in s)) \
+            else ((hth + hta) < thr)
+
+    # ---------- 2. Corners ----------
+    elif ("КУТОВ" in s) or ("CORNERS" in s):
+        if ch is None or ca is None:
+            return None
+        nums = _nums()
+        thr = max(nums) if nums else 9.5
+        return ((ch + ca) > thr) if (("ТБ" in s) or ("OVER" in s)) \
+            else ((ch + ca) < thr)
+
+    # ---------- 3. Cards ----------
+    elif ("КАРТК" in s) or ("CARDS" in s):
+        if yh is None or ya is None:
+            return None
+        nums = _nums()
+        thr = max(nums) if nums else 4.5
+        tot_cards = yh + ya + (rh or 0) + (ra or 0)
+        return (tot_cards > thr) if (("ТБ" in s) or ("OVER" in s)) \
+            else (tot_cards < thr)
+
+    # ---------- 4. Individual Team Totals ----------
+    elif ((("ТБ" in s) or ("ТМ" in s) or ("OVER" in s) or ("UNDER" in s))
+          and (h_n in s or a_n in s)):
+        nums = _nums()
+        thr = max(nums) if nums else 1.5
+        is_h_team = bool(h_n and h_n in s)
+        is_a_team = bool(a_n and a_n in s)
+        if is_h_team and is_a_team:
+            if len(h_n) >= len(a_n):
+                is_a_team = False
+            else:
+                is_h_team = False
+        team_score = hs if is_h_team else as_t
+        return (team_score > thr) if (("ТБ" in s) or ("OVER" in s)) \
+            else (team_score < thr)
+
+    # ---------- 5. Double Chance (до 1X2: "1X" містить "1") ----------
+    elif ("1X" in s) or ("1Х" in s) or ("1 X" in s) or ("1 Х" in s):
+        return hs >= as_t
+    elif ("X2" in s) or ("Х2" in s) or ("X 2" in s) or ("Х 2" in s):
+        return as_t >= hs
+    elif ("12" in s) or ("1 2" in s):
+        return hs != as_t
+
+    # ---------- 6. Основний 1X2 ----------
+    elif ("П1" in s) or ("HOME" in s):
+        return hs > as_t
+    elif ("П2" in s) or ("AWAY" in s):
+        return as_t > hs
+    elif (("НІЧИЯ" in s) or s == "DRAW" or s.startswith("X (")
+          or s.startswith("Х (") or s.startswith("X ")
+          or s.startswith("Х ") or s in ("X", "Х")):
+        return hs == as_t
+
+    # ---------- 7. Загальні тотали голів ----------
+    elif ("БІЛЬШЕ" in s) or ("OVER" in s) or ("ТБ" in s) or ("ТОТАЛ Б" in s):
+        nums = _nums()
+        thr = max(nums) if nums else 2.5
+        return total_match > thr
+    elif ("МЕНШЕ" in s) or ("UNDER" in s) or ("ТМ" in s) or ("ТОТАЛ М" in s):
+        nums = _nums()
+        thr = max(nums) if nums else 2.5
+        return total_match < thr
+
+    return None  # невідомий формат — чесно лишаємо без оцінки
+
+
+def settle_ai_predictions():
+    """ЗАВДАННЯ 3: повний авто-тест усіх прогнозів для навчання ШІ.
+
+    Коли матч завершено, з фінальним рахунком/статистикою звіряються
+    **ВСІ** маркети його картки (1X2/подвійні шанси, ОЗ, Тотал голів,
+    Індивідуальні тотали, 1-й тайм, Кутові, Картки) — а не лише той,
+    на який користувач поставив. Кожен варіант отримує is_hit=1/0; ці мітки
+    далі живлять карму маркетів у analytics._compute_reputation (як віртуальні
+    ставки ШІ), тож ваги алгоритму адаптуються на КОЖНОМУ власному сигналі.
+
+    Працює напряму по канонічній DATA_DB окремим з'єднанням; повторні запуски
+    ідемпотентні (обробляються лише рядки is_hit IS NULL)."""
+    import re as _re
+    conn = sqlite3.connect(DATA_DB_PATH)
+    try:
+        rows = conn.execute("""
+            SELECT p.id, p.market, p.selection,
+                   m.home_score, m.away_score, m.ht_score_h, m.ht_score_a,
+                   m.corners_h, m.corners_a,
+                   m.yellow_cards_h, m.yellow_cards_a,
+                   m.red_cards_h, m.red_cards_a,
+                   t1.name, t2.name
+            FROM predictions p
+            JOIN matches m ON p.match_id = m.id
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            WHERE p.is_hit IS NULL
+              AND m.status IN ('FT','AET','PEN','FINISHED')
+              AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
+        """).fetchall()
+
+        evaluated = hits = 0
+        by_market = {}
+        for (p_id, market, sel, hs, as_t, hth, hta, ch, ca, yh, ya, rh, ra,
+             h_name, a_name) in rows:
+            hit = _ai_pred_hit(sel, hs, as_t, hth, hta, ch, ca, yh, ya,
+                               rh, ra, h_name, a_name, _re)
+            if hit is None:
+                continue
+            conn.execute("UPDATE predictions SET is_hit = ? WHERE id = ?",
+                         (1 if hit else 0, p_id))
+            evaluated += 1
+            mk = by_market.setdefault(market or "?", [0, 0])
+            mk[0] += 1
+            if hit:
+                hits += 1
+                mk[1] += 1
+        conn.commit()
+        if evaluated:
+            print("[WEB] AI settlement: %d маркетів розраховано, %d влучних "
+                  "(%.1f%%)" % (evaluated, hits, hits * 100.0 / evaluated))
+        return {"evaluated": evaluated, "hits": hits, "by_market": by_market}
+    finally:
+        conn.close()
+
+
 def recalc_team_elo_form():
     """Пост-майнотч перерахунок Elo та форми команд.
 
@@ -176,6 +354,7 @@ def recalc_team_elo_form():
     from analytics import BettingAnalytics
     _an = BettingAnalytics(db)
     conn = _sq.connect(DATA_DB_PATH)
+    _ensure_elo_split_cols(conn)  # Зміна A: гарантія колонок home/away_elo
     try:
         matches = conn.execute("""
             SELECT id, home_team_id, away_team_id, home_score, away_score
@@ -187,10 +366,15 @@ def recalc_team_elo_form():
         if not matches:
             return {"processed": 0}
         for m_id, h_id, a_id, hs, asc in matches:
+            # Зміна A (Роздільний ELO): глобальний канал elo_rating
+            # оновлюється як і раніше, А ТАЖ венюні канали — господар
+            # отримує результат у свій home_elo, гість — у свій away_elo.
             hrow = conn.execute(
-                "SELECT elo_rating FROM teams WHERE id = ?", (h_id,)).fetchone()
+                "SELECT elo_rating, COALESCE(home_elo, elo_rating) "
+                "FROM teams WHERE id = ?", (h_id,)).fetchone()
             arow = conn.execute(
-                "SELECT elo_rating FROM teams WHERE id = ?", (a_id,)).fetchone()
+                "SELECT elo_rating, COALESCE(away_elo, elo_rating) "
+                "FROM teams WHERE id = ?", (a_id,)).fetchone()
             if not hrow or not arow:
                 continue
             new_h, new_a = _an.update_elo(float(hrow[0]), float(arow[0]),
@@ -201,6 +385,13 @@ def recalc_team_elo_form():
                          (round(new_h, 4), h_id))
             conn.execute("UPDATE teams SET elo_rating = ? WHERE id = ?",
                          (round(new_a, 4), a_id))
+            # Венюні канали (окремий прогін тієї ж Elo-формули)
+            new_h_home, new_a_away = _an.update_elo(
+                float(hrow[1]), float(arow[1]), int(hs), int(asc))
+            conn.execute("UPDATE teams SET home_elo = ? WHERE id = ?",
+                         (round(new_h_home, 4), h_id))
+            conn.execute("UPDATE teams SET away_elo = ? WHERE id = ?",
+                         (round(new_a_away, 4), a_id))
             conn.execute(
                 "UPDATE matches SET h_elo_change = ?, a_elo_change = ? WHERE id = ?",
                 (round(dh, 4), round(da, 4), m_id))
@@ -219,9 +410,11 @@ def settle_pending_bets():
     """Авто-розрахунок PENDING-ставок робочої БД проти фінальних рахунків
     канонічної logicbet.db. Викликається при кожному читанні /api/bets.
 
-    Спершу — перерахунок Elo/форми команд (пост-майтч), потім — сам
-    сетлмент ставок (див. recalc_team_elo_form)."""
+    Спершу — перерахунок Elo/форми команд (пост-майтч), потім повний сетлмент
+    УСІХ прогнозів-маркетів ШІ (Завдання 3) і лише потім — сам сетлмент ставок
+    користувача (див. recalc_team_elo_form / settle_ai_predictions)."""
     recalc_team_elo_form()
+    ai_res = settle_ai_predictions()
 
     with db.get_connection() as conn:
         rows = conn.execute("""
@@ -234,7 +427,7 @@ def settle_pending_bets():
               AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
         """).fetchall()
         if not rows:
-            return {"settled": 0, "wins": 0}
+            return {"settled": 0, "wins": 0, "ai": ai_res}
 
         row = conn.execute(
             "SELECT value FROM config WHERE key = 'bankroll'").fetchone()
@@ -265,7 +458,7 @@ def settle_pending_bets():
                 ON CONFLICT(key) DO UPDATE SET value = excluded.value
             """, (str(round(bankroll, 2)),))
             conn.commit()
-    return {"settled": settled, "wins": wins}
+    return {"settled": settled, "wins": wins, "ai": ai_res}
 
 
 def predictions_by_match(match_ids):

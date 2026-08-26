@@ -1,6 +1,12 @@
 import random
 import math
 
+# Зміна B: половина періоду розпаду ваги давності матчу (днів).
+# 30 днів => свіжий матч (до ~3 тижнів) має майже повну вагу (>0.6),
+# а матч 3–6 місячної давнини — тільки 0.13…0.02 (згасаючий множник).
+TIME_DECAY_HALF_LIFE_DAYS = 30.0
+
+
 class BettingAnalytics:
     def __init__(self, db):
         self.db = db
@@ -54,6 +60,21 @@ class BettingAnalytics:
         return self.uk_dict.get(text, text)
 
     # ------------------------------------------------------------------
+    # Зміна B (Вага давності / Exponential Decay): множник ваги матчу за
+    # його віком. Свіжі матчі (останні 1–3 тижні) впливають майже на повну
+    # силу, а матчі 3–6 місячної давнини отримують сильно згасаючий ваговий
+    # коефіцієнт (0.13 → 0.02). Використовується і для форми/моментуму,
+    # і для зважених середніх тоталів (голы/xG/кутові/картки).
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _time_weight(age_days):
+        try:
+            age = max(0.0, float(age_days))
+        except (TypeError, ValueError):
+            age = 0.0
+        return math.exp(-math.log(2) * age / TIME_DECAY_HALF_LIFE_DAYS)
+
+    # ------------------------------------------------------------------
     # Reward & Penalty engine: per-market "karma" learned from settled user bets.
     #   WON  -> karma += (odd - 1) * confidence      (reward; higher odd is sweeter)
     #   LOST -> karma -= odd * confidence             (penalty; higher odd hurts more)
@@ -100,13 +121,13 @@ class BettingAnalytics:
                 "  AND odd IS NOT NULL AND odd > 0"
             ).fetchall()
             pred_rows = conn.execute(
-                "SELECT match_id, selection, calculated_prob FROM predictions "
-                "WHERE calculated_prob IS NOT NULL"
+                "SELECT match_id, selection, calculated_prob, is_hit "
+                "FROM predictions WHERE calculated_prob IS NOT NULL"
             ).fetchall()
 
         # index predictions per match by normalized selection text
         preds_by_match = {}
-        for mid, sel, prob in pred_rows:
+        for mid, sel, prob, _p_hit in pred_rows:
             key = " ".join((sel or "").upper().split())
             preds_by_match.setdefault(mid, {})[key] = float(prob)
 
@@ -146,6 +167,45 @@ class BettingAnalytics:
                     entry["wins"] += 1
                 else:
                     entry["net"] -= share
+
+        # ------------------------------------------------------------------
+        # ЗАВДАННЯ 3 (навчання ШІ): «віртуальні ставки» за is_hit усіх
+        # маркетів. Кожен РОЗРАХОВАНИЙ прогноз картки матчу (predictions.is_hit,
+        # заповнюється повним сетлментом webapp.settle_ai_predictions) стає
+        # ставкою ШІ на 1 од. з модельним коефіцієнтом ~1/prob. Внесок
+        # послаблений (W_VIRTUAL): реальні гроші користувача лишаються
+        # головним сигналом, але карма вчиться на КОЖНОМУ варіанті — і на тих,
+        # що ніколи не потрапляли в купон.
+        # ------------------------------------------------------------------
+        W_VIRTUAL = 0.35
+        for _mid, _sel, _prob, _p_hit in pred_rows:
+            if _p_hit is None:
+                continue  # прогноз ще пройшов крізь повний сетлмент
+            tok = self._market_token(_sel)
+            if not tok:
+                continue
+            conf_ai = max(0.05, min(0.99, float(_prob or 0.5)))
+            odd_ai = round(min(10.0, max(1.05, 1.0 / conf_ai)), 2)
+            won_ai = bool(_p_hit)
+            entry_ai = rep.setdefault(tok, {
+                "karma": 0.0, "recent": [],
+                "staked": 0.0, "returned": 0.0, "net": 0.0,
+                "bets": 0, "wins": 0,
+            })
+            delta_ai = ((odd_ai - 1.0) * conf_ai) if won_ai \
+                else (-odd_ai * conf_ai)
+            entry_ai["karma"] += W_VIRTUAL * delta_ai
+            entry_ai["recent"].append(
+                (odd_ai, "WON" if won_ai else "LOST", conf_ai))
+            entry_ai["bets"] += 1
+            entry_ai["staked"] += 1.0
+            if won_ai:
+                payout_ai = odd_ai
+                entry_ai["returned"] += payout_ai
+                entry_ai["net"] += payout_ai - 1.0
+                entry_ai["wins"] += 1
+            else:
+                entry_ai["net"] -= 1.0
 
         for tok, entry in rep.items():
             recent = entry["recent"][-5:]
@@ -308,7 +368,10 @@ class BettingAnalytics:
                 ref_date = max(_valid) if _valid else _dt.utcnow()
         else:
             ref_date = max(_valid) if _valid else _dt.utcnow()
-        LAMBDA = math.log(2) / 7.0  # 7-day half-life
+        # Зміна B: half-life затухання піднято з 7 до 30 днів — матчи дворіч
+        # лишаються майже повновагими, півсезонна давнина — сильно тліє.
+        LAMBDA = math.log(2) / TIME_DECAY_HALF_LIFE_DAYS
+        goal_weights = []
         for idx, m in enumerate(matches):
             # Result from query now has 15 columns (m.date added at index 14)
             h_s, a_s, h_id, opp_elo = m[0], m[1], m[2], m[3]
@@ -323,10 +386,11 @@ class BettingAnalytics:
             elif goals == opp_goals: pts = 1
             
             # 1. Streak Weighting
-                        # Time-decay: older matches matter less (half-life = 7 days)
+            # Time-decay (Зміна B): свіжіші матчі важать більше
             m_date = parsed_dates[idx]
             age_days = max(0.0, (ref_date - m_date).days) if m_date else 0.0
             w_time = math.exp(-LAMBDA * age_days)
+            goal_weights.append(w_time)
             eff_weight = weight_step * w_time
             weighted_points += pts * eff_weight
             total_weight += 3.0 * eff_weight
@@ -347,7 +411,12 @@ class BettingAnalytics:
 
             weight_step -= 1.0
             
-        avg_recent = sum(recent_goals) / len(recent_goals)
+        _g_wsum = sum(goal_weights)
+        avg_recent = (
+            sum(g * w for g, w in zip(recent_goals, goal_weights)) / _g_wsum
+            if _g_wsum > 0
+            else (sum(recent_goals) / len(recent_goals) if recent_goals else season_atk)
+        )
         points_pct = weighted_points / total_weight if total_weight > 0 else 0
         
         # Extended Stats (Averages over last matches)
@@ -356,9 +425,27 @@ class BettingAnalytics:
             return m[home_idx] if m[2] == team_id else m[away_idx]
 
         # Filter matches that actually have stats (if corners + shots > 0, we assume stats exist)
-        stats_matches = [m for m in matches if (m[6] or 0) + (m[7] or 0) + (m[10] or 0) + (m[11] or 0) > 0]
+        # Зміна B: для зважених середніх тримаємо ІНДЕКСИ матчів зі статистикою,
+        # щоб вага давності бралась з parsed_dates за тим самим порядком.
+        stats_idx = [i for i, m in enumerate(matches)
+                     if (m[6] or 0) + (m[7] or 0) + (m[10] or 0) + (m[11] or 0) > 0]
+        stats_weights = []
+        for i in stats_idx:
+            d_i = parsed_dates[i]
+            stats_weights.append(self._time_weight(
+                max(0.0, (ref_date - d_i).days) if d_i else 0.0))
 
-        avg_xg = sum([_get_stat(m, 4, 5, team_id) or 0 for m in stats_matches]) / len(stats_matches) if stats_matches else season_atk
+        def _wavg(idx_list, weights, home_idx, away_idx):
+            """Зважене (за давністю) середнє статпоказника — Зміна B."""
+            w_total = sum(weights)
+            if not idx_list or w_total <= 0:
+                return None
+            return sum((_get_stat(matches[i], home_idx, away_idx, team_id) or 0) * w
+                       for i, w in zip(idx_list, weights)) / w_total
+
+        avg_xg = _wavg(stats_idx, stats_weights, 4, 5)
+        if avg_xg is None:
+            avg_xg = season_atk
         
         # Blend: 40% Season Consistency, 30% Recent Goals, 30% Recent xG (Quality of chances)
         # xG is often a better predictor of future performance than actual goals.
@@ -383,15 +470,30 @@ class BettingAnalytics:
                 momentum = 1.00 # Cancels out the "Hot" momentum because wins were too easy
                 label = "Хулігани (Bully) 🦁"
                 
-        avg_corners = sum([_get_stat(m, 6, 7, team_id) or 0 for m in stats_matches]) / len(stats_matches) if stats_matches else 4.8
-        avg_corners_conceded = sum([_get_stat(m, 7, 6, team_id) or 0 for m in stats_matches]) / len(stats_matches) if stats_matches else 4.8
-        avg_y_cards = sum([_get_stat(m, 8, 9, team_id) or 0 for m in stats_matches]) / len(stats_matches) if stats_matches else 1.8
-        avg_shots = sum([_get_stat(m, 10, 11, team_id) or 0 for m in stats_matches]) / len(stats_matches) if stats_matches else 11.0
+        avg_corners = _wavg(stats_idx, stats_weights, 6, 7)
+        if avg_corners is None:
+            avg_corners = 4.8
+        avg_corners_conceded = _wavg(stats_idx, stats_weights, 7, 6)
+        if avg_corners_conceded is None:
+            avg_corners_conceded = 4.8
+        avg_y_cards = _wavg(stats_idx, stats_weights, 8, 9)
+        if avg_y_cards is None:
+            avg_y_cards = 1.8
+        avg_shots = _wavg(stats_idx, stats_weights, 10, 11)
+        if avg_shots is None:
+            avg_shots = 11.0
 
-        
-        # Filter matches that actually have Half-Time score data
-        ht_matches = [m for m in matches if m[12] is not None and m[13] is not None]
-        avg_goals_ht = sum([_get_stat(m, 12, 13, team_id) or 0 for m in ht_matches]) / len(ht_matches) if ht_matches else (season_atk * 0.45)
+        # Half-Time data: теж зважено за давністю (Зміна B)
+        ht_idx = [i for i, m in enumerate(matches)
+                  if m[12] is not None and m[13] is not None]
+        ht_weights = []
+        for i in ht_idx:
+            d_i = parsed_dates[i]
+            ht_weights.append(self._time_weight(
+                max(0.0, (ref_date - d_i).days) if d_i else 0.0))
+        avg_goals_ht = _wavg(ht_idx, ht_weights, 12, 13)
+        if avg_goals_ht is None:
+            avg_goals_ht = (season_atk * 0.45)
 
         # Cap momentum logically
         momentum = max(0.6, min(1.4, momentum))
@@ -435,18 +537,18 @@ class BettingAnalytics:
         with self.db.get_connection() as conn:
             # Get last 10 HOME matches for home team strictly before this match
             h_matches = conn.execute(f"""
-                SELECT home_score, away_score 
-                FROM matches 
+                SELECT home_score, away_score, date
+                FROM matches
                 WHERE home_team_id = ? AND status IN ('FT', 'AET', 'PEN', 'FINISHED')
                 AND home_score IS NOT NULL AND away_score IS NOT NULL
                 {extra_h}
                 ORDER BY date DESC LIMIT 10
             """, tuple(params_h)).fetchall()
-            
+
             # Get last 10 AWAY matches for away team strictly before this match
             a_matches = conn.execute(f"""
-                SELECT home_score, away_score 
-                FROM matches 
+                SELECT home_score, away_score, date
+                FROM matches
                 WHERE away_team_id = ? AND status IN ('FT', 'AET', 'PEN', 'FINISHED')
                 AND home_score IS NOT NULL AND away_score IS NOT NULL
                 {extra_a}
@@ -457,22 +559,32 @@ class BettingAnalytics:
         h_matches = [m for m in h_matches if m[0] is not None and m[1] is not None]
         a_matches = [m for m in a_matches if m[0] is not None and m[1] is not None]
 
-        h_pts = 0.0
-        if h_matches:
-            for m in h_matches:
-                if m[0] > m[1]: h_pts += 1.0
-                elif m[0] == m[1]: h_pts += 0.5
-            h_winrate = h_pts / len(h_matches) if len(h_matches) > 0 else 0.5
-        else:
+        from datetime import datetime as _dtf
+
+        def _w_by_date(dstr):
+            """Вага давності конкретного матчу (Зміна B)."""
+            try:
+                d = _dtf.fromisoformat(str(dstr).replace("Z", ""))
+                age = max(0.0, (_dtf.utcnow() - d).days)
+            except Exception:
+                age = 0.0
+            return self._time_weight(age)
+
+        def _venue_wr(rows):
+            """Winrate, зважений експоненційно за давністю (Зміна B)."""
+            pts = wsum = 0.0
+            for hs_v, as_v, dstr in rows:
+                w = _w_by_date(dstr)
+                res = 1.0 if hs_v > as_v else (0.5 if hs_v == as_v else 0.0)
+                pts += res * w
+                wsum += w
+            return (pts / wsum) if wsum > 0 else None
+
+        h_winrate = _venue_wr(h_matches) if h_matches else None
+        a_winrate = _venue_wr(a_matches) if a_matches else None
+        if h_winrate is None:
             h_winrate = 0.5
-            
-        a_pts = 0.0
-        if a_matches:
-            for m in a_matches:
-                if m[1] > m[0]: a_pts += 1.0
-                elif m[1] == m[0]: a_pts += 0.5
-            a_winrate = a_pts / len(a_matches) if len(a_matches) > 0 else 0.3
-        else:
+        if a_winrate is None:
             a_winrate = 0.3
             
         # Home team strength at home: avg is ~0.5. 
@@ -489,9 +601,17 @@ class BettingAnalytics:
         return max(0.0, min(110.0, final_bonus))
 
     def calculate_win_probabilities(self, home_id, away_id, home_form="", away_form="", match_id=None, match_date=None):
+        """Зміна A (Роздільний ELO): ймовірності рахуємо, порівнюючи
+        ДОМАШНІЙ канал рейтингу господарів (teams.home_elo) з ВИЇЗНИМ
+        каналом гостей (teams.away_elo). COALESCE робить запит безпечним
+        для баз, де канали ще не мігрували/не наповнені."""
         with self.db.get_connection() as conn:
-            h_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (home_id,)).fetchone()
-            a_data = conn.execute("SELECT elo_rating, name FROM teams WHERE id = ?", (away_id,)).fetchone()
+            h_data = conn.execute(
+                "SELECT COALESCE(home_elo, elo_rating), name FROM teams WHERE id = ?",
+                (home_id,)).fetchone()
+            a_data = conn.execute(
+                "SELECT COALESCE(away_elo, elo_rating), name FROM teams WHERE id = ?",
+                (away_id,)).fetchone()
 
         if not h_data or not a_data:
             default_trend = {
@@ -514,11 +634,14 @@ class BettingAnalytics:
                 "h2h_count": 0
             }
 
-        home_elo = h_data[0]
-        away_elo = a_data[0]
+        # Зміна A: ці значення вже є венюними рейтингами
+        # (home-канал господарів / away-канал гостей)
+        home_elo = float(h_data[0])
+        away_elo = float(a_data[0])
 
         # Dynamic Home Advantage (without leakage)
         home_bonus = self._calculate_home_away_factor(home_id, away_id, match_id=match_id, match_date=match_date)
+        # Зміна A: home_bonus додається саме до домашнього каналу господарів
         win_prob = self.calculate_elo_probability(home_elo + home_bonus, away_elo)
         
         # Hybrid Trends (without leakage)

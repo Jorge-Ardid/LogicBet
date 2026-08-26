@@ -146,8 +146,8 @@ window.loadStats = async function () {
         '<p class="' + cls + ' font-extrabold text-lg md:text-xl mt-1">' + value + "</p></div>";
     cards.innerHTML =
       card("Банкрол", s.bankroll.toFixed(1) + " грн", "text-greenAccent") +
-      card("Winrate", s.winrate_pct + "%", "text-goldAccent") +
-      card("W / L / P", s.bets.won + "/" + s.bets.lost + "/" + s.bets.pending, "text-white") +
+      card("ВІНРЕЙТ", s.winrate_pct + "%", "text-goldAccent") +
+      card("В / П / В", s.bets.won + "/" + s.bets.lost + "/" + s.bets.pending, "text-white") +
       card("Прибуток", (s.profit > 0 ? "+" : "") + s.profit.toFixed(2) + " грн",
         s.profit >= 0 ? "text-greenAccent" : "text-red-400") +
       '<div class="col-span-2 md:col-span-4">' +
@@ -159,7 +159,7 @@ window.loadStats = async function () {
       s.by_market.map((m) => {
         const pct = m.total ? Math.round(m.hits * 100 / m.total) : 0;
         return '<div class="bg-cardBg border border-borderDark rounded-lg px-3 py-2 flex items-center justify-between text-xs">' +
-          '<span class="text-gray-300 font-medium">' + esc(m.market) + "</span>" +
+          '<span class="text-gray-300 font-medium">' + esc(window.uaMarket ? window.uaMarket(m.market) : m.market) + "</span>" +
           '<span class="flex items-center gap-2">' +
             '<span class="w-24 h-1.5 bg-borderDark rounded-full overflow-hidden">' +
               '<span class="block h-full bg-goldAccent" style="width:' + pct + '%"></span></span>' +
