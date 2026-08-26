@@ -820,6 +820,7 @@ def api_history():
             SELECT
               m.id, m.date, m.league, m.status, m.home_score, m.away_score,
               t1.name AS home, t2.name AS away,
+              t1.id AS home_id, t2.id AS away_id,
               ub.id AS bet_id, ub.selection, ub.stake, ub.odd, ub.status AS bet_status, ub.profit
             FROM matches m
             JOIN teams t1 ON m.home_team_id = t1.id
@@ -833,7 +834,8 @@ def api_history():
         bets = []
         for row in rows:
             (mid, date_str, league, mstat, hs, ascore,
-             home, away, bet_id, selection, stake, odd, bet_status, profit) = row
+             home, away, home_tid, away_tid,
+             bet_id, selection, stake, odd, bet_status, profit) = row
 
             label, key = status_info(mstat)
             kickoff = parse_dt(date_str)
@@ -852,6 +854,10 @@ def api_history():
             bets.append({
                 "id": mid,
                 "match": "%s — %s" % (home, away),
+                # Окремі назви/id команд для КЛІКАБЕЛЬНОЇ Історії:
+                # назва -> профіль команди (teamModal), рахунок -> деталі матчу.
+                "home": home, "away": away,
+                "home_id": home_tid, "away_id": away_tid,
                 "league": league,
                 "time": to_kyiv(kickoff).strftime("%d.%m %H:%M") if kickoff else "--:--",
                 "match_status": label,

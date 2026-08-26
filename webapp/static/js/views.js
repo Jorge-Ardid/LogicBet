@@ -25,13 +25,36 @@ function historyCard(b) {
   const badgeClass = hasBet ? betBadge(statusKey) : "bg-gray-600 text-gray-300 border-gray-600";
   const statusLabel = hasBet ? (label[statusKey] || statusKey) : "БЕЗ СТАВКИ";
 
+  /* --- КЛІКАБЕЛЬНІСТЬ ІСТОРІЇ ---
+     Назви команд -> «Профіль команди» (window.teamModal), рахунок ->
+     «Деталі матчу» (window.matchModal). Використовуємо ТІ САМІ класи
+     .team-link / .detail-btn, що й картки матчів: глобальне делегування
+     кліків в app.js вже обслуговує їх на всій сторінці.
+     Курсор/ховер: cursor-pointer + underline/goldAccent-ефекти. */
+  const _parts = (b.home != null && b.away != null)
+    ? [b.home, b.away]
+    : String(b.match || "").split(" — ");
+  const teamBtn = (name, tid) =>
+    '<button class="team-link hover:underline underline-offset-4 decoration-2 cursor-pointer transition text-left"' +
+    ' data-tid="' + esc(tid != null ? String(tid) : "") + '" title="Профіль команди">' +
+    esc(name) + "</button>";
+  const matchLine =
+    '<p class="font-bold text-white text-sm flex flex-wrap items-center gap-x-0.5">' +
+      teamBtn(_parts[0] || "", b.home_id) +
+      '<button class="detail-btn text-gray-500 mx-1 hover:text-goldAccent cursor-pointer transition" data-mid="' + esc(String(b.id)) + '" title="Аналіз матчу">—</button>' +
+      teamBtn(_parts[1] || "", b.away_id) +
+      (b.score
+        ? ('<button class="detail-btn font-extrabold ml-1 hover:text-goldAccent cursor-pointer transition" data-mid="' + esc(String(b.id)) + '" title="Повна статистика матчу">' +
+           '<span class="text-goldAccent">' + esc(b.score) + "</span></button>")
+        : "") +
+    "</p>";
+
   return '<div class="bg-cardBg border border-borderDark rounded-xl p-3.5 space-y-2">' +
     '<div class="flex justify-between items-center text-xs">' +
       '<span class="px-2 py-1 rounded-md border font-bold ' + badgeClass + '">' + esc(statusLabel) + "</span>" +
       '<span class="text-gray-400">' + esc(b.league) + " • " + esc(b.time) + "</span>" +
     "</div>" +
-    '<p class="font-bold text-white text-sm">' + esc(b.match) +
-      (b.score ? ' <span class="text-goldAccent">' + esc(b.score) + "</span>" : "") + "</p>" +
+    matchLine +
     (hasBet
       ? ('<p class="text-xs text-goldAccent break-words">' + esc(bet.selection) + "</p>" +
          '<div class="flex justify-between text-xs text-gray-400">' +
