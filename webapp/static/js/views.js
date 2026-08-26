@@ -1,4 +1,6 @@
 "use strict";
+// !!! ПРИМУСОВА ВЕРСІЯ V15 — індикатор перезавантаження кешу !!!
+
 /* LogicBet Web — вкладки: Історія / Пошук / Статистика / Налаштування */
 
 /* ---------- ІСТОРІЯ СТАВОК (з пагінацією «Показати ще») ---------- */
@@ -14,23 +16,34 @@ function betBadge(s) {
   return "bg-goldAccent/10 text-goldAccent border-goldAccent/40";
 }
 
+
 function historyCard(b) {
   const label = { WON: "WON ✓", LOST: "LOST ✗", PENDING: "PENDING ⏳" };
+  const bet = b.bet;
+  const hasBet = bet && bet.status;
+  const statusKey = hasBet ? bet.status : null;
+  const badgeClass = hasBet ? betBadge(statusKey) : "bg-gray-600 text-gray-300 border-gray-600";
+  const statusLabel = hasBet ? (label[statusKey] || statusKey) : "—";
+
   return '<div class="bg-cardBg border border-borderDark rounded-xl p-3.5 space-y-2">' +
     '<div class="flex justify-between items-center text-xs">' +
-      '<span class="px-2 py-1 rounded-md border font-bold ' + betBadge(b.status) + '">' + (label[b.status] || b.status) + "</span>" +
+      '<span class="px-2 py-1 rounded-md border font-bold ' + badgeClass + '">' + esc(statusLabel) + "</span>" +
       '<span class="text-gray-400">' + esc(b.league) + " • " + esc(b.time) + "</span>" +
     "</div>" +
     '<p class="font-bold text-white text-sm">' + esc(b.match) +
       (b.score ? ' <span class="text-goldAccent">' + esc(b.score) + "</span>" : "") + "</p>" +
-    '<p class="text-xs text-goldAccent break-words">' + esc(b.selection) + "</p>" +
-    '<div class="flex justify-between text-xs text-gray-400">' +
-      "<span>Ставка: <b class='text-gray-200'>" + b.stake.toFixed(1) + " грн</b> • Кф: <b class='text-gray-200'>" +
-      b.odd.toFixed(2) + "</b></span>" +
-      '<span class="' + (b.profit > 0 ? "text-greenAccent" : b.profit < 0 ? "text-red-400" : "text-gray-400") +
-      ' font-bold">' + (b.profit > 0 ? "+" : "") + b.profit.toFixed(2) + " грн</span>" +
-    "</div></div>";
+    (hasBet
+      ? ('<p class="text-xs text-goldAccent break-words">' + esc(bet.selection) + "</p>" +
+         '<div class="flex justify-between text-xs text-gray-400">' +
+           "<span>Ставка: <b class='text-gray-200'>" + bet.stake.toFixed(1) + " грн</b> • Кф: <b class='text-gray-200'>" +
+           bet.odd.toFixed(2) + "</b></span>" +
+           '<span class="' + (bet.profit > 0 ? "text-greenAccent" : bet.profit < 0 ? "text-red-400" : "text-gray-400") + ' font-bold">' + (bet.profit > 0 ? "+" : "") + bet.profit.toFixed(2) + " грн</span>" +
+         "</div>")
+      : '<p class="text-xs text-gray-500 italic">Ставка не зроблена</p>'
+    ) +
+    "</div>";
 }
+
 
 window.loadHistory = async function (silent) {
   const box = $("history-container");
