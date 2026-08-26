@@ -305,9 +305,20 @@ window.teamModal = async function (tid) {
   try {
     const t = await api("/api/team/" + tid + "/profile");
     let html = modalHeader("Профіль команди");
-    html += '<div class="flex items-center justify-between gap-2">' +
+    /* Деталізація роздільного Elo (Зміна A): Загальний / Вдома 🏠 / На виїзді ✈️ */
+    const fmtElo = (v) => Number(v).toFixed(1);
+    const hasVenue = t.home_elo != null && t.away_elo != null;
+    const venueBadges =
+      (hasVenue
+        ? '<span class="bg-greenAccent/10 border border-greenAccent/30 text-greenAccent font-bold px-1.5 py-1 rounded-md text-[11px] whitespace-nowrap" title="Домашній Elo">🏠 ' + fmtElo(t.home_elo) + "</span>" +
+          '<span class="bg-borderDark border border-gray-500/40 text-gray-300 font-bold px-1.5 py-1 rounded-md text-[11px] whitespace-nowrap" title="Виїзний Elo">✈️ ' + fmtElo(t.away_elo) + "</span>"
+        : "");
+    html += '<div class="flex items-center justify-between gap-2 flex-wrap">' +
         '<b class="text-lg text-white">' + esc(t.name) + "</b>" +
-        '<span class="bg-goldAccent/10 border border-goldAccent/40 text-goldAccent font-extrabold px-2.5 py-1 rounded-lg text-sm">Elo ' + t.elo + "</span>" +
+        '<span class="flex items-center gap-1.5 flex-wrap justify-end">' +
+          '<span class="bg-goldAccent/10 border border-goldAccent/40 text-goldAccent font-extrabold px-2.5 py-1 rounded-lg text-sm" title="Загальний Elo">Elo ' + t.elo + "</span>" +
+          venueBadges +
+        "</span>" +
       "</div>";
     const meta = [];
     if (t.rank) meta.push("№" + t.rank);

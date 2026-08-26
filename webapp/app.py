@@ -917,14 +917,29 @@ def _team_averages(conn, team_id, limit=10):
 
 def _team_side(conn, team_id):
     """Загальний блок даних команди для порівняння та профілю."""
-    t = conn.execute(
-        "SELECT id, name, elo_rating, current_form, rank, points "
-        "FROM teams WHERE id = ?", (team_id,)).fetchone()
+    try:
+        t = conn.execute(
+            "SELECT id, name, elo_rating, current_form, rank, points, "
+            "home_elo, away_elo FROM teams WHERE id = ?",
+            (team_id,)).fetchone()
+    except sqlite3.OperationalError:
+        # БД ще не мігрувала під роздільний Elo — деградуємо до загального,
+        # тоді венюні бейджі просто не показуються у фронтенді.
+        t = conn.execute(
+            "SELECT id, name, elo_rating, current_form, rank, points, "
+            "NULL, NULL FROM teams WHERE id = ?", (team_id,)).fetchone()
     if t is None:
         return None
     return {
         "id": t[0], "name": t[1],
         "elo": round(float(t[2] or 1500), 1),
+        # Роздільний Elo (Зміна A): домашній канал господарів та виїзний
+        # канал гостей для деталізації у профілі команди. Якщо колонки
+        # порожні — підставляємо загальний рейтинг (поведінка як раніше).
+        "home_elo": round(float(t[6] if t[6] is not None else (t[2] or 1500)), 1)
+                    if t[6] is not None else None,
+        "away_elo": round(float(t[7] if t[7] is not None else (t[2] or 1500)), 1)
+                    if t[7] is not None else None,
         "current_form": t[3] or "",
         "rank": t[4] or 0, "points": t[5] or 0,
         "form_letters": _form_letters(conn, team_id, 5),
