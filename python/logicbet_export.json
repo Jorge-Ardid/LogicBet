@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-26T19:49:48.796386",
+  "last_updated": "2026-08-27T07:43:03.854545",
   "config": {
     "api_requests_left": "100",
     "api_key_network_as_code": "3725c32b04mshb942c2df0e3ab79p18f60djsn14472b9a742",
@@ -13,17 +13,17 @@
     "max_predictions_per_day": "10.0",
     "bankroll": "1000.0",
     "api_key_football_data_org": "72cd4a1c41ff402eba0da37f4bbc5ff6",
-    "api_key_api_football": "72afa426ab5fb0a7c964261b8b25f977",
-    "last_sync_time": "1787773787.8109348",
+    "api_key_api_football": "3725c32b04mshb942c2df0e3ab79p18f60djsn14472b9a7422",
+    "last_sync_time": "1787816582.781028",
     "sync_error": "",
     "football_data_requests_left": "9",
     "api_football_requests_left": "100",
     "github_token": ""
   },
   "ai_stats": {
-    "total": 2167,
-    "hits": 1261,
-    "acc": 58.19104753114905
+    "total": 2199,
+    "hits": 1275,
+    "acc": 57.98090040927695
   },
   "matches": [
     {
@@ -3611,7 +3611,7 @@
       "finished_at": null,
       "home_name": "Alaves",
       "away_name": "Villarreal",
-      "ai_prediction": null,
+      "ai_prediction": "12 (Подвійний шанс) / X2 (Подвійний шанс) / П2 (Гості) / 1X (Подвійний шанс) / П1 (Господарі) / X (Нічия) / ТБ 2.5 / Alaves ТБ 1.5 / Villarreal ТБ 1.5 / ОЗ - Так / ТМ 1.5 (1st half) / Corners ТМ 9.5 / Cards ТБ 3.5",
       "ai_hit": null
     },
     {
@@ -3650,7 +3650,7 @@
       "finished_at": null,
       "home_name": "Crystal Palace",
       "away_name": "Man City",
-      "ai_prediction": null,
+      "ai_prediction": "12 (Подвійний шанс) / X2 (Подвійний шанс) / П2 (Гості) / 1X (Подвійний шанс) / П1 (Господарі) / X (Нічия) / ТБ 2.5 / Crystal Palace ТБ 1.5 / Man City ТБ 1.5 / ОЗ - Так / ТМ 1.5 (1st half) / Cards ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -3689,7 +3689,7 @@
       "finished_at": null,
       "home_name": "AC Milan",
       "away_name": "Venezia",
-      "ai_prediction": null,
+      "ai_prediction": "12 (Подвійний шанс) / 1X (Подвійний шанс) / П1 (Господарі) / X2 (Подвійний шанс) / П2 (Гості) / X (Нічия) / ТБ 2.5 / AC Milan ТБ 1.5 / Venezia ТБ 1.5 / ОЗ - Так / ТМ 1.5 (1st half) / Cards ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -3728,7 +3728,7 @@
       "finished_at": null,
       "home_name": "Lille OSC",
       "away_name": "PSG",
-      "ai_prediction": null,
+      "ai_prediction": "12 (Подвійний шанс) / 1X (Подвійний шанс) / П1 (Господарі) / X2 (Подвійний шанс) / П2 (Гості) / X (Нічия) / ТБ 2.5 / Lille OSC ТБ 1.5 / PSG ТБ 1.5 / ОЗ - Так / ТБ 0.5 (1st half) / Cards ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -3767,7 +3767,7 @@
       "finished_at": null,
       "home_name": "Bayern Munich",
       "away_name": "Stuttgart",
-      "ai_prediction": null,
+      "ai_prediction": "12 (Подвійний шанс) / 1X (Подвійний шанс) / П1 (Господарі) / X2 (Подвійний шанс) / П2 (Гості) / X (Нічия) / ТБ 2.5 / Bayern Munich ТБ 1.5 / Stuttgart ТБ 1.5 / ОЗ - Так / ТБ 0.5 (1st half) / Cards ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -3806,7 +3806,7 @@
       "finished_at": null,
       "home_name": "Real Racing Club de Santander",
       "away_name": "Elche",
-      "ai_prediction": null,
+      "ai_prediction": "12 (Подвійний шанс) / 1X (Подвійний шанс) / П1 (Господарі) / X2 (Подвійний шанс) / П2 (Гості) / X (Нічия) / ТБ 2.5 / Real Racing Club de Santander ТБ 1.5 / Elche ТБ 1.5 / ОЗ - Так / ТМ 1.5 (1st half) / Cards ТМ 4.5",
       "ai_hit": null
     },
     {
@@ -3895,13 +3895,13 @@
       "league_id": 140,
       "home_team_id": 23,
       "away_team_id": 24,
-      "home_score": 0,
-      "away_score": 0,
-      "ht_score_h": null,
-      "ht_score_a": null,
+      "home_score": 4,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 1,
       "form_home": "",
       "form_away": "",
-      "status": "LIVE",
+      "status": "FT",
       "corners_h": 0,
       "corners_a": 0,
       "yellow_cards_h": 0,
@@ -3916,15 +3916,15 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
-      "elo_processed": 0,
-      "h_elo_change": 0.0,
-      "a_elo_change": 0.0,
-      "finished_at": null,
+      "stats_fetched": 1,
+      "elo_processed": 1,
+      "h_elo_change": 7.59254320121795,
+      "a_elo_change": -7.59254320121795,
+      "finished_at": "2026-08-27 07:43:02",
       "home_name": "Real Madrid",
       "away_name": "Real Sociedad",
       "ai_prediction": "1X (Подвійний шанс) / 12 (Подвійний шанс) / П1 (Господарі) / X2 (Подвійний шанс) / X (Нічия) / П2 (Гості) / ТБ 2.5 / Real Madrid ТБ 1.5 / Real Sociedad ТБ 1.5 / ОЗ - Так / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": null
+      "ai_hit": "1|1|1|0|0|0|1|1|0|1|0|1"
     },
     {
       "id": 1222,
@@ -4703,8 +4703,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Espanyol",
       "away_name": "Real Madrid",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Espanyol ТБ 1.5 / Real Madrid ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0|1"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Espanyol ТБ 1.5 / Real Madrid ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0|1"
     },
     {
       "id": 1197,
@@ -4742,8 +4742,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Genoa",
       "away_name": "Napoli",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Genoa ТБ 1.5 / Napoli ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Genoa ТБ 1.5 / Napoli ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1198,
@@ -4781,8 +4781,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "ES Troyes",
       "away_name": "Paris FC",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ES Troyes ТБ 1.5 / Paris FC ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / ES Troyes ТБ 1.5 / Paris FC ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0"
     },
     {
       "id": 1199,
@@ -4820,8 +4820,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Toulouse",
       "away_name": "Lyon",
-      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Toulouse ТБ 1.5 / Lyon ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Toulouse ТБ 1.5 / Lyon ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1200,
@@ -4859,8 +4859,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Nice",
       "away_name": "Lorient",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Nice ТБ 1.5 / Lorient ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Nice ТБ 1.5 / Lorient ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1"
     },
     {
       "id": 1201,
@@ -4898,8 +4898,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Parma",
       "away_name": "Cagliari",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Parma ТБ 1.5 / Cagliari ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Parma ТБ 1.5 / Cagliari ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1202,
@@ -4937,8 +4937,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Le Mans",
       "away_name": "Brest",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Le Mans ТБ 1.5 / Brest ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Le Mans ТБ 1.5 / Brest ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 1196,
@@ -4976,8 +4976,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Valencia",
       "away_name": "Celta",
-      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Valencia ТБ 1.5 / Celta ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П2 (Гості) / ТБ 2.5 / Valencia ТБ 1.5 / Celta ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1193,
@@ -5015,8 +5015,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Udinese",
       "away_name": "Como",
-      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Udinese ТБ 1.5 / Como ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Udinese ТБ 1.5 / Como ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
     },
     {
       "id": 1194,
@@ -5054,8 +5054,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Inter",
       "away_name": "Monza",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Inter ТБ 1.5 / Monza ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Inter ТБ 1.5 / Monza ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 1195,
@@ -5093,8 +5093,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Brentford",
       "away_name": "Tottenham",
-      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Brentford ТБ 1.5 / Tottenham ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "0|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "X2 (Подвійний шанс) / ТБ 2.5 / Brentford ТБ 1.5 / Tottenham ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "0|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1192,
@@ -5132,8 +5132,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Racing Club de Lens",
       "away_name": "Auxerre",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Racing Club de Lens ТБ 1.5 / Auxerre ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Racing Club de Lens ТБ 1.5 / Auxerre ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
     },
     {
       "id": 1191,
@@ -5171,8 +5171,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Athletic Club",
       "away_name": "Sevilla",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Athletic Club ТБ 1.5 / Sevilla ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "0|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Athletic Club ТБ 1.5 / Sevilla ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "0|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"
     },
     {
       "id": 1188,
@@ -5210,8 +5210,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Ipswich Town",
       "away_name": "Sunderland",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Ipswich Town ТБ 1.5 / Sunderland ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Ipswich Town ТБ 1.5 / Sunderland ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|1|1|0|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|0"
     },
     {
       "id": 1189,
@@ -5249,8 +5249,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Everton",
       "away_name": "Crystal Palace",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Everton ТБ 1.5 / Crystal Palace ТБ 1.5 / ОЗ - Так / ТМ 0.5 (1st half) / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Everton ТБ 1.5 / Crystal Palace ТБ 1.5 / ОЗ - Так / ТМ 0.5 (1st half) / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1190,
@@ -5288,8 +5288,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Forest",
       "away_name": "Leeds",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Forest ТБ 1.5 / Leeds ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Forest ТБ 1.5 / Leeds ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 1.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1187,
@@ -5327,8 +5327,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Hull City",
       "away_name": "Man United",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Hull City ТБ 1.5 / Man United ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Hull City ТБ 1.5 / Man United ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0"
     },
     {
       "id": 1185,
@@ -5366,8 +5366,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Arsenal",
       "away_name": "Coventry City",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Arsenal ТБ 1.5 / Coventry City ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
-      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Arsenal ТБ 1.5 / Coventry City ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТБ 0.5 (1st half) / Corners ТБ 9.5",
+      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0"
     },
     {
       "id": 1186,
@@ -5405,8 +5405,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Betis",
       "away_name": "Real Sociedad",
-      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Betis ТБ 1.5 / Real Sociedad ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
-      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
+      "ai_prediction": "П1 (Господарі) / ТБ 2.5 / Betis ТБ 1.5 / Real Sociedad ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / Cards ТМ 4.5",
+      "ai_hit": "1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1"
     },
     {
       "id": 1184,
@@ -5444,8 +5444,8 @@
       "finished_at": "2026-08-23 01:15:39",
       "home_name": "Marseille",
       "away_name": "Strasbourg",
-      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Marseille ТБ 1.5 / Strasbourg ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 0.5 (1st half) / Cards ТМ 4.5",
-      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1"
+      "ai_prediction": "1X (Подвійний шанс) / ТБ 2.5 / Marseille ТБ 1.5 / Strasbourg ТБ 1.5 / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ - Так / ОЗ (Обидві заб'ють) / ТМ 0.5 (1st half) / Cards ТМ 4.5",
+      "ai_hit": "1|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1"
     },
     {
       "id": 1183,
@@ -14329,7 +14329,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 10.261561126732659,
       "a_elo_change": -10.261561126732659,
@@ -14368,7 +14368,7 @@
       "xg_a": 0.0,
       "possession_h": 50,
       "possession_a": 50,
-      "stats_fetched": 0,
+      "stats_fetched": 1,
       "elo_processed": 1,
       "h_elo_change": 9.350376479945453,
       "a_elo_change": -9.350376479945453,
@@ -47376,6 +47376,1028 @@
   "user_bets": [],
   "predictions_history": [
     {
+      "id": 12036,
+      "match_id": 1229,
+      "algorithm": "STATISTICS|H_ELO:1508|A_ELO:1512|H_AVG:20.6|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
+      "market": "1X2/DC",
+      "selection": "П1 (Господарі)",
+      "calculated_prob": 0.2791,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12037,
+      "match_id": 1229,
+      "algorithm": "STATISTICS|H_ELO:1508|A_ELO:1512|H_AVG:20.6|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
+      "market": "1X2/DC",
+      "selection": "X (Нічия)",
+      "calculated_prob": 0.1476,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12038,
+      "match_id": 1229,
+      "algorithm": "STATISTICS|H_ELO:1508|A_ELO:1512|H_AVG:20.6|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
+      "market": "1X2/DC",
+      "selection": "П2 (Гості)",
+      "calculated_prob": 0.5733,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12039,
+      "match_id": 1229,
+      "algorithm": "STATISTICS|H_ELO:1508|A_ELO:1512|H_AVG:20.6|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
+      "market": "1X2/DC",
+      "selection": "1X (Подвійний шанс)",
+      "calculated_prob": 0.4267,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12040,
+      "match_id": 1229,
+      "algorithm": "STATISTICS|H_ELO:1508|A_ELO:1512|H_AVG:20.6|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
+      "market": "1X2/DC",
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.7209,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12041,
+      "match_id": 1229,
+      "algorithm": "STATISTICS|H_ELO:1508|A_ELO:1512|H_AVG:20.6|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
+      "market": "1X2/DC",
+      "selection": "12 (Подвійний шанс)",
+      "calculated_prob": 0.8524,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12042,
+      "match_id": 1229,
+      "algorithm": "GOALS (AI)",
+      "market": "Total Goals",
+      "selection": "ТБ 2.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12043,
+      "match_id": 1229,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Alaves ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12044,
+      "match_id": 1229,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Villarreal ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12045,
+      "match_id": 1229,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ - Так",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12046,
+      "match_id": 1229,
+      "algorithm": "GOALS (1ST HALF)",
+      "market": "1st Half Goals",
+      "selection": "ТМ 1.5 (1st half)",
+      "calculated_prob": 0.7374903478970956,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12047,
+      "match_id": 1229,
+      "algorithm": "CORNERS (AI+)",
+      "market": "Corners",
+      "selection": "Corners ТМ 9.5",
+      "calculated_prob": 0.7295638563967018,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12048,
+      "match_id": 1229,
+      "algorithm": "CARDS (AI)",
+      "market": "Cards",
+      "selection": "Cards ТБ 3.5",
+      "calculated_prob": 0.705770083503436,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:30:00Z"
+    },
+    {
+      "id": 12024,
+      "match_id": 1228,
+      "algorithm": "STATISTICS|H_ELO:1486|A_ELO:1544|H_AVG:35.0|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:1",
+      "market": "1X2/DC",
+      "selection": "П1 (Господарі)",
+      "calculated_prob": 0.2603,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12025,
+      "match_id": 1228,
+      "algorithm": "STATISTICS|H_ELO:1486|A_ELO:1544|H_AVG:35.0|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:1",
+      "market": "1X2/DC",
+      "selection": "X (Нічия)",
+      "calculated_prob": 0.1462,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12026,
+      "match_id": 1228,
+      "algorithm": "STATISTICS|H_ELO:1486|A_ELO:1544|H_AVG:35.0|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:1",
+      "market": "1X2/DC",
+      "selection": "П2 (Гості)",
+      "calculated_prob": 0.5935,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12027,
+      "match_id": 1228,
+      "algorithm": "STATISTICS|H_ELO:1486|A_ELO:1544|H_AVG:35.0|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:1",
+      "market": "1X2/DC",
+      "selection": "1X (Подвійний шанс)",
+      "calculated_prob": 0.4065,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12028,
+      "match_id": 1228,
+      "algorithm": "STATISTICS|H_ELO:1486|A_ELO:1544|H_AVG:35.0|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:1",
+      "market": "1X2/DC",
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.7397,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12029,
+      "match_id": 1228,
+      "algorithm": "STATISTICS|H_ELO:1486|A_ELO:1544|H_AVG:35.0|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:1",
+      "market": "1X2/DC",
+      "selection": "12 (Подвійний шанс)",
+      "calculated_prob": 0.8538,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12030,
+      "match_id": 1228,
+      "algorithm": "GOALS (AI)",
+      "market": "Total Goals",
+      "selection": "ТБ 2.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12031,
+      "match_id": 1228,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Crystal Palace ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12032,
+      "match_id": 1228,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Man City ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12033,
+      "match_id": 1228,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ - Так",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12034,
+      "match_id": 1228,
+      "algorithm": "GOALS (1ST HALF)",
+      "market": "1st Half Goals",
+      "selection": "ТМ 1.5 (1st half)",
+      "calculated_prob": 0.9899890896474182,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12035,
+      "match_id": 1228,
+      "algorithm": "CARDS (AI)",
+      "market": "Cards",
+      "selection": "Cards ТМ 4.5",
+      "calculated_prob": 0.7064384496412808,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T19:00:00Z"
+    },
+    {
+      "id": 12000,
+      "match_id": 1226,
+      "algorithm": "VALUE|H_ELO:1545|A_ELO:1500|H_AVG:35.5|A_AVG:35.0|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "П1 (Господарі)",
+      "calculated_prob": 0.628,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12001,
+      "match_id": 1226,
+      "algorithm": "VALUE|H_ELO:1545|A_ELO:1500|H_AVG:35.5|A_AVG:35.0|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "X (Нічия)",
+      "calculated_prob": 0.15,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12002,
+      "match_id": 1226,
+      "algorithm": "VALUE|H_ELO:1545|A_ELO:1500|H_AVG:35.5|A_AVG:35.0|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "П2 (Гості)",
+      "calculated_prob": 0.222,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12003,
+      "match_id": 1226,
+      "algorithm": "VALUE|H_ELO:1545|A_ELO:1500|H_AVG:35.5|A_AVG:35.0|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "1X (Подвійний шанс)",
+      "calculated_prob": 0.778,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12004,
+      "match_id": 1226,
+      "algorithm": "VALUE|H_ELO:1545|A_ELO:1500|H_AVG:35.5|A_AVG:35.0|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.372,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12005,
+      "match_id": 1226,
+      "algorithm": "VALUE|H_ELO:1545|A_ELO:1500|H_AVG:35.5|A_AVG:35.0|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "12 (Подвійний шанс)",
+      "calculated_prob": 0.85,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12006,
+      "match_id": 1226,
+      "algorithm": "GOALS (AI)",
+      "market": "Total Goals",
+      "selection": "ТБ 2.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12007,
+      "match_id": 1226,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "AC Milan ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12008,
+      "match_id": 1226,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Venezia ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12009,
+      "match_id": 1226,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ - Так",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12010,
+      "match_id": 1226,
+      "algorithm": "GOALS (1ST HALF)",
+      "market": "1st Half Goals",
+      "selection": "ТМ 1.5 (1st half)",
+      "calculated_prob": 0.9989920089561081,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12011,
+      "match_id": 1226,
+      "algorithm": "CARDS (AI)",
+      "market": "Cards",
+      "selection": "Cards ТМ 4.5",
+      "calculated_prob": 0.7064384496412808,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12012,
+      "match_id": 1227,
+      "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1509|H_AVG:35.5|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "П1 (Господарі)",
+      "calculated_prob": 0.5446,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12013,
+      "match_id": 1227,
+      "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1509|H_AVG:35.5|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "X (Нічия)",
+      "calculated_prob": 0.15,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12014,
+      "match_id": 1227,
+      "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1509|H_AVG:35.5|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "П2 (Гості)",
+      "calculated_prob": 0.3054,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12015,
+      "match_id": 1227,
+      "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1509|H_AVG:35.5|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "1X (Подвійний шанс)",
+      "calculated_prob": 0.6946,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12016,
+      "match_id": 1227,
+      "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1509|H_AVG:35.5|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.4554,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12017,
+      "match_id": 1227,
+      "algorithm": "STATISTICS|H_ELO:1500|A_ELO:1509|H_AVG:35.5|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+      "market": "1X2/DC",
+      "selection": "12 (Подвійний шанс)",
+      "calculated_prob": 0.85,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12018,
+      "match_id": 1227,
+      "algorithm": "GOALS (AI)",
+      "market": "Total Goals",
+      "selection": "ТБ 2.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12019,
+      "match_id": 1227,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Lille OSC ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12020,
+      "match_id": 1227,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "PSG ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12021,
+      "match_id": 1227,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ - Так",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12022,
+      "match_id": 1227,
+      "algorithm": "GOALS (1ST HALF)",
+      "market": "1st Half Goals",
+      "selection": "ТБ 0.5 (1st half)",
+      "calculated_prob": 0.9758710341295486,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 12023,
+      "match_id": 1227,
+      "algorithm": "CARDS (AI)",
+      "market": "Cards",
+      "selection": "Cards ТМ 4.5",
+      "calculated_prob": 0.7064384496412808,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:45:00Z"
+    },
+    {
+      "id": 11988,
+      "match_id": 1225,
+      "algorithm": "STATISTICS|H_ELO:1509|A_ELO:1490|H_AVG:35.7|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:1",
+      "market": "1X2/DC",
+      "selection": "П1 (Господарі)",
+      "calculated_prob": 0.5339,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11989,
+      "match_id": 1225,
+      "algorithm": "STATISTICS|H_ELO:1509|A_ELO:1490|H_AVG:35.7|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:1",
+      "market": "1X2/DC",
+      "selection": "X (Нічия)",
+      "calculated_prob": 0.148,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11990,
+      "match_id": 1225,
+      "algorithm": "STATISTICS|H_ELO:1509|A_ELO:1490|H_AVG:35.7|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:1",
+      "market": "1X2/DC",
+      "selection": "П2 (Гості)",
+      "calculated_prob": 0.3181,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11991,
+      "match_id": 1225,
+      "algorithm": "STATISTICS|H_ELO:1509|A_ELO:1490|H_AVG:35.7|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:1",
+      "market": "1X2/DC",
+      "selection": "1X (Подвійний шанс)",
+      "calculated_prob": 0.6819,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11992,
+      "match_id": 1225,
+      "algorithm": "STATISTICS|H_ELO:1509|A_ELO:1490|H_AVG:35.7|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:1",
+      "market": "1X2/DC",
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.4661,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11993,
+      "match_id": 1225,
+      "algorithm": "STATISTICS|H_ELO:1509|A_ELO:1490|H_AVG:35.7|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:1",
+      "market": "1X2/DC",
+      "selection": "12 (Подвійний шанс)",
+      "calculated_prob": 0.852,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11994,
+      "match_id": 1225,
+      "algorithm": "GOALS (AI)",
+      "market": "Total Goals",
+      "selection": "ТБ 2.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11995,
+      "match_id": 1225,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Bayern Munich ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11996,
+      "match_id": 1225,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Stuttgart ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11997,
+      "match_id": 1225,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ - Так",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11998,
+      "match_id": 1225,
+      "algorithm": "GOALS (1ST HALF)",
+      "market": "1st Half Goals",
+      "selection": "ТБ 0.5 (1st half)",
+      "calculated_prob": 0.8068989867260703,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11999,
+      "match_id": 1225,
+      "algorithm": "CARDS (AI)",
+      "market": "Cards",
+      "selection": "Cards ТМ 4.5",
+      "calculated_prob": 0.7064384496412808,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T18:30:00Z"
+    },
+    {
+      "id": 11976,
+      "match_id": 1224,
+      "algorithm": "VALUE|H_ELO:1500|A_ELO:1416|H_AVG:35.3|A_AVG:35.2|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+      "market": "1X2/DC",
+      "selection": "П1 (Господарі)",
+      "calculated_prob": 0.6694,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11977,
+      "match_id": 1224,
+      "algorithm": "VALUE|H_ELO:1500|A_ELO:1416|H_AVG:35.3|A_AVG:35.2|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+      "market": "1X2/DC",
+      "selection": "X (Нічия)",
+      "calculated_prob": 0.15,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11978,
+      "match_id": 1224,
+      "algorithm": "VALUE|H_ELO:1500|A_ELO:1416|H_AVG:35.3|A_AVG:35.2|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+      "market": "1X2/DC",
+      "selection": "П2 (Гості)",
+      "calculated_prob": 0.1806,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11979,
+      "match_id": 1224,
+      "algorithm": "VALUE|H_ELO:1500|A_ELO:1416|H_AVG:35.3|A_AVG:35.2|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+      "market": "1X2/DC",
+      "selection": "1X (Подвійний шанс)",
+      "calculated_prob": 0.8194,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11980,
+      "match_id": 1224,
+      "algorithm": "VALUE|H_ELO:1500|A_ELO:1416|H_AVG:35.3|A_AVG:35.2|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+      "market": "1X2/DC",
+      "selection": "X2 (Подвійний шанс)",
+      "calculated_prob": 0.3306,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11981,
+      "match_id": 1224,
+      "algorithm": "VALUE|H_ELO:1500|A_ELO:1416|H_AVG:35.3|A_AVG:35.2|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+      "market": "1X2/DC",
+      "selection": "12 (Подвійний шанс)",
+      "calculated_prob": 0.85,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11982,
+      "match_id": 1224,
+      "algorithm": "GOALS (AI)",
+      "market": "Total Goals",
+      "selection": "ТБ 2.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11983,
+      "match_id": 1224,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Real Racing Club de Santander ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11984,
+      "match_id": 1224,
+      "algorithm": "INDIVIDUAL TOTAL (AI)",
+      "market": "Individual Total",
+      "selection": "Elche ТБ 1.5",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11985,
+      "match_id": 1224,
+      "algorithm": "BTTS (AI)",
+      "market": "BTTS",
+      "selection": "ОЗ - Так",
+      "calculated_prob": 1.0,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "HIGH",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11986,
+      "match_id": 1224,
+      "algorithm": "GOALS (1ST HALF)",
+      "market": "1st Half Goals",
+      "selection": "ТМ 1.5 (1st half)",
+      "calculated_prob": 0.7476668900833644,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
+      "id": 11987,
+      "match_id": 1224,
+      "algorithm": "CARDS (AI)",
+      "market": "Cards",
+      "selection": "Cards ТМ 4.5",
+      "calculated_prob": 0.7064384496412808,
+      "bookmaker_odd": 0.0,
+      "value_percentage": 0.0,
+      "confidence_level": "MEDIUM",
+      "is_hit": null,
+      "created_at": "2026-08-27 07:43:02",
+      "date": "2026-08-28T17:00:00Z"
+    },
+    {
       "id": 11844,
       "match_id": 1273,
       "algorithm": "VALUE|H_ELO:1711|A_ELO:1468|H_AVG:35.8|A_AVG:35.5|H_TR:Хулігани (Bully) 🦁|A_TR:Cold ❄️|H2H:2",
@@ -47721,7 +48743,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47735,7 +48757,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47749,7 +48771,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47763,7 +48785,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47777,7 +48799,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47791,7 +48813,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47805,7 +48827,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47819,7 +48841,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47833,7 +48855,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47847,7 +48869,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "HIGH",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47861,7 +48883,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 0,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -47875,7 +48897,7 @@
       "bookmaker_odd": 0.0,
       "value_percentage": 0.0,
       "confidence_level": "MEDIUM",
-      "is_hit": null,
+      "is_hit": 1,
       "created_at": "2026-08-25 01:11:38",
       "date": "2026-08-26T19:00:00Z"
     },
@@ -48494,1273 +49516,13 @@
       "is_hit": 1,
       "created_at": "2026-08-23 01:15:39",
       "date": "2026-08-24T16:30:00Z"
-    },
-    {
-      "id": 11489,
-      "match_id": 1216,
-      "algorithm": "RISK|H_ELO:1481|A_ELO:1707|H_AVG:35.5|A_AVG:35.7|H_TR:Норма|A_TR:Хулігани (Bully) 🦁|H2H:2",
-      "market": "1X2/DC",
-      "selection": "П2 (Гості)",
-      "calculated_prob": 0.6775544395444181,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11490,
-      "match_id": 1216,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11491,
-      "match_id": 1216,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Elche ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11492,
-      "match_id": 1216,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Barcelona ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11493,
-      "match_id": 1216,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11494,
-      "match_id": 1216,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.7693068177450372,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11495,
-      "match_id": 1216,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T19:30:00Z"
-    },
-    {
-      "id": 11468,
-      "match_id": 1213,
-      "algorithm": "ANALYSIS|H_ELO:1537|A_ELO:1503|H_AVG:35.4|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Вбивця Гігантів 🗡️|H2H:2",
-      "market": "1X2/DC",
-      "selection": "X2 (Подвійний шанс)",
-      "calculated_prob": 0.6298775649717969,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11469,
-      "match_id": 1213,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11470,
-      "match_id": 1213,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Atalanta ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11471,
-      "match_id": 1213,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Sassuolo ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11472,
-      "match_id": 1213,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11473,
-      "match_id": 1213,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.8262260565495548,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11474,
-      "match_id": 1213,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11475,
-      "match_id": 1214,
-      "algorithm": "ANALYSIS|H_ELO:1477|A_ELO:1571|H_AVG:35.4|A_AVG:35.1|H_TR:Норма|A_TR:Cold ❄️|H2H:2",
-      "market": "1X2/DC",
-      "selection": "X2 (Подвійний шанс)",
-      "calculated_prob": 0.6198882584536285,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11476,
-      "match_id": 1214,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11477,
-      "match_id": 1214,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Torino ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11478,
-      "match_id": 1214,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "AC Milan ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11479,
-      "match_id": 1214,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11480,
-      "match_id": 1214,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТМ 0.5 (1st half)",
-      "calculated_prob": 0.7165313105737893,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11481,
-      "match_id": 1214,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11482,
-      "match_id": 1215,
-      "algorithm": "STATISTICS|H_ELO:1520|A_ELO:1509|H_AVG:35.8|A_AVG:35.7|H_TR:Норма|A_TR:Норма|H2H:0",
-      "market": "1X2/DC",
-      "selection": "П1 (Господарі)",
-      "calculated_prob": 0.49638013547354376,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11483,
-      "match_id": 1215,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11484,
-      "match_id": 1215,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "PSG ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11485,
-      "match_id": 1215,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Rennes ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11486,
-      "match_id": 1215,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11487,
-      "match_id": 1215,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 1.5 (1st half)",
-      "calculated_prob": 0.7689217620241717,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11488,
-      "match_id": 1215,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T18:45:00Z"
-    },
-    {
-      "id": 11462,
-      "match_id": 1212,
-      "algorithm": "STATISTICS|H_ELO:1453|A_ELO:1502|H_AVG:35.1|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Норма|H2H:0",
-      "market": "1X2/DC",
-      "selection": "П2 (Гості)",
-      "calculated_prob": 0.5007078990477121,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T17:30:00Z"
-    },
-    {
-      "id": 11463,
-      "match_id": 1212,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T17:30:00Z"
-    },
-    {
-      "id": 11464,
-      "match_id": 1212,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Getafe ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T17:30:00Z"
-    },
-    {
-      "id": 11465,
-      "match_id": 1212,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Real Racing Club de Santander ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T17:30:00Z"
-    },
-    {
-      "id": 11466,
-      "match_id": 1212,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T17:30:00Z"
-    },
-    {
-      "id": 11467,
-      "match_id": 1212,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T17:30:00Z"
-    },
-    {
-      "id": 11448,
-      "match_id": 1210,
-      "algorithm": "ANALYSIS|H_ELO:1500|A_ELO:1589|H_AVG:50.0|A_AVG:35.3|H_TR:Новачок 🆕|A_TR:Hot 🔥|H2H:0",
-      "market": "1X2/DC",
-      "selection": "X2 (Подвійний шанс)",
-      "calculated_prob": 0.5779993330057842,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11449,
-      "match_id": 1210,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11450,
-      "match_id": 1210,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Frosinone Calcio ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11451,
-      "match_id": 1210,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Juventus ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11452,
-      "match_id": 1210,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11453,
-      "match_id": 1210,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.9999999998973812,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11454,
-      "match_id": 1210,
-      "algorithm": "CORNERS (AI+)",
-      "market": "Corners",
-      "selection": "Corners ТБ 9.5",
-      "calculated_prob": 0.7160889535714536,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11455,
-      "match_id": 1211,
-      "algorithm": "VALUE|H_ELO:1500|A_ELO:1425|H_AVG:50.0|A_AVG:35.2|H_TR:Новачок 🆕|A_TR:Cold ❄️|H2H:0",
-      "market": "1X2/DC",
-      "selection": "П1 (Господарі)",
-      "calculated_prob": 0.8075,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11456,
-      "match_id": 1211,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11457,
-      "match_id": 1211,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Venezia ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11458,
-      "match_id": 1211,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Lecce ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11459,
-      "match_id": 1211,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11460,
-      "match_id": 1211,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.9999999998308102,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11461,
-      "match_id": 1211,
-      "algorithm": "CORNERS (AI+)",
-      "market": "Corners",
-      "selection": "Corners ТБ 9.5",
-      "calculated_prob": 0.7419847748160369,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T16:30:00Z"
-    },
-    {
-      "id": 11441,
-      "match_id": 1209,
-      "algorithm": "STATISTICS|H_ELO:1478|A_ELO:1531|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Норма|H2H:2",
-      "market": "1X2/DC",
-      "selection": "П2 (Гості)",
-      "calculated_prob": 0.4886615221396003,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11442,
-      "match_id": 1209,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11443,
-      "match_id": 1209,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Newcastle ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11444,
-      "match_id": 1209,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Liverpool ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11445,
-      "match_id": 1209,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11446,
-      "match_id": 1209,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.8111243971624381,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11447,
-      "match_id": 1209,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:30:00Z"
-    },
-    {
-      "id": 11434,
-      "match_id": 1208,
-      "algorithm": "ANALYSIS|H_ELO:1500|A_ELO:1509|H_AVG:35.6|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
-      "market": "1X2/DC",
-      "selection": "X2 (Подвійний шанс)",
-      "calculated_prob": 0.6112253211427172,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11435,
-      "match_id": 1208,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11436,
-      "match_id": 1208,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Le Havre ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11437,
-      "match_id": 1208,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Monaco ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11438,
-      "match_id": 1208,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11439,
-      "match_id": 1208,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.8646647167633873,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11440,
-      "match_id": 1208,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:15:00Z"
-    },
-    {
-      "id": 11427,
-      "match_id": 1207,
-      "algorithm": "STATISTICS|H_ELO:1556|A_ELO:1593|H_AVG:35.3|A_AVG:35.7|H_TR:Hot 🔥|A_TR:Норма|H2H:1",
-      "market": "1X2/DC",
-      "selection": "П1 (Господарі)",
-      "calculated_prob": 0.5471550219998902,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11428,
-      "match_id": 1207,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11429,
-      "match_id": 1207,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Atletico Madrid ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11430,
-      "match_id": 1207,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Villarreal ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11431,
-      "match_id": 1207,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11432,
-      "match_id": 1207,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.7768698398515702,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11433,
-      "match_id": 1207,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T15:00:00Z"
-    },
-    {
-      "id": 11406,
-      "match_id": 1204,
-      "algorithm": "STATISTICS|H_ELO:1480|A_ELO:1509|H_AVG:35.2|A_AVG:35.2|H_TR:Cold ❄️|A_TR:Норма|H2H:0",
-      "market": "1X2/DC",
-      "selection": "П2 (Гості)",
-      "calculated_prob": 0.5172498980074756,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11407,
-      "match_id": 1204,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11408,
-      "match_id": 1204,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Angers ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11409,
-      "match_id": 1204,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Lille OSC ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11410,
-      "match_id": 1204,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11411,
-      "match_id": 1204,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТМ 1.5 (1st half)",
-      "calculated_prob": 0.7357588823428847,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11412,
-      "match_id": 1204,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11413,
-      "match_id": 1205,
-      "algorithm": "STATISTICS|H_ELO:1614|A_ELO:1552|H_AVG:35.7|A_AVG:35.6|H_TR:Hot 🔥|A_TR:Hot 🔥|H2H:1",
-      "market": "1X2/DC",
-      "selection": "П1 (Господарі)",
-      "calculated_prob": 0.5964702133239264,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11414,
-      "match_id": 1205,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11415,
-      "match_id": 1205,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Man City ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11416,
-      "match_id": 1205,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Bournemouth ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11417,
-      "match_id": 1205,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11418,
-      "match_id": 1205,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.7768698398515702,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11419,
-      "match_id": 1205,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11420,
-      "match_id": 1206,
-      "algorithm": "VALUE|H_ELO:1521|A_ELO:1521|H_AVG:35.7|A_AVG:35.5|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
-      "market": "1X2/DC",
-      "selection": "П1 (Господарі)",
-      "calculated_prob": 0.6151659763702939,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11421,
-      "match_id": 1206,
-      "algorithm": "GOALS (AI)",
-      "market": "Total Goals",
-      "selection": "ТБ 2.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11422,
-      "match_id": 1206,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Brighton ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11423,
-      "match_id": 1206,
-      "algorithm": "INDIVIDUAL TOTAL (AI)",
-      "market": "Individual Total",
-      "selection": "Aston Villa ТБ 1.5",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11424,
-      "match_id": 1206,
-      "algorithm": "BTTS (AI)",
-      "market": "BTTS",
-      "selection": "ОЗ - Так",
-      "calculated_prob": 1.0,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 0,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11425,
-      "match_id": 1206,
-      "algorithm": "GOALS (1ST HALF)",
-      "market": "1st Half Goals",
-      "selection": "ТБ 0.5 (1st half)",
-      "calculated_prob": 0.8111243971624381,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "HIGH",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
-    },
-    {
-      "id": 11426,
-      "match_id": 1206,
-      "algorithm": "CARDS (AI)",
-      "market": "Cards",
-      "selection": "Cards ТМ 4.5",
-      "calculated_prob": 0.7064384496412808,
-      "bookmaker_odd": 0.0,
-      "value_percentage": 0.0,
-      "confidence_level": "MEDIUM",
-      "is_hit": 1,
-      "created_at": "2026-08-23 01:15:39",
-      "date": "2026-08-23T13:00:00Z"
     }
   ],
   "teams": [
     {
       "id": 1,
       "name": "Man City",
-      "elo_rating": 1622.4224743526127,
+      "elo_rating": 1572.7348,
       "current_form": "WWDWW",
       "rank": 0,
       "points": 0
@@ -49768,7 +49530,7 @@
     {
       "id": 2,
       "name": "Man United",
-      "elo_rating": 1564.7593753092835,
+      "elo_rating": 1540.0736,
       "current_form": "WWWDL",
       "rank": 0,
       "points": 0
@@ -49776,7 +49538,7 @@
     {
       "id": 3,
       "name": "Tottenham",
-      "elo_rating": 1435.383756309773,
+      "elo_rating": 1463.4489,
       "current_form": "LDWWL",
       "rank": 0,
       "points": 0
@@ -49784,7 +49546,7 @@
     {
       "id": 4,
       "name": "Arsenal",
-      "elo_rating": 1630.3436338920703,
+      "elo_rating": 1581.2537,
       "current_form": "WDWWW",
       "rank": 0,
       "points": 0
@@ -49792,7 +49554,7 @@
     {
       "id": 5,
       "name": "Chelsea",
-      "elo_rating": 1490.541255996006,
+      "elo_rating": 1496.5649,
       "current_form": "LLLDW",
       "rank": 0,
       "points": 0
@@ -49800,7 +49562,7 @@
     {
       "id": 6,
       "name": "Liverpool",
-      "elo_rating": 1529.9835572833147,
+      "elo_rating": 1521.9816,
       "current_form": "WWLDD",
       "rank": 0,
       "points": 0
@@ -49808,7 +49570,7 @@
     {
       "id": 7,
       "name": "Newcastle",
-      "elo_rating": 1480.2502367523937,
+      "elo_rating": 1486.4604,
       "current_form": "LLLWD",
       "rank": 0,
       "points": 0
@@ -49816,7 +49578,7 @@
     {
       "id": 8,
       "name": "West Ham",
-      "elo_rating": 1463.284432512095,
+      "elo_rating": 1472.0646,
       "current_form": "LWDWL",
       "rank": 0,
       "points": 0
@@ -49824,7 +49586,7 @@
     {
       "id": 9,
       "name": "Aston Villa",
-      "elo_rating": 1511.0310654261834,
+      "elo_rating": 1514.7632,
       "current_form": "DWLLL",
       "rank": 0,
       "points": 0
@@ -49832,7 +49594,7 @@
     {
       "id": 10,
       "name": "Bournemouth",
-      "elo_rating": 1543.8369687786846,
+      "elo_rating": 1524.304,
       "current_form": "WDWWL",
       "rank": 0,
       "points": 0
@@ -49840,7 +49602,7 @@
     {
       "id": 11,
       "name": "Wolves",
-      "elo_rating": 1380.8766107567935,
+      "elo_rating": 1421.6441,
       "current_form": "LLLDL",
       "rank": 0,
       "points": 0
@@ -49848,7 +49610,7 @@
     {
       "id": 12,
       "name": "Brighton",
-      "elo_rating": 1531.2574556119973,
+      "elo_rating": 1517.4406,
       "current_form": "DWLWW",
       "rank": 0,
       "points": 0
@@ -49856,7 +49618,7 @@
     {
       "id": 13,
       "name": "Crystal Palace",
-      "elo_rating": 1464.9237844954612,
+      "elo_rating": 1483.0457,
       "current_form": "WDLLL",
       "rank": 0,
       "points": 0
@@ -49864,7 +49626,7 @@
     {
       "id": 14,
       "name": "Forest",
-      "elo_rating": 1479.0154066867858,
+      "elo_rating": 1483.9281,
       "current_form": "DWWWL",
       "rank": 0,
       "points": 0
@@ -49872,7 +49634,7 @@
     {
       "id": 15,
       "name": "Fulham",
-      "elo_rating": 1476.2409493370108,
+      "elo_rating": 1487.5611,
       "current_form": "DWLLL",
       "rank": 0,
       "points": 0
@@ -49880,7 +49642,7 @@
     {
       "id": 16,
       "name": "Brentford",
-      "elo_rating": 1515.4898712243905,
+      "elo_rating": 1508.7133,
       "current_form": "DLWLW",
       "rank": 0,
       "points": 0
@@ -49888,7 +49650,7 @@
     {
       "id": 17,
       "name": "Everton",
-      "elo_rating": 1509.512571964883,
+      "elo_rating": 1505.506,
       "current_form": "DLLDW",
       "rank": 0,
       "points": 0
@@ -49896,7 +49658,7 @@
     {
       "id": 18,
       "name": "Burnley",
-      "elo_rating": 1372.450235444906,
+      "elo_rating": 1422.4455,
       "current_form": "LLLLL",
       "rank": 0,
       "points": 0
@@ -49904,7 +49666,7 @@
     {
       "id": 19,
       "name": "Leeds",
-      "elo_rating": 1512.4665212721213,
+      "elo_rating": 1502.1679,
       "current_form": "WWDWW",
       "rank": 0,
       "points": 0
@@ -49912,7 +49674,7 @@
     {
       "id": 20,
       "name": "Sunderland",
-      "elo_rating": 1477.9221587548454,
+      "elo_rating": 1491.6294,
       "current_form": "LLDDL",
       "rank": 0,
       "points": 0
@@ -49920,7 +49682,7 @@
     {
       "id": 21,
       "name": "Atletico Madrid",
-      "elo_rating": 1557.4949372604842,
+      "elo_rating": 1530.216,
       "current_form": "WLLWD",
       "rank": 0,
       "points": 0
@@ -49928,7 +49690,7 @@
     {
       "id": 22,
       "name": "Barcelona",
-      "elo_rating": 1711.4421835849632,
+      "elo_rating": 1609.9223,
       "current_form": "WWWWW",
       "rank": 0,
       "points": 0
@@ -49936,23 +49698,23 @@
     {
       "id": 23,
       "name": "Real Madrid",
-      "elo_rating": 1621.1924152400177,
-      "current_form": "DWDWW",
+      "elo_rating": 1582.219043201218,
+      "current_form": "WDWWW",
       "rank": 0,
       "points": 0
     },
     {
       "id": 24,
       "name": "Real Sociedad",
-      "elo_rating": 1482.271497438354,
-      "current_form": "LDLDL",
+      "elo_rating": 1481.715756798782,
+      "current_form": "DLDLL",
       "rank": 0,
       "points": 0
     },
     {
       "id": 25,
       "name": "Betis",
-      "elo_rating": 1545.0900115405009,
+      "elo_rating": 1533.63,
       "current_form": "DWDWW",
       "rank": 0,
       "points": 0
@@ -49960,7 +49722,7 @@
     {
       "id": 26,
       "name": "Espanyol",
-      "elo_rating": 1430.3011999559808,
+      "elo_rating": 1469.9398,
       "current_form": "DLLWL",
       "rank": 0,
       "points": 0
@@ -49968,7 +49730,7 @@
     {
       "id": 27,
       "name": "Villarreal",
-      "elo_rating": 1592.1698907625394,
+      "elo_rating": 1552.8009,
       "current_form": "DWWDD",
       "rank": 0,
       "points": 0
@@ -49976,7 +49738,7 @@
     {
       "id": 28,
       "name": "Osasuna",
-      "elo_rating": 1457.9469290425525,
+      "elo_rating": 1483.523,
       "current_form": "LWLLD",
       "rank": 0,
       "points": 0
@@ -49984,7 +49746,7 @@
     {
       "id": 29,
       "name": "Rayo Vallecano",
-      "elo_rating": 1470.9311402287758,
+      "elo_rating": 1486.7697,
       "current_form": "WDWLD",
       "rank": 0,
       "points": 0
@@ -49992,7 +49754,7 @@
     {
       "id": 30,
       "name": "Getafe",
-      "elo_rating": 1464.7697836369834,
+      "elo_rating": 1490.3434,
       "current_form": "WLLLW",
       "rank": 0,
       "points": 0
@@ -50000,7 +49762,7 @@
     {
       "id": 31,
       "name": "Celta",
-      "elo_rating": 1499.8275432406351,
+      "elo_rating": 1506.4852,
       "current_form": "LLWWD",
       "rank": 0,
       "points": 0
@@ -50008,7 +49770,7 @@
     {
       "id": 32,
       "name": "Girona",
-      "elo_rating": 1473.1759573236588,
+      "elo_rating": 1480.9943,
       "current_form": "WDLLL",
       "rank": 0,
       "points": 0
@@ -50016,7 +49778,7 @@
     {
       "id": 33,
       "name": "Athletic Club",
-      "elo_rating": 1468.9343057475642,
+      "elo_rating": 1481.6743,
       "current_form": "LWLWL",
       "rank": 0,
       "points": 0
@@ -50024,7 +49786,7 @@
     {
       "id": 34,
       "name": "Alaves",
-      "elo_rating": 1453.7530123786344,
+      "elo_rating": 1478.4953,
       "current_form": "WLDWD",
       "rank": 0,
       "points": 0
@@ -50040,7 +49802,7 @@
     {
       "id": 36,
       "name": "Mallorca",
-      "elo_rating": 1454.2334147686477,
+      "elo_rating": 1479.2572,
       "current_form": "WWDLW",
       "rank": 0,
       "points": 0
@@ -50048,7 +49810,7 @@
     {
       "id": 37,
       "name": "Sevilla",
-      "elo_rating": 1496.3225984872743,
+      "elo_rating": 1486.0624,
       "current_form": "LWWWW",
       "rank": 0,
       "points": 0
@@ -50056,7 +49818,7 @@
     {
       "id": 38,
       "name": "Valencia",
-      "elo_rating": 1466.2890554918017,
+      "elo_rating": 1476.4121,
       "current_form": "DWLDL",
       "rank": 0,
       "points": 0
@@ -50072,7 +49834,7 @@
     {
       "id": 40,
       "name": "Elche",
-      "elo_rating": 1477.2565298118527,
+      "elo_rating": 1473.4283,
       "current_form": "WLDDL",
       "rank": 0,
       "points": 0
@@ -50080,7 +49842,7 @@
     {
       "id": 41,
       "name": "Levante",
-      "elo_rating": 1458.1166452014818,
+      "elo_rating": 1469.5627,
       "current_form": "DLWLD",
       "rank": 0,
       "points": 0
@@ -50088,7 +49850,7 @@
     {
       "id": 42,
       "name": "Oviedo",
-      "elo_rating": 1429.1454564272915,
+      "elo_rating": 1452.8341,
       "current_form": "WWDLL",
       "rank": 0,
       "points": 0
@@ -50096,7 +49858,7 @@
     {
       "id": 43,
       "name": "Bayern Munich",
-      "elo_rating": 1535.8170853272507,
+      "elo_rating": 1509.5851,
       "current_form": "WLDDW",
       "rank": 0,
       "points": 0
@@ -50104,7 +49866,7 @@
     {
       "id": 44,
       "name": "Dortmund",
-      "elo_rating": 1491.910421567014,
+      "elo_rating": 1500.0,
       "current_form": "LWLW",
       "rank": 0,
       "points": 0
@@ -50112,7 +49874,7 @@
     {
       "id": 45,
       "name": "Leverkusen",
-      "elo_rating": 1500.7658966266436,
+      "elo_rating": 1500.1436,
       "current_form": "LWWL",
       "rank": 0,
       "points": 0
@@ -50120,7 +49882,7 @@
     {
       "id": 46,
       "name": "Leipzig",
-      "elo_rating": 1534.318772480265,
+      "elo_rating": 1509.425,
       "current_form": "WWLW",
       "rank": 0,
       "points": 0
@@ -50128,7 +49890,7 @@
     {
       "id": 47,
       "name": "Stuttgart",
-      "elo_rating": 1494.3265863411389,
+      "elo_rating": 1500.4314,
       "current_form": "LDDW",
       "rank": 0,
       "points": 0
@@ -50136,7 +49898,7 @@
     {
       "id": 48,
       "name": "Hoffenheim",
-      "elo_rating": 1544.5949076791933,
+      "elo_rating": 1514.5769,
       "current_form": "WWDW",
       "rank": 0,
       "points": 0
@@ -50144,7 +49906,7 @@
     {
       "id": 49,
       "name": "Frankfurt",
-      "elo_rating": 1462.222947464217,
+      "elo_rating": 1485.1439,
       "current_form": "LDLL",
       "rank": 0,
       "points": 0
@@ -50152,7 +49914,7 @@
     {
       "id": 50,
       "name": "Freiburg",
-      "elo_rating": 1508.8861278440095,
+      "elo_rating": 1500.0,
       "current_form": "WLD",
       "rank": 0,
       "points": 0
@@ -50160,7 +49922,7 @@
     {
       "id": 51,
       "name": "Mainz",
-      "elo_rating": 1491.6172174113335,
+      "elo_rating": 1500.0,
       "current_form": "DLW",
       "rank": 0,
       "points": 0
@@ -50168,7 +49930,7 @@
     {
       "id": 52,
       "name": "Augsburg",
-      "elo_rating": 1537.5674987137174,
+      "elo_rating": 1515.0,
       "current_form": "WDWW",
       "rank": 0,
       "points": 0
@@ -50176,7 +49938,7 @@
     {
       "id": 53,
       "name": "Union",
-      "elo_rating": 1463.5230043790123,
+      "elo_rating": 1490.1439,
       "current_form": "LLD",
       "rank": 0,
       "points": 0
@@ -50184,7 +49946,7 @@
     {
       "id": 54,
       "name": "Hamburg",
-      "elo_rating": 1473.6092468873044,
+      "elo_rating": 1495.0,
       "current_form": "LLW",
       "rank": 0,
       "points": 0
@@ -50192,7 +49954,7 @@
     {
       "id": 55,
       "name": "Gladbach",
-      "elo_rating": 1500.807138010248,
+      "elo_rating": 1499.8561,
       "current_form": "DDWL",
       "rank": 0,
       "points": 0
@@ -50200,7 +49962,7 @@
     {
       "id": 56,
       "name": "Bremen",
-      "elo_rating": 1498.8425401765032,
+      "elo_rating": 1495.1356,
       "current_form": "WDLL",
       "rank": 0,
       "points": 0
@@ -50208,7 +49970,7 @@
     {
       "id": 57,
       "name": "Koln",
-      "elo_rating": 1479.256279968127,
+      "elo_rating": 1494.8561,
       "current_form": "DLD",
       "rank": 0,
       "points": 0
@@ -50216,7 +49978,7 @@
     {
       "id": 58,
       "name": "Pauli",
-      "elo_rating": 1461.394166494838,
+      "elo_rating": 1485.2875,
       "current_form": "DLLL",
       "rank": 0,
       "points": 0
@@ -50224,7 +49986,7 @@
     {
       "id": 59,
       "name": "Wolfsburg",
-      "elo_rating": 1508.2830006967433,
+      "elo_rating": 1499.996,
       "current_form": "WDDL",
       "rank": 0,
       "points": 0
@@ -50232,7 +49994,7 @@
     {
       "id": 60,
       "name": "Heidenheim",
-      "elo_rating": 1501.301849421228,
+      "elo_rating": 1500.2875,
       "current_form": "LWD",
       "rank": 0,
       "points": 0
@@ -50240,7 +50002,7 @@
     {
       "id": 61,
       "name": "PSG",
-      "elo_rating": 1520.2907319705853,
+      "elo_rating": 1509.9756,
       "current_form": "WWDDD",
       "rank": 0,
       "points": 0
@@ -50256,7 +50018,7 @@
     {
       "id": 63,
       "name": "Marseille",
-      "elo_rating": 1490.2959845502075,
+      "elo_rating": 1495.2919,
       "current_form": "LDLW",
       "rank": 0,
       "points": 0
@@ -50264,7 +50026,7 @@
     {
       "id": 64,
       "name": "Lyon",
-      "elo_rating": 1538.8675665816165,
+      "elo_rating": 1519.8561,
       "current_form": "WWWW",
       "rank": 0,
       "points": 0
@@ -50280,7 +50042,7 @@
     {
       "id": 66,
       "name": "Monaco",
-      "elo_rating": 1519.1698707393007,
+      "elo_rating": 1509.7164,
       "current_form": "DDWW",
       "rank": 0,
       "points": 0
@@ -50288,7 +50050,7 @@
     {
       "id": 67,
       "name": "Rennes",
-      "elo_rating": 1509.7471277807592,
+      "elo_rating": 1504.9996,
       "current_form": "WWLD",
       "rank": 0,
       "points": 0
@@ -50296,7 +50058,7 @@
     {
       "id": 68,
       "name": "Strasbourg",
-      "elo_rating": 1479.9832455479366,
+      "elo_rating": 1489.9959,
       "current_form": "LWLL",
       "rank": 0,
       "points": 0
@@ -50304,7 +50066,7 @@
     {
       "id": 69,
       "name": "Lorient",
-      "elo_rating": 1500.0457867050995,
+      "elo_rating": 1500.0038,
       "current_form": "WLDD",
       "rank": 0,
       "points": 0
@@ -50312,7 +50074,7 @@
     {
       "id": 70,
       "name": "Toulouse",
-      "elo_rating": 1491.4199324859756,
+      "elo_rating": 1495.1439,
       "current_form": "LDWL",
       "rank": 0,
       "points": 0
@@ -50320,7 +50082,7 @@
     {
       "id": 71,
       "name": "Brest",
-      "elo_rating": 1490.5511246295043,
+      "elo_rating": 1495.0041,
       "current_form": "DDLD",
       "rank": 0,
       "points": 0
@@ -50328,7 +50090,7 @@
     {
       "id": 72,
       "name": "Paris FC",
-      "elo_rating": 1509.4488753704957,
+      "elo_rating": 1505.0,
       "current_form": "WLWD",
       "rank": 0,
       "points": 0
@@ -50336,7 +50098,7 @@
     {
       "id": 73,
       "name": "Angers",
-      "elo_rating": 1470.8767161204833,
+      "elo_rating": 1485.2875,
       "current_form": "DLLL",
       "rank": 0,
       "points": 0
@@ -50344,7 +50106,7 @@
     {
       "id": 74,
       "name": "Le Havre",
-      "elo_rating": 1490.2877421510887,
+      "elo_rating": 1495.1397,
       "current_form": "DDDL",
       "rank": 0,
       "points": 0
@@ -50352,7 +50114,7 @@
     {
       "id": 75,
       "name": "Nice",
-      "elo_rating": 1500.0013569020807,
+      "elo_rating": 1500.0044,
       "current_form": "DDDD",
       "rank": 0,
       "points": 0
@@ -50360,7 +50122,7 @@
     {
       "id": 76,
       "name": "Auxerre",
-      "elo_rating": 1490.814627624911,
+      "elo_rating": 1495.4184,
       "current_form": "DLWL",
       "rank": 0,
       "points": 0
@@ -50368,7 +50130,7 @@
     {
       "id": 77,
       "name": "Nantes",
-      "elo_rating": 1481.1248118741566,
+      "elo_rating": 1490.2908,
       "current_form": "DLLWL",
       "rank": 0,
       "points": 0
@@ -50376,7 +50138,7 @@
     {
       "id": 78,
       "name": "Metz",
-      "elo_rating": 1480.5589364493228,
+      "elo_rating": 1490.1439,
       "current_form": "LDL",
       "rank": 0,
       "points": 0
@@ -50384,7 +50146,7 @@
     {
       "id": 79,
       "name": "Inter",
-      "elo_rating": 1659.1116656394552,
+      "elo_rating": 1593.0818,
       "current_form": "WDWWW",
       "rank": 0,
       "points": 0
@@ -50392,7 +50154,7 @@
     {
       "id": 80,
       "name": "AC Milan",
-      "elo_rating": 1578.7766255588258,
+      "elo_rating": 1552.4895,
       "current_form": "LWDLW",
       "rank": 0,
       "points": 0
@@ -50400,7 +50162,7 @@
     {
       "id": 81,
       "name": "Napoli",
-      "elo_rating": 1593.4737751745413,
+      "elo_rating": 1558.8907,
       "current_form": "DLWDW",
       "rank": 0,
       "points": 0
@@ -50408,7 +50170,7 @@
     {
       "id": 82,
       "name": "Roma",
-      "elo_rating": 1568.178287642398,
+      "elo_rating": 1537.5328,
       "current_form": "WDWWW",
       "rank": 0,
       "points": 0
@@ -50416,7 +50178,7 @@
     {
       "id": 83,
       "name": "Juventus",
-      "elo_rating": 1597.1596991539845,
+      "elo_rating": 1558.3956,
       "current_form": "WDDWW",
       "rank": 0,
       "points": 0
@@ -50424,7 +50186,7 @@
     {
       "id": 84,
       "name": "Atalanta",
-      "elo_rating": 1546.159576331999,
+      "elo_rating": 1528.5832,
       "current_form": "LDLDW",
       "rank": 0,
       "points": 0
@@ -50432,7 +50194,7 @@
     {
       "id": 85,
       "name": "Lazio",
-      "elo_rating": 1531.5265747039723,
+      "elo_rating": 1514.7654,
       "current_form": "WDWLW",
       "rank": 0,
       "points": 0
@@ -50440,7 +50202,7 @@
     {
       "id": 86,
       "name": "Bologna",
-      "elo_rating": 1470.0247704977141,
+      "elo_rating": 1490.5693,
       "current_form": "WLLDL",
       "rank": 0,
       "points": 0
@@ -50448,7 +50210,7 @@
     {
       "id": 87,
       "name": "Udinese",
-      "elo_rating": 1507.1547069291373,
+      "elo_rating": 1503.2293,
       "current_form": "LDWWD",
       "rank": 0,
       "points": 0
@@ -50456,7 +50218,7 @@
     {
       "id": 88,
       "name": "Sassuolo",
-      "elo_rating": 1494.8156946794293,
+      "elo_rating": 1496.0685,
       "current_form": "WDWLL",
       "rank": 0,
       "points": 0
@@ -50464,7 +50226,7 @@
     {
       "id": 89,
       "name": "Torino",
-      "elo_rating": 1470.0031958427219,
+      "elo_rating": 1480.8414,
       "current_form": "DDLWL",
       "rank": 0,
       "points": 0
@@ -50472,7 +50234,7 @@
     {
       "id": 90,
       "name": "Parma",
-      "elo_rating": 1483.5017928934758,
+      "elo_rating": 1483.6566,
       "current_form": "DWWLL",
       "rank": 0,
       "points": 0
@@ -50480,7 +50242,7 @@
     {
       "id": 91,
       "name": "Genoa",
-      "elo_rating": 1475.691031553479,
+      "elo_rating": 1479.3416,
       "current_form": "WWLDL",
       "rank": 0,
       "points": 0
@@ -50488,7 +50250,7 @@
     {
       "id": 92,
       "name": "Cagliari",
-      "elo_rating": 1454.32301579395,
+      "elo_rating": 1471.2134,
       "current_form": "LWDLW",
       "rank": 0,
       "points": 0
@@ -50496,7 +50258,7 @@
     {
       "id": 93,
       "name": "Fiorentina",
-      "elo_rating": 1468.5111575881472,
+      "elo_rating": 1478.1901,
       "current_form": "WDDLL",
       "rank": 0,
       "points": 0
@@ -50504,7 +50266,7 @@
     {
       "id": 94,
       "name": "Cremonese",
-      "elo_rating": 1393.1141929986732,
+      "elo_rating": 1442.8777,
       "current_form": "LLDLL",
       "rank": 0,
       "points": 0
@@ -50512,7 +50274,7 @@
     {
       "id": 95,
       "name": "Lecce",
-      "elo_rating": 1437.3295417241302,
+      "elo_rating": 1458.0978,
       "current_form": "DDWLW",
       "rank": 0,
       "points": 0
@@ -50520,7 +50282,7 @@
     {
       "id": 96,
       "name": "Verona",
-      "elo_rating": 1374.5329369983074,
+      "elo_rating": 1425.427,
       "current_form": "LLLDD",
       "rank": 0,
       "points": 0
@@ -50528,7 +50290,7 @@
     {
       "id": 97,
       "name": "Como",
-      "elo_rating": 1562.73496309446,
+      "elo_rating": 1540.4615,
       "current_form": "LLWDD",
       "rank": 0,
       "points": 0
@@ -50536,7 +50298,7 @@
     {
       "id": 98,
       "name": "Pisa",
-      "elo_rating": 1359.3256506369326,
+      "elo_rating": 1420.1444,
       "current_form": "LLLLL",
       "rank": 0,
       "points": 0
@@ -50544,7 +50306,7 @@
     {
       "id": 99,
       "name": "Sporting CP",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50560,7 +50322,7 @@
     {
       "id": 101,
       "name": "Porto",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50568,7 +50330,7 @@
     {
       "id": 102,
       "name": "Ajax",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50576,7 +50338,7 @@
     {
       "id": 103,
       "name": "PSV",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50592,7 +50354,7 @@
     {
       "id": 105,
       "name": "Racing Club de Lens",
-      "elo_rating": 1528.3478150066392,
+      "elo_rating": 1514.1511,
       "current_form": "WDDWW",
       "rank": 0,
       "points": 0
@@ -50600,7 +50362,7 @@
     {
       "id": 106,
       "name": "Rio Ave",
-      "elo_rating": 1490.28774368332,
+      "elo_rating": 1500.0,
       "current_form": "DL",
       "rank": 0,
       "points": 0
@@ -50616,7 +50378,7 @@
     {
       "id": 108,
       "name": "CD Nacional",
-      "elo_rating": 1519.4249887221547,
+      "elo_rating": 1500.0,
       "current_form": "WW",
       "rank": 0,
       "points": 0
@@ -50624,7 +50386,7 @@
     {
       "id": 109,
       "name": "Alverca",
-      "elo_rating": 1500.5750112778453,
+      "elo_rating": 1500.0,
       "current_form": "LW",
       "rank": 0,
       "points": 0
@@ -50632,7 +50394,7 @@
     {
       "id": 110,
       "name": "Casa Pia",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "DL",
       "rank": 0,
       "points": 0
@@ -50648,7 +50410,7 @@
     {
       "id": 112,
       "name": "Lille OSC",
-      "elo_rating": 1519.1230600210497,
+      "elo_rating": 1509.7125,
       "current_form": "DWDW",
       "rank": 0,
       "points": 0
@@ -50656,7 +50418,7 @@
     {
       "id": 113,
       "name": "Gil Vicente",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50664,7 +50426,7 @@
     {
       "id": 114,
       "name": "Vitória",
-      "elo_rating": 1519.71225631668,
+      "elo_rating": 1500.0,
       "current_form": "WW",
       "rank": 0,
       "points": 0
@@ -50672,7 +50434,7 @@
     {
       "id": 115,
       "name": "Arouca",
-      "elo_rating": 1499.4249887221547,
+      "elo_rating": 1500.0,
       "current_form": "WL",
       "rank": 0,
       "points": 0
@@ -50680,7 +50442,7 @@
     {
       "id": 116,
       "name": "CF Estrela da Amadora",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50688,7 +50450,7 @@
     {
       "id": 117,
       "name": "Sport Lisboa e Benfica",
-      "elo_rating": 1520.0,
+      "elo_rating": 1500.0,
       "current_form": "WW",
       "rank": 0,
       "points": 0
@@ -50696,7 +50458,7 @@
     {
       "id": 118,
       "name": "CD Tondela",
-      "elo_rating": 1480.5750112778453,
+      "elo_rating": 1500.0,
       "current_form": "LL",
       "rank": 0,
       "points": 0
@@ -50704,7 +50466,7 @@
     {
       "id": 119,
       "name": "Sporting Clube de Braga",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "DW",
       "rank": 0,
       "points": 0
@@ -50728,7 +50490,7 @@
     {
       "id": 122,
       "name": "GD Estoril Praia",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50736,7 +50498,7 @@
     {
       "id": 123,
       "name": "Telstar 1963",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50744,7 +50506,7 @@
     {
       "id": 124,
       "name": "Sparta Rotterdam",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50768,7 +50530,7 @@
     {
       "id": 127,
       "name": "PEC Zwolle",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50776,7 +50538,7 @@
     {
       "id": 128,
       "name": "Feyenoord Rotterdam",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50784,7 +50546,7 @@
     {
       "id": 129,
       "name": "Groningen",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50792,7 +50554,7 @@
     {
       "id": 130,
       "name": "Heerenveen",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50800,7 +50562,7 @@
     {
       "id": 131,
       "name": "Fortuna Sittard",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50808,7 +50570,7 @@
     {
       "id": 132,
       "name": "NAC Breda",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50832,7 +50594,7 @@
     {
       "id": 135,
       "name": "SBV Excelsior",
-      "elo_rating": 1510.0,
+      "elo_rating": 1500.0,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50840,7 +50602,7 @@
     {
       "id": 136,
       "name": "Utrecht",
-      "elo_rating": 1490.0,
+      "elo_rating": 1500.0,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50952,7 +50714,7 @@
     {
       "id": 150,
       "name": "Real Racing Club de Santander",
-      "elo_rating": 1491.2821995598479,
+      "elo_rating": 1494.852,
       "current_form": "DL",
       "rank": 0,
       "points": 0
@@ -50960,7 +50722,7 @@
     {
       "id": 151,
       "name": "Deportivo La Coruña",
-      "elo_rating": 1499.2209181216786,
+      "elo_rating": 1498.7873,
       "current_form": "DD",
       "rank": 0,
       "points": 0
@@ -50968,7 +50730,7 @@
     {
       "id": 152,
       "name": "Malaga",
-      "elo_rating": 1491.6000901210814,
+      "elo_rating": 1496.0814,
       "current_form": "LD",
       "rank": 0,
       "points": 0
@@ -50976,7 +50738,7 @@
     {
       "id": 153,
       "name": "Coventry City",
-      "elo_rating": 1493.4187738536457,
+      "elo_rating": 1496.3524,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -50984,7 +50746,7 @@
     {
       "id": 154,
       "name": "Hull City",
-      "elo_rating": 1512.1789615924167,
+      "elo_rating": 1505.286,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -50992,7 +50754,7 @@
     {
       "id": 155,
       "name": "Ipswich Town",
-      "elo_rating": 1509.642227019724,
+      "elo_rating": 1504.6238,
       "current_form": "W",
       "rank": 0,
       "points": 0
@@ -51000,7 +50762,7 @@
     {
       "id": 156,
       "name": "Monza",
-      "elo_rating": 1494.1456408559352,
+      "elo_rating": 1496.3605,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -51008,7 +50770,7 @@
     {
       "id": 157,
       "name": "ES Troyes",
-      "elo_rating": 1500.2799447889315,
+      "elo_rating": 1500.1439,
       "current_form": "D",
       "rank": 0,
       "points": 0
@@ -51016,7 +50778,7 @@
     {
       "id": 158,
       "name": "Le Mans",
-      "elo_rating": 1499.7200552110685,
+      "elo_rating": 1499.852,
       "current_form": "D",
       "rank": 0,
       "points": 0
@@ -51024,7 +50786,7 @@
     {
       "id": 159,
       "name": "Frosinone Calcio",
-      "elo_rating": 1492.5255008065615,
+      "elo_rating": 1495.5716,
       "current_form": "L",
       "rank": 0,
       "points": 0
@@ -51032,7 +50794,7 @@
     {
       "id": 160,
       "name": "Venezia",
-      "elo_rating": 1487.8800029017698,
+      "elo_rating": 1494.2103,
       "current_form": "L",
       "rank": 0,
       "points": 0
