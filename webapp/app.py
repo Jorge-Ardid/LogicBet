@@ -36,7 +36,11 @@ app = Flask(__name__)
 # Живиться з паузою між циклами (~10 хв), бюджет-захищено за квотою API.
 import time as _time                                     # noqa: E402
 import stats_refresher as _stats                         # noqa: E402
+import bet365_client as _b365                            # noqa: E402
 _STATS_LAST_SWEEP = {"ts": 0.0}
+_B365_LAST_SWEEP = {"ts": 0.0}
+# Інтервал між циклами коефіцієнтів (бюджет 5-6/добу) — раз на кілька годин.
+_B365_SWEEP_SEC = int(os.environ.get("LOGICBET_BET365_SWEEP_SEC", "21600"))
 
 
 def maybe_refresh_recent_stats(force=False):
@@ -58,8 +62,32 @@ def maybe_refresh_recent_stats(force=False):
             DATA_DB_PATH,
             get_config=db.get_config, set_config=db.set_config)
     except Exception as exc:                             # noqa: BLE001
+        return _stats.refresh_missing_stats(
+            DATA_DB_PATH,
+            get_config=db.get_config, set_config=db.set_config)
+    except Exception as exc:                             # noqa: BLE001
         print("[WEB] stats refresh error:", exc)
         _stats.logger.error("цикл авто-парсингу впав: %s", exc)
+        return None
+
+
+def maybe_sync_bet365_odds(force=False):
+    """Фоновий синк коефіцієнтів Bet365 (RapidAPI) з жорстким бюджетом.
+
+    Запускається з паузою _B365_SWEEP_SEC (за замовчуванням ~6 годин),
+    бо план 200 зап/міс -> максимум 5-6 запитів на добу. Бере ТІЛЬКИ
+    нові/майбутні матчі без наявних коефіцієнтів, по 1 запиту на матч.
+    Повертає summary або None (тротлінг / нема ключа / вичерпано)."""
+    now = _time.monotonic()
+    if not force and now - _B365_LAST_SWEEP["ts"] < _B365_SWEEP_SEC:
+        return None
+    _B365_LAST_SWEEP["ts"] = now
+    try:
+        return _b365.sync_odds_for_new_matches(
+            DATA_DB_PATH, get_config=db.get_config, set_config=db.set_config)
+    except Exception as exc:                 # noqa: BLE001
+        print("[WEB] bet365 odds error:", exc)
+        _b365.logger.error("цикл коефіцієнтів впав: %s", exc)
         return None
 
 
@@ -521,6 +549,7 @@ def settle_pending_bets():
     -> сетлмент ставок користувача. Статистика йде ПЕРШОЮ, бо тоталі
     (кутові/картки/xG) у сетлменті ШІ залежать від свіжих цифр."""
     maybe_refresh_recent_stats()
+    maybe_sync_bet365_odds()
     full_elo_recalc()
     recalc_team_elo_form()
     ai_res = settle_ai_predictions()
@@ -819,6 +848,18 @@ def api_stats_refresh():
         res["budget_left"] = _stats.daily_budget_left(db.get_config)
     except Exception:                                    # noqa: BLE001
         pass
+    return jsonify(res)
+
+
+@app.route("/api/odds/refresh", methods=["POST"])
+def api_odds_refresh():
+    """Ручний/автоматичний запит коефіцієнтів Bet365 (RapidAPI) для нових
+    матчів. {\"force\": true} обходить тротлінг між циклами (денний і місячний
+    бюджет плану 200 зап/міс лишаються чинними)."""
+    data = request.get_json(silent=True) or {}
+    res = maybe_sync_bet365_odds(force=bool(data.get("force")))
+    if res is None:
+        res = {"skipped": "throttled"}
     return jsonify(res)
 
 
