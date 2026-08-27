@@ -132,6 +132,15 @@ function matchCardHtml(m) {
   const betBtnCls = m.has_bet
     ? "bg-goldAccent text-black border-goldAccent shadow-md"
     : "bg-goldAccent/10 hover:bg-goldAccent hover:text-black text-goldAccent border-goldAccent/60";
+  /* Ensemble Consensus (v27): консенсус ТОП-3 скриптів кожного сектора. */
+  const ens = m.ensemble || {};
+  const ensParts = [];
+  if (ens.outcomes) ensParts.push(esc(ens.outcomes.pick) + " (" + Math.round(ens.outcomes.prob * 100) + "%)");
+  if (ens.totals)   ensParts.push(esc(ens.totals.pick) + " (" + Math.round(ens.totals.prob * 100) + "%)");
+  if (ens.btts)     ensParts.push(esc(ens.btts.pick) + " (" + Math.round(ens.btts.prob * 100) + "%)");
+  const ensembleHtml = ensParts.length
+    ? " <span class=\"text-gray-400\">🎯 " + ensParts.join(" · ") + "</span>"
+    : "";
   return '<div class="bg-cardBg border border-borderDark rounded-xl p-3.5 sm:p-4 hover:border-gray-700 transition space-y-3">' +
     '<div class="flex justify-between items-center text-xs border-b border-borderDark/60 pb-2">' +
       '<span class="font-bold uppercase tracking-wider ' + cls + '">' + dot + esc(m.status) + "</span>" +
@@ -148,6 +157,7 @@ function matchCardHtml(m) {
         '<p class="text-xs sm:text-sm text-goldAccent font-medium leading-relaxed break-words">' +
           esc(m.summary || "Прогнози генеруються…") + prob +
         "</p>" +
+      ensembleHtml +
       "</div>" +
       '<button class="bet-btn w-full sm:w-auto ' + betBtnCls + ' font-bold px-5 py-2.5 rounded-lg border transition text-xs sm:text-sm active:scale-95 shadow" data-id="' + m.id + '">' + betLabel + '</button>' +
     "</div></div>";

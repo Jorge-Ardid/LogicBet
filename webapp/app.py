@@ -734,6 +734,13 @@ def settle_pending_bets():
                 ON CONFLICT(key) DO UPDATE SET value = excluded.value
             """, (str(round(bankroll, 2)),))
             conn.commit()
+    # Конкуренція скриптів: миттєво сетлить віртуальні ставки (shadow) та
+    # оновлює ROI/Winrate/банк у strategy_stats (strategy_evaluator).
+    try:
+        import strategy_evaluator
+        strategy_evaluator.run_cycle(db)
+    except Exception as exc:
+        print("[STRAT] run_cycle error:", exc)
     return {"settled": settled, "wins": wins, "ai": ai_res}
 
 
@@ -849,6 +856,18 @@ def load_matches(date_condition, params):
                 fs_a = db.get_team_form_status(away_id)
                 p["away_form_status"] = fs_a["status"]
                 p["away_form_points"] = fs_a["points"]
+    # Ensemble Consensus: консенсус ТОП-3 скриптів кожного сектора
+    # (за поточним ROI) -> «головний прогноз» для картки /бет‑сторінки.
+    try:
+        import strategy_evaluator
+        ens = strategy_evaluator.ensemble_consensus(
+            db, [p["id"] for p in payloads])
+        for p in payloads:
+            e = ens.get(p["id"])
+            if e:
+                p["ensemble"] = e
+    except Exception as exc:
+        print("[STRAT] ensemble error:", exc)
     return payloads
 
 
@@ -925,6 +944,14 @@ def api_state():
 
 @app.route("/api/matches")
 def api_matches():
+    # Конкуренція скриптів: тримаємо арену свіжою (settle → stats →
+    # generate) перед формуванням консенсусу ТОП-3. Тротлінг 60 с —
+    # всередині strategy_evaluator.run_cycle.
+    try:
+        import strategy_evaluator
+        strategy_evaluator.run_cycle(db)
+    except Exception as exc:
+        print("[STRAT] matches cycle error:", exc)
     flt = request.args.get("filter", "all")
     groups = []
     if flt in ("all", "today"):
@@ -1426,6 +1453,24 @@ def api_team_profile(team_id):
              "venue": "H" if nxt[3] == team_id else "A"}
             if nxt else None)
     return jsonify(side)
+
+
+@app.route("/api/strategies")
+def api_strategies():
+    """Таблиця конкуренції скриптів: ROI / Winrate / банк по кожному з
+    10 скриптів кожного сектора (strategy_shadow_bets ->
+    strategy_evaluator.get_stats)."""
+    try:
+        import strategy_evaluator
+        stats = strategy_evaluator.get_stats(db)
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+    by_sector = {}
+    for row in stats:
+        by_sector.setdefault(row["sector"], []).append(row)
+    tops = {s: [r["strategy"] for r in rows[:3]]
+            for s, rows in by_sector.items()}
+    return jsonify({"sectors": by_sector, "top3": tops})
 
 
 @app.route("/api/settings", methods=["GET", "POST"])
