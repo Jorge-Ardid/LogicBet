@@ -31,6 +31,7 @@
       <span class="text-goldAccent text-base">‹</span> МАТЧІ
     </a>
     <div class="flex items-center space-x-2">
+      <span id="bet-balance" class="text-xs font-bold text-greenAccent border border-greenAccent/40 bg-cardBg/60 px-2 py-1 rounded-lg whitespace-nowrap">…</span>
       <span class="text-goldAccent font-extrabold text-sm md:text-base tracking-wider">LOGICBET</span>
       <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest hidden sm:inline">• СТАВКА</span>
     </div>
@@ -67,9 +68,9 @@
           <label for="bm-selection" class="text-gray-400 text-xs font-medium">Вибір (прогноз ШІ)</label>
           <select id="bm-selection" class="field-input mt-1">
             {% for p in m.predictions %}
-            <option value="{{ p.selection }}"{% if cur_bet and cur_bet.selection == p.selection %} selected{% endif %}>{{ p.selection }}{% if not p.btts %} ({{ p.prob }}%){% endif %}</option>
+            <option value="{{ p.selection }}" data-market="{{ p.market }}" data-odd="{{ p.odd if p.odd else '' }}"{% if cur_bet and cur_bet.selection == p.selection %} selected{% endif %}>{{ p.selection }}{% if not p.btts %} ({{ p.prob }}%){% endif %}</option>
             {% endfor %}
-            <option value="__custom"{% if cur_bet and m.predictions and cur_bet.selection != m.predictions[0].selection %} selected{% endif %}>✍️ Власний варіант…</option>
+            <option value="__custom" data-market="Custom"{% if cur_bet and m.predictions and cur_bet.selection != m.predictions[0].selection %} selected{% endif %}>✍️ Власний варіант…</option>
           </select>
           <input id="bm-custom" type="text" placeholder="Свій варіант: П1 і ТБ 2.5…" value="{{ cur_bet.selection if cur_bet and m.predictions and cur_bet.selection != m.predictions[0].selection else '' }}"
                  class="field-input mt-2 hidden">
@@ -104,11 +105,24 @@
       var sel = document.getElementById('bm-selection');
       var custom = document.getElementById('bm-custom');
       var msg = document.getElementById('bet-msg');
+      var oddIn = document.getElementById('bm-odd');
+      var balEl = document.getElementById('bet-balance');
       var MATCH_ID = {{ m.id }};
 
+      function setBal(v) {
+        if (balEl && v != null) balEl.textContent = parseFloat(v).toFixed(1) + ' грн';
+      }
+      /* Повна прив'язка до вибору: маркет беремо з data-атрибута опції */
+      function currentMarket() {
+        var opt = sel.options[sel.selectedIndex];
+        return (opt && opt.dataset.market) ? opt.dataset.market : 'Custom';
+      }
       function syncCustom() {
         custom.classList.toggle('hidden', sel.value !== '__custom');
         if (sel.value === '__custom') custom.focus();
+        /* Коефіцієнт прив'язаний до конкретного вибору — авто-підстановка */
+        var opt = sel.options[sel.selectedIndex];
+        if (opt && opt.dataset.odd) oddIn.value = opt.dataset.odd;
       }
       sel.addEventListener('change', syncCustom);
 
@@ -117,11 +131,19 @@
         msg.className = 'text-xs ' + (ok ? 'text-greenAccent' : 'text-red-400');
       }
 
+      /* Баланс одразу на екрані сторінки ставки */
+      fetch('/api/state').then(function (r) { return r.json(); }).then(function (st) {
+        if (st && st.balance_total != null) setBal(st.balance_total);
+      }).catch(function () {});
+
+      /* Ставки ще нема — одразу підставляємо кф топ-прогнозу */
+      {% if not cur_bet %}syncCustom();{% endif %}
+
       document.getElementById('bet-form').addEventListener('submit', function (ev) {
         ev.preventDefault();
         var selection = sel.value === '__custom' ? custom.value.trim() : sel.value;
         var stake = parseFloat(document.getElementById('bm-stake').value);
-        var odd = parseFloat(document.getElementById('bm-odd').value);
+        var odd = parseFloat(oddIn.value);
         if (!selection || selection.length < 2) return showMsg('Вкажіть вибір', false);
         if (!(stake > 0)) return showMsg('Ставка має бути більше 0', false);
         if (!(odd >= 1.01)) return showMsg('Коефіцієнт має бути ≥ 1.01', false);
@@ -129,16 +151,25 @@
         var btn = this.querySelector('button[type=submit]');
         btn.disabled = true;
         btn.textContent = 'ЗБЕРЕЖЕННЯ…';
-        fetch('/api/bets', {
+        fetch('/api/place_bet', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ match_id: MATCH_ID, selection: selection, stake: stake, odd: odd })
+          body: JSON.stringify({
+            match_id: MATCH_ID,
+            market: currentMarket(),
+            selection: selection,
+            odds: odd,
+            stake: stake
+          })
         }).then(function (r) {
           return r.json().then(function (j) { return { ok: r.ok, j: j }; });
         }).then(function (res) {
           if (!res.ok) throw new Error(res.j.error || 'Помилка збереження');
-          /* одразу повертаємось на головну зі прогнозами */
-          window.location.href = '/?saved=1';
+          /* Миттєве оновлення балансу на екрані зі відповіді API */
+          if (res.j.new_balance != null) setBal(res.j.new_balance);
+          showMsg('✅ Ставку прийнято! Баланс: ' + Number(res.j.new_balance).toFixed(1) + ' грн', true);
+          btn.textContent = res.j.updated ? '✅ СТАВКУ ОНОВЛЕНО' : '✅ ПРИЙНЯТО';
+          setTimeout(function () { window.location.href = '/?saved=1'; }, 900);
         }).catch(function (e) {
           showMsg('⚠️ ' + e.message, false);
           btn.disabled = false;

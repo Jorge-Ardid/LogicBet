@@ -366,9 +366,16 @@ class LogicBetDB:
                     stake REAL,
                     odd REAL,
                     status TEXT DEFAULT 'PENDING',
-                    profit REAL DEFAULT 0.0
+                    profit REAL DEFAULT 0.0,
+                    market TEXT
                 )
             ''')
+            # v26: прив'язка ставки до маркета (1X2, Total Goals, BTTS…).
+            # Defensive-міграція для вже наявних робочих БД.
+            try:
+                cursor.execute("ALTER TABLE user_bets ADD COLUMN market TEXT")
+            except sqlite3.OperationalError:
+                pass  # колонка вже існує
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS config (
                     key TEXT PRIMARY KEY,

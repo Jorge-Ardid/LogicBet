@@ -30,6 +30,45 @@ USER_DB_PATH = os.environ.get("LOGICBET_DB_PATH") or os.path.join(
     ROOT, "webapp", "user_data.db")
 db = LogicBetDB(USER_DB_PATH, data_db_path=DATA_DB_PATH)
 
+
+def _migrate_balance_deduction_model():
+    """Одноразова міграція моделі балансу (v26).
+
+    Ставки PENDING, розміщені ДО впровадження миттєвого списання, ще не були
+    відняті з банкролу (стара модель списувала стейк лише при сетлменті).
+    Віднімаємо їхню суму один раз, щоб нова модель «списання при ставці»
+    не була застосована до них двічі у сетлменті."""
+    try:
+        with db.get_connection() as conn:
+            flag = conn.execute(
+                "SELECT value FROM config WHERE key='balance_deduction_model'"
+            ).fetchone()
+            if flag and flag[0] == "deduct_on_place":
+                return
+            pending = float(conn.execute(
+                "SELECT COALESCE(SUM(stake), 0) FROM user_bets "
+                "WHERE status='PENDING'").fetchone()[0] or 0)
+            row = conn.execute(
+                "SELECT value FROM config WHERE key='bankroll'").fetchone()
+            bankroll = float(row[0]) if row and row[0] else 1000.0
+            bankroll -= pending
+            conn.execute(
+                "INSERT INTO config (key, value) VALUES ('bankroll', ?) "
+                "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                (str(round(bankroll, 2)),))
+            conn.execute(
+                "INSERT INTO config (key, value) VALUES "
+                "('balance_deduction_model', 'deduct_on_place') "
+                "ON CONFLICT(key) DO UPDATE SET value = excluded.value")
+            conn.commit()
+            print(f"[WEB] Balance model v26: deducted {pending} UAH of "
+                  f"PENDING stakes, new bankroll {round(bankroll, 2)}")
+    except Exception as exc:                                 # noqa: BLE001
+        print("[WEB] balance model migration skipped:", exc)
+
+
+_migrate_balance_deduction_model()
+
 app = Flask(__name__)
 
 # --- Авто-парсинг детальної статистики завершених матчів ---
@@ -37,10 +76,16 @@ app = Flask(__name__)
 import time as _time                                     # noqa: E402
 import stats_refresher as _stats                         # noqa: E402
 import bet365_client as _b365                            # noqa: E402
+import football_data_client as _fd                       # noqa: E402
 _STATS_LAST_SWEEP = {"ts": 0.0}
 _B365_LAST_SWEEP = {"ts": 0.0}
+# FD rate limit ~10 req/min — максимум 1 широкий запит рахунків за цикл.
+_FD_LAST_FINISHED = {"ts": 0.0}
 # Інтервал між циклами коефіцієнтів (бюджет 5-6/добу) — раз на кілька годин.
 _B365_SWEEP_SEC = int(os.environ.get("LOGICBET_BET365_SWEEP_SEC", "21600"))
+# Пауза між широкими FD-запитами finished-рахунків (секунди).
+_FD_FINISHED_SWEEP_SEC = int(os.environ.get(
+    "LOGICBET_FD_FINISHED_SWEEP_SEC", "600"))
 
 
 def maybe_refresh_recent_stats(force=False):
@@ -535,6 +580,95 @@ def recalc_team_elo_form():
         conn.close()
 
 
+
+
+def _fd_match_match_score(co, matches, scores):
+    """Зіставити локальний матч з даними Football-Data за (home, away).
+
+    scores: dict {fd_id: {home_team, away_team, home, away, utc_date}}.
+    Повертає словник {match_id: (home_goals, away_goals)}.
+    """
+    found = {}
+    by_pair = {}
+    for fd_id, s in scores.items():
+        if s.get("home") is None or s.get("away") is None:
+            continue
+        key = (str(s.get("home_team") or "").strip().lower(),
+               str(s.get("away_team") or "").strip().lower())
+        by_pair.setdefault(key, []).append(s)
+    for m_id, home_name, away_name in matches:
+        key = (str(home_name or "").strip().lower(),
+               str(away_name or "").strip().lower())
+        cands = by_pair.get(key)
+        if cands:
+            s = cands[0]
+            found[m_id] = (int(s["home"]), int(s["away"]))
+    return found
+
+
+def fetch_finished_scores_from_fd(force=False):
+    """ЗАВДАННЯ 3a: замовити в Football-Data фінальні рахунки для PENDING.
+
+    Знаходить усі PENDING ставки, час яких уже минув (m.date < now), але
+    у локальній БД рахунку ще немає (status не FT/FINISHED або score NULL).
+    Запитує /matches?status=FINISHED і оновлює локальні матчі фінальним
+    рахунком + статусом FT, щоб виклик settle_pending_bets одразу їх
+    розрахував. Маппінг — за парами назв команд (надійний для нашого
+    набору ліг). Тротлінг між циклами, щоб не перевищувати 10 req/min.
+    Повертає summary dict або None (пропущено через тротлінг).
+    """
+    now = _time.monotonic()
+    if not force and now - _FD_LAST_FINISHED["ts"] < _FD_FINISHED_SWEEP_SEC:
+        return None
+    _FD_LAST_FINISHED["ts"] = now
+
+    key = _fd.load_football_data_key()
+    if not key:
+        print("[WEB] football_data_key відсутній — пропускаю FD-рахунки")
+        return None
+
+    with db.get_connection() as co:
+        rows = co.execute("""
+            SELECT DISTINCT m.id, t1.name, t2.name
+            FROM user_bets ub
+            JOIN matches m ON ub.match_id = m.id
+            JOIN teams t1 ON m.home_team_id = t1.id
+            JOIN teams t2 ON m.away_team_id = t2.id
+            WHERE ub.status = 'PENDING'
+              AND (m.status NOT IN ('FT','AET','PEN','FINISHED')
+                   OR m.home_score IS NULL OR m.away_score IS NULL)
+              AND m.date < datetime('now', 'localtime')
+        """).fetchall()
+    if not rows:
+        return {"pending_without_score": 0, "updated": 0}
+
+    try:
+        client = _fd.FootballDataClient(key)
+        scores = client.get_finished_matches_scores()
+    except Exception as exc:                            # noqa: BLE001
+        print("[WEB] Football-Data finished fetch error:", exc)
+        return {"pending_without_score": len(rows), "updated": 0,
+                "error": str(exc)}
+
+    if not scores:
+        return {"pending_without_score": len(rows), "updated": 0,
+                "api_returned": 0}
+
+    mapping = _fd_match_match_score(db, rows, scores)
+    updated = 0
+    if mapping:
+        with db.get_connection() as co:
+            for m_id, (hs, as_) in mapping.items():
+                co.execute("""
+                    UPDATE matches SET status='FT', home_score=?, away_score=?
+                    WHERE id=?
+                """, (hs, as_, m_id))
+                updated += 1
+            co.commit()
+    return {"pending_without_score": len(rows),
+            "api_returned": len(scores), "updated": updated}
+
+
 def settle_pending_bets():
     """Авто-розрахунок PENDING-ставок робочої БД проти фінальних рахунків
     канонічної logicbet.db. Викликається при кожному читанні /api/bets.
@@ -548,6 +682,7 @@ def settle_pending_bets():
     -> інкрементальні свіжі результати -> повний сетлмент маркетів ШІ
     -> сетлмент ставок користувача. Статистика йде ПЕРШОЮ, бо тоталі
     (кутові/картки/xG) у сетлменті ШІ залежать від свіжих цифр."""
+    fetch_finished_scores_from_fd()
     maybe_refresh_recent_stats()
     maybe_sync_bet365_odds()
     full_elo_recalc()
@@ -581,13 +716,16 @@ def settle_pending_bets():
                 conn.execute(
                     "UPDATE user_bets SET status='WON', profit=? WHERE id=?",
                     (profit, bid))
-                bankroll += profit
+                # v26: стейк уже списано при розміщенні ставки — нараховуємо
+                # ПОВНУ виплату (стейк + виграш) без подвійного обліку.
+                bankroll += round(stake * odd, 2)
                 wins += 1
             else:
                 conn.execute(
                     "UPDATE user_bets SET status='LOST', profit=? WHERE id=?",
                     (-round(stake, 2), bid))
-                bankroll -= float(stake)               # програний стейк
+                # v26: програний стейк уже віднято з банку в момент ставки —
+                # повторне списання не потрібне.
             settled += 1
 
         if settled:
@@ -686,17 +824,23 @@ def load_matches(date_condition, params):
     """ % date_condition
     with db.get_connection() as conn:
         rows = conn.execute(query, params).fetchall()
-        # матчі, на які вже є активна ставка користувача (PENDING)
-        betted = dict(conn.execute(
-            "SELECT match_id, MAX(odd) FROM user_bets "
-            "WHERE status='PENDING' GROUP BY match_id").fetchall())
+        # матчі, на які вже є активна ставка користувача (PENDING) —
+        # з вибором і стейком для підсвітки на картці (v26)
+        betted = {}
+        for _mid, _odd, _sel, _stk in conn.execute(
+                "SELECT match_id, odd, selection, stake FROM user_bets "
+                "WHERE status='PENDING'"):
+            betted[_mid] = {"odd": _odd, "selection": _sel, "stake": _stk}
         preds = predictions_by_match([r[0] for r in rows])
         payloads = [match_payload(r, preds.get(r[0], [])) for r in rows]
         for p in payloads:
             home_id = p.pop("_home_id", None)
             away_id = p.pop("_away_id", None)
-            p["has_bet"] = p["id"] in betted
-            p["bet_odd"] = betted.get(p["id"])
+            _b = betted.get(p["id"])
+            p["has_bet"] = _b is not None
+            p["bet_odd"] = _b["odd"] if _b else None
+            p["bet_selection"] = _b["selection"] if _b else None
+            p["bet_stake"] = _b["stake"] if _b else None
             if home_id:
                 fs_h = db.get_team_form_status(home_id)
                 p["home_form_status"] = fs_h["status"]
@@ -745,8 +889,9 @@ def api_state():
         today_n = conn.execute(
             "SELECT COUNT(*) FROM matches WHERE DATE(date)=DATE('now') AND status NOT IN ('CANCELLED','POSTPONED')"
         ).fetchone()[0]
-        # Капітал: загальний баланс (включно із замороженими у PENDING),
-        # вільні кошти та ROI за РОЗРАХОВАНИМИ ставками.
+        # Капітал: банкрол уже відображає миттєве списання стейків при
+        # розміщенні ставок (v26), тож вільні кошти = поточний банкрол.
+        # frozen лишається довідковою метрикою «у грі».
         money = conn.execute("""
             SELECT COALESCE(SUM(CASE WHEN status='PENDING' THEN stake END), 0),
                    COALESCE(SUM(stake), 0),
@@ -764,10 +909,10 @@ def api_state():
         "bankroll": bankroll,
         # Загальний баланс (включно із замороженим під PENDING портфелем)
         "balance_total": round(bankroll, 2),
-        # Заморожено під активними ставками (відкритий портфель — не просадка)
+        # Заморожено під активними ставками (відкритий портфель — довідково)
         "frozen": frozen_stake,
-        # Доступні кошти (Free Capital)
-        "free_capital": round(bankroll - frozen_stake, 2),
+        # Доступні кошти (Free Capital) — стейк списується миттєво при ставці
+        "free_capital": round(bankroll, 2),
         # Settled ROI %: чистий прибуток / сума розрахованих ставок
         "settled_roi_pct": roi_pct,
         "default_stake": cfg_float("default_stake", 10.0),
@@ -793,16 +938,26 @@ def api_matches():
     return jsonify({"groups": groups})
 
 
+@app.route("/api/place_bet", methods=["POST"])
 @app.route("/api/bets", methods=["POST"])
 def api_place_bet():
+    """Прийом ставки з ПОВНИМ прив'язуванням до вибору (v26).
+
+    Payload: { match_id, market, selection, odds, stake }.
+    - Нова ставка: миттєво списує stake з банкролу (config.bankroll у
+      user_data.db) і робить COMMIT.
+    - Повторний вибір на ТОЙ САМИЙ матч: перезаписує selection/odds/market
+      (Update), БЕЗ повторного списання коштів.
+    Відповідь: { success: true, new_balance: X, updated: bool }."""
     data = request.get_json(silent=True) or {}
     try:
         match_id = int(data.get("match_id") or 0)
         stake = float(data.get("stake") or 0)
-        odd = float(data.get("odd") or 0)
+        odd = float(data.get("odds") or data.get("odd") or 0)
     except (TypeError, ValueError):
         return jsonify({"error": "Некоректні числа"}), 400
     selection = str(data.get("selection") or "").strip()
+    market = (str(data.get("market") or "").strip() or None)
     if not match_id or len(selection) < 2:
         return jsonify({"error": "Вкажіть матч і вибір"}), 400
     if stake <= 0 or stake > 100000:
@@ -814,6 +969,12 @@ def api_place_bet():
         exists = conn.execute("SELECT 1 FROM matches WHERE id=?", (match_id,)).fetchone()
         if not exists:
             return jsonify({"error": "Матч не знайдено"}), 404
+
+        def _balance():
+            b = conn.execute(
+                "SELECT value FROM config WHERE key='bankroll'").fetchone()
+            return float(b[0]) if b and b[0] else 1000.0
+
         # Upsert: if the user already has a PENDING bet on this match — rewrite it
         # (keeps the last placed coefficient until the match is sent to history).
         prev = conn.execute(
@@ -821,18 +982,35 @@ def api_place_bet():
             "ORDER BY id LIMIT 1", (match_id,)).fetchone()
         if prev:
             bet_id = prev[0]
+            # Оновлюється ТІЛЬКИ вибір/коефіцієнт/маркет — сума ставки
+            # НЕ списується повторно (гроші вже заморожені першою ставкою).
             conn.execute(
-                "UPDATE user_bets SET selection=?, stake=?, odd=? WHERE id=?",
-                (selection, stake, odd, bet_id))
+                "UPDATE user_bets SET selection=?, odd=?, market=? WHERE id=?",
+                (selection, odd, market, bet_id))
             conn.commit()
-            return jsonify({"ok": True, "id": bet_id, "updated": True}), 200
+            return jsonify({"ok": True, "success": True, "id": bet_id,
+                            "updated": True,
+                            "new_balance": round(_balance(), 2)}), 200
+
+        # Нова ставка: перевірка балансу та миттєве списання + COMMIT.
+        bankroll = _balance()
+        if stake > bankroll:
+            return jsonify({"error": "Недостатньо коштів на балансі",
+                            "success": False,
+                            "new_balance": round(bankroll, 2)}), 400
         cur = conn.execute(
-            "INSERT INTO user_bets (match_id, selection, stake, odd, status, profit) "
-            "VALUES (?, ?, ?, ?, 'PENDING', 0.0)",
-            (match_id, selection, stake, odd))
+            "INSERT INTO user_bets (match_id, market, selection, stake, odd, "
+            "status, profit) VALUES (?, ?, ?, ?, ?, 'PENDING', 0.0)",
+            (match_id, market, selection, stake, odd))
+        bankroll -= stake
+        conn.execute(
+            "INSERT INTO config (key, value) VALUES ('bankroll', ?) "
+            "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            (str(round(bankroll, 2)),))
         conn.commit()
         bet_id = cur.lastrowid
-    return jsonify({"ok": True, "id": bet_id}), 201
+    return jsonify({"ok": True, "success": True, "id": bet_id,
+                    "updated": False, "new_balance": round(bankroll, 2)}), 201
 
 
 @app.route("/api/stats/refresh", methods=["POST"])
@@ -866,14 +1044,22 @@ def api_odds_refresh():
 @app.route("/api/bets/<int:bet_id>", methods=["DELETE"])
 def api_delete_bet(bet_id):
     with db.get_connection() as conn:
-        row = conn.execute("SELECT status FROM user_bets WHERE id=?", (bet_id,)).fetchone()
+        row = conn.execute("SELECT status, stake FROM user_bets WHERE id=?", (bet_id,)).fetchone()
         if not row:
             return jsonify({"error": "Ставку не знайдено"}), 404
         if row[0] != "PENDING":
             return jsonify({"error": "Можна скасувати лише PENDING"}), 400
         conn.execute("DELETE FROM user_bets WHERE id=?", (bet_id,))
+        # v26: скасування ставки повертає заморожені кошти на баланс.
+        b = conn.execute("SELECT value FROM config WHERE key='bankroll'").fetchone()
+        bankroll = float(b[0]) if b and b[0] else 1000.0
+        bankroll += float(row[1] or 0)
+        conn.execute(
+            "INSERT INTO config (key, value) VALUES ('bankroll', ?) "
+            "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            (str(round(bankroll, 2)),))
         conn.commit()
-    return jsonify({"ok": True})
+    return jsonify({"ok": True, "new_balance": round(bankroll, 2)})
 
 
 @app.route("/api/bets")

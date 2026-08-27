@@ -125,10 +125,12 @@ function matchCardHtml(m) {
     : "";
   const prob = m.top_prob != null ? ' <span class="text-gray-400 font-normal">(' + m.top_prob + "%)</span>" : "";
   const betLabel = m.has_bet && m.bet_odd != null
-    ? Number(m.bet_odd).toFixed(2)
+    ? "✔ " + esc(m.bet_selection || "СТАВКА") + " • " + Number(m.bet_odd).toFixed(2)
     : "СТАВКА";
+  /* Активне підсвічування обраного варіанту: кнопка картки горить золотим,
+     щоб користувач бачив, на що саме зроблено ставку (v26) */
   const betBtnCls = m.has_bet
-    ? "bg-borderDark hover:bg-gray-700 text-gray-300 border-gray-500/50"
+    ? "bg-goldAccent text-black border-goldAccent shadow-md"
     : "bg-goldAccent/10 hover:bg-goldAccent hover:text-black text-goldAccent border-goldAccent/60";
   return '<div class="bg-cardBg border border-borderDark rounded-xl p-3.5 sm:p-4 hover:border-gray-700 transition space-y-3">' +
     '<div class="flex justify-between items-center text-xs border-b border-borderDark/60 pb-2">' +
