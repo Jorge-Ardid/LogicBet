@@ -744,9 +744,6 @@ class BettingAnalytics:
         elif "Cards" in market_name:
             thresholds = [2.5, 3.5, 4.5, 5.5, 6.5]
             balance_range = (3.5, 5.5)
-        elif "1st Half" in market_name:
-            thresholds = [0.5, 1.5, 2.5]
-            balance_range = (0.5, 1.5)
         elif "Individual" in market_name:  # Individual Team Totals - інші правила
             thresholds = [0.5, 1.5, 2.5, 3.5]
             balance_range = (1.5, 2.5)  # для індивідуальних тоталів 1.5-2.5 це норма
@@ -1097,20 +1094,10 @@ class BettingAnalytics:
                 "value_percentage": 0.0, "confidence_level": "HIGH" if p_btts > 0.75 else "MEDIUM",
                 "confidence_score_pct": _conf_pct
             })
-        # 2.4 1st Half Goals - ONE optimal option
-        lmb_ht = h_tr['avg_goals_ht'] + a_tr['avg_goals_ht']
-        optimal_ht = self._calculate_optimal_total(lmb_ht, "1st Half Goals")
-        if optimal_ht and optimal_ht['prob'] > 0.70:  # higher threshold for 1st half
-            selection = f"{optimal_ht['selection']} (1st half)"
-            _tk = self._market_token("ТБ" if "Over" in str(optimal_ht.get('selection','')) else "ТМ")
-            _kb = self._karma_bonus(_tk)
-            _conf_pct = min(99.0, round(float(optimal_ht['prob']) * (1 + _kb) * 100,))
-            results.append({
-                "match_id": match_id, "algorithm": "GOALS (1ST HALF)", "market": "1st Half Goals",
-                "selection": selection, "calculated_prob": optimal_ht['prob'], "bookmaker_odd": 0.0,
-                "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_ht['prob'] > 0.80 else "MEDIUM",
-                "confidence_score_pct": _conf_pct
-            })
+        # 2.4 1st Half Goals — ВИДАЛЕНО (v29): ринки 1-го тайму зняті з
+        # обігу — у безкоштовному Football-Data фіді вони ненадійні.
+        # Лишились: 1X2/DC, Загальні тотали (ТБ/ТМ 1.5-3.5), ОЗ (BTTS),
+        # Кутові, Картки, Індивідуальні тотали.
             
         # 3. Corners Totals (Improved Model) - ONE optimal option
         # We blend: (Home Corners + Away Conceded) / 2 and (Away Corners + Home Conceded) / 2

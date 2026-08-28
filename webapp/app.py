@@ -210,17 +210,8 @@ def _resolve_selection_hit(sel, hs, as_t, hth=None, hta=None):
                 return float(t)
         return default
 
-    # --- 1-й тайм ---
-    if ("1-Й ТАЙМ" in s or "1-Й Т" in s or "1-Й" in s):
-        if hth is None or hta is None:
-            return None
-        tot_ht = hth + hta
-        if "ТБ" in s:
-            return tot_ht > _thr()
-        if "ТМ" in s:
-            return tot_ht < _thr()
-        return None
-    # --- Подвійний шанс (до 1X2: '1X' містить '1'...) ---
+    # --- 1-й тайм: ВИДАЛЕНО (v29) — 1st-half ринки зняті з обігу;
+    # такі селекшени більше не розпізнаються (нові не генеруються).
     if "1X" in s or "1Х" in s or "1 X" in s or "1 Х" in s:
         return hs >= as_t
     if "X2" in s or "Х2" in s or "X 2" in s or "Х 2" in s:
@@ -314,14 +305,9 @@ def _ai_pred_hit(sel, hs, as_t, hth, hta, ch, ca, yh, ya, rh, ra,
                    or s.startswith("НЕ ") or ("НЕ ЗАБ" in s))
         return (not both_scored) if no_side else both_scored
 
-    # ---------- 1. 1st-Half Goals ----------
-    elif ("1-Й" in s) or ("1ST HALF" in s) or ("(1ST HALF)" in s):
-        if hth is None or hta is None:
-            return None  # чекаємо HT-статистику — is_hit залишається NULL
-        nums = _nums()
-        thr = max(nums) if nums else 1.5
-        return ((hth + hta) > thr) if (("ТБ" in s) or ("OVER" in s)) \
-            else ((hth + hta) < thr)
+    # ---------- 1. 1st-Half Goals: ВИДАЛЕНО (v29) ----------
+    # Ринки 1-го тайму зняті з обігу (ненадійні у Football-Data free feed).
+    # Старі 1st-half прогнози видалені з БД міграцією.
 
     # ---------- 2. Corners ----------
     elif ("КУТОВ" in s) or ("CORNERS" in s):
