@@ -13,6 +13,12 @@ venv/
 # --- Runtime user data (bets/bankroll) — NEVER overwrite on deploy ---
 webapp/user_data.db
 webapp/*.db
+# Захисні знімки (v30-ізоляція): локальні, змінюються під час роботи —
+# git їх НІКОЛИ не повинен бачити (інакше reset --hard перезапише).
+webapp/user_data.db.snapshot
+webapp/user_data.db.snaptmp
+# Шаблон для чистих деплоїв — ТРЕКАЄТЬСЯ (виключення з webapp/*.db).
+!webapp/user_data.db.template
 
 # --- Scratch / debug outputs (session helpers) ---
 *_out.txt

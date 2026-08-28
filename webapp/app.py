@@ -7,6 +7,7 @@ NEVER overwritten by this app — it only INSERTs user bets and updates the
 explicitly protected config keys.
 """
 import os
+import shutil
 import sqlite3
 import sys
 from datetime import datetime, timedelta
@@ -28,7 +29,47 @@ DATA_DB_PATH = os.environ.get("LOGICBET_DATA_DB") or os.path.join(
 # (CREATE TABLE IF NOT EXISTS); існуючий файл НІКОЛИ не перезаписується.
 USER_DB_PATH = os.environ.get("LOGICBET_DB_PATH") or os.path.join(
     ROOT, "webapp", "user_data.db")
+
+# v30-ізоляція: user_data.db ВИДАЛЕНО з Git-індексу (git rm --cached) —
+# користувацькі ставки/банкрол більше ніколи не перезаписуються деплоєм.
+# Але `git reset --hard` на сервері ВИДАЛЯЄ файл, що перестав трекатись,
+# тому поруч тримаємо захисний снапшот (user_data.db.snapshot — у
+# .gitignore, git його ніколи не торкається) і відновлюємось з нього;
+# для абсолютно чистих деплоїв — з треканого шаблону user_data.db.template.
+_USER_SNAPSHOT = USER_DB_PATH + ".snapshot"
+_USER_TEMPLATE = os.path.join(ROOT, "webapp", "user_data.db.template")
+
+
+def _restore_user_db_if_missing():
+    """Повертає робочу БД, якщо деплой її знеіснив (reset --hard):
+    спершу — останній снапшот (зберігає банк/ставки), далі — шаблон."""
+    if os.path.exists(USER_DB_PATH):
+        return
+    for cand in (_USER_SNAPSHOT, _USER_TEMPLATE):
+        if cand and os.path.exists(cand):
+            try:
+                shutil.copyfile(cand, USER_DB_PATH)
+                print("[WEB] user_data.db restored from %s" % cand)
+                return
+            except Exception as exc:             # noqa: BLE001
+                print("[WEB] restore failed (%s): %s" % (cand, exc))
+
+
+_restore_user_db_if_missing()
+
 db = LogicBetDB(USER_DB_PATH, data_db_path=DATA_DB_PATH)
+
+
+def _snapshot_user_db():
+    """Атомарний захисний знімок робочої БД (после кожної мутації)."""
+    try:
+        if not os.path.exists(USER_DB_PATH):
+            return
+        tmp = USER_DB_PATH + ".snaptmp"
+        shutil.copyfile(USER_DB_PATH, tmp)
+        os.replace(tmp, _USER_SNAPSHOT)
+    except Exception:                            # noqa: BLE001
+        pass
 
 
 def _migrate_balance_deduction_model():
@@ -135,6 +176,19 @@ def maybe_sync_bet365_odds(force=False):
         print("[WEB] bet365 odds error:", exc)
         _b365.logger.error("цикл коефіцієнтів впав: %s", exc)
         return None
+
+
+@app.after_request
+def _snapshot_after_mutation(resp):
+    """v30-ізоляція: після кожної мутації через API оновлюємо захисний
+    знімок user_data.db (.snapshot), щоб деплой/reset --hard ніколи не
+    міг забрати ставки та банкрол користувача."""
+    try:
+        if request.method in ("POST", "PUT", "DELETE") and resp.status_code < 500:
+            _snapshot_user_db()
+    except Exception:                            # noqa: BLE001
+        pass
+    return resp
 
 
 @app.after_request
@@ -778,6 +832,12 @@ def settle_pending_bets():
         strategy_evaluator.run_cycle(db)
     except Exception as exc:
         print("[STRAT] run_cycle error:", exc)
+    # v30: оновлюємо захисний знімок user_data.db — сетлмент змінює
+    # статуси/банкрол навіть на GET-запитах Історії.
+    try:
+        _snapshot_user_db()
+    except Exception:                            # noqa: BLE001
+        pass
     return {"settled": settled, "wins": wins, "ai": ai_res}
 
 
