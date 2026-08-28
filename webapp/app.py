@@ -634,10 +634,10 @@ def fetch_finished_scores_from_fd(force=False):
             JOIN matches m ON ub.match_id = m.id
             JOIN teams t1 ON m.home_team_id = t1.id
             JOIN teams t2 ON m.away_team_id = t2.id
-            WHERE ub.status = 'PENDING'
+            WHERE ub.status IN ('PENDING', 'AWAITING')
               AND (m.status NOT IN ('FT','AET','PEN','FINISHED')
                    OR m.home_score IS NULL OR m.away_score IS NULL)
-              AND m.date < datetime('now', 'localtime')
+              AND m.date < datetime('now')
         """).fetchall()
     if not rows:
         return {"pending_without_score": 0, "updated": 0}
@@ -657,14 +657,20 @@ def fetch_finished_scores_from_fd(force=False):
     mapping = _fd_match_match_score(db, rows, scores)
     updated = 0
     if mapping:
-        with db.get_connection() as co:
+        # v29-fix: рахунки пишемо НАПРЯМУ в data-БД. У split-режимі вебу
+        # `matches` — TEMP-VIEW над read-only attach (datadb), тож UPDATE
+        # через робоче з'єднання завершився б "cannot modify view".
+        # Пряме з'єднання працює і в моноліті, і в split.
+        _dconn = sqlite3.connect(DATA_DB_PATH)
+        try:
             for m_id, (hs, as_) in mapping.items():
-                co.execute("""
-                    UPDATE matches SET status='FT', home_score=?, away_score=?
-                    WHERE id=?
-                """, (hs, as_, m_id))
+                _dconn.execute(
+                    "UPDATE matches SET status='FT', home_score=?, away_score=? "
+                    "WHERE id=?", (hs, as_, m_id))
                 updated += 1
-            co.commit()
+            _dconn.commit()
+        finally:
+            _dconn.close()
     return {"pending_without_score": len(rows),
             "api_returned": len(scores), "updated": updated}
 
@@ -683,6 +689,47 @@ def settle_pending_bets():
     -> сетлмент ставок користувача. Статистика йде ПЕРШОЮ, бо тоталі
     (кутові/картки/xG) у сетлменті ШІ залежать від свіжих цифр."""
     fetch_finished_scores_from_fd()
+    # v29: примусовий time-based fallback. Якщо FD не дав фінальний рахунок
+    # для матчу, який завершився понад 3 години тому, — НЕ тримаємо його в
+    # PENDING на головній сторінці: позначаємо ставку (і сам матч) статусом
+    # AWAITING ("Awaiting Result"). З Аналітики його прибирає часовий фільтр
+    # api_matches, Історія показує «⏳ Очікує результату». Щойно рахунок
+    # доїде (FD/CI) — AWAITING повертається в сетлмент (SELECT нижче).
+    _time_await_marked = 0
+    try:
+        with db.get_connection() as _conn:
+            _cur = _conn.execute("""
+                UPDATE user_bets SET status='AWAITING'
+                WHERE status='PENDING' AND match_id IN (
+                    SELECT id FROM matches
+                    WHERE date < datetime('now', '-3 hours')
+                      AND (home_score IS NULL OR away_score IS NULL
+                           OR status NOT IN ('FT','AET','PEN','FINISHED'))
+                )
+            """)
+            _time_await_marked = _cur.rowcount or 0
+            _conn.commit()
+        if _time_await_marked:
+            # v29: позначаємо й самі матчі "Awaiting Result" у data-БД
+            # (пряме з'єднання: matches у вебі — read-only VIEW). ID матчів
+            # беремо з РОБОЧОЇ БД заздалегідь: у data.db своя (застаріла)
+            # копія user_bets, підзапит там би не побачив нові ставки.
+            with db.get_connection() as _uc:
+                _await_ids = [r[0] for r in _uc.execute(
+                    "SELECT match_id FROM user_bets WHERE status='AWAITING'")]
+            if _await_ids:
+                _marks = ",".join("?" * len(_await_ids))
+                _dconn = sqlite3.connect(DATA_DB_PATH)
+                try:
+                    _dconn.execute(
+                        "UPDATE matches SET status='AWAITING' "
+                        "WHERE status NOT IN ('FT','AET','PEN','FINISHED','AWAITING') "
+                        "AND id IN (%s)" % _marks, _await_ids)
+                    _dconn.commit()
+                finally:
+                    _dconn.close()
+    except Exception as exc:                            # noqa: BLE001
+        print("[WEB] time-based fallback error:", exc)
     maybe_refresh_recent_stats()
     maybe_sync_bet365_odds()
     full_elo_recalc()
@@ -695,7 +742,7 @@ def settle_pending_bets():
                    m.home_score, m.away_score, m.ht_score_h, m.ht_score_a
             FROM user_bets ub
             JOIN matches m ON ub.match_id = m.id
-            WHERE ub.status = 'PENDING'
+            WHERE ub.status IN ('PENDING', 'AWAITING')
               AND m.status IN ('FT','AET','PEN','FINISHED')
               AND m.home_score IS NOT NULL AND m.away_score IS NOT NULL
         """).fetchall()
@@ -944,6 +991,13 @@ def api_state():
 
 @app.route("/api/matches")
 def api_matches():
+    # v29: ОБОВ'ЯЗКОВИЙ авто-розрахунок перед видачею списку матчів.
+    # Раніше settle запускався лише з Історії (/api/bets), тож вчорашні
+    # матчі зі ставками могли висіти в Аналітиці до її першого відкриття.
+    try:
+        settle_pending_bets()
+    except Exception as exc:                            # noqa: BLE001
+        print("[WEB] matches settle error:", exc)
     # Конкуренція скриптів: тримаємо арену свіжою (settle → stats →
     # generate) перед формуванням консенсусу ТОП-3. Тротлінг 60 с —
     # всередині strategy_evaluator.run_cycle.
@@ -955,7 +1009,11 @@ def api_matches():
     flt = request.args.get("filter", "all")
     groups = []
     if flt in ("all", "today"):
-        rows = load_matches("DATE(m.date) = DATE('now')", [])
+        # v29: жорсткий часовий фільтр — матч, час початку якого минув,
+        # НЕ потрапляє в Аналітику навіть якщо статус у БД ще не оновився.
+        rows = load_matches(
+            "DATE(m.date) = DATE('now') "
+            "AND m.date >= datetime('now')", [])  # UTC: так зберігаються дати в БД
         groups.append({"key": "today", "title": "Сьогодні",
                        "label": day_label(datetime.utcnow()), "matches": rows})
     if flt in ("all", "tomorrow"):
@@ -1095,7 +1153,9 @@ def api_history():
     settle_pending_bets()
 
     status_filter = request.args.get("status", "ALL").upper()
-    where_clauses = ["m.status IN ('FT','AET','PEN','FINISHED')"]
+    # v29: AWAITING-матчі (3h-fallback без рахунку) теж показуємо в Історії —
+    # бейдж «ОЧІКУЄ РЕЗУЛЬТАТУ», щоб ставка не зникала з поля зору.
+    where_clauses = ["m.status IN ('FT','AET','PEN','FINISHED','AWAITING')"]
     params = []
 
     if status_filter == "WON":
@@ -1128,7 +1188,8 @@ def api_history():
             FROM matches m
             JOIN teams t1 ON m.home_team_id = t1.id
             JOIN teams t2 ON m.away_team_id = t2.id
-            LEFT JOIN user_bets ub ON m.id = ub.match_id AND ub.status IN ('WON', 'LOST')
+            LEFT JOIN user_bets ub ON m.id = ub.match_id
+                AND ub.status IN ('WON', 'LOST', 'PENDING', 'AWAITING')
             WHERE """ + where_sql + """
             ORDER BY m.date DESC, m.id DESC
             LIMIT ? OFFSET ?

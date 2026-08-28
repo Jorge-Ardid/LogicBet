@@ -13,12 +13,13 @@ const H_PAGE_LIMIT = 300;
 function betBadge(s) {
   if (s === "WON") return "bg-greenAccent/15 text-greenAccent border-greenAccent/40";
   if (s === "LOST") return "bg-red-500/10 text-red-400 border-red-500/40";
+  if (s === "AWAITING") return "bg-yellow-400/10 text-yellow-300 border-yellow-400/40";
   return "bg-goldAccent/10 text-goldAccent border-goldAccent/40";
 }
 
 
 function historyCard(b) {
-  const label = { WON: "WON ✓", LOST: "LOST ✗", PENDING: "PENDING ⏳" };
+  const label = { WON: "WON ✓", LOST: "LOST ✗", PENDING: "PENDING ⏳", AWAITING: "ОЧІКУЄ РЕЗУЛЬТАТУ ⏳" };
   const bet = b.bet;
   const hasBet = bet && bet.status;
   const statusKey = hasBet ? bet.status : null;
