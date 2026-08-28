@@ -41,8 +41,10 @@ for _p in (ROOT, os.path.join(ROOT, "webapp"), HERE):
 from webapp.app import (                      # noqa: E402
     settle_pending_bets,
     fetch_finished_scores_from_fd,
+    maybe_sync_bet365_odds,
     db,
 )
+import webapp.app as _WAPP                    # noqa: E402  (патч глобалів)
 
 
 def update_match_statuses():
@@ -84,22 +86,48 @@ def update_match_statuses():
     return {"pending_to_awaiting": to_await, "awaiting_to_pending": to_pending}
 
 
-def run_cycle(force_fd=False, use_fd=True):
-    """Один повний прохід: FD-рахунки -> settle -> статуси."""
+def run_cycle(force_fd=False, use_fd=True, force_b365=False, use_b365=True):
+    """Один повний прохід: b365-ліги -> FD-рахунки -> settle -> статуси."""
+    b365_res = None
+    if use_b365:
+        try:
+            import bet365_client as _b365
+            plan = _b365.accumulator_plan(db.get_config)
+            print("[CRON] b365 plan:", plan)
+            b365_res = maybe_sync_bet365_odds(force=force_b365)
+            # Щоб settle всередині не запускав sync вдруге (він викликає
+            # СВІЙ глобал webapp.app.maybe_sync_bet365_odds) — патчу саме
+            # атрибут модуля webapp.app на час settle.
+            _orig = _WAPP.maybe_sync_bet365_odds
+            _WAPP.maybe_sync_bet365_odds = lambda force=False: None
+            try:
+                settle = settle_pending_bets()
+            finally:
+                _WAPP.maybe_sync_bet365_odds = _orig
+        except Exception as exc:                 # noqa: BLE001
+            print("[CRON] b365 sync error:", exc)
+            b365_res = {"error": str(exc)}
+            try:
+                settle = settle_pending_bets()
+            except Exception as exc2:            # noqa: BLE001
+                print("[CRON] settle error:", exc2)
+                settle = {"error": str(exc2)}
+    else:
+        try:
+            settle = settle_pending_bets()
+        except Exception as exc:                 # noqa: BLE001
+            print("[CRON] settle error:", exc)
+            settle = {"error": str(exc)}
     fd_res = None
     if use_fd:
         try:
             fd_res = fetch_finished_scores_from_fd(force=force_fd)
-        except Exception as exc:                     # noqa: BLE001
+        except Exception as exc:                 # noqa: BLE001
             print("[CRON] FD fetch error:", exc)
             fd_res = {"error": str(exc)}
-    try:
-        settle = settle_pending_bets()
-    except Exception as exc:                         # noqa: BLE001
-        print("[CRON] settle error:", exc)
-        settle = {"error": str(exc)}
     statuses = update_match_statuses()
-    summary = {"fd": fd_res, "settle": settle, "statuses": statuses}
+    summary = {"b365": b365_res, "fd": fd_res, "settle": settle,
+               "statuses": statuses}
     print("[CRON] cycle:", summary)
     return summary
 
@@ -112,10 +140,15 @@ def main():
                     help="форсувати Football-Data запит (обійти тротлінг)")
     ap.add_argument("--no-fd", action="store_true",
                     help="не ходити в Football-Data у цьому запуску")
+    ap.add_argument("--force-bet365", action="store_true",
+                    help="форсувати Bet365 ліговий забір (обійти денний ліміт)")
+    ap.add_argument("--no-bet365", action="store_true",
+                    help="не ходити в Bet365 у цьому запуску")
     args = ap.parse_args()
 
     while True:
-        run_cycle(force_fd=args.force_fd, use_fd=not args.no_fd)
+        run_cycle(force_fd=args.force_fd, use_fd=not args.no_fd,
+                  force_b365=args.force_bet365, use_b365=not args.no_bet365)
         if args.loop <= 0:
             break
         time.sleep(args.loop)

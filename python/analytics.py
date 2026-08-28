@@ -941,6 +941,107 @@ class BettingAnalytics:
                 print(f"  <{mk}> n={d['n']}  model={d['model_acc']}%  market={d['market_acc']}%  edge={d['avg_edge']:+.4f}")
         return result
 
+    # ------------------------------------------------------------------
+    # v30: Weekend Accumulator — ринкові кефі з `odds` (Bet365 знімки) ---
+    _ODDS_CANON = {
+        "1X2": ["П1", "X", "П2"],
+        "Total Goals": ["ТБ 2.5", "ТМ 2.5", "ТБ 1.5", "ТМ 1.5",
+                        "ТБ 3.5", "ТМ 3.5"],
+        "BTTS": ["ОЗ - Так", "ОЗ - Ні"],
+    }
+    _LEAGUE_ALIASES = {
+        "EPL": "Premier League", "LALIGA": "La Liga",
+        "SERIEA": "Serie A", "BUNDESLIGA": "Bundesliga",
+        "LIGUE1": "Ligue 1", "UCL": "UEFA Champions League",
+        "UEL": "UEFA Europa League",
+    }
+
+    def _odds_snapshot(self, league, market, selection):
+        """Найсвіжіший ринковий кеф з `odds` (Weekend Accumulator v30).
+
+        Знімки пишуться в ДАТА-БД (godot_app/logicbet.db — канал CI/синку),
+        тому читаємо напряму з data_db_path; у монолітному режимі це та сама
+        БД. Шукаємо і за повною назвою ліги, і за кодом (EPL/LALIGA/...).
+        Повертає float-кеф або None.
+        """
+        if not league:
+            return None
+        aliases = {league}
+        for code, full in self._LEAGUE_ALIASES.items():
+            if league == full or league == code or full in league:
+                aliases.add(code)
+                aliases.add(full)
+        dpath = getattr(self.db, "data_db_path", None)
+        try:
+            import sqlite3 as _sq
+            if dpath:
+                conn = _sq.connect(dpath)
+                try:
+                    for lg in aliases:
+                        r = conn.execute(
+                            "SELECT opening_odd FROM odds "
+                            "WHERE league = ? AND market = ? AND selection = ? "
+                            "ORDER BY fetched_at DESC LIMIT 1",
+                            (lg, market, selection)).fetchone()
+                        if r and r[0]:
+                            return float(r[0])
+                finally:
+                    conn.close()
+            else:
+                with self.db.get_connection() as conn:
+                    for lg in aliases:
+                        r = conn.execute(
+                            "SELECT opening_odd FROM odds "
+                            "WHERE league = ? AND market = ? AND selection = ? "
+                            "ORDER BY fetched_at DESC LIMIT 1",
+                            (lg, market, selection)).fetchone()
+                        if r and r[0]:
+                            return float(r[0])
+        except Exception:                        # noqa: BLE001
+            return None
+        return None
+
+    def _apply_market_odds(self, match_id, results):
+        """v30: замінює bookmaker_odd=0 свіжими кефами з `odds`, рахує
+        Expected Value і перераховує confidence_score_pct з EV-бустом/
+        штрафом — прибирає відбір занижених кефів (типу 1.25 при prob
+        0.82: EV всього +2.5%, тоді як альтернатива може дати +8%)."""
+        league = None
+        try:
+            with self.db.get_connection() as conn:
+                r = conn.execute("SELECT league FROM matches WHERE id=?",
+                                 (match_id,)).fetchone()
+                league = r[0] if r else None
+        except Exception:                        # noqa: BLE001
+            league = None
+        if not league:
+            return results
+        for r in results:
+            market = r.get("market")
+            sel = (r.get("selection") or "").strip()
+            canon = self._ODDS_CANON.get(market, [])
+            snap = None
+            for cand in canon:
+                if sel.upper().startswith(cand.upper()):
+                    snap = self._odds_snapshot(league, market, cand)
+                    break
+            if not snap:
+                continue
+            prob = float(r.get("calculated_prob") or 0)
+            odd = float(snap)
+            ev = prob * odd - 1.0
+            r["bookmaker_odd"] = round(odd, 3)
+            r["value_percentage"] = round(ev * 100, 1)
+            r["ev_pct"] = round(ev * 100, 1)
+            try:
+                kb = self._karma_bonus(self._market_token(sel)) or 0.0
+            except Exception:                    # noqa: BLE001
+                kb = 0.0
+            ev_adj = max(-0.15, min(0.15, ev))
+            r["confidence_score_pct"] = min(99.0, round(
+                prob * (1 + kb + ev_adj) * 100, 1))
+        return results
+
     def determine_predictions(self, match_id, home_id, away_id, bookmaker_odds_data, h_form="", a_form=""):
         match_date = None
         if match_id is not None:
@@ -1142,5 +1243,13 @@ class BettingAnalytics:
                 "value_percentage": 0.0, "confidence_level": "HIGH" if optimal_cards['prob'] > 0.75 else "MEDIUM",
                 "confidence_score_pct": _conf_pct
             })
+
+        # v30: Value із накопичувального календаря Bet365 — свіжі кефі
+        # з `odds` (fetched_at) -> EV у value_percentage та EV-зважений
+        # confidence (прибирає вибір занижених кефів типу 1.25).
+        try:
+            results = self._apply_market_odds(match_id, results)
+        except Exception:                        # noqa: BLE001
+            pass
 
         return results

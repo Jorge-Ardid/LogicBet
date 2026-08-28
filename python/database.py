@@ -523,10 +523,12 @@ class LogicBetDB:
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS odds (
                     match_id INTEGER,
+                    league TEXT, -- v30: код ліги знімка (EPL, LALIGA...) для лігових записів
                     market TEXT, -- '1X2', 'TOTAL_GOALS', 'CORNERS', 'CARDS', 'BTTS'
                     selection TEXT, -- 'Home', 'Away', 'Draw', 'Over 2.5', 'Under 2.5', etc.
                     opening_odd REAL,
                     closing_odd REAL,
+                    fetched_at TEXT, -- v30: timestamp знімка (Weekend Accumulator)
                     FOREIGN KEY(match_id) REFERENCES matches(id),
                     PRIMARY KEY (match_id, market, selection)
                 )

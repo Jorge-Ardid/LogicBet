@@ -128,8 +128,9 @@ def maybe_sync_bet365_odds(force=False):
         return None
     _B365_LAST_SWEEP["ts"] = now
     try:
-        return _b365.sync_odds_for_new_matches(
-            DATA_DB_PATH, get_config=db.get_config, set_config=db.set_config)
+        return _b365.sync_accumulator(
+            DATA_DB_PATH, get_config=db.get_config,
+            set_config=db.set_config, force=force)
     except Exception as exc:                 # noqa: BLE001
         print("[WEB] bet365 odds error:", exc)
         _b365.logger.error("цикл коефіцієнтів впав: %s", exc)

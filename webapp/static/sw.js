@@ -1,4 +1,4 @@
-const CACHE = "logicbet-v29";
+const CACHE = "logicbet-v30";
 const SHELL = [
   "/", "/static/js/app.js", "/static/js/views.js", "/static/css/app.css",
   "/static/manifest.json", "/static/icons/icon-192.png", "/static/icons/icon-512.png"
