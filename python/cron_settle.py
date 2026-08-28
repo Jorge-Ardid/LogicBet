@@ -20,6 +20,14 @@ settle_pending_bets() з webapp/app.py (єдине джерело правди �
     */15 * * * * cd /home/LogicBetAI/LogicBet/python && \\
         /home/LogicBetAI/.local/bin/python3 cron_settle.py >> ../cron_settle.log 2>&1
 
+НІЧНИЙ ГАРАНТОВАНИЙ ПРОГІН (до ранку все пораховано):
+  • PythonAnywhere Tasks → Scheduled task:
+      0 1 * * * cd /home/LogicBetAI/LogicBet/python && \\
+          python3 cron_settle.py --force-fd --force-bet365 >> ../cron_settle.log 2>&1
+  • Або GitHub Actions: .github/workflows/nightly_settle.yml (cron 01:00 UTC,
+    уже в репо) — сам підтягне результати, розрахує ставки і закомітить
+    оновлені logicbet.db / user_data.db.
+
 Робоча директорія значення не має: скрипт сам додає корінь репо та webapp/
 у sys.path, тож env-логіка LOGICBET_DATA_DB / LOGICBET_DB_PATH працює як у
 проді. На PythonAnywhere шляхи дефолтні — додаткових змінних не треба.

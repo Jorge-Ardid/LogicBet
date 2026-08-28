@@ -602,6 +602,9 @@ def fetch_finished_scores_from_fd(force=False):
     рахунком + статусом FT, щоб виклик settle_pending_bets одразу їх
     розрахував. Маппінг — за парами назв команд (надійний для нашого
     набору ліг). Тротлінг між циклами, щоб не перевищувати 10 req/min.
+    v30: результати запитуються для матчів, від СТАРТУ яких минуло
+    ПОНАД 2 ГОДИНИ (datetime('now','-2 hours')) — синхронно з плановим
+    зверненням до API.
     Повертає summary dict або None (пропущено через тротлінг).
     """
     now = _time.monotonic()
@@ -624,7 +627,7 @@ def fetch_finished_scores_from_fd(force=False):
             WHERE ub.status IN ('PENDING', 'AWAITING')
               AND (m.status NOT IN ('FT','AET','PEN','FINISHED')
                    OR m.home_score IS NULL OR m.away_score IS NULL)
-              AND m.date < datetime('now')
+              AND m.date < datetime('now', '-2 hours')
         """).fetchall()
     if not rows:
         return {"pending_without_score": 0, "updated": 0}
@@ -1000,7 +1003,10 @@ def api_matches():
         # НЕ потрапляє в Аналітику навіть якщо статус у БД ще не оновився.
         rows = load_matches(
             "DATE(m.date) = DATE('now') "
-            "AND m.date >= datetime('now')", [])  # UTC: так зберігаються дати в БД
+            "AND m.date >= datetime('now', '-3 hours')", [])
+        # v30 fail-safe: матч живе в Аналітиці 3 год після старту (LIVE),
+        # далі — критично приховується і йде на примусовий розрахунок
+        # (settle_pending_bets -> FD/AWAITING -> WON/LOST в Історії).
         groups.append({"key": "today", "title": "Сьогодні",
                        "label": day_label(datetime.utcnow()), "matches": rows})
     if flt in ("all", "tomorrow"):

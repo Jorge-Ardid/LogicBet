@@ -1,0 +1,39 @@
+name: LogicBet Nightly Settle
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 01:00 UTC щодня: до ранку всі вчорашні матчі пораховані
+  workflow_dispatch:
+
+jobs:
+  nightly_settle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests flask
+
+      - name: Nightly settle (FD results + Bet365 accumulator + auto-settle)
+        env:
+          FOOTBALL_DATA_KEY: ${{ secrets.FOOTBALL_DATA_KEY }}
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: |
+          cd python
+          python cron_settle.py --force-fd --force-bet365
+
+      - name: Commit and Push settled data
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add godot_app/logicbet.db webapp/user_data.db
+          git diff --staged --quiet || (git commit -m "Nightly settle: results fetched, bets settled, history updated [skip ci]" && git push)
