@@ -1043,6 +1043,37 @@ class BettingAnalytics:
                 prob * (1 + kb + ev_adj) * 100, 1))
         return results
 
+    def _select_best_market(self, prediction):
+        """Гарантований вибір ринку для прогнозу (v30-guard).
+
+        Якщо ``market`` або ``selection`` порожні — замінюємо їх на значення
+        за замовчуванням ('1X2' / 'P1'), що робить прогноз показуваним на сайті.
+        Якщо ``bookmaker_odd`` порожній або <= 0 (наприклад, коли свіжі кефі з
+        `odds` не знайдені ``_apply_market_odds`` нічого не змінив), обчислюємо
+        його з розрахованої ймовірності:
+            round(1.0 / max(calculated_prob, 0.05), 2)
+
+        Це запобігає NULL-рядкам у `predictions`, через які сайт пише
+        "Прогнози генерируются..." і залишає market/selection/odd порожніми.
+        """
+        market = prediction.get("market") or ""
+        selection = prediction.get("selection") or ""
+        prob = float(prediction.get("calculated_prob") or 0.0)
+
+        if not market or not selection:
+            market = "1X2"
+            selection = "P1"
+
+        odd = prediction.get("bookmaker_odd")
+        try:
+            odd = float(odd)
+        except (TypeError, ValueError):
+            odd = 0.0
+        if odd <= 0:
+            odd = round(1.0 / max(prob, 0.05), 2)
+
+        return market, selection, odd
+
     def determine_predictions(self, match_id, home_id, away_id, bookmaker_odds_data, h_form="", a_form=""):
         match_date = None
         if match_id is not None:
@@ -1253,4 +1284,15 @@ class BettingAnalytics:
         except Exception:                        # noqa: BLE001
             pass
 
+        # v30-guard: гарантовано непорожній market/selection та додатній
+        # bookmaker_odd для КОЖНОГО прогнозу. Якщо свіжі кефі з `odds` не
+        # знайдені (_apply_market_odds нічого не змінив), bookmaker_odd
+        # залишається 0.0 — це робить прогноз непоказуваним на сайті
+        # ("Прогнози генерируются...") та залишає ринок/вибір/odd NULL.
+        # Примусово заповнюємо значення, щоб жоден запис не був NULL/0.
+        for _p in results:
+            _m, _s, _o = self._select_best_market(_p)
+            _p["market"] = _m
+            _p["selection"] = _s
+            _p["bookmaker_odd"] = _o
         return results
