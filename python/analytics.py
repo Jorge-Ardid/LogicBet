@@ -683,7 +683,8 @@ class BettingAnalytics:
         draw_prob = max(0.15, min(0.35, p00 + p11 + p22 + p33))
         
         # 4. H2H Adjustment
-        h2h = self.db.fetch_h2h_matches(home_id, away_id)
+        h2h = self.db.fetch_h2h_matches(home_id, away_id, 5,
+                                        before_date=match_date)
         h2h_mult = 1.0
         if h2h:
             h2h_pts = 0

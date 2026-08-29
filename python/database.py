@@ -722,8 +722,9 @@ class LogicBetDB:
             conn.commit()
             return match_id
 
-    def fetch_h2h_matches(self, home_id, away_id, limit=5):
-        """Fetches last N matches between these two specific teams."""
+    def fetch_h2h_matches(self, home_id, away_id, limit=5, before_date=None):
+        """Fetches last N matches between these two specific teams,
+        optionally strictly BEFORE a given date (Zero Future Leakage)."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             query = """
@@ -731,9 +732,14 @@ class LogicBetDB:
                 FROM matches
                 WHERE ((home_team_id = ? AND away_team_id = ?) OR (home_team_id = ? AND away_team_id = ?))
                 AND status IN ('FT', 'AET', 'PEN', 'FINISHED')
-                ORDER BY date DESC LIMIT ?
             """
-            cursor.execute(query, (home_id, away_id, away_id, home_id, limit))
+            params = [home_id, away_id, away_id, home_id]
+            if before_date is not None:
+                query += " AND date < ?"
+                params.append(before_date)
+            query += " ORDER BY date DESC LIMIT ?"
+            params.append(limit)
+            cursor.execute(query, params)
             return cursor.fetchall()
             
     def insert_prediction(self, match_id, algorithm, market, selection, prob, odds, value, confidence='MEDIUM'):
