@@ -96,6 +96,19 @@ func fetch_predictions(date_filter: String = "ALL") -> Array:
 			p.algorithm,
 			p.bookmaker_odd,
 			p.value_percentage,
+			/* best_selection + best_bookmaker_odd: single best pick for bet button */
+			(SELECT p3.selection FROM predictions p3
+				WHERE p3.match_id = m.id
+				ORDER BY (CASE WHEN p3.market = '1X2/DC' THEN 0 ELSE 1 END) ASC, p3.calculated_prob DESC
+				LIMIT 1) as best_selection,
+			(SELECT p3.bookmaker_odd FROM predictions p3
+				WHERE p3.match_id = m.id
+				ORDER BY (CASE WHEN p3.market = '1X2/DC' THEN 0 ELSE 1 END) ASC, p3.calculated_prob DESC
+				LIMIT 1) as best_bookmaker_odd,
+			(SELECT p3.calculated_prob FROM predictions p3
+				WHERE p3.match_id = m.id
+				ORDER BY (CASE WHEN p3.market = '1X2/DC' THEN 0 ELSE 1 END) ASC, p3.calculated_prob DESC
+				LIMIT 1) as best_calculated_prob,
 			((t1.elo_rating + t2.elo_rating) * 0.4 + (MAX(p.calculated_prob) * 1000) * 0.6) as power_score
 		FROM matches m
 		LEFT JOIN teams t1 ON m.home_team_id = t1.id

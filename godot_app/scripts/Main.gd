@@ -504,31 +504,93 @@ func _create_match_card(p) -> PanelContainer:
 	var a_btn = LinkButton.new(); a_btn.text = p.get("away_name", "N/A"); a_btn.add_theme_font_size_override("font_size", 20); a_btn.add_theme_color_override("font_color", _form_color(a_form)); a_btn.pressed.connect(_on_show_team_stats.bind(p.get("away_team_id", 0))); match_hb.add_child(a_btn)
 	
 	var v_pred = VBoxContainer.new(); v_pred.alignment = BoxContainer.ALIGNMENT_CENTER; v_pred.size_flags_horizontal = Control.SIZE_EXPAND_FILL; hb.add_child(v_pred)
-	if p.get("selection") != null:
-		# Use VBoxContainer for better multi-line display instead of HFlowContainer
-		var choices = str(p["selection"]).split(" / ")
-		var probs = str(p.get("probabilities", "")).split("|")
-		for i in range(choices.size()):
-			var choice_text = choices[i].strip_edges()
-			if choice_text == "": continue
-			var prob_text = ""
-			if i < probs.size(): prob_text = " (%d%%)" % (float(probs[i]) * 100)
-			var clbl = _lbl(choice_text + prob_text, COLOR_GOLD_BRIGHT, 14, true)  # Enable wrap
-			clbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			v_pred.add_child(clbl)
+	# Show the single BEST pick (dynamically chosen by the SQL subquery),
+	# never the static duplicated GROUP_CONCAT template.
+	var best_sel_pred = p.get("best_selection", p.get("selection", ""))
+	if best_sel_pred != null and str(best_sel_pred) != "":
+		var clbl = _lbl(str(best_sel_pred), COLOR_GOLD_BRIGHT, 14, true)  # Enable wrap
+		clbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v_pred.add_child(clbl)
+		var best_prob = p.get("best_calculated_prob", p.get("calculated_prob", 0))
+		if best_prob != null and float(best_prob) > 0:
+			var prob_lbl = _lbl("(%d%%)" % round(float(best_prob) * 100), COLOR_TEXT_DIM, 12)
+			prob_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			v_pred.add_child(prob_lbl)
 	else:
 		v_pred.add_child(_lbl("АНАЛІЗУЄТЬСЯ...", COLOR_TEXT_DIM))
 
-	var v_odd = VBoxContainer.new(); v_odd.alignment = BoxContainer.ALIGNMENT_CENTER; v_odd.custom_minimum_size.x = 100; hb.add_child(v_odd)
-	if p.get("bookmaker_odd") != null and p["bookmaker_odd"] > 0:
-		v_odd.add_child(_lbl("%.2f" % p["bookmaker_odd"]))
+	var v_odd = VBoxContainer.new(); v_odd.alignment = BoxContainer.ALIGNMENT_CENTER; v_odd.custom_minimum_size.x = 120; hb.add_child(v_odd)
+	var best_odd = p.get("best_bookmaker_odd", p.get("bookmaker_odd", 0))
+	var best_sel = p.get("best_selection", p.get("selection", ""))
+	if best_odd != null and float(best_odd) > 0:
+		v_odd.add_child(_lbl("%.2f" % float(best_odd), COLOR_GOLD_BRIGHT, 18))
 		var val_pct = p.get("value_percentage", 0) * 100
-		v_odd.add_child(_lbl("%+0.1f%%" % val_pct, COLOR_SUCCESS if val_pct > 0 else COLOR_DANGER))
+		v_odd.add_child(_lbl("%+0.1f%%" % val_pct, COLOR_SUCCESS if val_pct > 0 else COLOR_DANGER, 14))
 	else:
 		v_odd.add_child(_lbl("—", COLOR_TEXT_DIM))
-	
-		var btn = Button.new(); btn.text = " СТАВКА "; btn.custom_minimum_size = Vector2(150, 60); btn.add_theme_font_size_override("font_size", 18); btn.pressed.connect(_on_record_pressed.bind(p)); hb.add_child(btn)
+
+	# Dynamic bet button: shows the actual best selection + odds from the DB
+	var btn = Button.new()
+	var btn_style = StyleBoxFlat.new(); btn_style.bg_color = COLOR_GOLD; btn_style.set_corner_radius_all(10); btn.add_theme_stylebox_override("normal", btn_style)
+	btn.add_theme_stylebox_override("hover", btn_style)
+	btn.add_theme_stylebox_override("pressed", btn_style)
+	btn.add_theme_color_override("font_color", COLOR_BLACK)
+	btn.custom_minimum_size = Vector2(170, 60)
+	btn.add_theme_font_size_override("font_size", 16)
+	btn.pressed.connect(_on_record_pressed.bind(p)); hb.add_child(btn)
+	_update_bet_button_text(btn, best_sel, best_odd)
 	return card
+
+func _update_bet_button_text(btn: Button, best_sel, best_odd) -> void:
+	# Format the yellow bet button with the actual best selection + odds
+	var sel_str = str(best_sel) if best_sel != null else ""
+	var odd_val = float(best_odd) if best_odd != null else 0.0
+	
+	# Build short label: "✓ П2 • 2.63" or "✓ ТБ 2.5 • 1.95"
+	var label = ""
+	if sel_str != "":
+		# Extract short market name (П1, П2, X, 1X, X2, 12, ТБ, ТМ)
+		if sel_str.begins_with("П1"):
+			label = "✓ П1"
+		elif sel_str.begins_with("П2"):
+			label = "✓ П2"
+		elif sel_str.begins_with("X (Нічия)") or sel_str == "X":
+			label = "✓ X"
+		elif sel_str.begins_with("1X"):
+			label = "✓ 1X"
+		elif sel_str.begins_with("X2"):
+			label = "✓ X2"
+		elif sel_str.begins_with("12"):
+			label = "✓ 12"
+		elif sel_str.begins_with("ТБ") or sel_str.begins_with("ТМ"):
+			# Goals/corners/cards totals: show "✓ ТБ 2.5" etc.
+			var parts = sel_str.split(" ", false, 1)
+			label = "✓ " + parts[0] if parts.size() <= 1 else "✓ " + parts[0] + " " + parts[1].split(" ")[0]
+		else:
+			# BTTS: "ОЗ - Так/Ні", "ОЗ (Обидві заб'ють)" -> "✓ ОЗ"
+			if sel_str.begins_with("ОЗ"):
+				label = "✓ ОЗ"
+			# Team/other totals: "Real Madrid ТБ 1.5", "Corners Over 9.5",
+			# "Cards Under 4.5" -> "✓ ТБ 1.5" / "✓ ТБ 9.5" / "✓ ТМ 4.5"
+			elif "ТБ" in sel_str or "ТМ" in sel_str or "Over" in sel_str or "Under" in sel_str:
+				if "Over" in sel_str or "ТБ" in sel_str:
+					label = "✓ ТБ"
+				else:
+					label = "✓ ТМ"
+				for tok in sel_str.split(" "):
+					if tok.is_valid_float():
+						label = label + " " + tok
+						break
+			else:
+				# Fallback: keep the selection short but readable
+				label = "✓ " + sel_str.substr(0, min(10, sel_str.length()))
+		
+		if odd_val > 0:
+			label = label + " • " + ("%.2f" % odd_val)
+	else:
+		label = " СТАВКА "
+	
+	btn.text = label
 
 func _update_history():
 	for child in history_vbox.get_children(): child.queue_free()
@@ -853,7 +915,10 @@ func _update_dashboard_with_data(matches):
 		dash_vbox.add_child(_create_match_card(p))
 
 func _on_record_pressed(p_data):
-	current_match_id = int(p_data["match_id"]); current_selection = p_data["selection"]; ai_odd = p_data["bookmaker_odd"]
+	current_match_id = int(p_data["match_id"])
+	# Use DYNAMIC best selection + odds (not the GROUP_CONCAT selection field)
+	current_selection = p_data.get("best_selection", p_data.get("selection", ""))
+	ai_odd = float(p_data.get("best_bookmaker_odd", p_data.get("bookmaker_odd", 0)))
 	# Use full prediction text with line breaks for better display
 	match_confirm_lbl.text = p_data["home_name"] + " — " + p_data["away_name"] + "\nПрогноз: " + current_selection
 	match_confirm_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART  # Enable word wrap

@@ -1060,9 +1060,13 @@ class BettingAnalytics:
         selection = prediction.get("selection") or ""
         prob = float(prediction.get("calculated_prob") or 0.0)
 
-        if not market or not selection:
+        # v31: НЕ перезаписуємо вже розрахований вибір статичним 'P1'.
+        # Заповнюємо лише по-справжньому порожні поля; динамічний best-pick
+        # (SQL-підзапит у fetch_predictions) обирає ринок для кнопки.
+        if not market:
             market = "1X2"
-            selection = "P1"
+        if not selection:
+            selection = "X (Нічия)"
 
         odd = prediction.get("bookmaker_odd")
         try:
