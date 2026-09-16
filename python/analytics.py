@@ -10,6 +10,7 @@
 """
 
 import math
+import sys
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 from enum import Enum
@@ -156,6 +157,107 @@ class BettingAnalytics:
         dev_factor = min(1.0, deviation / 1.0)
         confidence = 0.3 + 0.5 * base_conf + 0.2 * dev_factor
         return round(min(0.95, max(0.1, confidence)), 2)
+def check_market_result(
+    market_type: MarketType,
+    home_goals: int,
+    away_goals: int,
+    is_home_team: bool = True,
+    line: float = 1.5
+) -> Tuple[str, str]:
+    """
+    Перевіряє результат ставки з урахуванням реальних голів.
+    
+    КЛЮЧОВИЙ БАГ ФІКС: Для індивідуальних тоталів (ITB/ITM) порівнюємо
+    ЗГОЛИ КОНКРЕТНОЇ КОМАНДИ, а не загальну суму матчу!
+    
+    Args:
+        market_type: Тип ринку (ITB, ITM, ITB2, ITM2, TB, TM)
+        home_goals: Голи домашньої команди
+        away_goals: Голи гострої команди
+        is_home_team: Чи ставка на домашню команду (для ITB/ITM)
+        line: Лінія тоталу
+        
+    Returns:
+        Tuple[str, str]: (результат "WON"/"LOST", пояснення)
+    """
+    # Визначаємо, чії готи перевіряти
+    if market_type in [MarketType.ITB, MarketType.ITM]:
+        # Ставка на домашню команду - перевіряємо тільки її готи
+        team_goals = home_goals
+        team_name = "Домашня"
+    elif market_type in [MarketType.ITB2, MarketType.ITM2]:
+        # Ставка на гостру команду - перевіряємо тільки її готи
+        team_goals = away_goals
+        team_name = "Гостра"
+    elif market_type in [MarketType.TB, MarketType.TM]:
+        # Загальний тотал - перевіряємо суму обох команд
+        team_goals = home_goals + away_goals
+        team_name = "Матч (загальний)"
+    else:
+        return "LOST", "Невідомий тип ринку"
+    
+    # Розраховуємо результат
+    if market_type in [MarketType.ITB, MarketType.ITB2, MarketType.TB]:
+        # Over (Перевищення) - ставка виграє, якщо більше ніж лінія
+        if team_goals > line:
+            result = "WON"
+            explanation = f"{team_name} забили {team_goals} гол(а/ів), більше ніж лінія {line} → ВИГРАШ"
+        else:
+            result = "LOST"
+            explanation = f"{team_name} забили {team_goals} гол(а/ів), менше або дорівнює лінії {line} → ПРОГРАШ"
+    else:  # MarketType.ITM, MarketType.ITM2, MarketType.TM
+        # Under (Недотяг) - ставка виграє, якщо менше ніж лінія
+        if team_goals < line:
+            result = "WON"
+            explanation = f"{team_name} забили {team_goals} гол(а/ів), менше ніж лінія {line} → ВИГРАШ"
+        else:
+            result = "LOST"
+            explanation = f"{team_name} забили {team_goals} гол(а/ів), більше або дорівнює лінії {line} → ПРОГРАШ"
+    
+    return result, explanation
+
+
+def test_elche_real_madrid():
+    """Тест баг-сценарію: Elche — Real Madrid (2:3)"""
+    print("=" * 70)
+    print("ТЕСТ: Elche — Real Madrid (2:3)")
+    print("Ставка: Elche ТМ 2.5 (Індивідуальний Тотал - Недотяг)")
+    print("=" * 70)
+    print()
+    
+    home_goals = 2  # Elche забили 2
+    away_goals = 3  # Real Madrid забили 3
+    line = 2.5
+    
+    print(f"Результат матчу: Elche {home_goals} - {away_goals} Real Madrid")
+    print(f"Загальна сума: {home_goals + away_goals}")
+    print()
+    
+    # ПОМИЛКА (як було раніше)
+    print("❌ Раніше (помилково):")
+    total = home_goals + away_goals  # 5
+    if total > line:
+        print(f"  Ставка = LOST (помилково!)")
+        print(f"  Чому? Порівнювали з загальною сумою: {total} > {line}")
+    print()
+    
+    # КОРЕКТНО (як має бути)
+    print("✅ Тепер (правильно):")
+    result, explanation = check_market_result(
+        MarketType.ITM,  # Или MarketType.ITM для домашньої команди
+        home_goals=home_goals,
+        away_goals=away_goals,
+        is_home_team=True,  # Elche - домашня
+        line=line
+    )
+    print(f"  Результат: {result}")
+    print(f"  Пояснення: {explanation}")
+    print()
+    
+    if result == "WON":
+        print("✅ УСПІХ! Elche ТМ 2.5 = WON (правильно!)")
+        return True
+    return False
 
 
 def run_tests():
@@ -235,7 +337,137 @@ def run_tests():
         print("\n❌ ПОМИЛКА! Використовується загальний тотал матчу.")
         return False
 
+def test_bug_fix():
+    """Тест виправлення багу: ITM має порівнюватися з голами команди, а не з матчем"""
+    print()
+    print("=" * 70)
+    print("ТЕСТ ВИПАВЛЕННЯ БАГУ: Розрахунок ITM/ITB")
+    print("=" * 70)
+    print()
+    
+    all_passed = True
+    
+    # Тест 1: Elche — Real Madrid (2:3)
+    print("МАТЧ 1: Elche — Real Madrid (2:3)")
+    print("-" * 70)
+    home1, away1 = 2, 3
+    line = 2.5
+    
+    print(f"Результат: Elche {home1} - {away1} Real Madrid")
+    print(f"Ставка: Elche ТМ {line} (Індивідуальний тотал - Недотяг)")
+    print()
+    
+    # Перевірка правильного розрахунку
+    result1, expl1 = check_market_result(
+        MarketType.ITM,
+        home_goals=home1,
+        away_goals=away1,
+        is_home_team=True,  # Elche - домашня
+        line=line
+    )
+    
+    print(f"Результат: {result1}")
+    print(f"Пояснення: {expl1}")
+    print()
+    
+    if result1 == "WON":
+        print("✅ УСПІХ! Elche ТМ 2.5 = WON (правильно, бо 2 < 2.5)")
+    else:
+        print("❌ ПОМИЛКА! Має бути WON!")
+        all_passed = False
+    
+    print()
+    
+    # Тест 2: Espanyol — Деяка команда (1:3) - припустимо
+    print("МАТЧ 2: Espanyol — Суперник (1:3)")
+    print("-" * 70)
+    home2, away2 = 1, 3
+    
+    print(f"Результат: Espanyol {home2} - {away2} Суперник")
+    print(f"Ставка: Espanyol ТМ {line} (Індивідуальний тотал - Недотяг)")
+    print()
+    
+    result2, expl2 = check_market_result(
+        MarketType.ITM,
+        home_goals=home2,
+        away_goals=away2,
+        is_home_team=True,  # Espanyol - домашня
+        line=line
+    )
+    
+    print(f"Результат: {result2}")
+    print(f"Пояснення: {expl2}")
+    print()
+    
+    if result2 == "WON":
+        print("✅ УСПІХ! Espanyol ТМ 2.5 = WON (правильно, бо 1 < 2.5)")
+    else:
+        print("❌ ПОМИЛКА! Має бути WON!")
+        all_passed = False
+    
+    print()
+    
+    # Додатковий тест: Перевірка, що TM (загальний тотал) все ще працює правильно
+    print("ДОДАТКОВО: Перевірка TM (Загальний тотал матчу)")
+    print("-" * 70)
+    print(f"Загальна сума: {home1 + away1} голів")
+    print(f"TM {line} (Загальний тотал - Недотяг)")
+    print()
+    
+    result3, expl3 = check_market_result(
+        MarketType.TM,
+        home_goals=home1,
+        away_goals=away1,
+        is_home_team=True,
+        line=line
+    )
+    
+    print(f"Результат: {result3}")
+    print(f"Пояснення: {expl3}")
+    print()
+    
+    if result3 == "LOST":
+        print("✅ УСПІХ! TM 2.5 = LOST (правильно, бо 5 > 2.5)")
+    else:
+        print("❌ ПОМИЛКА! Має бути LOST!")
+        all_passed = False
+    
+    print()
+    
+    if all_passed:
+        print("=" * 70)
+        print("✅ УСПІХ! Всі тести пройдено!")
+        print("=" * 70)
+        print()
+        print("ВИПАВЛЕНО:")
+        print("  ❌ Баг: ITM порівнювалося з загальною сумою матчу")
+        print("  ✅ Фікс: ITM порівнюється з голами конкретної команди")
+        print()
+        print("Приклад:")
+        print("  Elche — Real Madrid (2:3)")
+        print("  Elche ТМ 2.5:")
+        print("    ❌ Було: LOST (5 > 2.5 - загальна сума)")
+        print("    ✅ Стало: WON (2 < 2.5 - тільки Elche)")
+        return True
+    else:
+        return False
+
 
 if __name__ == "__main__":
+    # Спочатку запускаємо основні тести
     success = run_tests()
-    exit(0 if success else 1)
+    
+    # Потім тест виправлення багу
+    print()
+    print("=" * 70)
+    print("ДОДАТКОВИЙ ТЕСТ: Виправлення багу з ITM/ITB")
+    print("=" * 70)
+    print()
+    
+    bug_fix_success = test_bug_fix()
+    
+    # Завершення
+    if success and bug_fix_success:
+        sys.exit(0)
+    else:
+        sys.exit(1)
