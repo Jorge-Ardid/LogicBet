@@ -36,3 +36,8 @@ git_*.txt
 # --- OS / editor junk ---
 .DS_Store
 Thumbs.db
+webapp/user_data.db
+webapp/user_data.db.*
+*.pyc
+__pycache__/
+.pytest_cache/
