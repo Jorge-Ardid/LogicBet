@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-05T05:32:29.195057",
+  "last_updated": "2026-11-05T14:09:21.658717",
   "matches": {
     "100001_Arsenal_Chelsea_2024-01-15": {
       "db_id": 1,
@@ -52761,6 +52761,15 @@
           "id": 28569,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28589,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -56250,6 +56259,15 @@
           "id": 28570,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28590,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -59728,6 +59746,15 @@
         },
         {
           "id": 28571,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28591,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -63219,6 +63246,15 @@
           "id": 28572,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28592,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -66706,6 +66742,15 @@
         },
         {
           "id": 28573,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28593,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -70197,6 +70242,15 @@
           "id": 28574,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28594,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -73684,6 +73738,15 @@
         },
         {
           "id": 28575,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28595,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -77175,6 +77238,15 @@
           "id": 28576,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28596,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -80662,6 +80734,15 @@
         },
         {
           "id": 28577,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28597,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -84153,6 +84234,15 @@
           "id": 28578,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28598,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -87631,6 +87721,15 @@
         },
         {
           "id": 28579,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28599,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -91113,6 +91212,15 @@
           "id": 28580,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28600,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -94591,6 +94699,15 @@
         },
         {
           "id": 28581,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28601,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -98082,6 +98199,15 @@
           "id": 28582,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28602,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -101569,6 +101695,15 @@
         },
         {
           "id": 28583,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28603,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -105060,6 +105195,15 @@
           "id": 28584,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28604,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -108549,6 +108693,15 @@
           "id": 28585,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28605,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -112027,6 +112180,15 @@
         },
         {
           "id": 28586,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 28606,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -115518,6 +115680,15 @@
           "id": 28587,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28607,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -119005,6 +119176,15 @@
         },
         {
           "id": 28588,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 28608,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
