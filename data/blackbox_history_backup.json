@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-22T23:19:54.152456",
+  "last_updated": "2026-11-23T06:11:06.131495",
   "matches": {
     "100001_Arsenal_Chelsea_2024-01-15": {
       "db_id": 1,
@@ -53490,6 +53490,24 @@
           "id": 31190,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31210,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31329,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -57708,6 +57726,24 @@
           "id": 31191,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31211,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31330,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -61915,6 +61951,24 @@
         },
         {
           "id": 31192,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31212,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31331,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -66135,6 +66189,24 @@
           "id": 31193,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31213,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31332,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -70351,6 +70423,24 @@
         },
         {
           "id": 31194,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31214,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31333,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -74571,6 +74661,24 @@
           "id": 31195,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31215,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31334,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -78787,6 +78895,24 @@
         },
         {
           "id": 31196,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31216,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31335,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -83007,6 +83133,24 @@
           "id": 31197,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31217,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31336,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -87223,6 +87367,24 @@
         },
         {
           "id": 31198,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31218,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31337,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -91443,6 +91605,24 @@
           "id": 31199,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31219,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31338,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -95650,6 +95830,24 @@
         },
         {
           "id": 31200,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31220,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31339,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -99861,6 +100059,24 @@
           "id": 31201,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31221,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31340,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -104068,6 +104284,24 @@
         },
         {
           "id": 31202,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31222,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31341,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -108288,6 +108522,24 @@
           "id": 31203,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31223,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31342,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -112504,6 +112756,24 @@
         },
         {
           "id": 31204,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31224,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31343,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -116724,6 +116994,24 @@
           "id": 31205,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31225,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31344,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -120942,6 +121230,24 @@
           "id": 31206,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31226,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31345,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -125149,6 +125455,24 @@
         },
         {
           "id": 31207,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31227,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 0
+        },
+        {
+          "id": 31346,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -129369,6 +129693,24 @@
           "id": 31208,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31228,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31347,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
           "calculated_prob": 1.0,
           "bookmaker_odd": 0.0,
@@ -133585,6 +133927,24 @@
         },
         {
           "id": 31209,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31229,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 0.0,
+          "is_hit": 1
+        },
+        {
+          "id": 31348,
           "algorithm": "BTTS (AI)",
           "market": "BTTS",
           "selection": "ОЗ (Обидві заб'ють)",
@@ -203382,6 +203742,1851 @@
         },
         {
           "id": 30831,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "564749_Barcelona_Villarreal_2026-11-22": {
+      "db_id": 1780,
+      "remote_id": 564749,
+      "date": "2026-11-22T13:00:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Barcelona",
+      "away_team": "Villarreal",
+      "home_score": 3,
+      "away_score": 2,
+      "ht_score_h": 0,
+      "ht_score_a": 2,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30832,
+          "algorithm": "VALUE|H_ELO:1661|A_ELO:1497|H_AVG:35.9|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.7891,
+          "bookmaker_odd": 1.27,
+          "is_hit": 1
+        },
+        {
+          "id": 30833,
+          "algorithm": "VALUE|H_ELO:1661|A_ELO:1497|H_AVG:35.9|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1404,
+          "bookmaker_odd": 7.12,
+          "is_hit": 0
+        },
+        {
+          "id": 30834,
+          "algorithm": "VALUE|H_ELO:1661|A_ELO:1497|H_AVG:35.9|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.0705,
+          "bookmaker_odd": 14.18,
+          "is_hit": 0
+        },
+        {
+          "id": 30835,
+          "algorithm": "VALUE|H_ELO:1661|A_ELO:1497|H_AVG:35.9|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.9295,
+          "bookmaker_odd": 1.08,
+          "is_hit": 1
+        },
+        {
+          "id": 30836,
+          "algorithm": "VALUE|H_ELO:1661|A_ELO:1497|H_AVG:35.9|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.2109,
+          "bookmaker_odd": 4.74,
+          "is_hit": 0
+        },
+        {
+          "id": 30837,
+          "algorithm": "VALUE|H_ELO:1661|A_ELO:1497|H_AVG:35.9|A_AVG:35.4|H_TR:Hot 🔥|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8596,
+          "bookmaker_odd": 1.16,
+          "is_hit": 1
+        },
+        {
+          "id": 30838,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30839,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Barcelona ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30840,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Villarreal ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30841,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30842,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "558524_Sassuolo_Genoa_2026-11-22": {
+      "db_id": 1781,
+      "remote_id": 558524,
+      "date": "2026-11-22T14:00:00Z",
+      "league": "Серія А (Італія)",
+      "league_id": 135,
+      "home_team": "Sassuolo",
+      "away_team": "Genoa",
+      "home_score": 0,
+      "away_score": 2,
+      "ht_score_h": 0,
+      "ht_score_a": 2,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30843,
+          "algorithm": "ANALYSIS|H_ELO:1520|A_ELO:1464|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.4018,
+          "bookmaker_odd": 2.49,
+          "is_hit": 0
+        },
+        {
+          "id": 30844,
+          "algorithm": "ANALYSIS|H_ELO:1520|A_ELO:1464|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1506,
+          "bookmaker_odd": 6.64,
+          "is_hit": 0
+        },
+        {
+          "id": 30845,
+          "algorithm": "ANALYSIS|H_ELO:1520|A_ELO:1464|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.4476,
+          "bookmaker_odd": 2.23,
+          "is_hit": 1
+        },
+        {
+          "id": 30846,
+          "algorithm": "ANALYSIS|H_ELO:1520|A_ELO:1464|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.5524,
+          "bookmaker_odd": 1.81,
+          "is_hit": 0
+        },
+        {
+          "id": 30847,
+          "algorithm": "ANALYSIS|H_ELO:1520|A_ELO:1464|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.5982,
+          "bookmaker_odd": 1.67,
+          "is_hit": 1
+        },
+        {
+          "id": 30848,
+          "algorithm": "ANALYSIS|H_ELO:1520|A_ELO:1464|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8494,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30849,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30850,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Sassuolo ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30851,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Genoa ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30852,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30853,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "558522_Bologna_Udinese_2026-11-22": {
+      "db_id": 1782,
+      "remote_id": 558522,
+      "date": "2026-11-22T14:00:00Z",
+      "league": "Серія А (Італія)",
+      "league_id": 135,
+      "home_team": "Bologna",
+      "away_team": "Udinese",
+      "home_score": 1,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30854,
+          "algorithm": "VALUE|H_ELO:1458|A_ELO:1492|H_AVG:35.7|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.6102,
+          "bookmaker_odd": 1.64,
+          "is_hit": 0
+        },
+        {
+          "id": 30855,
+          "algorithm": "VALUE|H_ELO:1458|A_ELO:1492|H_AVG:35.7|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1457,
+          "bookmaker_odd": 6.86,
+          "is_hit": 1
+        },
+        {
+          "id": 30856,
+          "algorithm": "VALUE|H_ELO:1458|A_ELO:1492|H_AVG:35.7|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.244,
+          "bookmaker_odd": 4.1,
+          "is_hit": 0
+        },
+        {
+          "id": 30857,
+          "algorithm": "VALUE|H_ELO:1458|A_ELO:1492|H_AVG:35.7|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.756,
+          "bookmaker_odd": 1.32,
+          "is_hit": 1
+        },
+        {
+          "id": 30858,
+          "algorithm": "VALUE|H_ELO:1458|A_ELO:1492|H_AVG:35.7|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.3898,
+          "bookmaker_odd": 2.57,
+          "is_hit": 1
+        },
+        {
+          "id": 30859,
+          "algorithm": "VALUE|H_ELO:1458|A_ELO:1492|H_AVG:35.7|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:2",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8543,
+          "bookmaker_odd": 1.17,
+          "is_hit": 0
+        },
+        {
+          "id": 30860,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30861,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Bologna ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30862,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Udinese ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30863,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30864,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "560646_Hull City_Brighton_2026-11-22": {
+      "db_id": 1783,
+      "remote_id": 560646,
+      "date": "2026-11-22T14:00:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Hull City",
+      "away_team": "Brighton",
+      "home_score": 2,
+      "away_score": 0,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30865,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1498|H_AVG:35.3|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.3735,
+          "bookmaker_odd": 2.68,
+          "is_hit": 1
+        },
+        {
+          "id": 30866,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1498|H_AVG:35.3|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30867,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1498|H_AVG:35.3|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.4765,
+          "bookmaker_odd": 2.1,
+          "is_hit": 0
+        },
+        {
+          "id": 30868,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1498|H_AVG:35.3|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.5235,
+          "bookmaker_odd": 1.91,
+          "is_hit": 1
+        },
+        {
+          "id": 30869,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1498|H_AVG:35.3|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.6265,
+          "bookmaker_odd": 1.6,
+          "is_hit": 0
+        },
+        {
+          "id": 30870,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1498|H_AVG:35.3|A_AVG:35.6|H_TR:Cold ❄️|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30871,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30872,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Hull City ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30873,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Brighton ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30874,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30875,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "559625_Paris FC_Angers_2026-11-22": {
+      "db_id": 1784,
+      "remote_id": 559625,
+      "date": "2026-11-22T14:00:00Z",
+      "league": "Ліга 1 (Франція)",
+      "league_id": 61,
+      "home_team": "Paris FC",
+      "away_team": "Angers",
+      "home_score": 4,
+      "away_score": 0,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30876,
+          "algorithm": "VALUE|H_ELO:1539|A_ELO:1481|H_AVG:35.5|A_AVG:35.1|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.7501,
+          "bookmaker_odd": 1.33,
+          "is_hit": 1
+        },
+        {
+          "id": 30877,
+          "algorithm": "VALUE|H_ELO:1539|A_ELO:1481|H_AVG:35.5|A_AVG:35.1|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30878,
+          "algorithm": "VALUE|H_ELO:1539|A_ELO:1481|H_AVG:35.5|A_AVG:35.1|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.0999,
+          "bookmaker_odd": 10.01,
+          "is_hit": 0
+        },
+        {
+          "id": 30879,
+          "algorithm": "VALUE|H_ELO:1539|A_ELO:1481|H_AVG:35.5|A_AVG:35.1|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.9001,
+          "bookmaker_odd": 1.11,
+          "is_hit": 1
+        },
+        {
+          "id": 30880,
+          "algorithm": "VALUE|H_ELO:1539|A_ELO:1481|H_AVG:35.5|A_AVG:35.1|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.2499,
+          "bookmaker_odd": 4.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30881,
+          "algorithm": "VALUE|H_ELO:1539|A_ELO:1481|H_AVG:35.5|A_AVG:35.1|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30882,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30883,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Paris FC ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30884,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Angers ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30885,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30886,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "565864_Augsburg_Mainz_2026-11-22": {
+      "db_id": 1785,
+      "remote_id": 565864,
+      "date": "2026-11-22T14:30:00Z",
+      "league": "Бундесліга (Німеччина)",
+      "league_id": 78,
+      "home_team": "Augsburg",
+      "away_team": "Mainz",
+      "home_score": 3,
+      "away_score": 1,
+      "ht_score_h": 2,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30887,
+          "algorithm": "ANALYSIS|H_ELO:1506|A_ELO:1527|H_AVG:35.5|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.4477,
+          "bookmaker_odd": 2.23,
+          "is_hit": 1
+        },
+        {
+          "id": 30888,
+          "algorithm": "ANALYSIS|H_ELO:1506|A_ELO:1527|H_AVG:35.5|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30889,
+          "algorithm": "ANALYSIS|H_ELO:1506|A_ELO:1527|H_AVG:35.5|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.4023,
+          "bookmaker_odd": 2.49,
+          "is_hit": 0
+        },
+        {
+          "id": 30890,
+          "algorithm": "ANALYSIS|H_ELO:1506|A_ELO:1527|H_AVG:35.5|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.5977,
+          "bookmaker_odd": 1.67,
+          "is_hit": 1
+        },
+        {
+          "id": 30891,
+          "algorithm": "ANALYSIS|H_ELO:1506|A_ELO:1527|H_AVG:35.5|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.5523,
+          "bookmaker_odd": 1.81,
+          "is_hit": 0
+        },
+        {
+          "id": 30892,
+          "algorithm": "ANALYSIS|H_ELO:1506|A_ELO:1527|H_AVG:35.5|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30893,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30894,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Augsburg ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30895,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Mainz ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30896,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30897,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "564750_Real Racing Club de Santander_Real Sociedad_2026-11-22": {
+      "db_id": 1786,
+      "remote_id": 564750,
+      "date": "2026-11-22T15:15:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Real Racing Club de Santander",
+      "away_team": "Real Sociedad",
+      "home_score": 3,
+      "away_score": 2,
+      "ht_score_h": 2,
+      "ht_score_a": 1,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30898,
+          "algorithm": "ANALYSIS|H_ELO:1514|A_ELO:1476|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.4503,
+          "bookmaker_odd": 2.22,
+          "is_hit": 1
+        },
+        {
+          "id": 30899,
+          "algorithm": "ANALYSIS|H_ELO:1514|A_ELO:1476|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30900,
+          "algorithm": "ANALYSIS|H_ELO:1514|A_ELO:1476|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.3997,
+          "bookmaker_odd": 2.5,
+          "is_hit": 0
+        },
+        {
+          "id": 30901,
+          "algorithm": "ANALYSIS|H_ELO:1514|A_ELO:1476|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.6003,
+          "bookmaker_odd": 1.67,
+          "is_hit": 1
+        },
+        {
+          "id": 30902,
+          "algorithm": "ANALYSIS|H_ELO:1514|A_ELO:1476|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.5497,
+          "bookmaker_odd": 1.82,
+          "is_hit": 0
+        },
+        {
+          "id": 30903,
+          "algorithm": "ANALYSIS|H_ELO:1514|A_ELO:1476|H_AVG:35.4|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30904,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30905,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Real Racing Club de Santander ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30906,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Real Sociedad ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30907,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30908,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "559626_Lorient_Rennes_2026-11-22": {
+      "db_id": 1787,
+      "remote_id": 559626,
+      "date": "2026-11-22T16:15:00Z",
+      "league": "Ліга 1 (Франція)",
+      "league_id": 61,
+      "home_team": "Lorient",
+      "away_team": "Rennes",
+      "home_score": 1,
+      "away_score": 1,
+      "ht_score_h": 1,
+      "ht_score_a": 1,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30909,
+          "algorithm": "STATISTICS|H_ELO:1501|A_ELO:1481|H_AVG:35.3|A_AVG:35.7|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.5549,
+          "bookmaker_odd": 1.8,
+          "is_hit": 0
+        },
+        {
+          "id": 30910,
+          "algorithm": "STATISTICS|H_ELO:1501|A_ELO:1481|H_AVG:35.3|A_AVG:35.7|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 1
+        },
+        {
+          "id": 30911,
+          "algorithm": "STATISTICS|H_ELO:1501|A_ELO:1481|H_AVG:35.3|A_AVG:35.7|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.2951,
+          "bookmaker_odd": 3.39,
+          "is_hit": 0
+        },
+        {
+          "id": 30912,
+          "algorithm": "STATISTICS|H_ELO:1501|A_ELO:1481|H_AVG:35.3|A_AVG:35.7|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.7049,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        },
+        {
+          "id": 30913,
+          "algorithm": "STATISTICS|H_ELO:1501|A_ELO:1481|H_AVG:35.3|A_AVG:35.7|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.4451,
+          "bookmaker_odd": 2.25,
+          "is_hit": 1
+        },
+        {
+          "id": 30914,
+          "algorithm": "STATISTICS|H_ELO:1501|A_ELO:1481|H_AVG:35.3|A_AVG:35.7|H_TR:Норма|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 0
+        },
+        {
+          "id": 30915,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30916,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Lorient ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30917,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Rennes ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30918,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30919,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "560645_Liverpool_Man United_2026-11-22": {
+      "db_id": 1788,
+      "remote_id": 560645,
+      "date": "2026-11-22T16:30:00Z",
+      "league": "Прем'єр-ліга (Англія)",
+      "league_id": 39,
+      "home_team": "Liverpool",
+      "away_team": "Man United",
+      "home_score": 4,
+      "away_score": 0,
+      "ht_score_h": 2,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30920,
+          "algorithm": "STATISTICS|H_ELO:1550|A_ELO:1483|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.5074,
+          "bookmaker_odd": 1.97,
+          "is_hit": 1
+        },
+        {
+          "id": 30921,
+          "algorithm": "STATISTICS|H_ELO:1550|A_ELO:1483|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1538,
+          "bookmaker_odd": 6.5,
+          "is_hit": 0
+        },
+        {
+          "id": 30922,
+          "algorithm": "STATISTICS|H_ELO:1550|A_ELO:1483|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.3387,
+          "bookmaker_odd": 2.95,
+          "is_hit": 0
+        },
+        {
+          "id": 30923,
+          "algorithm": "STATISTICS|H_ELO:1550|A_ELO:1483|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.6613,
+          "bookmaker_odd": 1.51,
+          "is_hit": 1
+        },
+        {
+          "id": 30924,
+          "algorithm": "STATISTICS|H_ELO:1550|A_ELO:1483|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.4926,
+          "bookmaker_odd": 2.03,
+          "is_hit": 0
+        },
+        {
+          "id": 30925,
+          "algorithm": "STATISTICS|H_ELO:1550|A_ELO:1483|H_AVG:35.6|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8462,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30926,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30927,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Liverpool ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30928,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Man United ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30929,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30930,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "565863_Bremen_Hamburg_2026-11-22": {
+      "db_id": 1789,
+      "remote_id": 565863,
+      "date": "2026-11-22T16:30:00Z",
+      "league": "Бундесліга (Німеччина)",
+      "league_id": 78,
+      "home_team": "Bremen",
+      "away_team": "Hamburg",
+      "home_score": 4,
+      "away_score": 0,
+      "ht_score_h": 0,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30931,
+          "algorithm": "STATISTICS|H_ELO:1529|A_ELO:1472|H_AVG:35.5|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:1",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.5835,
+          "bookmaker_odd": 1.71,
+          "is_hit": 1
+        },
+        {
+          "id": 30932,
+          "algorithm": "STATISTICS|H_ELO:1529|A_ELO:1472|H_AVG:35.5|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:1",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1465,
+          "bookmaker_odd": 6.83,
+          "is_hit": 0
+        },
+        {
+          "id": 30933,
+          "algorithm": "STATISTICS|H_ELO:1529|A_ELO:1472|H_AVG:35.5|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:1",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.27,
+          "bookmaker_odd": 3.7,
+          "is_hit": 0
+        },
+        {
+          "id": 30934,
+          "algorithm": "STATISTICS|H_ELO:1529|A_ELO:1472|H_AVG:35.5|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:1",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.73,
+          "bookmaker_odd": 1.37,
+          "is_hit": 1
+        },
+        {
+          "id": 30935,
+          "algorithm": "STATISTICS|H_ELO:1529|A_ELO:1472|H_AVG:35.5|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:1",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.4165,
+          "bookmaker_odd": 2.4,
+          "is_hit": 0
+        },
+        {
+          "id": 30936,
+          "algorithm": "STATISTICS|H_ELO:1529|A_ELO:1472|H_AVG:35.5|A_AVG:35.5|H_TR:Норма|A_TR:Норма|H2H:1",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8535,
+          "bookmaker_odd": 1.17,
+          "is_hit": 1
+        },
+        {
+          "id": 30937,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30938,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Bremen ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30939,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Hamburg ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30940,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30941,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "558523_AC Milan_Frosinone Calcio_2026-11-22": {
+      "db_id": 1790,
+      "remote_id": 558523,
+      "date": "2026-11-22T17:00:00Z",
+      "league": "Серія А (Італія)",
+      "league_id": 135,
+      "home_team": "AC Milan",
+      "away_team": "Frosinone Calcio",
+      "home_score": 5,
+      "away_score": 1,
+      "ht_score_h": 2,
+      "ht_score_a": 1,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30942,
+          "algorithm": "VALUE|H_ELO:1569|A_ELO:1491|H_AVG:35.7|A_AVG:35.8|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.6446,
+          "bookmaker_odd": 1.55,
+          "is_hit": 1
+        },
+        {
+          "id": 30943,
+          "algorithm": "VALUE|H_ELO:1569|A_ELO:1491|H_AVG:35.7|A_AVG:35.8|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30944,
+          "algorithm": "VALUE|H_ELO:1569|A_ELO:1491|H_AVG:35.7|A_AVG:35.8|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.2054,
+          "bookmaker_odd": 4.87,
+          "is_hit": 0
+        },
+        {
+          "id": 30945,
+          "algorithm": "VALUE|H_ELO:1569|A_ELO:1491|H_AVG:35.7|A_AVG:35.8|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.7946,
+          "bookmaker_odd": 1.26,
+          "is_hit": 1
+        },
+        {
+          "id": 30946,
+          "algorithm": "VALUE|H_ELO:1569|A_ELO:1491|H_AVG:35.7|A_AVG:35.8|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.3554,
+          "bookmaker_odd": 2.81,
+          "is_hit": 0
+        },
+        {
+          "id": 30947,
+          "algorithm": "VALUE|H_ELO:1569|A_ELO:1491|H_AVG:35.7|A_AVG:35.8|H_TR:Hot 🔥|A_TR:Норма|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30948,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30949,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "AC Milan ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30950,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Frosinone Calcio ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30951,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30952,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "564752_Osasuna_Malaga_2026-11-22": {
+      "db_id": 1791,
+      "remote_id": 564752,
+      "date": "2026-11-22T17:30:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Osasuna",
+      "away_team": "Malaga",
+      "home_score": 1,
+      "away_score": 0,
+      "ht_score_h": 1,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30953,
+          "algorithm": "STATISTICS|H_ELO:1539|A_ELO:1467|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.545,
+          "bookmaker_odd": 1.83,
+          "is_hit": 1
+        },
+        {
+          "id": 30954,
+          "algorithm": "STATISTICS|H_ELO:1539|A_ELO:1467|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30955,
+          "algorithm": "STATISTICS|H_ELO:1539|A_ELO:1467|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.305,
+          "bookmaker_odd": 3.28,
+          "is_hit": 0
+        },
+        {
+          "id": 30956,
+          "algorithm": "STATISTICS|H_ELO:1539|A_ELO:1467|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.695,
+          "bookmaker_odd": 1.44,
+          "is_hit": 1
+        },
+        {
+          "id": 30957,
+          "algorithm": "STATISTICS|H_ELO:1539|A_ELO:1467|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.455,
+          "bookmaker_odd": 2.2,
+          "is_hit": 0
+        },
+        {
+          "id": 30958,
+          "algorithm": "STATISTICS|H_ELO:1539|A_ELO:1467|H_AVG:35.3|A_AVG:35.4|H_TR:Cold ❄️|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30959,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30960,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Osasuna ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30961,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Malaga ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30962,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30963,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "558520_Atalanta_Inter_2026-11-22": {
+      "db_id": 1792,
+      "remote_id": 558520,
+      "date": "2026-11-22T19:45:00Z",
+      "league": "Серія А (Італія)",
+      "league_id": 135,
+      "home_team": "Atalanta",
+      "away_team": "Inter",
+      "home_score": 4,
+      "away_score": 4,
+      "ht_score_h": 1,
+      "ht_score_a": 2,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30964,
+          "algorithm": "STATISTICS|H_ELO:1544|A_ELO:1590|H_AVG:35.5|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.343,
+          "bookmaker_odd": 2.92,
+          "is_hit": 0
+        },
+        {
+          "id": 30965,
+          "algorithm": "STATISTICS|H_ELO:1544|A_ELO:1590|H_AVG:35.5|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1489,
+          "bookmaker_odd": 6.72,
+          "is_hit": 1
+        },
+        {
+          "id": 30966,
+          "algorithm": "STATISTICS|H_ELO:1544|A_ELO:1590|H_AVG:35.5|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.5081,
+          "bookmaker_odd": 1.97,
+          "is_hit": 0
+        },
+        {
+          "id": 30967,
+          "algorithm": "STATISTICS|H_ELO:1544|A_ELO:1590|H_AVG:35.5|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.4919,
+          "bookmaker_odd": 2.03,
+          "is_hit": 1
+        },
+        {
+          "id": 30968,
+          "algorithm": "STATISTICS|H_ELO:1544|A_ELO:1590|H_AVG:35.5|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.657,
+          "bookmaker_odd": 1.52,
+          "is_hit": 1
+        },
+        {
+          "id": 30969,
+          "algorithm": "STATISTICS|H_ELO:1544|A_ELO:1590|H_AVG:35.5|A_AVG:35.6|H_TR:Норма|A_TR:Hot 🔥|H2H:2",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8511,
+          "bookmaker_odd": 1.17,
+          "is_hit": 0
+        },
+        {
+          "id": 30970,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30971,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Atalanta ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30972,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Inter ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30973,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30974,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "559629_Marseille_Le Mans_2026-11-22": {
+      "db_id": 1793,
+      "remote_id": 559629,
+      "date": "2026-11-22T19:45:00Z",
+      "league": "Ліга 1 (Франція)",
+      "league_id": 61,
+      "home_team": "Marseille",
+      "away_team": "Le Mans",
+      "home_score": 2,
+      "away_score": 3,
+      "ht_score_h": 2,
+      "ht_score_a": 0,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30975,
+          "algorithm": "VALUE|H_ELO:1510|A_ELO:1471|H_AVG:35.9|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.7116,
+          "bookmaker_odd": 1.41,
+          "is_hit": 0
+        },
+        {
+          "id": 30976,
+          "algorithm": "VALUE|H_ELO:1510|A_ELO:1471|H_AVG:35.9|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.15,
+          "bookmaker_odd": 6.67,
+          "is_hit": 0
+        },
+        {
+          "id": 30977,
+          "algorithm": "VALUE|H_ELO:1510|A_ELO:1471|H_AVG:35.9|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.1384,
+          "bookmaker_odd": 7.23,
+          "is_hit": 1
+        },
+        {
+          "id": 30978,
+          "algorithm": "VALUE|H_ELO:1510|A_ELO:1471|H_AVG:35.9|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.8616,
+          "bookmaker_odd": 1.16,
+          "is_hit": 0
+        },
+        {
+          "id": 30979,
+          "algorithm": "VALUE|H_ELO:1510|A_ELO:1471|H_AVG:35.9|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.2884,
+          "bookmaker_odd": 3.47,
+          "is_hit": 1
+        },
+        {
+          "id": 30980,
+          "algorithm": "VALUE|H_ELO:1510|A_ELO:1471|H_AVG:35.9|A_AVG:35.2|H_TR:Hot 🔥|A_TR:Cold ❄️|H2H:0",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.85,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30981,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30982,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Marseille ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30983,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Le Mans ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30984,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30985,
+          "algorithm": "CARDS (AI)",
+          "market": "Cards",
+          "selection": "Cards ТМ 4.5",
+          "calculated_prob": 0.7064384496412808,
+          "bookmaker_odd": 1.42,
+          "is_hit": 1
+        }
+      ]
+    },
+    "564753_Getafe_Atletico Madrid_2026-11-22": {
+      "db_id": 1794,
+      "remote_id": 564753,
+      "date": "2026-11-22T20:00:00Z",
+      "league": "Ла Ліга (Іспанія)",
+      "league_id": 140,
+      "home_team": "Getafe",
+      "away_team": "Atletico Madrid",
+      "home_score": 0,
+      "away_score": 3,
+      "ht_score_h": 0,
+      "ht_score_a": 2,
+      "status": "FT",
+      "corners_h": 0,
+      "corners_a": 0,
+      "yellow_cards_h": 0,
+      "yellow_cards_a": 0,
+      "red_cards_h": 0,
+      "red_cards_a": 0,
+      "xg_h": 0.0,
+      "xg_a": 0.0,
+      "predictions": [
+        {
+          "id": 30986,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1513|H_AVG:35.3|A_AVG:35.3|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П1 (Господарі)",
+          "calculated_prob": 0.4557,
+          "bookmaker_odd": 2.19,
+          "is_hit": 0
+        },
+        {
+          "id": 30987,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1513|H_AVG:35.3|A_AVG:35.3|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X (Нічия)",
+          "calculated_prob": 0.1523,
+          "bookmaker_odd": 6.57,
+          "is_hit": 0
+        },
+        {
+          "id": 30988,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1513|H_AVG:35.3|A_AVG:35.3|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "П2 (Гості)",
+          "calculated_prob": 0.392,
+          "bookmaker_odd": 2.55,
+          "is_hit": 1
+        },
+        {
+          "id": 30989,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1513|H_AVG:35.3|A_AVG:35.3|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "1X (Подвійний шанс)",
+          "calculated_prob": 0.608,
+          "bookmaker_odd": 1.64,
+          "is_hit": 0
+        },
+        {
+          "id": 30990,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1513|H_AVG:35.3|A_AVG:35.3|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "X2 (Подвійний шанс)",
+          "calculated_prob": 0.5443,
+          "bookmaker_odd": 1.84,
+          "is_hit": 1
+        },
+        {
+          "id": 30991,
+          "algorithm": "ANALYSIS|H_ELO:1508|A_ELO:1513|H_AVG:35.3|A_AVG:35.3|H_TR:Норма|A_TR:Норма|H2H:2",
+          "market": "1X2/DC",
+          "selection": "12 (Подвійний шанс)",
+          "calculated_prob": 0.8477,
+          "bookmaker_odd": 1.18,
+          "is_hit": 1
+        },
+        {
+          "id": 30992,
+          "algorithm": "GOALS (AI)",
+          "market": "Total Goals",
+          "selection": "ТБ 2.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30993,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Getafe ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30994,
+          "algorithm": "INDIVIDUAL TOTAL (AI)",
+          "market": "Individual Total",
+          "selection": "Atletico Madrid ТБ 1.5",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 1
+        },
+        {
+          "id": 30995,
+          "algorithm": "BTTS (AI)",
+          "market": "BTTS",
+          "selection": "ОЗ - Так",
+          "calculated_prob": 1.0,
+          "bookmaker_odd": 1.0,
+          "is_hit": 0
+        },
+        {
+          "id": 30996,
           "algorithm": "CARDS (AI)",
           "market": "Cards",
           "selection": "Cards ТМ 4.5",
